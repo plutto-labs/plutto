@@ -373,6 +373,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
+    rolify (6.0.0)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -565,6 +566,7 @@ DEPENDENCIES
   rails (~> 6.1.4)
   rails-i18n
   recipient_interceptor
+  rolify
   rspec-nc
   rspec-rails
   rspec_junit_formatter (~> 0.4)
