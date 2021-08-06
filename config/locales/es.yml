@@ -1,0 +1,14 @@
+es-CL:
+  attributes:
+    name: Nombre
+    created_at: Creado el
+    updated_at: Editado el
+    password: Contraseña
+  activerecord:
+    models:
+      organization:
+        one: 'Organización'
+        other: 'Organizaciones'
+      user:
+        one: 'Usuario'
+        other: 'Usuarios'
