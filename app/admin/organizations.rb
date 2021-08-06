@@ -26,5 +26,15 @@ ActiveAdmin.register Organization do
       row :created_at
       row :updated_at
     end
+
+    panel 'Miembros' do
+      table_for resource.users do
+        column :user
+        column :created_at
+        column(:admin) do |user|
+          user.is_admin_of?(resource) ? status_tag('yes') : status_tag('no')
+        end
+      end
+    end
   end
 end

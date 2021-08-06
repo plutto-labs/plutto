@@ -3,6 +3,12 @@ class Organization < ApplicationRecord
 
   validates :name, presence: true
   resourcify
+
+  def enroll_user(user, role = :admin)
+    user.organization = self
+    user.save!
+    user.add_role(role, self)
+  end
 end
 
 # == Schema Information
