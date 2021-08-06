@@ -27,7 +27,7 @@ ActiveAdmin.register Organization do
       row :updated_at
     end
 
-    panel 'Miembros' do
+    panel I18n.t('activerecord.models.user', count: 2) do
       table_for resource.users do
         column :user
         column :created_at
