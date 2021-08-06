@@ -1,5 +1,5 @@
 # Mark existing migrations as safe
-StrongMigrations.start_after = 20210727164202
+StrongMigrations.start_after = 20210806145623
 
 # Set timeouts for migrations
 # If you use PgBouncer in transaction mode, delete these lines and set timeouts on the database user

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 gem 'activeadmin', '~> 2.6'
-gem 'activeadmin_addons'
+gem 'activeadmin_addons', '~> 1.8.3'
 gem 'aws-sdk-s3', '~> 1.0'
 gem 'bootsnap', require: false
 gem 'data_migrate'
@@ -16,7 +16,7 @@ gem 'power_api'
 gem 'puma', '~> 5.0'
 gem 'pundit'
 gem 'rack-cors', '~> 1.1'
-gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
+gem 'rails', '~> 6.1.4'
 gem 'rails-i18n'
 gem 'recipient_interceptor'
 gem 'sass-rails', '>= 6'
@@ -39,7 +39,6 @@ end
 group :production do
   gem 'heroku-stage'
   gem 'rack-timeout'
-  gem 'rails_stdout_logging'
 end
 
 group :test do

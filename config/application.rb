@@ -17,7 +17,7 @@ module Plutto
     end
 
     config.i18n.fallbacks = [:es, :en]
-    config.i18n.default_locale = 'es-CL'
+    config.i18n.default_locale = 'en'
     config.active_job.queue_adapter = :sidekiq
     config.assets.paths << Rails.root.join('node_modules')
     config.load_defaults 6.1

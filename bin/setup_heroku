@@ -2,19 +2,19 @@
 
 # Setup heroku application remotes
 if heroku auth:whoami &> /dev/null; then
-  if heroku apps:info --app pl-plutto-staging &> /dev/null; then
-    git remote add staging git@heroku.com:pl-plutto-staging.git || true
+  if heroku apps:info --app plutto-staging &> /dev/null; then
+    git remote add staging git@heroku.com:plutto-staging.git || true
     git config heroku.remote staging
-    echo 'You are a collaborator on the "pl-plutto-staging" Heroku app'
+    echo 'You are a collaborator on the "plutto-staging" Heroku app'
   else
-    echo 'Ask for access to the "pl-plutto-staging" Heroku app'
+    echo 'Ask for access to the "plutto-staging" Heroku app'
   fi
 
-  if heroku apps:info --app pl-plutto-production &> /dev/null; then
-    git remote add production git@heroku.com:pl-plutto-production.git || true
-    echo 'You are a collaborator on the "pl-plutto-production" Heroku app'
+  if heroku apps:info --app plutto-production &> /dev/null; then
+    git remote add production git@heroku.com:plutto-production.git || true
+    echo 'You are a collaborator on the "plutto-production" Heroku app'
   else
-    echo 'Ask for access to the "pl-plutto-production" Heroku app'
+    echo 'Ask for access to the "plutto-production" Heroku app'
   fi
 else
   echo 'You need to login to heroku. Run "heroku login"'
