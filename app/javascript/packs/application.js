@@ -1,12 +1,11 @@
-import Vue from 'vue/dist/vue.esm';
-import App from '../app.vue';
+import { createApp } from 'vue';
 import '../css/application.css';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const app = new Vue({
+  const app = createApp({
     el: '#vue-app',
-    components: { App },
+    components: {
+    },
   });
-
-  return app;
+  app.mount('#vue-app');
 });
