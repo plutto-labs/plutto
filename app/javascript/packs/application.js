@@ -1,16 +1,16 @@
 import { createApp } from 'vue';
-import App from '@/components/app.vue';
-import '../css/application.css';
+import App from '@/app.vue';
+import router from '@/router';
 
-import router from '../router';
+import '../css/application.css';
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = createApp({
     el: '#vue-app',
-    router,
     components: {
       App,
     },
   });
+  app.use(router);
   app.mount('#vue-app');
 });

@@ -18,5 +18,5 @@ module.exports = {
       './app/**/*.js',
       './app/**/*.erb',
     ],
-  }
+  },
 };

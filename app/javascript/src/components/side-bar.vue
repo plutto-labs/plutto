@@ -61,25 +61,26 @@
                 </h1>
               </div>
               <nav class="px-2 mt-5 space-y-1">
-                <a
+                <router-link
                   v-for="item in navigation"
-                  :key="item.name"
-                  :href="item.href"
+                  :key="item.label"
+                  :to="item.path"
                   :class="[
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    $route.path === item.path ?
+                      'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                   ]"
                 >
                   <component
                     :is="item.icon"
                     :class="[
-                      item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                      $route.path === item.path ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
                       'mr-4 flex-shrink-0 h-6 w-6'
                     ]"
                     aria-hidden="true"
                   />
-                  {{ item.name }}
-                </a>
+                  {{ item.label }}
+                </router-link>
               </nav>
             </div>
             <div class="flex flex-shrink-0 p-4 bg-gray-700">
@@ -126,24 +127,25 @@
               </h1>
             </div>
             <nav class="flex-1 px-2 mt-5 space-y-1 bg-gray-800">
-              <a
+              <router-link
                 v-for="item in navigation"
-                :key="item.name"
-                :href="item.href"
+                :key="item.label"
+                :to="item.path"
                 :class="[
-                  item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                  $route.path === item.path ?
+                    'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                   'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                 ]"
               >
                 <component
                   :is="item.icon"
-                  :class="[item.current ?
+                  :class="[$route.path === item.path ?
                     'text-gray-300' :
                     'text-gray-400 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
                   aria-hidden="true"
                 />
-                {{ item.name }}
-              </a>
+                {{ item.label }}
+              </router-link>
             </nav>
           </div>
           <div class="flex flex-shrink-0 p-4 bg-gray-700">
@@ -187,9 +189,7 @@
         </button>
       </div>
       <main class="relative z-0 flex-1 overflow-y-auto focus:outline-none bg-secondary">
-        <div class="py-6">
-          <slot />
-        </div>
+        <slot />
       </main>
     </div>
   </div>
@@ -206,8 +206,8 @@ import {
 } from '@heroicons/vue/outline';
 
 const navigation = [
-  { name: 'Customers', href: '#', icon: UsersIcon, current: true },
-  { name: 'Plans', href: '#', icon: FolderIcon, current: false },
+  { label: 'Customers', path: '/customers', icon: UsersIcon },
+  { label: 'Plans', path: '/plans', icon: FolderIcon },
 ];
 
 export default {
