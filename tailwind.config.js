@@ -15,9 +15,9 @@ module.exports = {
         'warning': '#ff9100',
         'warning-dark': '#995700',
 
-        'error-light': '#ffb3c2',
-        'error': '#ff1744',
-        'error-dark': '#800019',
+        'danger-light': '#ffb3c2',
+        'danger': '#ff1744',
+        'danger-dark': '#800019',
 
         'black': '#080807',
         'gray-900': '#0d0d0c',
