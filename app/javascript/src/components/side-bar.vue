@@ -31,7 +31,7 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full"
         >
-          <div class="relative flex flex-col flex-1 w-full max-w-xs bg-gray-800">
+          <div class="relative flex flex-col flex-1 w-full max-w-xs bg-primary">
             <TransitionChild
               as="template"
               enter="ease-in-out duration-300"
@@ -118,7 +118,7 @@
     <div class="hidden md:flex md:flex-shrink-0">
       <div class="flex flex-col w-64">
         <!-- Sidebar component, swap this element with another sidebar if you like -->
-        <div class="flex flex-col flex-1 h-0 bg-gray-800">
+        <div class="flex flex-col flex-1 h-0 bg-primary">
           <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <div class="flex items-center flex-shrink-0 px-4">
               <h1 class="text-2xl font-semibold text-white">
@@ -186,7 +186,7 @@
           />
         </button>
       </div>
-      <main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+      <main class="relative z-0 flex-1 overflow-y-auto focus:outline-none bg-secondary">
         <div class="py-6">
           <slot />
         </div>
