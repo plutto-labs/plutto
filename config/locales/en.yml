@@ -1,2 +1,24 @@
 en:
-
+  activerecord:
+    models:
+      plan:
+        one: Plan
+        other: Plans
+      plan_version:
+        one: Version
+        other: Versions
+      plan_subscription:
+        one: Suscription
+        other: Suscriptions
+      customer:
+        one: Customer
+        other: Customers
+  active_admin:
+    resources:
+      organization:
+        new_plan: New Plan
+        new_customer: New Costumer
+      plan:
+        new_plan_version: New Version
+      plan_version:
+        new_plan_subscription: Crear nueva subscripción
