@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <main>
     <h1>Customers</h1>
     <plutto-table
       :headers="headers"
       :rows="rows"
     />
-  </div>
+  </main>
 </template>
 <script>
 import PluttoTable from '@/components/plutto-table';

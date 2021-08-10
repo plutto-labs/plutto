@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <side-bar>
-      <div class="content">
-        <router-view />
-      </div>
+      <router-view />
     </side-bar>
   </div>
 </template>
@@ -20,6 +18,10 @@ export default {
 
 <style>
 main {
-  @apply text-white py-6 px-8;
+  @apply text-white py-6 px-8 relative z-0 flex-1 overflow-y-auto focus:outline-none bg-gray-900;
+}
+
+.plutto-spacer {
+  @apply border-b-4 border-gray-900;
 }
 </style>
