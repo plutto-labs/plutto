@@ -17,9 +17,9 @@
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-primary">
+            <tbody class="bg-gray-800">
               <tr
-                class="border-t-4 border-secondary"
+                class="border-t-4 border-gray-900"
                 v-for="(row, index) in rows"
                 :key="index"
               >
@@ -44,7 +44,9 @@
                   <template v-else-if="header.type === 'tag'">
                     <div
                       class="inline-flex px-2 text-xs font-semibold leading-5 rounded-full whitespace-nowrap"
-                      :class="row[header.title] ? 'text-green-800 bg-green-300' : 'text-red-800 bg-red-300'"
+                      :class="row[header.title] ?
+                        'text-success-dark bg-success-light' :
+                        'text-danger-dark bg-danger-light'"
                     >
                       {{ row[header.title] }}
                     </div>
