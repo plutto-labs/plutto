@@ -4,6 +4,8 @@
   "dependencies": {
     "@activeadmin/activeadmin": "^2.9.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "@headlessui/vue": "^1.4.0",
+    "@heroicons/vue": "^1.0.3",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -16,7 +18,8 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "turbolinks": "^5.2.0",
     "vue": "^3.1.5",
-    "vue-loader": "^16.4.1"
+    "vue-loader": "^16.4.1",
+    "vue-router": "^4.0.11"
   },
   "version": "0.1.0",
   "devDependencies": {
@@ -39,7 +42,7 @@
     "node": "14.x"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
   },
   "jest": {

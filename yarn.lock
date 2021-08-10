@@ -953,6 +953,16 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz#ecda5712b61ac852c760d8b3c79c96adca5554e5"
   integrity sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==
 
+"@headlessui/vue@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-1.4.0.tgz#a4a3f392d6e72923f101e307fcfa6c80c00ea446"
+  integrity sha512-BBLDciyKiGK03whaSVkUacDY2Cd5AR05JCUPWQLvQ9HtjQc9tv5RyPpcdmoXJa+XWI10e3U1JxL+8FY7kJMcEQ==
+
+"@heroicons/vue@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@heroicons/vue/-/vue-1.0.3.tgz#8e8948972df7f42f00a09f68d26fbfd16bb18692"
+  integrity sha512-pj1foeBadGwRDT3ldEQ3t+C6p8Yw7LDoINvemJpH3j6Xdpm0iO4014OL288nueBnPKY7/xrHSJwy0dZIum1Eyw==
+
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.5.0.tgz#1407967d4c6eecd7388f83acf1eaf4d0c6e58ef9"
@@ -1518,6 +1528,11 @@
   dependencies:
     "@vue/compiler-dom" "3.1.5"
     "@vue/shared" "3.1.5"
+
+"@vue/devtools-api@^6.0.0-beta.14":
+  version "6.0.0-beta.15"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.15.tgz#ad7cb384e062f165bcf9c83732125bffbc2ad83d"
+  integrity sha512-quBx4Jjpexo6KDiNUGFr/zF/2A4srKM9S9v2uHgMXSU//hjgq1eGzqkIFql8T9gfX5ZaVOUzYBP3jIdIR3PKIA==
 
 "@vue/reactivity@3.1.5":
   version "3.1.5"
@@ -10881,6 +10896,13 @@ vue-loader@^16.4.1:
     chalk "^4.1.0"
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
+
+vue-router@^4.0.11:
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.0.11.tgz#cd649a0941c635281763a20965b599643ddc68ed"
+  integrity sha512-sha6I8fx9HWtvTrFZfxZkiQQBpqSeT+UCwauYjkdOQYRvwsGwimlQQE2ayqUwuuXGzquFpCPoXzYKWlzL4OuXg==
+  dependencies:
+    "@vue/devtools-api" "^6.0.0-beta.14"
 
 vue@^3.1.5:
   version "3.1.5"

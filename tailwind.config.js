@@ -1,7 +1,12 @@
 /* eslint-disable no-undef */
 module.exports = {
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#1F2937',
+        secondary: '#121C25',
+      },
+    },
   },
   variants: {},
   plugins: [],
@@ -13,5 +18,5 @@ module.exports = {
       './app/**/*.js',
       './app/**/*.erb',
     ],
-  }
+  },
 };
