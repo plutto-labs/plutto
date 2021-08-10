@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_06_165542) do
+ActiveRecord::Schema.define(version: 2021_08_10_152138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,18 @@ ActiveRecord::Schema.define(version: 2021_08_06_165542) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "name"
+    t.jsonb "customer_info", default: {}
+    t.string "identifier", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["identifier"], name: "index_customers_on_identifier", unique: true
+    t.index ["organization_id"], name: "index_customers_on_organization_id"
+  end
+
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
@@ -48,6 +60,40 @@ ActiveRecord::Schema.define(version: 2021_08_06_165542) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "plan_subscriptions", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "plan_version_id", null: false
+    t.string "identifier", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_plan_subscriptions_on_customer_id"
+    t.index ["identifier"], name: "index_plan_subscriptions_on_identifier", unique: true
+    t.index ["plan_version_id"], name: "index_plan_subscriptions_on_plan_version_id"
+  end
+
+  create_table "plan_versions", force: :cascade do |t|
+    t.bigint "plan_id", null: false
+    t.bigint "previous_version_id"
+    t.boolean "deployed", default: false
+    t.string "identifier", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["identifier"], name: "index_plan_versions_on_identifier", unique: true
+    t.index ["plan_id"], name: "index_plan_versions_on_plan_id"
+    t.index ["previous_version_id"], name: "index_plan_versions_on_previous_version_id"
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.string "name"
+    t.string "identifier", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["identifier"], name: "index_plans_on_identifier", unique: true
+    t.index ["organization_id"], name: "index_plans_on_organization_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -82,5 +128,11 @@ ActiveRecord::Schema.define(version: 2021_08_06_165542) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "customers", "organizations"
+  add_foreign_key "plan_subscriptions", "customers"
+  add_foreign_key "plan_subscriptions", "plan_versions"
+  add_foreign_key "plan_versions", "plan_versions", column: "previous_version_id"
+  add_foreign_key "plan_versions", "plans"
+  add_foreign_key "plans", "organizations"
   add_foreign_key "users", "organizations"
 end
