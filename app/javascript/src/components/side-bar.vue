@@ -31,7 +31,7 @@
           leave-from="translate-x-0"
           leave-to="-translate-x-full"
         >
-          <div class="relative flex flex-col flex-1 w-full max-w-xs bg-primary">
+          <div class="relative flex flex-col flex-1 w-full max-w-xs bg-gray-800">
             <TransitionChild
               as="template"
               enter="ease-in-out duration-300"
@@ -54,13 +54,14 @@
                 </button>
               </div>
             </TransitionChild>
-            <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-              <div class="flex items-center flex-shrink-0 px-4">
-                <h1 class="text-2xl font-semibold text-white">
-                  [Logo] Plutto
+            <div class="flex-1 h-0 py-6 overflow-y-auto">
+              <div class="flex items-center flex-shrink-0 px-4 mb-6">
+                <h1 class="text-2xl font-semibold text-primary flex items-center">
+                  <span class="material-icons mr-3 text-white">nightlight</span> Plutto
                 </h1>
               </div>
-              <nav class="px-2 mt-5 space-y-1">
+              <div class="plutto-spacer" />
+              <nav class="px-2 bg-gray-800 space-y-1 mt-6">
                 <router-link
                   v-for="item in navigation"
                   :key="item.label"
@@ -74,7 +75,7 @@
                   <component
                     :is="item.icon"
                     :class="[
-                      $route.path === item.path ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                      $route.path === item.path ? 'text-primary' : 'text-primary-200 group-hover:text-primary-100',
                       'mr-4 flex-shrink-0 h-6 w-6'
                     ]"
                     aria-hidden="true"
@@ -119,14 +120,15 @@
     <div class="hidden md:flex md:flex-shrink-0">
       <div class="flex flex-col w-64">
         <!-- Sidebar component, swap this element with another sidebar if you like -->
-        <div class="flex flex-col flex-1 h-0 bg-primary">
-          <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
-            <div class="flex items-center flex-shrink-0 px-4">
-              <h1 class="text-2xl font-semibold text-white">
-                [Logo] Plutto
+        <div class="flex flex-col flex-1 h-0 bg-gray-800">
+          <div class="flex flex-col flex-1 py-6 overflow-y-auto">
+            <div class="flex items-center flex-shrink-0 px-4 mb-6">
+              <h1 class="text-2xl font-semibold text-primary flex items-center">
+                <span class="material-icons mr-3 text-white">nightlight</span> Plutto
               </h1>
             </div>
-            <nav class="flex-1 px-2 mt-5 space-y-1 bg-gray-800">
+            <div class="plutto-spacer" />
+            <nav class="flex-1 px-2 space-y-1 bg-gray-800 mt-6">
               <router-link
                 v-for="item in navigation"
                 :key="item.label"
@@ -140,8 +142,8 @@
                 <component
                   :is="item.icon"
                   :class="[$route.path === item.path ?
-                    'text-gray-300' :
-                    'text-gray-400 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
+                    'text-primary' :
+                    'text-primary-200 group-hover:text-primary-100', 'mr-3 flex-shrink-0 h-6 w-6']"
                   aria-hidden="true"
                 />
                 {{ item.label }}
@@ -188,9 +190,7 @@
           />
         </button>
       </div>
-      <main class="relative z-0 flex-1 overflow-y-auto focus:outline-none bg-secondary">
-        <slot />
-      </main>
+      <slot />
     </div>
   </div>
 </template>
