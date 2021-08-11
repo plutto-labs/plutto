@@ -4,4 +4,4 @@ class ActiveModelSerializers::Adapter::JsonApi
   end
 end
 
-ActiveModelSerializers.config.adapter = :json_api
+ActiveModelSerializers.config.adapter = :json
