@@ -54,7 +54,7 @@ main {
   }
 
   &[disabled] {
-    @apply border-gray-300 text-gray-300 cursor-not-allowed;
+    @apply border-0 text-gray-900 bg-gray-300 cursor-not-allowed;
   }
 }
 

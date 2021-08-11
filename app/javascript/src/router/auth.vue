@@ -31,11 +31,10 @@
         v-if="sending"
       />
       <button
-        class="btn btn--big"
-        :disabled="!login.email || !login.password"
+        class="btn btn--filled w-full h-10"
         v-else
       >
-        Iniciar Sesión
+        Login
       </button>
     </form>
   </main>
