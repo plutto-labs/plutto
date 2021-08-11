@@ -55,4 +55,30 @@ main {
 .plutto-spacer {
   @apply border-b-4 border-gray-400;
 }
+
+.plutto-input {
+  @apply h-12 relative w-full;
+
+  &__icon {
+    @apply left-0 h-5 absolute m-auto top-0 bottom-0 mx-3 text-xl leading-none;
+    font-family: 'Material Icons';
+  }
+
+  &__input {
+    @apply h-full bg-transparent w-full pl-10 rounded border border-gray-200;
+
+    &::placeholder {
+      @apply text-gray-200;
+    }
+
+    &:focus {
+      @apply border-primary outline-none;
+      box-shadow: 0 0 4px 0 rgba(165, 206, 204, .72), inset -2px -2px 2px 0 rgba(233, 214, 215, .18);
+
+      &::placeholder {
+        @apply border-primary;
+      }
+    }
+  }
+}
 </style>

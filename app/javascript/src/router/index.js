@@ -1,12 +1,22 @@
 
 import { createRouter, createWebHashHistory } from 'vue-router';
 
+import Auth from 'src/router/auth';
 import Customers from 'src/router/customers';
 import Plans from 'src/router/plans';
+import store from '../store';
 
 const router = createRouter({
   history: createWebHashHistory('/'),
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: Auth,
+      meta: {
+        title: 'Login | Plutto',
+      },
+    },
     {
       path: '/',
       name: 'home',
@@ -20,6 +30,7 @@ const router = createRouter({
       component: Customers,
       meta: {
         title: 'Customers | Plutto',
+        authRequired: true,
       },
     }, {
       path: '/plans',
@@ -27,14 +38,21 @@ const router = createRouter({
       component: Plans,
       meta: {
         title: 'Plans | Plutto',
+        authRequired: true,
       },
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  next();
-  document.title = to.meta.title || 'Plutto';
+  const user = store.state.auth;
+  if (to.meta.authRequired && !user.token) {
+    next(`/login?redirect_to=${to.fullPath}`);
+    document.title = 'Ingresar | Milla';
+  } else {
+    next();
+    document.title = to.meta.title || 'Plutto';
+  }
 });
 
 export default router;
