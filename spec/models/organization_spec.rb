@@ -11,6 +11,7 @@ RSpec.describe Organization, type: :model do
 
   describe 'Relations' do
     it { is_expected.to have_many(:users) }
+    it { is_expected.to have_many(:meters) }
   end
 
   describe '#enroll_user' do
