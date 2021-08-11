@@ -1,4 +1,4 @@
-class UserSerializer < ActiveModel::Serializer
+class Api::Internal::V1::UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :authentication_token
 
   def authentication_token
