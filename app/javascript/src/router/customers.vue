@@ -1,18 +1,26 @@
 <template>
   <main>
-    <h1>Customers</h1>
-    <plutto-table
-      :headers="headers"
-      :rows="rows"
+    <PluttoHeader
+      title="Customers"
+      button-text="Add Customer"
     />
+    <div class="mt-6 px-6">
+      <PluttoTable
+        class="mt-6"
+        :headers="headers"
+        :rows="rows"
+      />
+    </div>
   </main>
 </template>
 <script>
 import PluttoTable from '@/components/plutto-table';
+import PluttoHeader from '../components/plutto-header';
 
 export default {
   components: {
     PluttoTable,
+    PluttoHeader,
   },
   data() {
     return {
