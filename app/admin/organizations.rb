@@ -58,5 +58,17 @@ ActiveAdmin.register Organization do
         column :created_at
       end
     end
+
+    panel I18n.t('activerecord.models.meter', count: 2) do
+      table_for resource.meters do
+        column(:id) do |meter|
+          link_to(meter.id,
+                  admin_organization_meters_path(organization_id: resource.id, meter_id: meter.id))
+        end
+        column :identifier
+        column :name
+        column :created_at
+      end
+    end
   end
 end

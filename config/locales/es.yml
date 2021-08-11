@@ -24,6 +24,18 @@ es-CL:
       customer:
         one: Cliente
         other: Clientes
+      meter:
+        one: Métrica
+        other: Métricas
+      meter_count:
+        one: Contador Métrica
+        other: Contadores de Métricas
+      billing_period:
+        one: Periodo de facturación
+        other: Periodos de facturación
+      meter_event:
+        one: Evento
+        other: Eventos
   active_admin:
     resources:
       organization:
