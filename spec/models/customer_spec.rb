@@ -7,6 +7,7 @@ RSpec.describe Customer, type: :model do
 
   describe 'Relations' do
     it { is_expected.to have_one(:plan_subscription) }
+    it { is_expected.to have_many(:meter_events) }
   end
 
   it_behaves_like 'token-identifier model' do

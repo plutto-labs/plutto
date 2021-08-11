@@ -1,6 +1,7 @@
 class Customer < ApplicationRecord
   include IdentifierAttribute
 
+  has_many :meter_events, dependent: :nullify
   has_one :plan_subscription, dependent: :destroy
   belongs_to :organization
 
