@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  scope path: '/api' do
-    api_version(module: 'Api::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
+  scope path: '/api/internal' do
+    api_version(module: 'Api::Internal::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
       resources :auth, only: [:create]
     end
   end

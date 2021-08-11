@@ -1,4 +1,4 @@
-RSpec.describe Api::V1::AuthController, type: :controller do
+RSpec.describe Api::Internal::V1::AuthController, type: :controller do
   describe 'create' do
     let!(:user) { create(:user, email: 'admin@example.com', password: '123123') }
 
