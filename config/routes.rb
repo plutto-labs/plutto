@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     api_version(module: 'Api::Internal::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
       resources :auth, only: [:create]
       resources :customers, only: [:index, :show, :update, :create, :destroy]
+      resources :plans, only: [:index, :show, :update, :create, :destroy]
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
