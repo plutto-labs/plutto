@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <side-bar>
+    <side-bar v-if="loggedIn">
       <router-view />
     </side-bar>
+    <router-view v-else />
   </div>
 </template>
 
@@ -13,12 +14,17 @@ export default {
   components: {
     SideBar,
   },
+  computed: {
+    loggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 main {
-  @apply text-white py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none bg-gray-900;
+  @apply text-white py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none bg-gray-900 h-screen;
 }
 
 .btn {
@@ -48,11 +54,37 @@ main {
   }
 
   &[disabled] {
-    @apply border-0 bg-gray-200 text-gray-400 cursor-not-allowed;
+    @apply border-0 text-gray-900 bg-gray-300 cursor-not-allowed;
   }
 }
 
 .plutto-spacer {
   @apply border-b-4 border-gray-400;
+}
+
+.plutto-input {
+  @apply h-12 relative w-full;
+
+  &__icon {
+    @apply left-0 h-5 absolute m-auto top-0 bottom-0 mx-3 text-xl leading-none;
+    font-family: 'Material Icons';
+  }
+
+  &__input {
+    @apply h-full bg-transparent w-full pl-10 rounded border border-gray-200;
+
+    &::placeholder {
+      @apply text-gray-200;
+    }
+
+    &:focus {
+      @apply border-primary outline-none;
+      box-shadow: 0 0 4px 0 rgba(165, 206, 204, .72), inset -2px -2px 2px 0 rgba(233, 214, 215, .18);
+
+      &::placeholder {
+        @apply border-primary;
+      }
+    }
+  }
 }
 </style>

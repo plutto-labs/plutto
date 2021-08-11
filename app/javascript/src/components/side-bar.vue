@@ -85,28 +85,26 @@
               </nav>
             </div>
             <div class="flex flex-shrink-0 p-4 bg-gray-700">
-              <a
-                href="#"
-                class="flex-shrink-0 block group"
-              >
-                <div class="flex items-center">
-                  <div>
-                    <img
-                      class="inline-block w-10 h-10 rounded-full"
-                      src="https://s3.amazonaws.com/nest.platan.us/team_members/pictures/000/000/013/square/ham.jpg?1489623587"
-                      alt=""
-                    >
-                  </div>
-                  <div class="ml-3">
-                    <p class="text-base font-medium text-white">
-                      Ham
-                    </p>
-                    <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300">
-                      View profile
-                    </p>
-                  </div>
+              <div class="flex items-center">
+                <div>
+                  <img
+                    class="inline-block w-10 h-10 rounded-full"
+                    src="https://s3.amazonaws.com/nest.platan.us/team_members/pictures/000/000/013/square/ham.jpg?1489623587"
+                    alt=""
+                  >
                 </div>
-              </a>
+                <div class="ml-3">
+                  <p class="text-base font-medium text-white">
+                    {{ currentUser.email }}
+                  </p>
+                  <p
+                    class="text-xs font-medium text-gray-300 group-hover:text-gray-200 cursor-pointer"
+                    @click="logout()"
+                  >
+                    Logout
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </TransitionChild>
@@ -151,28 +149,26 @@
             </nav>
           </div>
           <div class="flex flex-shrink-0 p-4 bg-gray-700">
-            <a
-              href="#"
-              class="flex-shrink-0 block w-full group"
-            >
-              <div class="flex items-center">
-                <div>
-                  <img
-                    class="inline-block rounded-full h-9 w-9"
-                    src="https://s3.amazonaws.com/nest.platan.us/team_members/pictures/000/000/013/square/ham.jpg?1489623587"
-                    alt=""
-                  >
-                </div>
-                <div class="ml-3">
-                  <p class="text-sm font-medium text-white">
-                    Ham
-                  </p>
-                  <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">
-                    View profile
-                  </p>
-                </div>
+            <div class="flex items-center">
+              <div>
+                <img
+                  class="inline-block rounded-full h-9 w-9"
+                  src="https://s3.amazonaws.com/nest.platan.us/team_members/pictures/000/000/013/square/ham.jpg?1489623587"
+                  alt=""
+                >
               </div>
-            </a>
+              <div class="ml-3">
+                <p class="text-sm font-medium text-white">
+                  {{ currentUser.email }}
+                </p>
+                <p
+                  class="text-xs font-medium text-gray-300 group-hover:text-gray-200 cursor-pointer"
+                  @click="logout()"
+                >
+                  Logout
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -197,6 +193,7 @@
 
 <script>
 import { ref } from 'vue';
+import { mapState } from 'vuex';
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import {
   FolderIcon,
@@ -218,6 +215,17 @@ export default {
     TransitionRoot,
     MenuIcon,
     XIcon,
+  },
+  computed: {
+    ...mapState({
+      currentUser: state => state.auth,
+    }),
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('LOGOUT_USER');
+      this.$router.replace('/login');
+    },
   },
   setup() {
     const sidebarOpen = ref(false);
