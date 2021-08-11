@@ -1,6 +1,6 @@
 <template>
   <header>
-    <span @click="$router.go(-1)">{{ iconName }}</span>
+    <span @click="$router.go(-1)">arrow_back</span>
     <h1>{{ title }}</h1>
     <div>
       <button
@@ -20,10 +20,6 @@ export default {
     title: {
       type: String,
       required: true,
-    },
-    iconName: {
-      type: String,
-      default: 'arrow_back',
     },
     buttonText: {
       type: String,
