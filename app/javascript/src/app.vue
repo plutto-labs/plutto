@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <side-bar>
+    <side-bar v-if="loggedIn">
       <router-view />
     </side-bar>
+    <router-view v-else />
   </div>
 </template>
 
@@ -13,12 +14,17 @@ export default {
   components: {
     SideBar,
   },
+  computed: {
+    loggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 main {
-  @apply text-white py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none bg-gray-900;
+  @apply text-white py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none bg-gray-900 h-screen;
 }
 
 .btn {
@@ -48,7 +54,7 @@ main {
   }
 
   &[disabled] {
-    @apply border-0 bg-gray-200 text-gray-400 cursor-not-allowed;
+    @apply border-gray-300 text-gray-300 cursor-not-allowed;
   }
 }
 
