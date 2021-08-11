@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   rolify
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+  acts_as_token_authenticatable
 
   belongs_to :organization, optional: true
 
@@ -20,9 +21,11 @@ end
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  organization_id        :bigint(8)
+#  authentication_token   :string(30)
 #
 # Indexes
 #
+#  index_users_on_authentication_token  (authentication_token) UNIQUE
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_organization_id       (organization_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
