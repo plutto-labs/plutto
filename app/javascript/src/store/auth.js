@@ -9,8 +9,7 @@ const initialState = {
 };
 
 export const mutations = {
-  saveUserData(state, payload) {
-    state.id = payload.id;
+  setUserData(state, payload) {
     state.token = payload.authenticationToken;
     state.email = payload.email;
   },
@@ -26,13 +25,13 @@ export const actions = {
       .then((res) => {
         const { user } = res;
         if (user.authenticationToken) {
-          commit('saveUserData', user);
+          commit('setUserData', user);
           commit('setCompanyData', user.organization);
         }
       });
   },
   LOGOUT_USER({ commit }) {
-    commit('saveUserData', { id: null, token: null, email: null, organizationId: null, organizationName: null });
+    commit('setUserData', { id: null, token: null, email: null, organizationId: null, organizationName: null });
   },
 };
 
