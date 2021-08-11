@@ -6,6 +6,7 @@ RSpec.describe PlanSubscription, type: :model do
   end
 
   describe 'Relations' do
+    it { is_expected.to have_many(:billing_periods) }
     it { is_expected.to belong_to(:plan_version) }
     it { is_expected.to belong_to(:customer) }
   end
