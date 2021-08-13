@@ -3,9 +3,7 @@ export default {
     table: {
       headers: {
         info: 'Info',
-        plan: 'Price Plan',
-        status: 'Status',
-        revenue: 'Revenue',
+        identifier: 'Identifier',
         none: '',
       },
     },
