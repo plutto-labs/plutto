@@ -5,8 +5,11 @@ class Meter < ApplicationRecord
   belongs_to :organization
 
   validates :identifier, uniqueness: true
+  validates :meter_type, presence: true
 
   before_create :generate_identifier
+
+  enum meter_type: { period_sum: 0, history_sum: 1 }
 
   private
 
@@ -25,6 +28,7 @@ end
 #  organization_id :bigint(8)        not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  meter_type      :integer          not null
 #
 # Indexes
 #
