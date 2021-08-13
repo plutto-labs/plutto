@@ -24,6 +24,7 @@ if Rails.env.development?
       'exclude_scaffolds' => 'true',
       'exclude_controllers' => 'true',
       'exclude_helpers' => 'false',
+      'exclude_sti_subclasses' => 'false',
       'ignore_model_sub_dir' => 'false',
       'ignore_columns' => nil,
       'ignore_unknown_models' => 'false',
