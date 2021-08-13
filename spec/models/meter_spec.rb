@@ -8,6 +8,10 @@ RSpec.describe Meter, type: :model do
     it { is_expected.to belong_to(:organization) }
   end
 
+  describe 'Validations' do
+    it { is_expected.to validate_presence_of(:meter_type) }
+  end
+
   it_behaves_like 'token-identifier model' do
     let(:subject) { build(:meter) }
   end
