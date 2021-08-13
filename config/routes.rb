@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :auth, only: [:create]
       resources :customers, only: [:index, :show, :update, :create, :destroy]
       resources :plans, only: [:index, :show, :update, :create, :destroy]
+      resources :meters, only: [:index, :show, :update, :create, :destroy]
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
