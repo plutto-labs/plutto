@@ -10,6 +10,7 @@
         :headers="headers"
         :rows="customers"
         :loading="loading"
+        @delete-clicked="destroyCustomer"
       />
     </div>
   </main>
@@ -39,7 +40,8 @@ export default {
         },
         {
           title: 'none',
-          type: 'icon',
+          type: 'action',
+          action: 'delete',
         },
       ],
     };

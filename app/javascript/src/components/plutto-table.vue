@@ -54,6 +54,13 @@
                       {{ row[header.title] }}
                     </div>
                   </template>
+                  <template v-else-if="header.type === 'action'">
+                    <TrashIcon
+                      v-if="header.action === 'delete'"
+                      class="w-6 h-6 ml-auto cursor-pointer text-primary"
+                      @click="$emit('delete-clicked', row)"
+                    />
+                  </template>
                 </td>
               </tr>
             </tbody>
@@ -78,10 +85,11 @@
 </template>
 
 <script>
+import { TrashIcon } from '@heroicons/vue/outline';
 import PluttoLoader from '../components/plutto-loader';
 
 export default {
-  components: { PluttoLoader },
+  components: { PluttoLoader, TrashIcon },
   props: {
     headers: {
       type: Array,
