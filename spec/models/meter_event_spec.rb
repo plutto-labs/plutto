@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe MeterEvent, type: :model do
   it 'has a valid factory' do
     expect(build(:meter_event)).to be_valid

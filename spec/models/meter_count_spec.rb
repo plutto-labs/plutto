@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe MeterCount, type: :model do
   it 'has a valid factory' do
     expect(build(:meter_count)).to be_valid

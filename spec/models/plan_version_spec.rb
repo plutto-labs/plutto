@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe PlanVersion, type: :model do
   it 'has a valid factory' do
     expect(build(:plan_version)).to be_valid

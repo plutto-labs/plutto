@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe PlanSubscription, type: :model do
   it 'has a valid factory' do
     expect(build(:plan_subscription)).to be_valid

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 Dir[::Rails.root.join("spec/swagger/**/schemas/*.rb")].each { |f| require f }
 Dir[::Rails.root.join("spec/swagger/**/definition.rb")].each { |f| require f }
 
