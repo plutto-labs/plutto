@@ -1,6 +1,7 @@
 class PlanSubscription < ApplicationRecord
   include IdentifierAttribute
 
+  has_many :billing_periods, dependent: :nullify
   belongs_to :plan_version
   belongs_to :customer
 

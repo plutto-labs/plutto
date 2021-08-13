@@ -13,6 +13,18 @@ en:
       customer:
         one: Customer
         other: Customers
+      meter:
+        one: Meter
+        other: Meters
+      meter_count:
+        one: Meter Count
+        other: Meter Counts
+      billing_period:
+        one: Billing Period
+        other: Billing Periods
+      meter_event:
+        one: Meter Event
+        other: Meter Events
   active_admin:
     resources:
       organization:

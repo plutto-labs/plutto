@@ -1,8 +1,7 @@
-class Customer < ApplicationRecord
+class Meter < ApplicationRecord
   include IdentifierAttribute
 
   has_many :meter_events, dependent: :nullify
-  has_one :plan_subscription, dependent: :destroy
   belongs_to :organization
 
   validates :identifier, uniqueness: true
@@ -12,27 +11,25 @@ class Customer < ApplicationRecord
   private
 
   def generate_identifier
-    init_identifier('customer')
+    init_identifier('meter')
   end
 end
 
 # == Schema Information
 #
-# Table name: customers
+# Table name: meters
 #
 #  id              :bigint(8)        not null, primary key
-#  email           :string           not null
 #  name            :string
-#  customer_info   :jsonb
-#  identifier      :string           not null
+#  identifier      :string
 #  organization_id :bigint(8)        not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 # Indexes
 #
-#  index_customers_on_identifier       (identifier) UNIQUE
-#  index_customers_on_organization_id  (organization_id)
+#  index_meters_on_identifier       (identifier) UNIQUE
+#  index_meters_on_organization_id  (organization_id)
 #
 # Foreign Keys
 #

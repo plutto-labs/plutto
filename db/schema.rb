@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_153535) do
+ActiveRecord::Schema.define(version: 2021_08_11_270535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,28 @@ ActiveRecord::Schema.define(version: 2021_08_11_153535) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "billing_counts", force: :cascade do |t|
+    t.datetime "from", null: false
+    t.datetime "to", null: false
+    t.string "identifier"
+    t.bigint "plan_subscription_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["identifier"], name: "index_billing_counts_on_identifier", unique: true
+    t.index ["plan_subscription_id"], name: "index_billing_counts_on_plan_subscription_id"
+  end
+
+  create_table "billing_periods", force: :cascade do |t|
+    t.datetime "from", null: false
+    t.datetime "to", null: false
+    t.string "identifier"
+    t.bigint "plan_subscription_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["identifier"], name: "index_billing_periods_on_identifier", unique: true
+    t.index ["plan_subscription_id"], name: "index_billing_periods_on_plan_subscription_id"
+  end
+
   create_table "customers", force: :cascade do |t|
     t.string "email", null: false
     t.string "name"
@@ -54,6 +76,45 @@ ActiveRecord::Schema.define(version: 2021_08_11_153535) do
   end
 
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
+  create_table "meter_counts", force: :cascade do |t|
+    t.float "count", default: 0.0
+    t.string "identifier"
+    t.bigint "billing_period_id", null: false
+    t.bigint "meter_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["billing_period_id"], name: "index_meter_counts_on_billing_period_id"
+    t.index ["identifier"], name: "index_meter_counts_on_identifier", unique: true
+    t.index ["meter_id"], name: "index_meter_counts_on_meter_id"
+  end
+
+  create_table "meter_events", force: :cascade do |t|
+    t.datetime "timestamp", null: false
+    t.float "amount", default: 1.0
+    t.integer "action", default: 0
+    t.string "identifier"
+    t.bigint "meter_id", null: false
+    t.bigint "customer_id", null: false
+    t.bigint "meter_count_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["action"], name: "index_meter_events_on_action"
+    t.index ["customer_id"], name: "index_meter_events_on_customer_id"
+    t.index ["identifier"], name: "index_meter_events_on_identifier", unique: true
+    t.index ["meter_count_id"], name: "index_meter_events_on_meter_count_id"
+    t.index ["meter_id"], name: "index_meter_events_on_meter_id"
+  end
+
+  create_table "meters", force: :cascade do |t|
+    t.string "name"
+    t.string "identifier"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["identifier"], name: "index_meters_on_identifier", unique: true
+    t.index ["organization_id"], name: "index_meters_on_organization_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -130,7 +191,15 @@ ActiveRecord::Schema.define(version: 2021_08_11_153535) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "billing_counts", "plan_subscriptions"
+  add_foreign_key "billing_periods", "plan_subscriptions"
   add_foreign_key "customers", "organizations"
+  add_foreign_key "meter_counts", "billing_periods"
+  add_foreign_key "meter_counts", "meters"
+  add_foreign_key "meter_events", "customers"
+  add_foreign_key "meter_events", "meter_counts"
+  add_foreign_key "meter_events", "meters"
+  add_foreign_key "meters", "organizations"
   add_foreign_key "plan_subscriptions", "customers"
   add_foreign_key "plan_subscriptions", "plan_versions"
   add_foreign_key "plan_versions", "plan_versions", column: "previous_version_id"

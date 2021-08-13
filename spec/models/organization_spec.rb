@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe Organization, type: :model do
   it 'has a valid factory' do
     expect(build(:organization)).to be_valid
@@ -11,6 +9,7 @@ RSpec.describe Organization, type: :model do
 
   describe 'Relations' do
     it { is_expected.to have_many(:users) }
+    it { is_expected.to have_many(:meters) }
   end
 
   describe '#enroll_user' do
