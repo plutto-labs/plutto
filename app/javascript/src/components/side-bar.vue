@@ -56,12 +56,12 @@
             </TransitionChild>
             <div class="flex-1 h-0 py-6 overflow-y-auto">
               <div class="flex items-center flex-shrink-0 px-4 mb-6">
-                <h1 class="text-2xl font-semibold text-primary flex items-center">
-                  <span class="material-icons mr-3 text-white">nightlight</span> Plutto
+                <h1 class="flex items-center text-2xl font-semibold text-primary">
+                  <span class="mr-3 text-white material-icons">nightlight</span> Plutto
                 </h1>
               </div>
               <div class="plutto-spacer" />
-              <nav class="px-2 bg-gray-800 space-y-1 mt-6">
+              <nav class="px-2 mt-6 space-y-1 bg-gray-800">
                 <router-link
                   v-for="item in navigation"
                   :key="item.label"
@@ -98,7 +98,7 @@
                     {{ currentUser.email }}
                   </p>
                   <p
-                    class="text-xs font-medium text-gray-300 group-hover:text-gray-200 cursor-pointer"
+                    class="text-xs font-medium text-gray-300 cursor-pointer group-hover:text-gray-200"
                     @click="logout()"
                   >
                     Logout
@@ -121,12 +121,12 @@
         <div class="flex flex-col flex-1 h-0 bg-gray-800">
           <div class="flex flex-col flex-1 py-6 overflow-y-auto">
             <div class="flex items-center flex-shrink-0 px-4 mb-6">
-              <h1 class="text-2xl font-semibold text-primary flex items-center">
-                <span class="material-icons mr-3 text-white">nightlight</span> Plutto
+              <h1 class="flex items-center text-2xl font-semibold text-primary">
+                <span class="mr-3 text-white material-icons">nightlight</span> Plutto
               </h1>
             </div>
             <div class="plutto-spacer" />
-            <nav class="flex-1 px-2 space-y-1 bg-gray-800 mt-6">
+            <nav class="flex-1 px-2 mt-6 space-y-1 bg-gray-800">
               <router-link
                 v-for="item in navigation"
                 :key="item.label"
@@ -162,7 +162,7 @@
                   {{ currentUser.email }}
                 </p>
                 <p
-                  class="text-xs font-medium text-gray-300 group-hover:text-gray-200 cursor-pointer"
+                  class="text-xs font-medium text-gray-300 cursor-pointer group-hover:text-gray-200"
                   @click="logout()"
                 >
                   Logout
@@ -174,7 +174,7 @@
       </div>
     </div>
     <div class="flex flex-col flex-1 w-0 overflow-hidden">
-      <div class="pt-1 pl-1 md:hidden sm:pl-3 sm:pt-3 bg-gray-900">
+      <div class="pt-1 pl-1 bg-gray-900 md:hidden sm:pl-3 sm:pt-3">
         <button
           class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
           @click="sidebarOpen = true"
@@ -200,11 +200,13 @@ import {
   MenuIcon,
   UsersIcon,
   XIcon,
+  LightningBoltIcon,
 } from '@heroicons/vue/outline';
 
 const navigation = [
   { label: 'Customers', path: '/customers', icon: UsersIcon },
   { label: 'Plans', path: '/plans', icon: FolderIcon },
+  { label: 'Meters', path: '/meters', icon: LightningBoltIcon },
 ];
 
 export default {
