@@ -9,6 +9,7 @@
         class="mt-6"
         :headers="headers"
         :rows="customers"
+        :loading="loading"
       />
     </div>
   </main>

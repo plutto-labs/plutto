@@ -17,7 +17,10 @@
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-gray-800">
+            <tbody
+              class="bg-gray-800"
+              v-if="!loading"
+            >
               <tr
                 class="border-t-4 border-gray-900"
                 v-for="(row, index) in rows"
@@ -54,6 +57,19 @@
                 </td>
               </tr>
             </tbody>
+            <tbody
+              class="bg-gray-800"
+              v-else
+            >
+              <tr class="border-t-4 border-gray-900">
+                <td
+                  :colspan="headers.length"
+                  class="py-8"
+                >
+                  <PluttoLoader />
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
@@ -62,7 +78,10 @@
 </template>
 
 <script>
+import PluttoLoader from '../components/plutto-loader';
+
 export default {
+  components: { PluttoLoader },
   props: {
     headers: {
       type: Array,
@@ -71,6 +90,10 @@ export default {
     rows: {
       type: Array,
       required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: true,
     },
   },
 };
