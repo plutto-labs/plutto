@@ -2,11 +2,13 @@ import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
 import auth from './auth';
+import plans from './plans';
 import ui from './ui';
 import customers from './customers';
 
 const initialState = {
   auth: auth.state,
+  plans: plans.state,
   ui: ui.state,
   customers: customers.state,
 };
@@ -21,6 +23,7 @@ export default createStore({
   plugins: [persistedState],
   modules: {
     auth,
+    plans,
     ui,
     customers,
   },
