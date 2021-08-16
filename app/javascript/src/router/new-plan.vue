@@ -54,11 +54,12 @@ export default {
   data() {
     return {
       newPlan: {},
+      planVersion: {},
     };
   },
   methods: {
     createPlan() {
-      this.$store.dispatch('CREATE_PLAN', this.newPlan)
+      this.$store.dispatch('CREATE_PLAN', { plan: this.newPlan, planVersion: this.planVersion })
         .then(() => this.$router.go(-1));
     },
   },

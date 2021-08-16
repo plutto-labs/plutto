@@ -11,8 +11,8 @@ export function getPlan(id) {
     .then((res) => camelizeKeys(res.data));
 }
 
-export function create(plan) {
-  return authedAxios.post('/api/internal/v1/plans/', decamelizeKeys({ plan }))
+export function create(payload) {
+  return authedAxios.post('/api/internal/v1/plans/', decamelizeKeys(payload))
     .then((res) => camelizeKeys(res.data));
 }
 

@@ -3,18 +3,30 @@ class PlanVersion < ApplicationRecord
 
   has_many :plan_subscriptions, dependent: :destroy
   has_one :next_version, class_name: 'PlanVersion', dependent: :nullify,
-                         foreign_key: 'previous_version_id', inverse_of: :previous_version
+    foreign_key: 'previous_version_id', inverse_of: :previous_version
   belongs_to :previous_version, class_name: 'PlanVersion', optional: true, inverse_of: :next_version
   belongs_to :plan
+
+  has_one :determinant_plan, class_name: 'Plan', dependent: :nullify,
+    foreign_key: :default_plan_version_id, inverse_of: :default_version
 
   validates :identifier, uniqueness: true
 
   before_create :generate_identifier
+  after_create :set_version
+
+  def human_version
+    "V#{version} - #{created_at.strftime('%d %b %Y - %H:%M')}"
+  end
 
   private
 
   def generate_identifier
     init_identifier('version')
+  end
+
+  def set_version
+    update_column(:version, previous_version&.version.to_i + 1)
   end
 end
 
@@ -27,9 +39,9 @@ end
 #  previous_version_id :bigint(8)
 #  deployed            :boolean          default(FALSE)
 #  identifier          :string           not null
-#  name                :string           not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  version             :integer
 #
 # Indexes
 #

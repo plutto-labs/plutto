@@ -10,6 +10,12 @@ class Plan < ApplicationRecord
 
   before_create :generate_identifier
 
+  def add_plan_version(**params)
+    plan_version = plan_versions.build(params.merge({ previous_version: default_version }))
+    self.default_version = plan_version
+    plan_version
+  end
+
   private
 
   def generate_identifier
