@@ -86,7 +86,7 @@
 
 <script>
 import { TrashIcon } from '@heroicons/vue/outline';
-import PluttoLoader from '../components/plutto-loader';
+import PluttoLoader from '@/components/plutto-loader';
 
 export default {
   components: { PluttoLoader, TrashIcon },
