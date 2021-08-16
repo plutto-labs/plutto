@@ -1,16 +1,16 @@
 RSpec.describe PriceLogic::PerUnit, type: :model do
   it 'has a valid factory' do
-    expect(build(:per_unit)).to be_valid
+    expect(build(:price_logic_per_unit)).to be_valid
   end
 
   it_behaves_like 'a price logic' do
-    let(:subject) { build(:per_unit) }
+    let(:subject) { build(:price_logic_per_unit) }
   end
 
   describe '#calculate_price' do
     let(:price_cent_per_unit) { 100 }
     let(:per_unit_logic) do
-      create(:per_unit, price_cents: price_cent_per_unit, price_currency: 'USD')
+      create(:price_logic_per_unit, price_cents: price_cent_per_unit, price_currency: 'USD')
     end
 
     context 'when there are 0 units' do
