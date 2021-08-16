@@ -33,4 +33,21 @@ RSpec.describe PriceLogic::Tier, type: :model do
       end
     end
   end
+
+  describe '#units_in_tier_range?' do
+    let(:tier) { create(:price_logic_tier, lower_limit: 5, upper_limit: 10) }
+
+    context 'when units are in tier range' do
+      it 'returns true' do
+        expect(tier).to be_units_in_tier_range(6)
+      end
+    end
+
+    context 'when units are not in tier range' do
+      it 'returns false' do
+        expect(tier).not_to be_units_in_tier_range(3)
+        expect(tier).not_to be_units_in_tier_range(20)
+      end
+    end
+  end
 end

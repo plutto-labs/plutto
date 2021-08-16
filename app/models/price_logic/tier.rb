@@ -7,6 +7,10 @@ class PriceLogic::Tier < ApplicationRecord
   def units_in_tier
     upper_limit - lower_limit
   end
+
+  def units_in_tier_range?(units)
+    units >= lower_limit && units <= upper_limit
+  end
 end
 
 # == Schema Information
