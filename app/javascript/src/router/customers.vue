@@ -4,18 +4,21 @@
       title="Customers"
       button-text="Add Customer"
     />
-    <div class="mt-6 px-6">
+    <div class="px-6 mt-6">
       <PluttoTable
         class="mt-6"
         :headers="headers"
-        :rows="rows"
+        :rows="customers"
+        :loading="loading"
+        @delete-clicked="destroyCustomer"
       />
     </div>
   </main>
 </template>
 <script>
+import { mapState } from 'vuex';
 import PluttoTable from '@/components/plutto-table';
-import PluttoHeader from '../components/plutto-header';
+import PluttoHeader from '@/components/plutto-header';
 
 export default {
   components: {
@@ -29,43 +32,33 @@ export default {
           title: 'info',
           type: 'twoLinesText',
           bigText: 'name',
-          smallText: 'id',
+          smallText: 'email',
         },
         {
-          title: 'plan',
-          type: 'oneLineText',
-        },
-        {
-          title: 'status',
-          type: 'tag',
-        },
-        {
-          title: 'revenue',
+          title: 'identifier',
           type: 'oneLineText',
         },
         {
           title: 'none',
-          type: 'icon',
-        },
-      ],
-
-      rows: [
-        {
-          name: 'Jane Cooper',
-          id: 'customer_FFGDS234D23FSSDf',
-          plan: 'Plan 1',
-          status: true,
-          revenue: '$10.000',
-        },
-        {
-          name: 'Jane Cooper',
-          id: 'customer_FFGDS234D23FSSDf',
-          plan: 'Plan 1',
-          status: false,
-          revenue: '$10.000',
+          type: 'action',
+          action: 'delete',
         },
       ],
     };
+  },
+  computed: {
+    ...mapState({
+      loading: state => state.customers.loading,
+      customers: state => state.customers.customers,
+    }),
+  },
+  async mounted() {
+    await this.$store.dispatch('GET_CUSTOMERS');
+  },
+  methods: {
+    destroyCustomer(customer) {
+      this.$store.dispatch('DESTROY_CUSTOMER', customer);
+    },
   },
 };
 </script>
