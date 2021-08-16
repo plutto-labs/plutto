@@ -25,6 +25,10 @@ en:
       meter_event:
         one: Meter Event
         other: Meter Events
+    attributes:
+      meter:
+        period_sum: Periodic sum
+        history_sum: Historic sum
   active_admin:
     resources:
       organization:
