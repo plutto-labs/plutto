@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :price_logic_tier, class: 'PriceLogic::Tier' do
-    tierable { create(:tiered) }
+    tierable { create(:price_logic_tiered) }
     sequence(:index) { |n| n }
     lower_limit { 0 }
     upper_limit { 100 }

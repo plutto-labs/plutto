@@ -1,16 +1,16 @@
 RSpec.describe PriceLogic::Tiered, type: :model do
   it 'has a valid factory' do
-    expect(build(:tiered)).to be_valid
+    expect(build(:price_logic_tiered)).to be_valid
   end
 
   it_behaves_like 'a price logic' do
-    let(:subject) { build(:tiered) }
+    let(:subject) { build(:price_logic_tiered) }
   end
 
   describe '#calculate_price' do
     let(:default_logic_price_cents) { 100 }
     let(:tiered_logic) do
-      create(:tiered, price_cents: default_logic_price_cents, price_currency: 'USD')
+      create(:price_logic_tiered, price_cents: default_logic_price_cents, price_currency: 'USD')
     end
 
     context 'when there are no tiers' do
