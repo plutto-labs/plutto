@@ -2,6 +2,9 @@ class PriceLogic::Tier < ApplicationRecord
   belongs_to :tierable, polymorphic: true
 
   validates :lower_limit, :upper_limit, :price_cents, :index, presence: true
+  validates :upper_limit, numericality: { greater_than_or_equal_to: :lower_limit }
+  validates :lower_limit, numericality: { greater_than_or_equal_to: 0 }
+
   monetize :price_cents
 
   def units_in_tier

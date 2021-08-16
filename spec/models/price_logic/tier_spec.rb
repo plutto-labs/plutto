@@ -10,10 +10,18 @@ RSpec.describe PriceLogic::Tier, type: :model do
   end
 
   describe 'Validations' do
+    let(:tier) { build(:price_logic_tier) }
+
+    it do
+      expect(tier).to validate_numericality_of(:upper_limit)
+        .is_greater_than_or_equal_to(tier.lower_limit)
+    end
+
     it { is_expected.to validate_presence_of(:upper_limit) }
     it { is_expected.to validate_presence_of(:lower_limit) }
     it { is_expected.to validate_presence_of(:price_cents) }
     it { is_expected.to validate_presence_of(:index) }
+    it { is_expected.to validate_numericality_of(:lower_limit).is_greater_than_or_equal_to(0) }
   end
 
   it { is_expected.to monetize(:price_cents) }
