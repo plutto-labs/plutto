@@ -7,5 +7,11 @@ export default {
         none: '',
       },
     },
+    meters: {
+      types: {
+        periodSum: 'Periodic sum',
+        historySum: 'Historic sum',
+      },
+    },
   },
 };

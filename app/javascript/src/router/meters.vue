@@ -3,6 +3,7 @@
     <PluttoHeader
       title="Meters"
       button-text="Add Meter"
+      @button-clicked="$router.push({ name: 'new-meter'})"
     />
     <div class="px-6 mt-6">
       <PluttoTable

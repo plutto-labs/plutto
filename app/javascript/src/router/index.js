@@ -6,6 +6,7 @@ import Customers from 'src/router/customers';
 import Plans from 'src/router/plans';
 import NewPlan from '@/router/new-plan';
 import Meters from '@/router/meters';
+import NewMeter from '@/router/new-meter';
 import store from '@/store';
 
 const router = createRouter({
@@ -55,6 +56,14 @@ const router = createRouter({
       component: Meters,
       meta: {
         title: 'Meters | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/meters/new',
+      name: 'new-meter',
+      component: NewMeter,
+      meta: {
+        title: 'New Meter | Plutto',
         authRequired: true,
       },
     },
