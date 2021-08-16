@@ -2,10 +2,9 @@
   <header>
     <span @click="$router.go(-1)">arrow_back</span>
     <h1>{{ title }}</h1>
-    <div>
+    <div v-if="buttonText">
       <button
         class="btn"
-        v-if="buttonText"
         @click="$emit('button-clicked')"
       >
         {{ buttonText }}

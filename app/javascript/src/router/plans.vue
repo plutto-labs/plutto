@@ -3,17 +3,21 @@
     <PluttoHeader
       title="Plans"
       button-text="Add Plan"
+      @button-clicked="$router.push({ name: 'new-plan'})"
     />
     <div class="px-6 mt-6">
+      <div v-if="!loading">
+        <div
+          v-for="plan in plans"
+          :key="plan.id"
+          @click="destroyPlan(plan)"
+        >
+          {{ plan.name }}
+        </div>
+      </div>
       <PluttoLoader
-        v-if="loading"
+        v-else
       />
-      <button
-        class="btn btn--big"
-        @click="$store.dispatch('setLoading', !loading)"
-      >
-        Cargar
-      </button>
     </div>
   </main>
 </template>
@@ -27,8 +31,17 @@ export default {
   components: { PluttoHeader, PluttoLoader },
   computed: {
     ...mapState({
-      loading: state => state.ui.loading,
+      loading: state => state.plans.loading,
+      plans: state => state.plans.plans,
     }),
+  },
+  async mounted() {
+    await this.$store.dispatch('GET_PLANS');
+  },
+  methods: {
+    destroyPlan(plan) {
+      this.$store.dispatch('DESTROY_PLAN', plan);
+    },
   },
 };
 </script>
