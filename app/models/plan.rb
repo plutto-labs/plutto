@@ -3,6 +3,8 @@ class Plan < ApplicationRecord
 
   has_many :plan_versions, dependent: :destroy
   belongs_to :organization
+  belongs_to :default_version, class_name: 'PlanVersion', optional: true,
+    foreign_key: 'default_plan_version_id', inverse_of: :determinant_plan
 
   validates :identifier, uniqueness: true
 
@@ -19,19 +21,22 @@ end
 #
 # Table name: plans
 #
-#  id              :bigint(8)        not null, primary key
-#  name            :string
-#  identifier      :string           not null
-#  organization_id :bigint(8)        not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                      :bigint(8)        not null, primary key
+#  name                    :string
+#  identifier              :string           not null
+#  organization_id         :bigint(8)        not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  default_plan_version_id :bigint(8)
 #
 # Indexes
 #
-#  index_plans_on_identifier       (identifier) UNIQUE
-#  index_plans_on_organization_id  (organization_id)
+#  index_plans_on_default_plan_version_id  (default_plan_version_id)
+#  index_plans_on_identifier               (identifier) UNIQUE
+#  index_plans_on_organization_id          (organization_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (default_plan_version_id => plan_versions.id)
 #  fk_rails_...  (organization_id => organizations.id)
 #

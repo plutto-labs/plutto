@@ -3,7 +3,7 @@ FactoryBot.define do
     plan
     previous_version { nil }
     deployed { false }
-    name { 'V1' }
+    version { 1 }
     sequence(:identifier) { |i| "version_#{i}" }
   end
 end

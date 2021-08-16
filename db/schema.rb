@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_13_195902) do
+ActiveRecord::Schema.define(version: 2021_08_16_194243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,9 +129,9 @@ ActiveRecord::Schema.define(version: 2021_08_13_195902) do
     t.bigint "previous_version_id"
     t.boolean "deployed", default: false
     t.string "identifier", null: false
-    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "version", limit: 2
     t.index ["identifier"], name: "index_plan_versions_on_identifier", unique: true
     t.index ["plan_id"], name: "index_plan_versions_on_plan_id"
     t.index ["previous_version_id"], name: "index_plan_versions_on_previous_version_id"
@@ -143,6 +143,8 @@ ActiveRecord::Schema.define(version: 2021_08_13_195902) do
     t.bigint "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "default_plan_version_id"
+    t.index ["default_plan_version_id"], name: "index_plans_on_default_plan_version_id"
     t.index ["identifier"], name: "index_plans_on_identifier", unique: true
     t.index ["organization_id"], name: "index_plans_on_organization_id"
   end
@@ -215,5 +217,6 @@ ActiveRecord::Schema.define(version: 2021_08_13_195902) do
   add_foreign_key "plan_versions", "plan_versions", column: "previous_version_id"
   add_foreign_key "plan_versions", "plans"
   add_foreign_key "plans", "organizations"
+  add_foreign_key "plans", "plan_versions", column: "default_plan_version_id"
   add_foreign_key "users", "organizations"
 end
