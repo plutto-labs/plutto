@@ -12,6 +12,8 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
   end
 
   def create
+    plan = nil
+
     ActiveRecord::Base.transaction do
       plan = authorize(
         Plan.new(plan_params.merge(organization_id: current_user.organization_id))
