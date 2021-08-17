@@ -1,4 +1,5 @@
 import * as plansApi from '../api/plans';
+import * as planVersionsApi from '../api/plan_versions';
 
 const initialState = {
   plans: null,
@@ -32,6 +33,15 @@ export const mutations = {
       state.currentPlan = null;
     }
   },
+  addPlanVersion(state, payload) {
+    state.currentPlan.planVersions.push(payload);
+  },
+  removePlanVersion(state, payload) {
+    const index = state.currentPlan.planVersions.findIndex(version => version.id === payload.id);
+    if (index !== -1) {
+      state.currentPlan.planVersions.splice(index, 1);
+    }
+  },
   resetState(state) {
     Object.assign(state, initialState);
   },
@@ -61,7 +71,7 @@ export const actions = {
   GET_PLAN({ commit }, payload) {
     commit('setPlansLoading', true);
 
-    return plansApi.getPlan(payload.id)
+    return plansApi.getPlan(payload)
       .then((data) => {
         if (data.plan) commit('setCurrentPlan', data.plan);
       })
@@ -106,6 +116,35 @@ export const actions = {
     return plansApi.destroy(payload.id)
       .then(() => {
         commit('removePlan', payload);
+      })
+      .catch((err) => {
+        commit('setError', err);
+      })
+      .finally(() => {
+        commit('setPlansLoading', false);
+      });
+  },
+
+  CREATE_PLAN_VERSION({ commit }, payload) {
+    commit('setPlansLoading', true);
+
+    return planVersionsApi.create(payload.planId, payload.planVersion)
+      .then((data) => {
+        if (data.planVersion) commit('addPlanVersion', data.planVersion);
+      })
+      .catch((err) => {
+        commit('setError', err);
+      })
+      .finally(() => {
+        commit('setPlansLoading', false);
+      });
+  },
+  DESTROY_PLAN_VERSION({ commit }, payload) {
+    commit('setPlansLoading', true);
+
+    return planVersionsApi.destroy(payload.planId, payload.planVersion.id)
+      .then(() => {
+        commit('removePlanVersion', payload.planVersion);
       })
       .catch((err) => {
         commit('setError', err);

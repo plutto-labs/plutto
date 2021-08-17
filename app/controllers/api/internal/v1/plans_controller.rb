@@ -8,7 +8,7 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
 
   def show
     authorize plan
-    respond_with(plan)
+    respond_with(plan, include_versions: true)
   end
 
   def create
