@@ -41,17 +41,6 @@ ActiveRecord::Schema.define(version: 2021_08_16_194243) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "billing_counts", force: :cascade do |t|
-    t.datetime "from", null: false
-    t.datetime "to", null: false
-    t.string "identifier"
-    t.bigint "plan_subscription_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["identifier"], name: "index_billing_counts_on_identifier", unique: true
-    t.index ["plan_subscription_id"], name: "index_billing_counts_on_plan_subscription_id"
-  end
-
   create_table "billing_periods", force: :cascade do |t|
     t.datetime "from", null: false
     t.datetime "to", null: false
@@ -215,7 +204,6 @@ ActiveRecord::Schema.define(version: 2021_08_16_194243) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
-  add_foreign_key "billing_counts", "plan_subscriptions"
   add_foreign_key "billing_periods", "plan_subscriptions"
   add_foreign_key "customers", "organizations"
   add_foreign_key "meter_counts", "billing_periods"
