@@ -10,6 +10,8 @@ class PlanVersion < ApplicationRecord
   has_one :determinant_plan, class_name: 'Plan', dependent: :nullify,
     foreign_key: :default_plan_version_id, inverse_of: :default_version
 
+  has_many :price_logics, dependent: :destroy
+
   validates :identifier, uniqueness: true
 
   before_create :generate_identifier
