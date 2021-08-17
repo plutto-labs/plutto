@@ -1,7 +1,7 @@
 import * as metersApi from '../api/meters';
 
 const initialState = {
-  meters: null,
+  meters: [],
   currentMeter: false,
   loading: null,
   error: null,
