@@ -320,6 +320,8 @@ GEM
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
+    pundit-matchers (1.7.0)
+      rspec-rails (>= 3.0.0)
     raabro (1.4.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -571,6 +573,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 5.0)
   pundit
+  pundit-matchers (~> 1.7.0)
   rack-cors (~> 1.1)
   rack-timeout
   rails (~> 6.1.4)
