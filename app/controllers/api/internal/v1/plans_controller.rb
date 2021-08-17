@@ -12,10 +12,10 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
   end
 
   def create
+    plan = authorize(
+      Plan.new(plan_params.merge(organization_id: current_user.organization_id))
+    )
     ActiveRecord::Base.transaction do
-      plan = authorize(
-        Plan.new(plan_params.merge(organization_id: current_user.organization_id))
-      )
       plan.add_plan_version(plan_version_params)
       plan.save!
     end
