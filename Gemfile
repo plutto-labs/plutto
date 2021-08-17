@@ -46,6 +46,7 @@ end
 group :test do
   gem 'rspec_junit_formatter', '~> 0.4'
   gem 'shoulda-matchers', require: false
+  gem 'pundit-matchers', '~> 1.7.0'
 end
 
 group :development, :test do
