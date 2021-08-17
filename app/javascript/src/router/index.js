@@ -5,7 +5,9 @@ import Auth from 'src/router/auth';
 import Customers from 'src/router/customers';
 import Plans from 'src/router/plans';
 import NewPlan from '@/router/new-plan';
-import store from '../store';
+import Meters from '@/router/meters';
+import NewMeter from '@/router/new-meter';
+import store from '@/store';
 
 const router = createRouter({
   history: createWebHashHistory('/'),
@@ -47,6 +49,21 @@ const router = createRouter({
       component: NewPlan,
       meta: {
         title: 'New Plan | Plutto',
+      },
+    }, {
+      path: '/meters',
+      name: 'meters',
+      component: Meters,
+      meta: {
+        title: 'Meters | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/meters/new',
+      name: 'new-meter',
+      component: NewMeter,
+      meta: {
+        title: 'New Meter | Plutto',
         authRequired: true,
       },
     },

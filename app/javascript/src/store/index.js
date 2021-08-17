@@ -2,15 +2,17 @@ import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
 import auth from './auth';
+import customers from './customers';
+import meters from './meters';
 import plans from './plans';
 import ui from './ui';
-import customers from './customers';
 
 const initialState = {
   auth: auth.state,
+  customers: customers.state,
+  meters: meters.state,
   plans: plans.state,
   ui: ui.state,
-  customers: customers.state,
 };
 
 const persistedState = createPersistedState({
@@ -23,9 +25,10 @@ export default createStore({
   plugins: [persistedState],
   modules: {
     auth,
+    customers,
+    meters,
     plans,
     ui,
-    customers,
   },
   mutations: {
     resetState(state) {

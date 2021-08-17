@@ -10,6 +10,7 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.3.0",
+    "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/postcss7-compat": "^2.0.4",
     "activeadmin_addons": "^1.0.0",
     "arctic_admin": "^4.0.1",
