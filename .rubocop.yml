@@ -20,6 +20,10 @@ Layout/ParameterAlignment:
   SupportedStyles:
   - with_first_parameter
   - with_fixed_indentation
+Layout/HashAlignment:
+  Description: Align the keys of a hash literal if they span more than one line.
+  Enabled: true
+  EnforcedLastArgumentHashStyle: ignore_implicit
 Metrics/BlockLength:
   Enabled: false
 Style/ClassAndModuleChildren:

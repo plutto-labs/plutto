@@ -7,13 +7,12 @@
     />
     <div class="px-6 mt-6">
       <div v-if="!loading">
-        <div
+        <PlanCard
+          class="mb-4"
           v-for="plan in plans"
           :key="plan.id"
-          @click="destroyPlan(plan)"
-        >
-          {{ plan.name }}
-        </div>
+          :plan="plan"
+        />
       </div>
       <PluttoLoader
         v-else
@@ -24,11 +23,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import PlanCard from '@/components/plan-card';
 import PluttoHeader from '../components/plutto-header';
 import PluttoLoader from '../components/plutto-loader';
 
 export default {
-  components: { PluttoHeader, PluttoLoader },
+  components: { PluttoHeader, PluttoLoader, PlanCard },
   computed: {
     ...mapState({
       loading: state => state.plans.loading,
