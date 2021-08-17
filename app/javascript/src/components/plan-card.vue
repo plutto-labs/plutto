@@ -25,7 +25,10 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-center w-8 h-full border-l border-gray-300 cursor-pointer md:w-12">
+    <div
+      @click="$router.push({ name: 'plan', params: { id: plan.id } })"
+      class="flex items-center justify-center w-8 h-full border-l border-gray-300 cursor-pointer md:w-12"
+    >
       <span class="text-xl md:text-3xl plutto-icon">chevron_right</span>
     </div>
   </div>

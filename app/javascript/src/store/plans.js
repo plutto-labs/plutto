@@ -71,7 +71,7 @@ export const actions = {
   GET_PLAN({ commit }, payload) {
     commit('setPlansLoading', true);
 
-    return plansApi.getPlan(payload.id)
+    return plansApi.getPlan(payload)
       .then((data) => {
         if (data.plan) commit('setCurrentPlan', data.plan);
       })

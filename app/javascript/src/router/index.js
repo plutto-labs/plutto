@@ -1,9 +1,10 @@
 
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import Auth from 'src/router/auth';
-import Customers from 'src/router/customers';
-import Plans from 'src/router/plans';
+import Auth from '@/router/auth';
+import Customers from '@/router/customers';
+import Plans from '@/router/plans';
+import Plan from '@/router/plan';
 import NewPlan from '@/router/new-plan';
 import Meters from '@/router/meters';
 import NewMeter from '@/router/new-meter';
@@ -49,6 +50,14 @@ const router = createRouter({
       component: NewPlan,
       meta: {
         title: 'New Plan | Plutto',
+      },
+    }, {
+      path: '/plan/:id',
+      name: 'plan',
+      component: Plan,
+      meta: {
+        title: 'Plan | Plutto',
+        authRequired: true,
       },
     }, {
       path: '/meters',
