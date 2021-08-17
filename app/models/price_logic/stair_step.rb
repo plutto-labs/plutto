@@ -1,5 +1,6 @@
 class PriceLogic::StairStep < PriceLogic
   has_many :tiers, as: :tierable, dependent: :destroy
+  accepts_nested_attributes_for :tiers, allow_destroy: true
 
   NAME = 'stair_step'
 

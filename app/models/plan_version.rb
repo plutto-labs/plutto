@@ -11,6 +11,7 @@ class PlanVersion < ApplicationRecord
     foreign_key: :default_plan_version_id, inverse_of: :default_version
 
   has_many :price_logics, dependent: :destroy
+  accepts_nested_attributes_for :price_logics, allow_destroy: true
 
   validates :identifier, uniqueness: true
 

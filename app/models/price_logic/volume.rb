@@ -1,7 +1,8 @@
 class PriceLogic::Volume < PriceLogic
   has_many :tiers, as: :tierable, dependent: :destroy
+  accepts_nested_attributes_for :tiers, allow_destroy: true
 
-  NAME = 'Volume'
+  NAME = 'volume'
 
   def calculate_price(units)
     tier = tier_for_units(units)
