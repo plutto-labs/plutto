@@ -5,6 +5,7 @@ import auth from './auth';
 import customers from './customers';
 import meters from './meters';
 import plans from './plans';
+import planSubscriptions from './plan_subscriptions';
 import ui from './ui';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   meters: meters.state,
   plans: plans.state,
   ui: ui.state,
+  planSubscriptions: planSubscriptions.state,
 };
 
 const persistedState = createPersistedState({
@@ -28,6 +30,7 @@ export default createStore({
     customers,
     meters,
     plans,
+    planSubscriptions,
     ui,
   },
   mutations: {
