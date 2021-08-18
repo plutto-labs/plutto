@@ -3,9 +3,7 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
   include Pundit
 
   def create
-    plan_subscription = authorize(
-      PlanSubscription.create!(plan_version: plan_version, customer: customer)
-    )
+    plan_subscription = PlanSubscriptionCreator.for(plan_version: plan_version, customer: customer)
     respond_with(plan_subscription)
   end
 
