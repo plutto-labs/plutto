@@ -9,11 +9,6 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
     respond_with(plan_subscription)
   end
 
-  def destroy
-    authorize plan_subscription
-    respond_with(plan_subscription.destroy!)
-  end
-
   private
 
   def plan_subscription

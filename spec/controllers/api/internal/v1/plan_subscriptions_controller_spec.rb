@@ -41,31 +41,4 @@ RSpec.describe Api::Internal::V1::PlanSubscriptionsController, type: :controller
       end
     end
   end
-
-  describe 'DELETE #destroy' do
-    context 'when signed in' do
-      before { sign_in create(:user, organization: organization) }
-
-      context 'with valid params' do
-        let(:organization) { create(:organization) }
-        let(:plan) { create(:plan, organization: organization) }
-        let(:plan_version) { create(:plan_version, plan: plan) }
-        let!(:plan_subscription) { create(:plan_subscription, plan_version: plan_version) }
-
-        it 'returns http success' do
-          delete :destroy, format: :json, params: { id: plan_subscription.id }
-          expect(response).to have_http_status(:success)
-        end
-      end
-    end
-
-    context 'when signed out' do
-      let!(:plan_subscription) { create(:plan_subscription) }
-
-      it 'returns http error' do
-        delete :destroy, format: :json, params: { id: plan_subscription.id }
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-  end
 end
