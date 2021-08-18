@@ -4,7 +4,8 @@ RSpec.describe Customer, type: :model do
   end
 
   describe 'Relations' do
-    it { is_expected.to have_one(:plan_subscription) }
+    it { is_expected.to have_many(:plan_subscriptions) }
+    it { is_expected.to have_one(:active_plan_subscription).conditions(active: true) }
     it { is_expected.to have_many(:meter_events) }
   end
 
