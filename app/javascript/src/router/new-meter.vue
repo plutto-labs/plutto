@@ -4,9 +4,11 @@
       title="New Meter"
     />
     <div class="px-6 mt-6">
-      <form
-        @submit.prevent="createMeter"
+      <Form
+        @submit="createMeter"
         class="max-w-xl p-4 mx-auto space-y-5 bg-gray-800 rounded-lg"
+        :validation-schema="schema"
+        v-slot="{ errors }"
       >
         <div class="space-y-6 sm:space-y-5">
           <div class="space-y-6 sm:space-y-5">
@@ -18,14 +20,15 @@
                 Name
               </label>
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input
+                <Field
                   class="block w-full max-w-lg bg-gray-700 border-gray-500 rounded-md text-gray-50 focus:ring-0 focus:border-primary sm:max-w-xs sm:text-sm"
                   type="text"
                   name="name"
                   id="name"
                   autocomplete="name"
                   v-model="newMeter.name"
-                >
+                />
+                <span class="absolute text-sm text-danger-light">{{ errors.name }}</span>
               </div>
             </div>
           </div>
@@ -37,11 +40,11 @@
               Type
             </label>
             <div class="mt-1 sm:mt-0 sm:col-span-2">
-              <select
+              <Field
                 class="block w-full max-w-lg bg-gray-700 border-gray-500 rounded-md text-gray-50 focus:ring-0 focus:border-primary sm:max-w-xs sm:text-sm"
-                id="meter-type"
-                name="meter-type"
+                name="type"
                 autocomplete="meter-type"
+                as="select"
                 v-model="newMeter.meterType"
               >
                 <option
@@ -51,7 +54,8 @@
                 >
                   {{ $t(`message.meters.types.${type}`) }}
                 </option>
-              </select>
+              </Field>
+              <span class="absolute text-sm text-danger-light">{{ errors.type }}</span>
             </div>
           </div>
         </div>
@@ -70,14 +74,19 @@
 
 <script>
 import { decamelize } from 'humps';
+import { Form, Field } from 'vee-validate';
 import PluttoHeader from '../components/plutto-header';
 
 export default {
-  components: { PluttoHeader },
+  components: { PluttoHeader, Form, Field },
   data() {
     return {
       newMeter: {},
       meterTypes: ['periodSum', 'historySum'],
+      schema: {
+        name: 'required',
+        type: 'required',
+      },
     };
   },
   methods: {
