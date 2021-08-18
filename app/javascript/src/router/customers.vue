@@ -3,6 +3,7 @@
     <PluttoHeader
       title="Customers"
       button-text="Add Customer"
+      @button-clicked="$router.push({ name: 'new-customer'})"
     />
     <div class="px-6 mt-6">
       <PluttoTable
