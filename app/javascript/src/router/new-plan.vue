@@ -3,49 +3,60 @@
     <PluttoHeader
       title="New Plan"
     />
-    <div class="px-6 mt-6">
+    <div class="flex justify-center px-6 mt-6">
       <form
         @submit.prevent="createPlan"
-        class="space-y-8 divide-y divide-gray-200"
+        class="w-full space-y-8 divide-y divide-gray-200 md:max-w-xl"
       >
-        <div class="m-auto space-y-8 divide-y divide-gray-200">
-          <div class="pt-8">
-            <div class="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-6">
-              <div class="sm:col-span-3">
-                <label
-                  for="name"
-                  class="block text-sm font-medium text-gray-300"
-                >
-                  Name
-                </label>
-                <div class="mt-1">
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    v-model="newPlan.name"
-                    autocomplete="given-name"
-                    required
-                    class="block w-full px-2 text-gray-700 border-gray-700 rounded-md shadow-sm focus:primary-300 sm:text-sm"
-                  >
-                </div>
-              </div>
+        <div class="m-auto divide-gray-200">
+          <div class="mt-8 mb-4 text-lg">
+            Plan information
+          </div>
+          <div class="sm:col-span-3">
+            <label
+              for="name"
+              class="block text-sm font-medium text-gray-100"
+            >
+              Name
+            </label>
+            <div class="mt-2 plutto-input">
+              <span class="plutto-input__icon">science</span>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                v-model="newPlan.name"
+                required
+                class="plutto-input__input"
+              >
             </div>
-            <div class="sm:col-span-3">
-              <div class="my-8">
-                Price Logics
-              </div>
-              <PriceLogics
-                v-model="priceLogics"
-              />
+          </div>
+          <div class="sm:col-span-3">
+            <div class="mt-8 mb-4 text-lg">
+              Price Logics
+            </div>
+            <PriceLogics
+              v-model="priceLogics"
+            />
+            <div class="flex justify-center w-full">
+              <button
+                class="relative flex items-center justify-center w-full py-8 text-gray-300 border border-gray-700 border-dashed"
+                @click.prevent="addPriceLogic"
+              >
+                <span class="mr-2 plutto-icon">add</span>
+                Add Price Logic
+              </button>
             </div>
           </div>
         </div>
 
         <div class="pt-5">
           <div class="flex justify-end">
-            <button class="btn">
-              Save
+            <button
+              class="btn"
+              :disabled="!canCreatePlan"
+            >
+              Create plan
             </button>
           </div>
         </div>
@@ -67,6 +78,9 @@ export default {
     };
   },
   methods: {
+    addPriceLogic() {
+      this.priceLogics.push({ type: 'PriceLogic::FlatFee', price: 0, tiers: null });
+    },
     createPlan() {
       const planVersion = {
         priceLogicsAttributes: this.priceLogics.map(pl => {
@@ -83,6 +97,11 @@ export default {
       };
       this.$store.dispatch('CREATE_PLAN', { plan: this.newPlan, planVersion })
         .then(() => this.$router.go(-1));
+    },
+  },
+  computed: {
+    canCreatePlan() {
+      return this.priceLogics.length > 0 && this.newPlan.name;
     },
   },
 };
