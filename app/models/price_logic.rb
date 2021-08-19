@@ -4,11 +4,20 @@ class PriceLogic < ApplicationRecord
   belongs_to :plan_version
 
   validates :type, presence: true
+  before_validation :set_lower_limits, on: :create, if: -> { respond_to?(:tiers) }
 
   monetize :price_cents
 
   def calculate_price(n_units = 0)
     raise NotImplementedError
+  end
+
+  private
+
+  def set_lower_limits
+    tiers.each_with_index do |tier, index|
+      tier.lower_limit = index.zero? ? 0 : tiers[index - 1].upper_limit + 1
+    end
   end
 end
 
