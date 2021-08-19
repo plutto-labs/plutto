@@ -13,8 +13,8 @@ const initialState = {
   customers: customers.state,
   meters: meters.state,
   plans: plans.state,
-  ui: ui.state,
   planSubscriptions: planSubscriptions.state,
+  ui: ui.state,
 };
 
 const persistedState = createPersistedState({

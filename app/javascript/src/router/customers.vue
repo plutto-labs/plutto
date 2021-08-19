@@ -64,7 +64,6 @@ export default {
     ...mapState({
       loading: state => state.customers.loading,
       customers: state => state.customers.customers,
-      plans: state => state.plans.plans,
     }),
   },
   async mounted() {
@@ -82,7 +81,7 @@ export default {
         });
     },
     planOptions() {
-      return this.plans.map(plan => ({ value: plan.name, id: plan.defaultVersion.id }));
+      return this.$store.getters.planOptions;
     },
   },
 };
