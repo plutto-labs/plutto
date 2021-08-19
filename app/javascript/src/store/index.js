@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
+import apiKeys from './api-keys';
 import auth from './auth';
 import customers from './customers';
 import meters from './meters';
@@ -9,6 +10,7 @@ import planSubscriptions from './plan_subscriptions';
 import ui from './ui';
 
 const initialState = {
+  apiKeys: apiKeys.state,
   auth: auth.state,
   customers: customers.state,
   meters: meters.state,
@@ -26,6 +28,7 @@ const persistedState = createPersistedState({
 export default createStore({
   plugins: [persistedState],
   modules: {
+    apiKeys,
     auth,
     customers,
     meters,
