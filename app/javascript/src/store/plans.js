@@ -159,8 +159,15 @@ export const actions = {
   },
 };
 
+export const getters = {
+  planOptions(state) {
+    return state.plans.map(plan => ({ value: plan.name, id: plan.defaultVersion.id }));
+  },
+};
+
 export default {
   state: { ...initialState },
   mutations,
   actions,
+  getters,
 };

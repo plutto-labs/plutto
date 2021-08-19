@@ -1,9 +1,8 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div class="flex flex-col">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="-my-2 sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow sm:rounded-lg">
+        <div class="shadow sm:rounded-lg">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-700">
               <tr>
@@ -18,7 +17,7 @@
               </tr>
             </thead>
             <tbody
-              class="bg-gray-800"
+              class="bg-gray-800 rounded-b-lg"
               v-if="!loading"
             >
               <tr
@@ -59,6 +58,12 @@
                       v-if="header.action === 'delete'"
                       class="w-6 h-6 ml-auto cursor-pointer text-primary"
                       @click="$emit('delete-clicked', row)"
+                    />
+                  </template>
+                  <template v-else-if="header.type === 'component'">
+                    <slot
+                      name="component"
+                      :row="row"
                     />
                   </template>
                 </td>

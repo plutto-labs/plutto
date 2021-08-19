@@ -5,7 +5,7 @@ describe PlanSubscriptionPolicy do
     let(:user) { create(:user) }
     let(:plan_subscription) { create(:plan_subscription) }
 
-    it { is_expected.to forbid_actions([:create, :destroy]) }
+    it { is_expected.to forbid_actions([:create]) }
   end
 
   context 'when user belongs to organization' do
@@ -15,6 +15,6 @@ describe PlanSubscriptionPolicy do
     let(:user) { create(:user, organization: organization) }
     let(:plan_subscription) { create(:plan_subscription, plan_version: plan_version) }
 
-    it { is_expected.to permit_actions([:destroy, :create]) }
+    it { is_expected.to permit_actions([:create]) }
   end
 end

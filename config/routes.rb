@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :auth, only: [:create]
       resources :customers, only: [:index, :show, :create, :update, :destroy]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
-      resources :plan_subscriptions, only: [:create, :destroy]
+      resources :plan_subscriptions, only: [:create]
       resources :plans, only: [:index, :show, :create, :update, :destroy] do
         resources :plan_versions, only: [:create, :update, :destroy]
       end

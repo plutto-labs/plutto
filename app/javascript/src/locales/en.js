@@ -4,6 +4,7 @@ export default {
       headers: {
         info: 'Info',
         identifier: 'Identifier',
+        planSubscription: 'Plan Subscription',
         none: '',
       },
     },

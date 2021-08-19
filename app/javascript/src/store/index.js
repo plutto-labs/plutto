@@ -5,6 +5,7 @@ import auth from './auth';
 import customers from './customers';
 import meters from './meters';
 import plans from './plans';
+import planSubscriptions from './plan_subscriptions';
 import ui from './ui';
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   customers: customers.state,
   meters: meters.state,
   plans: plans.state,
+  planSubscriptions: planSubscriptions.state,
   ui: ui.state,
 };
 
@@ -28,6 +30,7 @@ export default createStore({
     customers,
     meters,
     plans,
+    planSubscriptions,
     ui,
   },
   mutations: {
