@@ -1,17 +1,32 @@
 <template>
   <div>
-    <button
-      class="btn"
-      @click.prevent="addPriceLogic"
-    >
-      Add Price Logic
-    </button>
-    <div class="my-8">
+    <div class="mb-8">
       <PriceLogic
         v-for="index in priceLogics.length"
         :key="index"
         v-model="priceLogics[index - 1]"
-      />
+      >
+        <template
+          #delete
+        >
+          <span
+            class="absolute text-2xl text-gray-200 cursor-pointer top-2 right-2 plutto-icon"
+            @click="deletePriceLogic(index)"
+          >
+            close
+          </span>
+        </template>
+        <template
+          #separator
+          v-if="index < priceLogics.length"
+        >
+          <div class="flex justify-center w-full h-4 my-4">
+            <span class="material-icons">
+              add
+            </span>
+          </div>
+        </template>
+      </PriceLogic>
     </div>
   </div>
 </template>
@@ -28,12 +43,12 @@ export default {
     },
   },
   beforeMount() {
-    if (this.modelValue) this.priceLogics = this.modelValue;
-    else this.priceLogics = [{ type: 'PriceLogic::Volume', price: 0, tiers: null }];
+    if (this.modelValue && this.modelValue.length > 0) this.priceLogics = this.modelValue;
+    else this.priceLogics = [{ type: 'PriceLogic::FlatFee', price: 0, tiers: null }];
   },
   methods: {
-    addPriceLogic() {
-      this.priceLogics.push({ type: 'PriceLogic::FlatFee', price: 0, tiers: null });
+    deletePriceLogic(index) {
+      this.priceLogics.splice(index - 1, 1);
     },
   },
   computed: {

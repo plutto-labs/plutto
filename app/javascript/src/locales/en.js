@@ -22,6 +22,13 @@ export default {
         'PriceLogic::Tiered': 'Tiered',
         'PriceLogic::Volume': 'Volume',
       },
+      descriptions: {
+        'PriceLogic::FlatFee': 'Just a simple flat fee',
+        'PriceLogic::PerUnit': 'Charge a fixed amount per event',
+        'PriceLogic::StairStep': 'Charge a flat fee based on the corresponding tier',
+        'PriceLogic::Tiered': 'Each event gets charged starting from the lowest tier',
+        'PriceLogic::Volume': 'Charge a fixed amount per event based on the corresponding tier',
+      },
     },
   },
 };
