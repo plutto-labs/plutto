@@ -169,6 +169,8 @@ ActiveRecord::Schema.define(version: 2021_08_18_223834) do
     t.string "price_currency", default: "USD", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "plan_version_id"
+    t.index ["plan_version_id"], name: "index_price_logics_on_plan_version_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -219,5 +221,6 @@ ActiveRecord::Schema.define(version: 2021_08_18_223834) do
   add_foreign_key "plan_versions", "plans"
   add_foreign_key "plans", "organizations"
   add_foreign_key "plans", "plan_versions", column: "default_plan_version_id"
+  add_foreign_key "price_logics", "plan_versions"
   add_foreign_key "users", "organizations"
 end

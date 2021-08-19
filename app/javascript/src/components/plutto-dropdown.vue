@@ -31,10 +31,10 @@
             :key="optionIndex"
           >
             <a
-              @click="$emit('selected', option.id)"
+              @click="$emit('selected', option.value)"
               class="rounded-md"
               :class="[active ? 'bg-gray-500' : 'text-white', 'block px-4 py-2 text-sm']"
-            > {{ option.value }} </a>
+            > {{ option.label }} </a>
           </MenuItem>
         </div>
       </MenuItems>

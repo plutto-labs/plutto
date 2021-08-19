@@ -4,5 +4,6 @@ FactoryBot.define do
   extend TiersFactoryHelper
 
   factory :price_logic_volume, class: 'PriceLogic::Volume' do
+    plan_version
   end
 end

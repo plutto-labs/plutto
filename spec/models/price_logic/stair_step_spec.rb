@@ -9,18 +9,14 @@ RSpec.describe PriceLogic::StairStep, type: :model do
 
   describe '#calculate_price' do
     let(:tier_prices) { [usd(300), usd(200), usd(100)] }
+    let(:tiers_params) do
+      [{ price: usd(300), limit: 100 }, { price: usd(200), limit: 200 },
+       { price: usd(100), limit: 300 }]
+    end
     let(:last_upper_limit) { 300 }
     let(:stair_step_logic) do
-      create(:price_logic_stair_step, price_cents: 100, price_currency: 'USD')
-    end
-
-    before do
-      create(:price_logic_tier, tierable: stair_step_logic, price: tier_prices[0],
-                                lower_limit: 0, upper_limit: 100)
-      create(:price_logic_tier, tierable: stair_step_logic, price: tier_prices[1],
-                                lower_limit: 101, upper_limit: 200)
-      create(:price_logic_tier, tierable: stair_step_logic, price: tier_prices[2],
-                                lower_limit: 201, upper_limit: last_upper_limit)
+      create(:price_logic_stair_step, :with_tiers, price_cents: 100,
+        price_currency: 'USD', tiers_params: tiers_params)
     end
 
     context 'when range is not from last tier' do

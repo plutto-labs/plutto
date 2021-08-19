@@ -55,7 +55,7 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms')({ strategy: 'class' })],
   purge: {
     enabled: process.env.NODE_ENV === 'production',
     content: [

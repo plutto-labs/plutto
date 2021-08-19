@@ -6,9 +6,9 @@
     <div class="px-6 mt-6">
       <form
         @submit.prevent="createPlan"
-        class="max-w-xs space-y-8 divide-y divide-gray-200"
+        class="space-y-8 divide-y divide-gray-200"
       >
-        <div class="w-64 m-auto space-y-8 divide-y divide-gray-200">
+        <div class="m-auto space-y-8 divide-y divide-gray-200">
           <div class="pt-8">
             <div class="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-6">
               <div class="sm:col-span-3">
@@ -31,6 +31,14 @@
                 </div>
               </div>
             </div>
+            <div class="sm:col-span-3">
+              <div class="my-8">
+                Price Logics
+              </div>
+              <PriceLogics
+                v-model="priceLogics"
+              />
+            </div>
           </div>
         </div>
 
@@ -47,19 +55,33 @@
 </template>
 
 <script>
-import PluttoHeader from '../components/plutto-header';
+import PriceLogics from '@/components/price-logics';
+import PluttoHeader from '@/components/plutto-header';
 
 export default {
-  components: { PluttoHeader },
+  components: { PluttoHeader, PriceLogics },
   data() {
     return {
       newPlan: {},
-      planVersion: {},
+      priceLogics: [],
     };
   },
   methods: {
     createPlan() {
-      this.$store.dispatch('CREATE_PLAN', { plan: this.newPlan, planVersion: this.planVersion })
+      const planVersion = {
+        priceLogicsAttributes: this.priceLogics.map(pl => {
+          const priceLogic = Object.assign({}, { price: pl.price, type: pl.type });
+          if (pl.tiers) {
+            const tiers = pl.tiers.map((tier, index) => (
+              Object.assign({}, { index, upperLimit: tier.upperLimit, price: tier.price })
+            ));
+            priceLogic.tiersAttributes = tiers;
+          }
+
+          return priceLogic;
+        }),
+      };
+      this.$store.dispatch('CREATE_PLAN', { plan: this.newPlan, planVersion })
         .then(() => this.$router.go(-1));
     },
   },

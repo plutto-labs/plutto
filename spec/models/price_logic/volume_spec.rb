@@ -10,15 +10,13 @@ RSpec.describe PriceLogic::Volume, type: :model do
   describe '#calculate_price' do
     let(:tier_prices) { [usd(300), usd(200), usd(100)] }
     let(:last_upper_limit) { 300 }
-    let(:volume_logic) { create(:price_logic_volume, price_cents: 100, price_currency: 'USD') }
-
-    before do
-      create(:price_logic_tier, tierable: volume_logic, price: tier_prices[0],
-                                lower_limit: 0, upper_limit: 100)
-      create(:price_logic_tier, tierable: volume_logic, price: tier_prices[1],
-                                lower_limit: 101, upper_limit: 200)
-      create(:price_logic_tier, tierable: volume_logic, price: tier_prices[2],
-                                lower_limit: 201, upper_limit: last_upper_limit)
+    let(:tiers_params) do
+      [{ price: usd(300), limit: 100 }, { price: usd(200), limit: 200 },
+       { price: usd(100), limit: 300 }]
+    end
+    let(:volume_logic) do
+      create(:price_logic_volume, :with_tiers, price_cents: 100,
+        price_currency: 'USD', tiers_params: tiers_params)
     end
 
     context 'when range is not from last tier' do

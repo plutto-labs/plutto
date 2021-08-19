@@ -4,5 +4,6 @@ FactoryBot.define do
   extend TiersFactoryHelper
 
   factory :price_logic_stair_step, class: 'PriceLogic::StairStep' do
+    plan_version
   end
 end
