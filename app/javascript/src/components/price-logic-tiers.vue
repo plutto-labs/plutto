@@ -35,7 +35,7 @@
             scope="col"
             class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase rounded-tr-lg text-gray-50"
           >
-            Per unit
+            {{ measurementText }}
           </th>
           <th class="bg-gray-900" />
         </tr>
@@ -117,6 +117,10 @@ export default {
     otherRowsText: {
       type: String,
       default: 'Total of units',
+    },
+    measurementText: {
+      type: String,
+      default: 'Per unit',
     },
     modelValue: {
       type: Array,
