@@ -70,6 +70,11 @@ main {
     font-family: 'Material Icons';
   }
 
+  &__icon-right {
+    @apply right-0 h-5 absolute m-auto top-0 bottom-0 mx-3 text-xl leading-none;
+    font-family: 'Material Icons';
+  }
+
   &__input {
     @apply h-full bg-transparent w-full pl-10 rounded border border-gray-200;
 

@@ -9,6 +9,7 @@ import Plan from '@/router/plan';
 import NewPlan from '@/router/new-plan';
 import Meters from '@/router/meters';
 import NewMeter from '@/router/new-meter';
+import Settings from '@/router/settings';
 import store from '@/store';
 
 const router = createRouter({
@@ -83,6 +84,14 @@ const router = createRouter({
       component: NewMeter,
       meta: {
         title: 'New Meter | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/settings',
+      name: 'settings',
+      component: Settings,
+      meta: {
+        title: 'Settings | Plutto',
         authRequired: true,
       },
     },
