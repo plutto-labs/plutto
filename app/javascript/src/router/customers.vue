@@ -15,7 +15,7 @@
       >
         <template #component="row">
           <PluttoDropdown
-            :selected="row.row.activePlanSubscription.planName"
+            :selected="row.row.activePlanSubscription && row.row.activePlanSubscription.planName || 'Choose'"
             :options="planOptions()"
             @selected="(planVersionId) => selected(row.row.id, planVersionId)"
           />

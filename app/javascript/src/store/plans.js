@@ -161,7 +161,7 @@ export const actions = {
 
 export const getters = {
   planOptions(state) {
-    return state.plans.map(plan => ({ value: plan.name, id: plan.defaultVersion.id }));
+    return state.plans.map(plan => ({ label: plan.name, value: plan.defaultVersion.id }));
   },
 };
 
