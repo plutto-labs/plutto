@@ -7,6 +7,7 @@ import store from '@/store';
 
 import Locales from '@/locales/locales.js';
 
+import '@/helpers/validation-rules.js';
 import '../css/application.css';
 
 document.addEventListener('DOMContentLoaded', () => {
