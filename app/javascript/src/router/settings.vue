@@ -37,6 +37,35 @@
             </p>
           </div>
         </div>
+        <div
+          v-if="apiKeys.length > 0 && !createEnabled"
+          class="flex justify-end mt-4"
+        >
+          <button
+            class="px-4 py-2 btn"
+            @click="createEnabled = true"
+          >
+            Add new
+          </button>
+        </div>
+        <div
+          v-else
+          class="flex gap-4 mt-4"
+        >
+          <div class="bg-gray-800 rounded-lg plutto-input">
+            <input
+              placeholder="Name your API key"
+              class="bg-gray-900 plutto-input__input"
+              v-model="name"
+            >
+          </div>
+          <button
+            class="p-2 btn"
+            @click="createApiKey"
+          >
+            Create
+          </button>
+        </div>
       </div>
     </div>
   </main>
@@ -51,15 +80,24 @@ import { TrashIcon } from '@heroicons/vue/outline';
 
 export default {
   components: { PluttoHeader, PluttoCopyableDiv, TrashIcon },
+  data() {
+    return {
+      name: '',
+      createEnabled: false,
+    };
+  },
   computed: {
     ...mapState({
       organizationName: state => state.auth.organizationName,
       organizationId: state => state.auth.organizationId,
       apiKeys: state => state.apiKeys.apiKeys,
     }),
+    bearer() {
+      return { bearerType: 'Organization', bearerId: this.organizationId };
+    },
   },
   async mounted() {
-    await this.$store.dispatch('GET_API_KEYS', { bearerType: 'Organization', bearerId: this.organizationId });
+    await this.$store.dispatch('GET_API_KEYS', this.bearer);
   },
   methods: {
     copyToClipboard() {
@@ -67,6 +105,13 @@ export default {
     },
     formatDateTime(date) {
       return dateTime(date);
+    },
+    createApiKey() {
+      this.$store.dispatch('CREATE_API_KEY', { ...this.bearer, name: this.name })
+        .then(() => {
+          this.name = '';
+          this.createEnabled = false;
+        });
     },
     deleteApiKey(apiKey) {
       this.$store.dispatch('DESTROY_API_KEY', apiKey);

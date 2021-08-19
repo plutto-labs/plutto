@@ -11,7 +11,7 @@ export const mutations = {
     state.apiKeys = payload;
   },
   addApiKey(state, payload) {
-    state.apiKeys.push(payload);
+    state.apiKeys.unshift(payload);
   },
   removeApiKey(state, payload) {
     const index = state.apiKeys.findIndex(apiKey => apiKey.id === payload.id);
