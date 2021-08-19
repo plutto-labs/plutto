@@ -4,37 +4,37 @@
       title="Settings"
     />
     <div class="px-6 mt-6">
-      <div class="max-w-xl p-10 mx-auto space-y-5 bg-gray-800 rounded-lg">
-        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500">
-          <label class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2">
-            Organization
-          </label>
-          <div class="mt-1 plutto-input sm:mt-0 sm:col-span-2">
-            <input
-              class="block w-full bg-gray-700 border-gray-500 rounded-md plutto-input__input text-gray-50 focus:ring-0 focus:border-primary sm:text-sm"
-              type="text"
-              v-model="organizationName"
-              disabled
-            >
+      <div class="w-full mx-auto md:max-w-xl">
+        <p class="pb-2 border-b text-gray-5 border-gray-50">
+          Your API Keys
+        </p>
+        <div
+          class="p-4 mt-4 bg-gray-800 rounded-lg"
+          v-for="(apiKey, index) in apiKeys"
+          :key="index"
+        >
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-50">
+                {{ apiKey.name }}
+              </p>
+              <p class="pt-2 text-sm font-medium text-gray-500">
+                {{ formatDateTime(apiKey.createdAt) }}
+              </p>
+            </div>
+            <TrashIcon
+              class="w-6 h-6 cursor-pointer text-primary"
+              @click="deleteApiKey(apiKey)"
+            />
           </div>
-        </div>
-        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
-          <label class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2">
-            API Key
-          </label>
-          <div class="mt-1 plutto-input sm:mt-0 sm:col-span-2">
-            <span
-              class="cursor-pointer plutto-input__icon-right text-primary"
-              @click="copyToClipboard"
-            >
-              content_copy
-            </span>
-            <input
-              class="block w-full bg-gray-700 border-gray-500 rounded-md plutto-input__input text-gray-50 focus:ring-0 focus:border-primary sm:text-sm"
-              type="password"
-              v-model="apiKey"
-              disabled
-            >
+          <div v-if="apiKey.token">
+            <PluttoCopyableDiv
+              class="pt-2 mx-auto text-sm"
+              value="api_key_dd4bf05727515ce2704b96bf0a5046afd38f54faeeeaeba32be4eec51ba05234"
+            />
+            <p class="text-xs text-danger-light">
+              Make sure to copy your API key now. You won’t be able to see it again!
+            </p>
           </div>
         </div>
       </div>
@@ -45,22 +45,31 @@
 <script>
 import { mapState } from 'vuex';
 import PluttoHeader from '@/components/plutto-header';
+import PluttoCopyableDiv from '@/components/plutto-copyable-div';
+import dateTime from '@/utils/date-time';
+import { TrashIcon } from '@heroicons/vue/outline';
 
 export default {
-  components: { PluttoHeader },
-  data() {
-    return {
-      apiKey: 'XXXXXXXXXXXXXXXXXXXXXX',
-    };
-  },
+  components: { PluttoHeader, PluttoCopyableDiv, TrashIcon },
   computed: {
     ...mapState({
       organizationName: state => state.auth.organizationName,
+      organizationId: state => state.auth.organizationId,
+      apiKeys: state => state.apiKeys.apiKeys,
     }),
+  },
+  async mounted() {
+    await this.$store.dispatch('GET_API_KEYS', { bearerType: 'Organization', bearerId: this.organizationId });
   },
   methods: {
     copyToClipboard() {
       navigator.clipboard.writeText(this.apiKey);
+    },
+    formatDateTime(date) {
+      return dateTime(date);
+    },
+    deleteApiKey(apiKey) {
+      this.$store.dispatch('DESTROY_API_KEY', apiKey);
     },
   },
 };
