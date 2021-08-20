@@ -19,16 +19,21 @@
               >
                 Name
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
                 <Field
-                  class="block w-full max-w-lg bg-gray-700 border-gray-500 rounded-md text-gray-50 focus:ring-0 focus:border-primary sm:max-w-xs sm:text-sm"
+                  class="block bg-gray-700 border-gray-500 plutto-input__input text-gray-50 sm:max-w-xs sm:text-sm"
                   type="text"
                   name="name"
                   id="name"
                   autocomplete="name"
                   v-model="newMeter.name"
                 />
-                <span class="absolute text-sm text-danger-light">{{ errors.name }}</span>
+                <span
+                  class="absolute text-sm text-danger-light"
+                  v-if="errors.name"
+                >
+                  Required
+                </span>
               </div>
             </div>
           </div>
@@ -39,9 +44,9 @@
             >
               Type
             </label>
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
               <Field
-                class="block w-full max-w-lg bg-gray-700 border-gray-500 rounded-md text-gray-50 focus:ring-0 focus:border-primary sm:max-w-xs sm:text-sm"
+                class="block bg-gray-700 border-gray-500 plutto-input__input text-gray-50 sm:max-w-xs sm:text-sm"
                 name="type"
                 autocomplete="meter-type"
                 as="select"
@@ -55,7 +60,12 @@
                   {{ $t(`message.meters.types.${type}`) }}
                 </option>
               </Field>
-              <span class="absolute text-sm text-danger-light">{{ errors.type }}</span>
+              <span
+                class="absolute text-sm text-danger-light"
+                v-if="errors.type"
+              >
+                Required
+              </span>
             </div>
           </div>
         </div>
@@ -75,7 +85,7 @@
 <script>
 import { decamelize } from 'humps';
 import { Form, Field } from 'vee-validate';
-import PluttoHeader from '../components/plutto-header';
+import PluttoHeader from '@/components/plutto-header';
 
 export default {
   components: { PluttoHeader, Form, Field },
