@@ -1,5 +1,5 @@
 class PriceLogic::Volume < PriceLogic
-  has_many :tiers, as: :tierable, dependent: :destroy
+  has_many :tiers, -> { order('index') }, as: :tierable, dependent: :destroy # rubocop:disable Rails/InverseOf
   accepts_nested_attributes_for :tiers, allow_destroy: true
 
   NAME = 'volume'
