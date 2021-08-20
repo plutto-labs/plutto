@@ -1,57 +1,61 @@
 <template>
   <div>
-    <label
-      for="meter-type"
-      class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
-    >
-      Type
-    </label>
-    <div>
-      <select
-        class="block w-full max-w-lg bg-gray-700 border-gray-500 rounded-md text-gray-50 focus:ring-0 focus:border-primary sm:max-w-xs sm:text-sm"
-        @change="updatePriceLogic('type', $event.target.value)"
-      >
-        <option
-          v-for="(_, key) in tierOptions"
-          :key="key"
-          :value="key"
-          :selected="key === priceLogic.type"
-        >
-          {{ $t(`message.priceLogics.types.${key}`) }}
-        </option>
-      </select>
-    </div>
-    <div>
-      <template v-if="priceLogic.tiered">
-        <PriceLogicTiers
-          :first-row-text="priceLogic.type === 'PriceLogic::Volume' ? 'Total of units' : 'For the first'"
-          :other-rows-text="priceLogic.type === 'PriceLogic::Volume' ? 'Total of units' : 'For the next'"
-          v-model="priceLogic.tiers"
-        />
-      </template>
-      <template v-else>
-        <div class="flex">
-          <p class="pl-6 my-auto text-sm font-medium">
-            {{ currency }}
-          </p>
-          <div class="flex items-end justify-center">
-            <input
-              type="number"
-              class="pl-2 pr-6 bg-gray-800 border border-gray-800 rounded-lg focus:outline-none focus:ring-gray-800 focus:border-gray-800 plutto-input"
-              v-model.number="priceLogic.price"
-            >
+    <div class="relative flex items-center py-8 border border-gray-700">
+      <div class="flex-1">
+        <div class="sm:col-span-3 md:ml-8">
+          <label
+            for="meter-type"
+            class="block text-sm font-medium text-gray-100"
+          >
+            Type
+          </label>
+          <PluttoDropdown
+            class="mt-2"
+            :selected="$t(`message.priceLogics.types.${priceLogic.type}`)"
+            :options="dropdownOptions"
+            @selected="(priceLogicType) => updatePriceLogic('type', priceLogicType)"
+          />
+          <div class="mt-2 text-sm text-gray-200">
+            {{ $t(`message.priceLogics.descriptions.${priceLogic.type}`) }}
           </div>
         </div>
-      </template>
+        <div class="mt-4 md:mx-8">
+          <template v-if="priceLogic.tiered">
+            <PriceLogicTiers
+              :first-row-text="priceLogic.type === 'PriceLogic::Volume' ? 'Total of units' : 'For the first'"
+              :other-rows-text="priceLogic.type === 'PriceLogic::Volume' ? 'Total of units' : 'For the next'"
+              :measurement-text="priceLogic.type === 'PriceLogic::StairStep' ? 'Tier fee' : 'Per unit' "
+              v-model="priceLogic.tiers"
+            />
+          </template>
+          <template v-else>
+            <div class="flex">
+              <div class="flex items-end justify-center plutto-input">
+                <span class="plutto-input__icon">
+                  attach_money
+                </span>
+                <input
+                  type="number"
+                  class="plutto-input__input"
+                  v-model.number="priceLogic.price"
+                >
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <slot name="delete" />
     </div>
+    <slot name="separator" />
   </div>
 </template>
 
 <script>
 import PriceLogicTiers from '@/components/price-logic-tiers';
+import PluttoDropdown from '@/components/plutto-dropdown';
 
 export default {
-  components: { PriceLogicTiers },
+  components: { PriceLogicTiers, PluttoDropdown },
   props: {
     currency: {
       type: String,
@@ -90,6 +94,11 @@ export default {
       set(val) {
         if (val) this.$emit('update:modelValue', val);
       },
+    },
+    dropdownOptions() {
+      return Object.keys(this.tierOptions).map((key) => (
+        { value: key, label: this.$t(`message.priceLogics.types.${key}`) }
+      ));
     },
   },
 };
