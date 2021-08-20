@@ -62,15 +62,27 @@
             v-if="index !== tiers.length - 1"
           >
             <div class="flex items-end justify-center">
-              <component
-                :is="edit ? 'input' : 'div'"
+              <Field
+                :as="edit ? 'input' : 'div'"
+                :name="`tier-${index}`"
+                :rules="`required|minValue:${tierLowerLimit(index) + 1}`"
                 type="number"
                 class="flex items-center px-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
                 @input="changeTierUpperLimit($event.target.value, index)"
                 :value="tier.upperLimit"
               >
                 {{ tier.upperLimit }}
-              </component>
+              </Field>
+              <ErrorMessage
+                as="p"
+                class="absolute text-xs text-danger-light"
+                :name="`tier-${index}`"
+                v-slot="{ message }"
+              >
+                <p v-if="message">
+                  {{ `Must be greater than ${tierLowerLimit(index)}` }}
+                </p>
+              </ErrorMessage>
             </div>
           </td>
           <td
@@ -87,8 +99,10 @@
                 {{ currency }}
               </p>
               <div class="flex items-end justify-center">
-                <component
-                  :is="edit ? 'input' : 'div'"
+                <Field
+                  :as="edit ? 'input' : 'div'"
+                  :name="`price-${index}`"
+                  rules="required"
                   type="number"
                   class="flex items-center pl-2 pr-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
                   :value="tier.price"
@@ -97,7 +111,17 @@
                   min="0"
                 >
                   {{ tier.price }}
-                </component>
+                </Field>
+                <ErrorMessage
+                  as="p"
+                  class="absolute text-xs text-danger-light"
+                  :name="`price-${index}`"
+                  v-slot="{ message }"
+                >
+                  <p v-if="message">
+                    Required
+                  </p>
+                </ErrorMessage>
               </div>
             </div>
           </td>
@@ -117,7 +141,10 @@
 </template>
 
 <script>
+import { Field, ErrorMessage } from 'vee-validate';
+
 export default {
+  components: { Field, ErrorMessage },
   props: {
     firstRowText: {
       type: String,
@@ -144,7 +171,6 @@ export default {
     return {
       lastTierPrice: null,
       currency: '$',
-      errors: { price: {}, range: {} },
       defaultTiers: [{ upperLimit: 1, price: 0 }, { upperLimit: 3, price: 0 }],
     };
   },

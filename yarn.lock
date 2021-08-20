@@ -1542,6 +1542,11 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@vee-validate/rules@^4.4.7":
+  version "4.4.7"
+  resolved "https://registry.yarnpkg.com/@vee-validate/rules/-/rules-4.4.7.tgz#785ac537943d8fc18588343be52f1b5bd5acd62f"
+  integrity sha512-2gBXOBWdGFVp//OzG7LcfLz1qzQxKIOmGsUE/G0TaF0z6n3P7EWQT+LZs+/jHRFrF4Bug6O4bvQz7pAQq5Yehw==
+
 "@vue/compiler-core@3.1.5":
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.1.5.tgz#298f905b6065d6d81ff63756f98c60876b393c87"
