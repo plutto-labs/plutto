@@ -1,4 +1,6 @@
 class PriceLogic::PerUnit < PriceLogic
+  belongs_to :meter
+
   NAME = 'per_unit'
 
   def calculate_price(n_units = 0)
@@ -17,12 +19,15 @@ end
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  plan_version_id :bigint(8)
+#  meter_id        :bigint(8)
 #
 # Indexes
 #
+#  index_price_logics_on_meter_id         (meter_id)
 #  index_price_logics_on_plan_version_id  (plan_version_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (meter_id => meters.id)
 #  fk_rails_...  (plan_version_id => plan_versions.id)
 #

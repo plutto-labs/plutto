@@ -5,5 +5,6 @@ FactoryBot.define do
 
   factory :price_logic_tiered, class: 'PriceLogic::Tiered' do
     plan_version
+    meter
   end
 end

@@ -3,6 +3,8 @@ RSpec.describe PriceLogic::Volume, type: :model do
     let(:subject) { build(:price_logic_volume) }
   end
 
+  it_behaves_like 'a metered price logic'
+
   describe '#calculate_price' do
     let(:tier_prices) { [usd(300), usd(200), usd(100)] }
     let(:last_upper_limit) { 300 }

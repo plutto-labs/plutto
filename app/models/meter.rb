@@ -2,6 +2,7 @@ class Meter < ApplicationRecord
   include IdentifierAttribute
 
   has_many :meter_events, dependent: :nullify
+  has_many :price_logics, dependent: :destroy
   belongs_to :organization
 
   validates :identifier, uniqueness: true

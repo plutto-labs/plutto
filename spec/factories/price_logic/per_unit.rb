@@ -3,5 +3,6 @@ FactoryBot.define do
     plan_version
     price_cents { 100 }
     price_currency { 'USD' }
+    meter
   end
 end
