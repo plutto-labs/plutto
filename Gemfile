@@ -44,14 +44,18 @@ group :production do
 end
 
 group :test do
+  gem 'codecov', require: false
+  gem 'pundit-matchers', '~> 1.7.0'
   gem 'rspec_junit_formatter', '~> 0.4'
   gem 'shoulda-matchers', require: false
-  gem 'pundit-matchers', '~> 1.7.0'
+  gem 'simplecov', require: false
+  gem 'timecop'
 end
 
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'bullet'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker'
