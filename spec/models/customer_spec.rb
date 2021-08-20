@@ -1,8 +1,4 @@
 RSpec.describe Customer, type: :model do
-  it 'has a valid factory' do
-    expect(build(:customer)).to be_valid
-  end
-
   describe 'Relations' do
     it { is_expected.to have_many(:plan_subscriptions) }
     it { is_expected.to have_one(:active_plan_subscription).conditions(active: true) }
