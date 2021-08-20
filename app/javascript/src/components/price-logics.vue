@@ -1,32 +1,39 @@
 <template>
   <div>
-    <div class="mb-8">
-      <PriceLogic
-        v-for="index in priceLogics.length"
-        :key="index"
-        v-model="priceLogics[index - 1]"
+    <PriceLogic
+      v-for="index in priceLogics.length"
+      :key="index"
+      v-model="priceLogics[index - 1]"
+    >
+      <template
+        #delete
       >
-        <template
-          #delete
+        <span
+          class="absolute text-2xl text-gray-200 cursor-pointer top-2 right-2 plutto-icon"
+          @click="deletePriceLogic(index)"
         >
-          <span
-            class="absolute text-2xl text-gray-200 cursor-pointer top-2 right-2 plutto-icon"
-            @click="deletePriceLogic(index)"
-          >
-            close
+          close
+        </span>
+      </template>
+      <template
+        #separator
+        v-if="index < priceLogics.length"
+      >
+        <div class="flex justify-center w-full h-6 my-4 text-gray-100">
+          <span class="material-icons">
+            add
           </span>
-        </template>
-        <template
-          #separator
-          v-if="index < priceLogics.length"
-        >
-          <div class="flex justify-center w-full h-4 my-4">
-            <span class="material-icons">
-              add
-            </span>
-          </div>
-        </template>
-      </PriceLogic>
+        </div>
+      </template>
+    </PriceLogic>
+    <div class="flex justify-center w-full mt-8">
+      <button
+        class="relative flex items-center justify-center w-full py-8 text-gray-300 border border-gray-700 border-dashed"
+        @click.prevent="addPriceLogic"
+      >
+        <span class="mr-2 plutto-icon">add</span>
+        Add Price Logic
+      </button>
     </div>
   </div>
 </template>
@@ -47,6 +54,9 @@ export default {
     else this.priceLogics = [{ type: 'PriceLogic::FlatFee', price: 0, tiers: null }];
   },
   methods: {
+    addPriceLogic() {
+      this.priceLogics.push({ type: 'PriceLogic::FlatFee', price: 0, tiers: null });
+    },
     deletePriceLogic(index) {
       this.priceLogics.splice(index - 1, 1);
     },
