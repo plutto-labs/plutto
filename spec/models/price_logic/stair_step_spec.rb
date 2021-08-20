@@ -1,8 +1,4 @@
 RSpec.describe PriceLogic::StairStep, type: :model do
-  it 'has a valid factory' do
-    expect(build(:price_logic_stair_step)).to be_valid
-  end
-
   it_behaves_like 'a price logic' do
     let(:subject) { build(:price_logic_stair_step) }
   end

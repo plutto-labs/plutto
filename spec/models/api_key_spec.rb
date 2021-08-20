@@ -7,10 +7,6 @@ RSpec.describe ApiKey, type: :model do
     )
   end
 
-  it 'has a valid factory' do
-    expect(build(:api_key)).to be_valid
-  end
-
   describe 'Validations' do
     it { is_expected.to validate_presence_of(:name) }
   end

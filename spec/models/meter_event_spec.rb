@@ -1,8 +1,4 @@
 RSpec.describe MeterEvent, type: :model do
-  it 'has a valid factory' do
-    expect(build(:meter_event)).to be_valid
-  end
-
   describe 'Relations' do
     it { is_expected.to belong_to(:meter_count) }
     it { is_expected.to belong_to(:customer) }

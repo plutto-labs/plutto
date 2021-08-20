@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe PriceLogic::Tier, type: :model do
-  it 'has a valid factory' do
-    expect(build(:price_logic_tier)).to be_valid
-  end
-
   describe 'Relations' do
     it { is_expected.to belong_to(:tierable) }
   end

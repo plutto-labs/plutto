@@ -1,8 +1,4 @@
 RSpec.describe PriceLogic::Tiered, type: :model do
-  it 'has a valid factory' do
-    expect(build(:price_logic_tiered)).to be_valid
-  end
-
   it_behaves_like 'a price logic' do
     let(:subject) { build(:price_logic_tiered) }
   end

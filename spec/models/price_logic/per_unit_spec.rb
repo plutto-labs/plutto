@@ -1,8 +1,4 @@
 RSpec.describe PriceLogic::PerUnit, type: :model do
-  it 'has a valid factory' do
-    expect(build(:price_logic_per_unit)).to be_valid
-  end
-
   it_behaves_like 'a price logic' do
     let(:subject) { build(:price_logic_per_unit) }
   end

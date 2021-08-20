@@ -1,6 +1,12 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.raise         = true
+  end
+
   config.active_job.queue_adapter = :test
   config.before_configuration do
     Dotenv.load(Dotenv::Railtie.root.join('.env.development'))
