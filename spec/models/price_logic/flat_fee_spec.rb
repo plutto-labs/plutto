@@ -10,4 +10,8 @@ RSpec.describe PriceLogic::FlatFee, type: :model do
       expect(flat_fee_logic.calculate_price).to eq(usd(100))
     end
   end
+
+  describe '.metered?' do
+    it { expect(described_class).not_to be_metered }
+  end
 end

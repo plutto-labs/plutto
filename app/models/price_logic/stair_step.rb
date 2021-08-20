@@ -11,6 +11,10 @@ class PriceLogic::StairStep < PriceLogic
     tier.price
   end
 
+  def self.metered?
+    true
+  end
+
   private
 
   def tier_for_units(units)

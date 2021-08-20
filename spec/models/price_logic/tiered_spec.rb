@@ -71,4 +71,8 @@ RSpec.describe PriceLogic::Tiered, type: :model do
       end
     end
   end
+
+  describe '.metered?' do
+    it { expect(described_class).to be_metered }
+  end
 end

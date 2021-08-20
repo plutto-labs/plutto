@@ -6,6 +6,10 @@ class PriceLogic::PerUnit < PriceLogic
   def calculate_price(n_units = 0)
     price * n_units
   end
+
+  def self.metered?
+    true
+  end
 end
 
 # == Schema Information

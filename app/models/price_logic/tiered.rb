@@ -19,6 +19,10 @@ class PriceLogic::Tiered < PriceLogic
 
     total_price
   end
+
+  def self.metered?
+    true
+  end
 end
 
 # == Schema Information

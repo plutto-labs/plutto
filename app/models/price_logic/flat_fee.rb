@@ -4,6 +4,10 @@ class PriceLogic::FlatFee < PriceLogic
   def calculate_price(_n_units = 0)
     price
   end
+
+  def self.metered?
+    false
+  end
 end
 
 # == Schema Information
