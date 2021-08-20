@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   scope path: '/api/internal' do
     api_version(module: 'Api::Internal::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
+      resources :api_keys, only: [:create, :index, :destroy]
       resources :auth, only: [:create]
       resources :customers, only: [:index, :show, :create, :update, :destroy]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
@@ -10,6 +11,10 @@ Rails.application.routes.draw do
       resources :plans, only: [:index, :show, :create, :update, :destroy] do
         resources :plan_versions, only: [:create, :update, :destroy]
       end
+    end
+  end
+  scope path: '/api' do
+    api_version(module: 'Api::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
     end
   end
   mount Rswag::Api::Engine => '/api-docs'

@@ -41,6 +41,17 @@ ActiveRecord::Schema.define(version: 2021_08_18_223834) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "api_keys", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "bearer_id", null: false
+    t.string "bearer_type", null: false
+    t.string "token_digest", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bearer_id", "bearer_type"], name: "index_api_keys_on_bearer_id_and_bearer_type"
+    t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
+  end
+
   create_table "billing_periods", force: :cascade do |t|
     t.datetime "from", null: false
     t.datetime "to", null: false
