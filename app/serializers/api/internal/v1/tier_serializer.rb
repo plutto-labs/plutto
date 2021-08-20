@@ -1,3 +1,5 @@
 class Api::Internal::V1::TierSerializer < ActiveModel::Serializer
-  attributes :index, :upper_limit, :lower_limit, :price_cents
+  include MoneyConcern
+
+  attributes :index, :upper_limit, :lower_limit, :price, :price_currency
 end

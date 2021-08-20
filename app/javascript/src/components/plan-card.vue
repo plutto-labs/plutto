@@ -14,12 +14,19 @@
               {{ plan.defaultVersion && plan.defaultVersion.identifier }}
             </div>
           </div>
-          <div>
-            <div class="text-sm text-gray-100">
-              Subscribers: 0
-            </div>
-            <div class="text-xs text-gray-300">
-              Total versions: 0
+          <div class="flex items-center h-full">
+            <div
+              class="flex items-center h-full"
+              v-for="(priceLogic, index) in plan.defaultVersion && plan.defaultVersion.priceLogics"
+              :key="priceLogic.id"
+            >
+              <div class="flex items-center h-full px-4 text-xs border border-gray-700">
+                {{ $t(`message.priceLogics.initials.${priceLogic.type}`) }}
+              </div>
+              <span
+                class="mx-2"
+                v-if="index !== plan.defaultVersion.priceLogics.length - 1"
+              >+</span>
             </div>
           </div>
         </div>

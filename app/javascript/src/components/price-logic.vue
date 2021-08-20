@@ -38,6 +38,8 @@
                   type="number"
                   class="plutto-input__input"
                   v-model.number="priceLogic.price"
+                  step="0.01"
+                  min="0"
                 >
               </div>
             </div>

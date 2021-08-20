@@ -14,7 +14,7 @@
           </div>
           <button
             class="btn btn--filled"
-            @click="createPlanVersion"
+            @click="$router.push({ name: 'new-plan-version', params: { id: currentPlan.id } })"
           >
             New version
           </button>
@@ -66,9 +66,6 @@ export default {
     }),
   },
   methods: {
-    createPlanVersion() {
-      this.$store.dispatch('CREATE_PLAN_VERSION', { planId: this.currentPlan.id, planVersion: this.newPlanVersion });
-    },
     deletePlanVersion(planVersion) {
       this.$store.dispatch('DESTROY_PLAN_VERSION', { planId: this.currentPlan.id, planVersion });
     },

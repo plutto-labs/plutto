@@ -22,6 +22,13 @@ export default {
         'PriceLogic::Tiered': 'Tiered',
         'PriceLogic::Volume': 'Volume',
       },
+      initials: {
+        'PriceLogic::FlatFee': 'FF',
+        'PriceLogic::PerUnit': 'PU',
+        'PriceLogic::StairStep': 'SS',
+        'PriceLogic::Tiered': 'T',
+        'PriceLogic::Volume': 'V',
+      },
       descriptions: {
         'PriceLogic::FlatFee': 'Just a simple flat fee',
         'PriceLogic::PerUnit': 'Charge a fixed amount per event',
