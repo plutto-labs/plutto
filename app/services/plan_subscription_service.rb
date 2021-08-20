@@ -1,12 +1,12 @@
 class PlanSubscriptionService < PowerTypes::Service.new(:plan_subscription)
-  def end_billing_period
+  def end_billing_period(start_new_period = true)
     ActiveRecord::Base.transaction do
       billing_period.billing_date = DateTime.current
       billing_period.billing_amount = get_billing_amount_for_period
       billing_period.save!
     end
 
-    initialize_next_billing_period
+    initialize_next_billing_period if start_new_period
   end
 
   def initialize_next_billing_period
