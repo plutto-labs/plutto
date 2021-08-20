@@ -5,9 +5,15 @@ class PlanSubscription < ApplicationRecord
   belongs_to :plan_version
   belongs_to :customer
 
+  delegate :price_logics, to: :plan_version, allow_nil: true, prefix: true
+
   validates :identifier, uniqueness: true
 
   before_create :generate_identifier
+
+  def current_billing_period
+    billing_periods.where(billing_date: nil).last
+  end
 
   private
 
