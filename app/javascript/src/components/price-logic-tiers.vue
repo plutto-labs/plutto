@@ -88,6 +88,8 @@
                   class="pl-2 pr-6 bg-gray-800 border border-gray-800 rounded-lg focus:outline-none focus:ring-gray-800 focus:border-gray-800 plutto-input"
                   v-model.number="tier.price"
                   placeholder="0"
+                  step="0.01"
+                  min="0"
                 >
               </div>
             </div>
