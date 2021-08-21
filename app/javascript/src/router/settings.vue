@@ -38,7 +38,7 @@
           </div>
         </div>
         <div
-          v-if="apiKeys.length > 0 && !createEnabled"
+          v-if="apiKeys && apiKeys.length > 0 && !createEnabled"
           class="flex justify-end mt-4"
         >
           <button
