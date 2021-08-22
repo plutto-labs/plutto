@@ -17,12 +17,6 @@ class ApiKey < ApplicationRecord
     find_by! token_digest: digest
   end
 
-  def self.authenticate_by_token(token)
-    authenticate_by_token! token
-  rescue ActiveRecord::RecordNotFound
-    nil
-  end
-
   # Add virtual token attribute to serializable attributes, and exclude
   # the token's HMAC digest
   def serializable_hash(options = nil)
@@ -34,7 +28,7 @@ class ApiKey < ApplicationRecord
   private
 
   def generate_token_hmac_digest
-    random_hex = "api_key_#{SecureRandom.hex(32)}"
+    random_hex = "sk_live_#{SecureRandom.hex(32)}"
     self.token = random_hex
 
     digest = OpenSSL::HMAC.hexdigest 'SHA256', HMAC_SECRET_KEY, token

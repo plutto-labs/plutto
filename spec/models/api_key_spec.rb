@@ -33,25 +33,6 @@ RSpec.describe ApiKey, type: :model do
     end
   end
 
-  describe '#self.authenticate_by_token' do
-    before do
-      allow(SecureRandom).to receive(
-        :hex
-      ).with(32).and_return(token)
-    end
-
-    let(:token) { 'token' }
-    let!(:api_key) { create(:api_key, token: token) }
-
-    context 'with valid token' do
-      it { expect(described_class.authenticate_by_token("api_key_#{token}")).to eq(api_key) }
-    end
-
-    context 'with invalid token' do
-      it { expect(described_class.authenticate_by_token("api_key")).to eq(nil) }
-    end
-  end
-
   describe '#self.authenticate_by_token!' do
     before do
       allow(SecureRandom).to receive(
@@ -63,7 +44,7 @@ RSpec.describe ApiKey, type: :model do
     let!(:api_key) { create(:api_key, token: token) }
 
     context 'with valid token' do
-      it { expect(described_class.authenticate_by_token!("api_key_#{token}")).to eq(api_key) }
+      it { expect(described_class.authenticate_by_token!("sk_live_#{token}")).to eq(api_key) }
     end
 
     context 'with invalid token' do
