@@ -12,26 +12,25 @@ module Api::ErrorConcern
       end
     end
 
-    rescue_from 'ActiveRecord::RecordNotFound' do |exception|
-      respond_api_error(:not_found, message: 'record_not_found', detail: exception.message)
+    rescue_from 'ActiveRecord::RecordNotFound' do
+      respond_api_error(ApiException::Errors::NotFound.new)
     end
 
-    rescue_from 'ActiveModel::ForbiddenAttributesError' do |exception|
-      respond_api_error(:bad_request, message: 'protected_attributes', detail: exception.message)
+    rescue_from 'ActiveModel::ForbiddenAttributesError' do
+      respond_api_error(ApiException::Errors::Forbidden.new)
     end
 
-    rescue_from 'ActiveRecord::RecordInvalid' do |exception|
-      respond_api_error(:bad_request, message: 'invalid_attributes',
-                         errors: exception.record.errors.full_messages)
+    rescue_from 'ActiveRecord::RecordInvalid' do
+      respond_api_error(ApiException::Errors::BadRequest.new)
     end
   end
 
-  def respond_with_forbidden(_message = 'forbidden_action')
-    respond_api_error(:forbidden, message: _message)
+  def respond_with_forbidden
+    respond_api_error(ApiException::Errors::Forbidden.new)
   end
 
-  def respond_with_unauthorized(_message = 'apikey_authorization_failed')
-    respond_api_error(:unauthorized, message: _message)
+  def respond_with_unauthorized
+    respond_api_error(ApiException::Errors::Unauthorized.new)
   end
 
   def respond_api_error(error, *_args)
