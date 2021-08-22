@@ -30,7 +30,7 @@
           <div v-if="apiKey.token">
             <PluttoCopyableDiv
               class="pt-2 mx-auto text-sm"
-              value="api_key_dd4bf05727515ce2704b96bf0a5046afd38f54faeeeaeba32be4eec51ba05234"
+              :value="apiKey.token"
             />
             <p class="text-xs text-danger-light">
               Make sure to copy your API key now. You won’t be able to see it again!
