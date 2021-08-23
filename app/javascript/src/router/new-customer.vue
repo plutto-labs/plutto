@@ -58,6 +58,21 @@
             </div>
           </div>
         </div>
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
+          <label
+            for="email"
+            class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
+          >
+            Plan
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
+            <PluttoDropdown
+              :selected="displaySelectedPlan"
+              :options="planOptions"
+              @selected="selected"
+            />
+          </div>
+        </div>
 
         <div class="pt-5 mt-5">
           <div class="flex justify-end">
@@ -73,10 +88,11 @@
 
 <script>
 import PluttoHeader from '@/components/plutto-header';
+import PluttoDropdown from '@/components/plutto-dropdown';
 import { Form, Field } from 'vee-validate';
 
 export default {
-  components: { PluttoHeader, Form, Field },
+  components: { PluttoHeader, PluttoDropdown, Form, Field },
   data() {
     return {
       newCustomer: {},
@@ -90,6 +106,19 @@ export default {
     createCustomer() {
       this.$store.dispatch('CREATE_CUSTOMER', this.newCustomer)
         .then(() => this.$router.go(-1));
+    },
+    selected(planVersionId) {
+      this.newCustomer.planVersionId = planVersionId;
+    },
+  },
+  computed: {
+    planOptions() {
+      return this.$store.getters.planOptions;
+    },
+    displaySelectedPlan() {
+      if (!this.newCustomer.planVersionId) return 'Choose';
+
+      return this.planOptions.find(plan => plan.value === this.newCustomer.planVersionId).label;
     },
   },
 };

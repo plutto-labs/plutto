@@ -5,7 +5,10 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
   def create
     plan_subscription = nil
     ActiveRecord::Base.transaction do
-      plan_subscription = PlanSubscriptionCreator.for(plan_version: plan_version, customer: customer)
+      plan_subscription = PlanSubscriptionCreator.for(
+        plan_version: plan_version,
+        customer: customer
+      )
     end
     respond_with(plan_subscription)
   end
