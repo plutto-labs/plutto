@@ -7,6 +7,8 @@ class Customer < ApplicationRecord
           class_name: 'PlanSubscription', inverse_of: :customer
   belongs_to :organization
 
+  delegate :identifier, to: :organization, prefix: true
+
   validates :identifier, uniqueness: true
 
   before_create :generate_identifier
@@ -30,7 +32,6 @@ end
 #  id              :bigint(8)        not null, primary key
 #  email           :string           not null
 #  name            :string
-#  customer_info   :jsonb
 #  identifier      :string           not null
 #  organization_id :bigint(8)        not null
 #  created_at      :datetime         not null
