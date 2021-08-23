@@ -3,6 +3,8 @@ RSpec.describe PriceLogic::StairStep, type: :model do
     let(:subject) { build(:price_logic_stair_step) }
   end
 
+  it_behaves_like 'a metered price logic'
+
   describe '#calculate_price' do
     let(:tier_prices) { [usd(300), usd(200), usd(100)] }
     let(:tiers_params) do
@@ -42,5 +44,9 @@ RSpec.describe PriceLogic::StairStep, type: :model do
         expect(stair_step_logic.calculate_price(units)).to eq(expected_price)
       end
     end
+  end
+
+  describe '.metered?' do
+    it { expect(described_class).to be_metered }
   end
 end

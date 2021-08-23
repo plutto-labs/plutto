@@ -1,6 +1,7 @@
 class PriceLogic::StairStep < PriceLogic
-  has_many :tiers, -> { order('index') }, as: :tierable, dependent: :destroy,
-    inverse_of: :tierable
+  has_many :tiers, -> { order('index') }, as: :tierable, dependent: :destroy, inverse_of: :tierable
+  belongs_to :meter
+
   accepts_nested_attributes_for :tiers, allow_destroy: true
 
   NAME = 'stair_step'
@@ -8,6 +9,10 @@ class PriceLogic::StairStep < PriceLogic
   def calculate_price(units)
     tier = tier_for_units(units)
     tier.price
+  end
+
+  def self.metered?
+    true
   end
 
   private
@@ -32,12 +37,15 @@ end
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  plan_version_id :bigint(8)
+#  meter_id        :bigint(8)
 #
 # Indexes
 #
+#  index_price_logics_on_meter_id         (meter_id)
 #  index_price_logics_on_plan_version_id  (plan_version_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (meter_id => meters.id)
 #  fk_rails_...  (plan_version_id => plan_versions.id)
 #

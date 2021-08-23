@@ -1,11 +1,16 @@
 class BillingPeriod < ApplicationRecord
   include IdentifierAttribute
 
+  has_many :meter_counts, dependent: :destroy
   belongs_to :plan_subscription
+
+  delegate :plan_version_price_logics, to: :plan_subscription
 
   validates :identifier, uniqueness: true
 
   before_create :generate_identifier
+
+  monetize :billing_amount_cents
 
   private
 
@@ -18,13 +23,16 @@ end
 #
 # Table name: billing_periods
 #
-#  id                   :bigint(8)        not null, primary key
-#  from                 :datetime         not null
-#  to                   :datetime         not null
-#  identifier           :string
-#  plan_subscription_id :bigint(8)        not null
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  id                      :bigint(8)        not null, primary key
+#  from                    :datetime         not null
+#  to                      :datetime         not null
+#  identifier              :string
+#  plan_subscription_id    :bigint(8)        not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  billing_date            :datetime
+#  billing_amount_cents    :bigint(8)        default(0), not null
+#  billing_amount_currency :string           default("USD"), not null
 #
 # Indexes
 #

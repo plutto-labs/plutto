@@ -3,6 +3,8 @@ RSpec.describe PriceLogic::Tiered, type: :model do
     let(:subject) { build(:price_logic_tiered) }
   end
 
+  it_behaves_like 'a metered price logic'
+
   describe '#calculate_price' do
     let(:default_logic_price_cents) { 100 }
     let(:tiered_logic) do
@@ -68,5 +70,9 @@ RSpec.describe PriceLogic::Tiered, type: :model do
         end
       end
     end
+  end
+
+  describe '.metered?' do
+    it { expect(described_class).to be_metered }
   end
 end

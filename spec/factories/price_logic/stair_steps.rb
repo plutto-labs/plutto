@@ -5,5 +5,6 @@ FactoryBot.define do
 
   factory :price_logic_stair_step, class: 'PriceLogic::StairStep' do
     plan_version
+    meter
   end
 end

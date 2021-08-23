@@ -3,6 +3,8 @@ RSpec.describe PriceLogic::PerUnit, type: :model do
     let(:subject) { build(:price_logic_per_unit) }
   end
 
+  it_behaves_like 'a metered price logic'
+
   describe '#calculate_price' do
     let(:price_cent_per_unit) { 100 }
     let(:per_unit_logic) do
@@ -25,5 +27,9 @@ RSpec.describe PriceLogic::PerUnit, type: :model do
           .to eq(usd(price_cent_per_unit * units))
       end
     end
+  end
+
+  describe '.metered?' do
+    it { expect(described_class).to be_metered }
   end
 end

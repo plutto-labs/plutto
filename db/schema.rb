@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_18_223834) do
+ActiveRecord::Schema.define(version: 2021_08_19_225345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,9 @@ ActiveRecord::Schema.define(version: 2021_08_18_223834) do
     t.bigint "plan_subscription_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "billing_date"
+    t.bigint "billing_amount_cents", default: 0, null: false
+    t.string "billing_amount_currency", default: "USD", null: false
     t.index ["identifier"], name: "index_billing_periods_on_identifier", unique: true
     t.index ["plan_subscription_id"], name: "index_billing_periods_on_plan_subscription_id"
   end
@@ -181,6 +184,8 @@ ActiveRecord::Schema.define(version: 2021_08_18_223834) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "plan_version_id"
+    t.bigint "meter_id"
+    t.index ["meter_id"], name: "index_price_logics_on_meter_id"
     t.index ["plan_version_id"], name: "index_price_logics_on_plan_version_id"
   end
 
@@ -232,6 +237,7 @@ ActiveRecord::Schema.define(version: 2021_08_18_223834) do
   add_foreign_key "plan_versions", "plans"
   add_foreign_key "plans", "organizations"
   add_foreign_key "plans", "plan_versions", column: "default_plan_version_id"
+  add_foreign_key "price_logics", "meters"
   add_foreign_key "price_logics", "plan_versions"
   add_foreign_key "users", "organizations"
 end
