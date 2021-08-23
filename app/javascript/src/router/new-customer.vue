@@ -18,15 +18,20 @@
             >
               Name
             </label>
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
               <Field
-                class="block w-full max-w-lg bg-gray-700 border-gray-500 rounded-md text-gray-50 focus:ring-0 focus:border-primary sm:max-w-xs sm:text-sm"
+                class="block bg-gray-700 border-gray-500 plutto-input__input text-gray-50 sm:max-w-xs sm:text-sm"
                 type="text"
                 name="name"
                 autocomplete="name"
                 v-model="newCustomer.name"
               />
-              <span class="absolute text-sm text-danger-light">{{ errors.name }}</span>
+              <span
+                class="absolute text-sm text-danger-light"
+                v-if="errors.name"
+              >
+                Required
+              </span>
             </div>
           </div>
           <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
@@ -36,16 +41,36 @@
             >
               Email
             </label>
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
               <Field
-                class="block w-full max-w-lg bg-gray-700 border-gray-500 rounded-md text-gray-50 focus:ring-0 focus:border-primary sm:max-w-xs sm:text-sm"
+                class="block bg-gray-700 border-gray-500 plutto-input__input text-gray-50 sm:max-w-xs sm:text-sm"
                 type="text"
                 name="email"
                 autocomplete="email"
                 v-model="newCustomer.email"
               />
-              <span class="absolute text-sm text-danger-light">{{ errors.email }}</span>
+              <span
+                class="absolute text-sm text-danger-light"
+                v-if="errors.email"
+              >
+                Mail is not valid
+              </span>
             </div>
+          </div>
+        </div>
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
+          <label
+            for="email"
+            class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
+          >
+            Plan
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
+            <PluttoDropdown
+              :selected="displaySelectedPlan"
+              :options="planOptions"
+              @selected="selected"
+            />
           </div>
         </div>
 
@@ -63,10 +88,11 @@
 
 <script>
 import PluttoHeader from '@/components/plutto-header';
+import PluttoDropdown from '@/components/plutto-dropdown';
 import { Form, Field } from 'vee-validate';
 
 export default {
-  components: { PluttoHeader, Form, Field },
+  components: { PluttoHeader, PluttoDropdown, Form, Field },
   data() {
     return {
       newCustomer: {},
@@ -80,6 +106,19 @@ export default {
     createCustomer() {
       this.$store.dispatch('CREATE_CUSTOMER', this.newCustomer)
         .then(() => this.$router.go(-1));
+    },
+    selected(planVersionId) {
+      this.newCustomer.planVersionId = planVersionId;
+    },
+  },
+  computed: {
+    planOptions() {
+      return this.$store.getters.planOptions;
+    },
+    displaySelectedPlan() {
+      if (!this.newCustomer.planVersionId) return 'Choose';
+
+      return this.planOptions.find(plan => plan.value === this.newCustomer.planVersionId).label;
     },
   },
 };

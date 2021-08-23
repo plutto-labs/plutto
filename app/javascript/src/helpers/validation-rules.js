@@ -1,22 +1,7 @@
 import { defineRule } from 'vee-validate';
+// eslint-disable-next-line camelcase
+import { required, min_value, email } from '@vee-validate/rules';
 
-defineRule('required', value => {
-  if (!value || !value.length) {
-    return 'This field is required';
-  }
-
-  return true;
-});
-
-defineRule('email', value => {
-  if (!value || !value.length) {
-    return true;
-  }
-
-  // eslint-disable-next-line max-len
-  if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value)) {
-    return 'This field must be a valid email';
-  }
-
-  return true;
-});
+defineRule('required', required);
+defineRule('email', email);
+defineRule('minValue', min_value);

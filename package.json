@@ -12,6 +12,7 @@
     "@rails/webpacker": "4.3.0",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/postcss7-compat": "^2.0.4",
+    "@vee-validate/rules": "^4.4.7",
     "activeadmin_addons": "^1.0.0",
     "arctic_admin": "^4.0.1",
     "autoprefixer": "^9",

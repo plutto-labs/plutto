@@ -4,8 +4,8 @@
       :title="createPlan ? 'New Plan' : 'New plan version'"
     />
     <div class="flex justify-center px-6 mt-6">
-      <form
-        @submit.prevent="submit"
+      <Form
+        @submit="submit"
         class="w-full space-y-8 divide-y divide-gray-200 md:max-w-xl"
       >
         <div class="m-auto divide-gray-200">
@@ -52,7 +52,7 @@
             </button>
           </div>
         </div>
-      </form>
+      </Form>
     </div>
   </main>
 </template>
@@ -61,9 +61,10 @@
 import { mapState } from 'vuex';
 import PriceLogics from '@/components/price-logics';
 import PluttoHeader from '@/components/plutto-header';
+import { Form } from 'vee-validate';
 
 export default {
-  components: { PluttoHeader, PriceLogics },
+  components: { PluttoHeader, PriceLogics, Form },
   props: {
     createPlan: {
       type: Boolean,

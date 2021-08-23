@@ -11,6 +11,11 @@ class Customer < ApplicationRecord
 
   before_create :generate_identifier
 
+  def add_plan_subcription(plan_version_id)
+    plan_version = PlanVersion.find_by(id: plan_version_id)
+    PlanSubscriptionCreator.for(plan_version: plan_version, customer: self)
+  end
+
   private
 
   def generate_identifier
