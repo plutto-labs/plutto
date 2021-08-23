@@ -19,20 +19,13 @@
             New version
           </button>
         </div>
-        <div
+        <PlanVersion
           v-for="planVersion in currentPlan.planVersions"
           :key="planVersion.identifier"
-          class="flex items-center justify-between p-4 my-4 border border-gray-200 rounded"
-          :class="{ 'border-primary-100': planVersion.identifier == currentPlan.defaultVersion.identifier }"
-        >
-          <div>{{ planVersion.version }}</div>
-          <div class="flex items-center">
-            <TrashIcon
-              class="w-6 h-6 ml-auto cursor-pointer text-grey-200 hover:text-primary"
-              @click="deletePlanVersion(planVersion)"
-            />
-          </div>
-        </div>
+          :plan-version="planVersion"
+          :is-default-version="planVersion.identifier == currentPlan.defaultVersion.identifier"
+          class="p-4 my-4 border border-gray-200 rounded"
+        />
       </div>
     </template>
     <PluttoLoader
@@ -43,12 +36,12 @@
 
 <script>
 import { mapState } from 'vuex';
-import { TrashIcon } from '@heroicons/vue/outline';
-import PluttoHeader from '../components/plutto-header';
-import PluttoLoader from '../components/plutto-loader';
+import PlanVersion from '@/components/plan-version';
+import PluttoHeader from '@/components/plutto-header';
+import PluttoLoader from '@/components/plutto-loader';
 
 export default {
-  components: { PluttoHeader, PluttoLoader, TrashIcon },
+  components: { PluttoHeader, PluttoLoader, PlanVersion },
   data() {
     return {
       newPlanVersion: {
@@ -64,11 +57,6 @@ export default {
       loading: state => state.plans.loading,
       currentPlan: state => state.plans.currentPlan,
     }),
-  },
-  methods: {
-    deletePlanVersion(planVersion) {
-      this.$store.dispatch('DESTROY_PLAN_VERSION', { planId: this.currentPlan.id, planVersion });
-    },
   },
 };
 </script>

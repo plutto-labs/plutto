@@ -1,5 +1,6 @@
 class PriceLogic::StairStep < PriceLogic
-  has_many :tiers, -> { order('index') }, as: :tierable, dependent: :destroy # rubocop:disable Rails/InverseOf
+  has_many :tiers, -> { order('index') }, as: :tierable, dependent: :destroy,
+    inverse_of: :tierable
   accepts_nested_attributes_for :tiers, allow_destroy: true
 
   NAME = 'stair_step'

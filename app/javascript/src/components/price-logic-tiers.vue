@@ -4,6 +4,7 @@
       <div
         class="flex items-center justify-end w-full mr-8 text-sm cursor-pointer text text-primary"
         @click="addTier"
+        v-if="edit"
       >
         <span class="plutto-icon">add</span>
         <div>add tier</div>
@@ -61,12 +62,15 @@
             v-if="index !== tiers.length - 1"
           >
             <div class="flex items-end justify-center">
-              <input
+              <component
+                :is="edit ? 'input' : 'div'"
                 type="number"
-                class="px-6 bg-gray-800 border border-gray-800 rounded-lg focus:outline-none focus:ring-gray-800 focus:border-gray-800 plutto-input"
+                class="flex items-center px-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
                 @input="changeTierUpperLimit($event.target.value, index)"
                 :value="tier.upperLimit"
               >
+                {{ tier.upperLimit }}
+              </component>
             </div>
           </td>
           <td
@@ -83,14 +87,17 @@
                 {{ currency }}
               </p>
               <div class="flex items-end justify-center">
-                <input
+                <component
+                  :is="edit ? 'input' : 'div'"
                   type="number"
-                  class="pl-2 pr-6 bg-gray-800 border border-gray-800 rounded-lg focus:outline-none focus:ring-gray-800 focus:border-gray-800 plutto-input"
-                  v-model.number="tier.price"
-                  placeholder="0"
+                  class="flex items-center pl-2 pr-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
+                  :value="tier.price"
+                  @input="e => tier.price = e.target.value"
                   step="0.01"
                   min="0"
                 >
+                  {{ tier.price }}
+                </component>
               </div>
             </div>
           </td>
@@ -98,7 +105,7 @@
             <span
               class="cursor-pointer plutto-icon text-primary"
               @click="deleteTier(index)"
-              v-if="index !== tiers.length - 1 && index !== 0"
+              v-if="edit && index !== tiers.length - 1 && index !== 0"
             >
               close
             </span>
@@ -127,6 +134,10 @@ export default {
     modelValue: {
       type: Array,
       default: null,
+    },
+    edit: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -158,7 +169,9 @@ export default {
       this.tiers = [...this.tiers, { upperLimit: this.lastTierLowerLimit, price: 0 }];
     },
     deleteTier(index) {
-      this.tiers.splice(index, 1);
+      if (this.edit) {
+        this.tiers.splice(index, 1);
+      }
     },
     /* eslint-disable no-magic-numbers */
     changeTierUpperLimit(val, index) {

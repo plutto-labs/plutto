@@ -93,6 +93,10 @@ main {
   }
 }
 
+.plutto-tag {
+  @apply px-3 py-1 text-xs text-gray-800 rounded-lg bg-primary-200;
+}
+
 .plutto-icon {
   @apply block text-xl leading-none;
   font-family: 'Material Icons';

@@ -1,6 +1,6 @@
 version: 2.1
 
-ruby-image: &ruby-image circleci/ruby:2.7
+ruby-image: &ruby-image cimg/ruby:2.7
 postgres-image: &postgres-image postgres:11.3
 redis-image: &redis-image redis
 env-vars: &env-vars
