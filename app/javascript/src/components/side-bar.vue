@@ -144,36 +144,19 @@
                 :key="item.label"
                 :to="item.path"
                 :class="[
-                  $route.path === item.path ?
+                  item.matchingRoutes.indexOf($route.name) !== -1 ?
                     'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                   'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                 ]"
               >
                 <component
                   :is="item.icon"
-                  :class="[$route.path === item.path ?
+                  :class="[item.matchingRoutes.indexOf($route.name) !== -1 ?
                     'text-primary' :
                     'text-primary-200 group-hover:text-primary-100', 'mr-3 flex-shrink-0 h-6 w-6']"
                   aria-hidden="true"
                 />
                 {{ item.label }}
-              </router-link>
-              <router-link
-                :to="settingsItem.path"
-                :class="[
-                  $route.path === settingsItem.path ?
-                    'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                ]"
-              >
-                <component
-                  :is="settingsItem.icon"
-                  :class="[$route.path === settingsItem.path ?
-                    'text-primary' :
-                    'text-primary-200 group-hover:text-primary-100', 'mr-3 flex-shrink-0 h-6 w-6']"
-                  aria-hidden="true"
-                />
-                {{ settingsItem.label }}
               </router-link>
             </nav>
           </div>
@@ -229,11 +212,19 @@ import {
   CogIcon,
 } from '@heroicons/vue/outline';
 
-const navigation = [
-  { label: 'Customers', path: '/customers', icon: UsersIcon },
-  { label: 'Plans', path: '/plans', icon: FolderIcon },
-  { label: 'Meters', path: '/meters', icon: LightningBoltIcon },
-];
+const navigation = [{
+  label: 'Customers', path: '/customers', icon: UsersIcon,
+  matchingRoutes: ['customers', 'new-customer'],
+}, {
+  label: 'Plans', path: '/plans', icon: FolderIcon,
+  matchingRoutes: ['plans', 'new-plan', 'new-plan-version', 'plan'],
+}, {
+  label: 'Meters', path: '/meters', icon: LightningBoltIcon,
+  matchingRoutes: ['meters', 'new-meter'],
+}, {
+  label: 'Settings', path: '/settings', icon: CogIcon,
+  matchingRoutes: ['settings'],
+}];
 
 export default {
   data() {
