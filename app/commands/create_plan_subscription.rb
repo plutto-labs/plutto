@@ -1,4 +1,4 @@
-class PlanSubscriptionCreator < PowerTypes::Command.new(:plan_version, :customer)
+class CreatePlanSubscription < PowerTypes::Command.new(:plan_version, :customer)
   def perform
     active_plan_subscription = @customer.active_plan_subscription
     if active_plan_subscription.present?

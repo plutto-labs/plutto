@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe PlanSubscriptionCreator do
+describe CreatePlanSubscription do
   let(:customer) { build(:customer) }
   let(:plan_version) { build(:plan_version) }
 

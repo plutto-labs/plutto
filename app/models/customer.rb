@@ -13,7 +13,7 @@ class Customer < ApplicationRecord
 
   def add_plan_subcription(plan_version_id)
     plan_version = PlanVersion.find_by(id: plan_version_id)
-    PlanSubscriptionCreator.for(plan_version: plan_version, customer: self)
+    CreatePlanSubscription.for(plan_version: plan_version, customer: self)
   end
 
   private
