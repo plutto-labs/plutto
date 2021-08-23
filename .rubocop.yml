@@ -519,6 +519,18 @@ Style/RedundantFileExtensionInRequire:
                   Checks for the presence of superfluous `.rb` extension in
                   the filename provided to `require` and `require_relative`.
   Enabled: false
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/integration/**/*'
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - 'spec/integration/**/*'
+RSpec/VariableName:
+  Exclude:
+    - 'spec/integration/**/*'
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/integration/**/*'
 RSpec/MultipleExpectations:
   Max: 5
 RSpec/NestedGroups:

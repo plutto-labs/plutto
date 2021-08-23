@@ -1,0 +1,216 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API V1",
+    "version": "v1"
+  },
+  "basePath": "/api/v1",
+  "definitions": {
+    "customer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "customer_d43280e9377673a0b4b07f31",
+          "x-nullable": false
+        },
+        "name": {
+          "type": "string",
+          "example": "Plutto Donald",
+          "x-nullable": true
+        },
+        "email": {
+          "type": "string",
+          "example": "donald@getplutto.com",
+          "x-nullable": false,
+          "format": "email"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-01-01T00:00:00.000Z",
+          "x-nullable": true,
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-01-01T00:00:00.000Z",
+          "x-nullable": true,
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email"
+      ]
+    },
+    "customers_collection": {
+      "type": "object",
+      "properties": {
+        "customers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/customer"
+          }
+        }
+      },
+      "required": [
+        "customers"
+      ]
+    },
+    "customer_resource": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/customer"
+        }
+      },
+      "required": [
+        "customer"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "description": "ApiKey token",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/customers": {
+      "get": {
+        "summary": "Retrieves Customers",
+        "description": "Retrieves all the customers",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": {
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customers retrieved",
+            "schema": {
+              "$ref": "#/definitions/customers_collection"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates Customer",
+        "description": "Creates Customer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "customer created",
+            "schema": {
+              "$ref": "#/definitions/customer_resource"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Retrieves Customer",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": {
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "customer retrieved",
+            "schema": {
+              "$ref": "#/definitions/customer_resource"
+            }
+          },
+          "404": {
+            "description": "invalid customer id"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates Customer",
+        "description": "Updates Customer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "customer updated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes Customer",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Deletes specific customer",
+        "security": [
+          {
+            "Bearer": {
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "customer deleted"
+          },
+          "404": {
+            "description": "customer not found"
+          }
+        }
+      }
+    }
+  }
+}
