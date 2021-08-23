@@ -3,9 +3,11 @@
     <PriceLogic
       v-for="index in priceLogics.length"
       :key="index"
+      :edit="edit"
       v-model="priceLogics[index - 1]"
     >
       <template
+        v-if="edit"
         #delete
       >
         <span
@@ -26,7 +28,10 @@
         </div>
       </template>
     </PriceLogic>
-    <div class="flex justify-center w-full mt-8">
+    <div
+      v-if="edit"
+      class="flex justify-center w-full mt-8"
+    >
       <button
         class="relative flex items-center justify-center w-full py-8 text-gray-300 border border-gray-700 border-dashed"
         @click.prevent="addPriceLogic"
@@ -47,6 +52,10 @@ export default {
     modelValue: {
       type: Array,
       default: () => [],
+    },
+    edit: {
+      type: Boolean,
+      default: true,
     },
   },
   beforeMount() {

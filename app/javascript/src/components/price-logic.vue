@@ -11,10 +11,17 @@
           </label>
           <PluttoDropdown
             class="mt-2"
+            v-if="edit"
             :selected="$t(`message.priceLogics.types.${priceLogic.type}`)"
             :options="dropdownOptions"
             @selected="(priceLogicType) => updatePriceLogic('type', priceLogicType)"
           />
+          <div
+            class="inline-block w-auto px-4 py-2 mt-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md"
+            v-else
+          >
+            {{ $t(`message.priceLogics.types.${priceLogic.type}`) }}
+          </div>
           <div class="mt-2 text-sm text-gray-200">
             {{ $t(`message.priceLogics.descriptions.${priceLogic.type}`) }}
           </div>
@@ -26,6 +33,7 @@
               :other-rows-text="priceLogic.type === 'PriceLogic::Volume' ? 'Total of units' : 'For the next'"
               :measurement-text="priceLogic.type === 'PriceLogic::StairStep' ? 'Tier fee' : 'Per unit' "
               v-model="priceLogic.tiers"
+              :edit="edit"
             />
           </template>
           <template v-else>
@@ -34,13 +42,17 @@
                 <span class="plutto-input__icon">
                   attach_money
                 </span>
-                <input
+                <component
+                  :is="edit ? 'input' : 'div'"
                   type="number"
-                  class="plutto-input__input"
-                  v-model.number="priceLogic.price"
+                  class="flex items-center plutto-input__input"
+                  :value="priceLogic.price"
+                  @input="e => priceLogic.price = e.target.value"
                   step="0.01"
                   min="0"
                 >
+                  {{ priceLogic.price }}
+                </component>
               </div>
             </div>
           </template>
@@ -66,6 +78,10 @@ export default {
     modelValue: {
       type: Object,
       default: null,
+    },
+    edit: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
