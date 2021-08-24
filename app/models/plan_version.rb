@@ -15,6 +15,8 @@ class PlanVersion < ApplicationRecord
 
   validates :identifier, uniqueness: true
 
+  delegate :currency, to: :plan
+
   before_create :generate_identifier
   after_create :set_version
 

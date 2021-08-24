@@ -36,7 +36,7 @@ end
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  default_plan_version_id :bigint(8)
-#  currency                :integer          default(0), not null
+#  currency                :integer          default("USD"), not null
 #
 # Indexes
 #

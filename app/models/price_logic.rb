@@ -5,6 +5,7 @@ class PriceLogic < ApplicationRecord
 
   validates :type, presence: true
   before_validation :set_lower_limits, on: :create, if: -> { respond_to?(:tiers) }
+  before_save :set_currency
 
   validates :price_currency, inclusion: { in: CURRENCIES.keys }
 
@@ -24,6 +25,10 @@ class PriceLogic < ApplicationRecord
     tiers.each_with_index do |tier, index|
       tier.lower_limit = index.zero? ? 0 : tiers[index - 1].upper_limit + 1
     end
+  end
+
+  def set_currency
+    self.price_currency = plan_version.currency
   end
 end
 
