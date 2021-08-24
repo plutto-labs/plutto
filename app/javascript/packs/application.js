@@ -4,6 +4,7 @@ import { createI18n } from 'vue-i18n';
 import App from '@/app.vue';
 import router from '@/router';
 import store from '@/store';
+import Segment from '@/mixins/segment';
 
 import Locales from '@/locales/locales.js';
 
@@ -24,5 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   app.use(router);
   app.use(store);
   app.use(i18n);
+  app.mixin(Segment);
   app.mount('#vue-app');
 });

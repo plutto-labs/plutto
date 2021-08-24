@@ -114,6 +114,13 @@ router.beforeEach((to, from, next) => {
     next(`/login?redirect_to=${to.fullPath}`);
     document.title = 'Ingresar | Milla';
   } else {
+    if (analytics) {
+      analytics.page(to.name, {
+        title: to.meta.title,
+        path: to.path,
+        referrer: from.path,
+      });
+    }
     next();
     document.title = to.meta.title || 'Plutto';
   }

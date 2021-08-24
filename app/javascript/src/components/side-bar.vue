@@ -245,6 +245,14 @@ export default {
       currentUser: state => state.auth,
     }),
   },
+  mounted() {
+    this.analyticsIdentify(this.currentUser.id, {
+      email: this.currentUser.email,
+    });
+    this.analyticsGroup(this.currentUser.organizationId, {
+      name: this.currentUser.organizationName,
+    });
+  },
   methods: {
     logout() {
       this.$store.dispatch('LOGOUT_USER');
