@@ -66,76 +66,12 @@ MoneyRails.configure do |config|
     disambiguate_symbol: "CLP$",
     alternate_symbols: [],
     subunit: "Peso",
-    subunit_to_unit: 10,
+    subunit_to_unit: 1,
     symbol_first: true,
     html_entity: "&#36;",
-    decimal_mark: ".",
+    decimal_mark: ",",
     thousands_separator: ".",
     smallest_denomination: 10
-  }
-
-  config.register_currency = {
-    priority: 7,
-    iso_code: "EUR",
-    name: "EURO",
-    symbol: "€",
-    disambiguate_symbol: "EUR€",
-    alternate_symbols: [],
-    subunit: "Euro",
-    subunit_to_unit: 10,
-    symbol_first: true,
-    html_entity: "&euro;",
-    decimal_mark: ".",
-    thousands_separator: ".",
-    smallest_denomination: 10
-  }
-
-  config.register_currency = {
-    priority: 8,
-    iso_code: "PEN",
-    name: "Peruvian Sol",
-    symbol: "S/.",
-    disambiguate_symbol: "PENS/.",
-    alternate_symbols: [],
-    subunit: "Céntimo",
-    subunit_to_unit: 10000,
-    symbol_first: true,
-    html_entity: "S/.",
-    decimal_mark: ".",
-    thousands_separator: ",",
-    smallest_denomination: 1
-  }
-
-  config.register_currency = {
-    priority: 9,
-    iso_code: "ARS",
-    name: "Argentine Peso",
-    symbol: "$",
-    disambiguate_symbol: "$m/n",
-    alternate_symbols: [],
-    subunit: "Centavo",
-    subunit_to_unit: 1000,
-    symbol_first: true,
-    html_entity: "$",
-    decimal_mark: ".",
-    thousands_separator: ",",
-    smallest_denomination: 1
-  }
-
-  config.register_currency = {
-    priority: 101,
-    iso_code: "MXN",
-    name: "Mexican Peso",
-    symbol: "$",
-    disambiguate_symbol: "MXN$",
-    alternate_symbols: [],
-    subunit: "Peso",
-    subunit_to_unit: 1000000,
-    symbol_first: true,
-    html_entity: "&#36;",
-    decimal_mark: ".",
-    thousands_separator: ",",
-    smallest_denomination: 1000000
   }
 
   # Specify a rounding mode
@@ -191,5 +127,5 @@ MoneyRails.configure do |config|
   # The default value is false
   #
   # Example:
-  # config.raise_error_on_money_parsing = false
+  config.raise_error_on_money_parsing = true
 end
