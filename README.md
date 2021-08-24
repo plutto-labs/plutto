@@ -1,4 +1,6 @@
-# Plutto [![Circle CI](https://circleci.com/gh/platanus/plutto.svg?style=svg)](https://circleci.com/gh/platanus/plutto)
+# Plutto [![Circle CI](https://circleci.com/gh/plutto-labs/plutto.svg?style=svg)](https://circleci.com/gh/platanus/plutto)
+[![codecov](https://codecov.io/gh/plutto-labs/plutto/branch/master/graph/badge.svg?token=ZPX4DUNAKI)](https://codecov.io/gh/plutto-labs/plutto)
+
 This is a Rails application, initially generated using [Potassium](https://github.com/platanus/potassium) by Platanus.
 
 ## Local installation

@@ -1,5 +1,5 @@
 ActiveAdmin.register Customer do
-  permit_params :name, :email, :plan_subscription_id, :customer_info
+  permit_params :name, :email, :plan_subscription_id
   belongs_to :organization
 
   index do
@@ -19,7 +19,6 @@ ActiveAdmin.register Customer do
     f.inputs do
       f.input :name
       f.input :email
-      f.input :customer_info
     end
     f.actions
   end
@@ -31,7 +30,6 @@ ActiveAdmin.register Customer do
       row :plan_subscription
       row :name
       row :email
-      row :customer_info
       row :created_at
       row :updated_at
     end

@@ -1,10 +1,13 @@
 class Organization < ApplicationRecord
+  include IdentifierAttribute
+
   has_many :users, dependent: :destroy
   has_many :plans, dependent: :destroy
   has_many :customers, dependent: :destroy
   has_many :meters, dependent: :destroy
   has_many :api_keys, as: :bearer, dependent: :destroy
 
+  validates :identifier, uniqueness: true
   validates :name, presence: true
   resourcify
 
@@ -12,6 +15,12 @@ class Organization < ApplicationRecord
     user.organization = self
     user.save!
     user.add_role(role, self)
+  end
+
+  private
+
+  def generate_identifier
+    init_identifier('organization')
   end
 end
 
@@ -23,4 +32,9 @@ end
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  identifier :string           not null
+#
+# Indexes
+#
+#  index_organizations_on_identifier  (identifier) UNIQUE
 #

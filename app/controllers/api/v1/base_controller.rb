@@ -1,10 +1,28 @@
 class Api::V1::BaseController < Api::BaseController
-  include ApiKeyAuthenticatable
-  skip_before_action :verify_authenticity_token
+  include Api::ApiKeyAuthenticatable
+  include Pundit
+
+  prepend_before_action :authenticate_with_api_key!
 
   before_action do
     self.namespace_for_serializer = ::Api::V1
   end
 
-  respond_to :json
+  private
+
+  def organization
+    @organization ||= @current_bearer if @current_bearer.is_a? Organization
+  end
+
+  def pundit_user
+    organization
+  end
+
+  def policy_scope(scope)
+    super([:api, :v1, scope])
+  end
+
+  def authorize(record, query = nil)
+    super([:api, :v1, record], query)
+  end
 end
