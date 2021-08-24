@@ -6,6 +6,8 @@ class PriceLogic < ApplicationRecord
   validates :type, presence: true
   before_validation :set_lower_limits, on: :create, if: -> { respond_to?(:tiers) }
 
+  validates :price_currency, inclusion: { in: CURRENCIES.keys }
+
   monetize :price_cents
 
   def calculate_price(n_units = 0)

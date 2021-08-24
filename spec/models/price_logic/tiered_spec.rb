@@ -5,6 +5,10 @@ RSpec.describe PriceLogic::Tiered, type: :model do
 
   it_behaves_like 'a metered price logic'
 
+  describe 'Validations' do
+    it { is_expected.to validate_inclusion_of(:price_currency).in_array(CURRENCIES.keys) }
+  end
+
   describe '#calculate_price' do
     let(:default_logic_price_cents) { 100 }
     let(:tiered_logic) do

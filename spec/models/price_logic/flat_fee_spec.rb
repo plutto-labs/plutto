@@ -3,6 +3,10 @@ RSpec.describe PriceLogic::FlatFee, type: :model do
     let(:subject) { build(:price_logic_flat_fee) }
   end
 
+  describe 'Validations' do
+    it { is_expected.to validate_inclusion_of(:price_currency).in_array(CURRENCIES.keys) }
+  end
+
   describe '#calculate_price' do
     let(:flat_fee_logic) { create(:price_logic_flat_fee, price_cents: 100, price_currency: 'USD') }
 

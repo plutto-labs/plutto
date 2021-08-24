@@ -5,6 +5,10 @@ RSpec.describe PriceLogic::PerUnit, type: :model do
 
   it_behaves_like 'a metered price logic'
 
+  describe 'Validations' do
+    it { is_expected.to validate_inclusion_of(:price_currency).in_array(CURRENCIES.keys) }
+  end
+
   describe '#calculate_price' do
     let(:price_cent_per_unit) { 100 }
     let(:per_unit_logic) do

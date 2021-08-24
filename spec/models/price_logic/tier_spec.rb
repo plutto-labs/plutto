@@ -18,6 +18,8 @@ RSpec.describe PriceLogic::Tier, type: :model do
     it { is_expected.to validate_presence_of(:price_cents) }
     it { is_expected.to validate_presence_of(:index) }
     it { is_expected.to validate_numericality_of(:lower_limit).is_greater_than_or_equal_to(0) }
+
+    it { is_expected.to validate_inclusion_of(:price_currency).in_array(CURRENCIES.keys) }
   end
 
   it { is_expected.to monetize(:price_cents) }
