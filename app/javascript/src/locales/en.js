@@ -1,5 +1,9 @@
 export default {
   message: {
+    global: {
+      name: 'Name',
+      currency: 'Currency',
+    },
     table: {
       headers: {
         info: 'Info',

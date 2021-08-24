@@ -13,23 +13,39 @@
             <div class="mt-8 mb-4 text-lg">
               Plan information
             </div>
-            <div class="sm:col-span-3">
-              <label
-                for="name"
-                class="block text-sm font-medium text-gray-100"
-              >
-                Name
-              </label>
-              <div class="mt-2 plutto-input">
-                <span class="plutto-input__icon">science</span>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  v-model="newPlan.name"
-                  required
-                  class="plutto-input__input"
+            <div class="flex">
+              <div class="w-full">
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-100"
                 >
+                  {{ $t('message.global.name') }}
+                </label>
+                <div class="mt-2 plutto-input">
+                  <span class="plutto-input__icon">science</span>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    v-model="newPlan.name"
+                    required
+                    class="plutto-input__input"
+                  >
+                </div>
+              </div>
+              <div class="w-32 ml-4">
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-100"
+                >
+                  {{ $t('message.global.currency') }}
+                </label>
+                <PluttoDropdown
+                  class="mt-2 plutto-input"
+                  :selected="newPlan.currency"
+                  :options="[{ label: 'USD', value: 'USD' }, { label: 'CLP', value: 'CLP' }]"
+                  @selected="(currency) => newPlan.currency = currency"
+                />
               </div>
             </div>
           </template>
@@ -61,10 +77,11 @@
 import { mapState } from 'vuex';
 import PriceLogics from '@/components/price-logics';
 import PluttoHeader from '@/components/plutto-header';
+import PluttoDropdown from '@/components/plutto-dropdown';
 import { Form } from 'vee-validate';
 
 export default {
-  components: { PluttoHeader, PriceLogics, Form },
+  components: { PluttoHeader, PriceLogics, Form, PluttoDropdown },
   props: {
     createPlan: {
       type: Boolean,
@@ -73,7 +90,9 @@ export default {
   },
   data() {
     return {
-      newPlan: {},
+      newPlan: {
+        currency: 'USD',
+      },
       priceLogics: [],
     };
   },
