@@ -16,7 +16,10 @@ class Api::Internal::V1::AuthController < Api::Internal::V1::BaseController
   end
 
   def identify_user(user)
-    Analytics.identify(user_id: user.id, traits: { email: user.email })
+    Analytics.identify(
+      user_id: user.id,
+      traits: { email: user.email, created_at: user.created_at }
+    )
     Analytics.group(
       user_id: user.id,
       group_id: user.organization.id,

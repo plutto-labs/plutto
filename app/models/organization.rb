@@ -12,8 +12,7 @@ class Organization < ApplicationRecord
   resourcify
 
   before_create :generate_identifier
-  after_create :identify_organization
-  after_update :identify_organization
+  after_save :identify_organization
 
   def enroll_user(user, role = :admin)
     user.organization = self

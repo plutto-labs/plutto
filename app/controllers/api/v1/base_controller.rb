@@ -8,6 +8,13 @@ class Api::V1::BaseController < Api::BaseController
     self.namespace_for_serializer = ::Api::V1
   end
 
+  after_action do
+    Analytics.track(
+      user_id: "org_#{organization.id}",
+      event: "external #{action_name} #{controller_name}"
+    )
+  end
+
   private
 
   def organization

@@ -6,8 +6,7 @@ class User < ApplicationRecord
 
   rolify strict: true
 
-  after_create :identify_user
-  after_update :identify_user
+  after_save :identify_user
 
   def identify_user
     Analytics.identify(
