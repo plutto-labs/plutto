@@ -2,7 +2,7 @@ class Api::Internal::V1::AuthController < Api::Internal::V1::BaseController
   def create
     user = User.where('LOWER(email) = ?', auth_params[:email].downcase).last
     if user&.valid_password?(auth_params[:password])
-      identify_user(user)
+      user.identify_user
       return respond_with(user, token: true)
     end
 

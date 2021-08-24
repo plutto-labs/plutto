@@ -11,6 +11,10 @@ class Organization < ApplicationRecord
   validates :name, presence: true
   resourcify
 
+  before_create :generate_identifier
+  after_create :identify_organization
+  after_update :identify_organization
+
   def enroll_user(user, role = :admin)
     user.organization = self
     user.save!
@@ -18,6 +22,13 @@ class Organization < ApplicationRecord
   end
 
   private
+
+  def identify_organization
+    Analytics.identify(
+      user_id:  "org_#{id}",
+      traits: { name: name, created_at: created_at }
+    )
+  end
 
   def generate_identifier
     init_identifier('organization')

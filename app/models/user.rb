@@ -5,6 +5,23 @@ class User < ApplicationRecord
   belongs_to :organization, optional: true
 
   rolify strict: true
+
+  after_create :identify_user
+  after_update :identify_user
+
+  def identify_user
+    Analytics.identify(
+      user_id: id,
+      traits: { email: email, created_at: created_at }
+    )
+    if organization
+      Analytics.group(
+        user_id: id,
+        group_id: organization.id,
+        traits: { organization_name: organization.name }
+      )
+    end
+  end
 end
 
 # == Schema Information
