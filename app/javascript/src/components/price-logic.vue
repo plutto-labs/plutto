@@ -37,23 +37,25 @@
             />
           </template>
           <template v-else>
-            <div class="flex">
-              <div class="flex items-end justify-center plutto-input">
-                <span class="plutto-input__icon">
-                  attach_money
-                </span>
-                <component
-                  :is="edit ? 'input' : 'div'"
-                  type="number"
-                  class="flex items-center plutto-input__input"
-                  :value="priceLogic.price"
-                  @input="e => priceLogic.price = e.target.value"
-                  step="0.01"
-                  min="0"
-                >
-                  {{ priceLogic.price }}
-                </component>
-              </div>
+            <label
+              for="amount"
+              class="block text-sm font-medium text-gray-100"
+            >
+              Amount
+            </label>
+            <div class="flex items-end justify-center mt-2 plutto-input">
+              <span class="w-6 plutto-input__icon">payments</span>
+              <component
+                :is="edit ? 'input' : 'div'"
+                type="number"
+                class="flex items-center plutto-input__input"
+                :value="priceLogic.price"
+                @input="e => priceLogic.price = e.target.value"
+                step="0.01"
+                min="0"
+              >
+                {{ formatCurrency(priceLogic.price, priceLogic.priceCurrency) }}
+              </component>
             </div>
           </template>
         </div>
@@ -71,10 +73,6 @@ import PluttoDropdown from '@/components/plutto-dropdown';
 export default {
   components: { PriceLogicTiers, PluttoDropdown },
   props: {
-    currency: {
-      type: String,
-      default: '$',
-    },
     modelValue: {
       type: Object,
       default: null,

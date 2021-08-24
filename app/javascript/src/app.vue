@@ -94,7 +94,11 @@ main {
 }
 
 .plutto-tag {
-  @apply px-3 py-1 text-xs text-gray-800 rounded-lg bg-primary-200;
+  @apply px-4 py-1 text-xs text-gray-800 rounded-lg bg-primary-200;
+
+  &--green {
+    @apply bg-transparent text-success border border-success;
+  }
 }
 
 .plutto-icon {
