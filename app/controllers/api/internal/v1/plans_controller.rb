@@ -37,7 +37,8 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
 
   def plan_params
     params.require(:plan).permit(
-      :name
+      :name,
+      :currency
     )
   end
 
