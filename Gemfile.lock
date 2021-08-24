@@ -88,6 +88,7 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    analytics-ruby (2.4.0)
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
@@ -561,6 +562,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin (~> 2.6)
   activeadmin_addons (~> 1.8.3)
+  analytics-ruby (~> 2.4.0)
   annotate (~> 3.0)
   aws-sdk-s3 (~> 1.0)
   better_errors

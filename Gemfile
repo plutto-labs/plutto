@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 gem 'activeadmin', '~> 2.6'
 gem 'activeadmin_addons', '~> 1.8.3'
+gem 'analytics-ruby', '~> 2.4.0', require: 'segment/analytics'
 gem 'aws-sdk-s3', '~> 1.0'
 gem 'bootsnap', require: false
 gem 'data_migrate'
