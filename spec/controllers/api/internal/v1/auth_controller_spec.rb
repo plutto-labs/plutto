@@ -11,15 +11,6 @@ RSpec.describe Api::Internal::V1::AuthController, type: :controller do
     end
 
     context 'with valid parameters' do
-      before do
-        allow(Analytics).to receive(:identify).with(user_id: user.id, traits: { email: user.email })
-        allow(Analytics).to receive(:group).with(
-          user_id: user.id,
-          group_id: user.organization.id,
-          traits: { organization_name: user.organization.name }
-        )
-      end
-
       let(:valid_params) do
         {
           email: 'admin@example.com',

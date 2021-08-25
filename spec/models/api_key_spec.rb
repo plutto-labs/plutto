@@ -41,7 +41,8 @@ RSpec.describe ApiKey, type: :model do
     end
 
     let(:token) { 'token' }
-    let!(:api_key) { create(:api_key, token: token) }
+    let!(:organization) { create(:organization, :without_generate_identifier_callback) }
+    let!(:api_key) { create(:api_key, token: token, bearer: organization) }
 
     context 'with valid token' do
       it { expect(described_class.authenticate_by_token!("sk_live_#{token}")).to eq(api_key) }

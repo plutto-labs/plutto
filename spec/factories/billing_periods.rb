@@ -1,4 +1,7 @@
+require_relative '../support/identifier_factory_helper'
+
 FactoryBot.define do
+  extend IdentifierFactoryHelper
   factory :billing_period do
     plan_subscription
     from { DateTime.current }
