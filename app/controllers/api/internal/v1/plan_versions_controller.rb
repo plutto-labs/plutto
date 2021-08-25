@@ -26,6 +26,7 @@ class Api::Internal::V1::PlanVersionsController < Api::Internal::V1::BaseControl
       price_logics_attributes: [
         :price,
         :type,
+        :meter_id,
         { tiers_attributes: [:index, :lower_limit, :upper_limit, :price] }
       ]
     )

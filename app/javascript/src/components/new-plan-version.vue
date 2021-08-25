@@ -14,6 +14,20 @@
               Plan information
             </div>
             <div class="flex">
+              <div class="w-32 mr-8">
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-100"
+                >
+                  {{ $t('message.global.currency') }}
+                </label>
+                <PluttoDropdown
+                  class="mt-2 plutto-input"
+                  :selected="newPlan.currency"
+                  :options="[{ label: 'USD', value: 'USD' }, { label: 'CLP', value: 'CLP' }]"
+                  @selected="(currency) => newPlan.currency = currency"
+                />
+              </div>
               <div class="w-full">
                 <label
                   for="name"
@@ -32,20 +46,6 @@
                     class="plutto-input__input"
                   >
                 </div>
-              </div>
-              <div class="w-32 ml-4">
-                <label
-                  for="name"
-                  class="block text-sm font-medium text-gray-100"
-                >
-                  {{ $t('message.global.currency') }}
-                </label>
-                <PluttoDropdown
-                  class="mt-2 plutto-input"
-                  :selected="newPlan.currency"
-                  :options="[{ label: 'USD', value: 'USD' }, { label: 'CLP', value: 'CLP' }]"
-                  @selected="(currency) => newPlan.currency = currency"
-                />
               </div>
             </div>
           </template>
@@ -122,7 +122,7 @@ export default {
     planVersion() {
       return {
         priceLogicsAttributes: this.priceLogics.map(pl => {
-          const priceLogic = Object.assign({}, { price: pl.price, type: pl.type });
+          const priceLogic = Object.assign({}, { price: pl.price, type: pl.type, meterId: pl.meterId });
           if (pl.tiers) {
             const tiers = pl.tiers.map((tier, index) => (
               Object.assign({}, { index, upperLimit: tier.upperLimit, price: tier.price })
