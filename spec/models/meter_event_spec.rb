@@ -1,7 +1,7 @@
 RSpec.describe MeterEvent, type: :model do
   describe 'Relations' do
     it { is_expected.to belong_to(:meter_count) }
-    it { is_expected.to belong_to(:customer) }
+    it { is_expected.to belong_to(:billing_period) }
     it { is_expected.to belong_to(:meter) }
   end
 

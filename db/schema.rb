@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_203607) do
+ActiveRecord::Schema.define(version: 2021_08_27_204143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,12 +98,14 @@ ActiveRecord::Schema.define(version: 2021_08_27_203607) do
     t.integer "action", default: 0
     t.string "identifier"
     t.bigint "meter_id", null: false
-    t.bigint "customer_id", null: false
     t.bigint "meter_count_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "idempotency_key"
+    t.float "current_meter_count"
+    t.bigint "billing_period_id"
     t.index ["action"], name: "index_meter_events_on_action"
-    t.index ["customer_id"], name: "index_meter_events_on_customer_id"
+    t.index ["billing_period_id"], name: "index_meter_events_on_billing_period_id"
     t.index ["identifier"], name: "index_meter_events_on_identifier", unique: true
     t.index ["meter_count_id"], name: "index_meter_events_on_meter_count_id"
     t.index ["meter_id"], name: "index_meter_events_on_meter_id"
@@ -230,7 +232,7 @@ ActiveRecord::Schema.define(version: 2021_08_27_203607) do
   add_foreign_key "customers", "organizations"
   add_foreign_key "meter_counts", "billing_periods"
   add_foreign_key "meter_counts", "meters"
-  add_foreign_key "meter_events", "customers"
+  add_foreign_key "meter_events", "billing_periods"
   add_foreign_key "meter_events", "meter_counts"
   add_foreign_key "meter_events", "meters"
   add_foreign_key "meters", "organizations"

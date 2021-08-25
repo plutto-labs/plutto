@@ -4,9 +4,23 @@ class MeterCount < ApplicationRecord
   belongs_to :billing_period
   belongs_to :meter
 
+  has_many :meter_events, dependent: :nullify
+
   validates :identifier, uniqueness: true
 
   before_create :generate_identifier
+
+  def update_count(event)
+    case event.action
+    when 'set'
+      self.count = event.amount
+    when 'increment'
+      self.count += event.amount
+    when 'decrement'
+      self.count -= event.amount
+    end
+    save!
+  end
 
   private
 
