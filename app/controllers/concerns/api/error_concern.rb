@@ -12,8 +12,8 @@ module Api::ErrorConcern
       end
     end
 
-    rescue_from 'ActiveRecord::RecordNotFound' do
-      respond_api_error(ApiException::Errors::NotFound.new)
+    rescue_from 'ActiveRecord::RecordNotFound' do |exception|
+      respond_api_error(ApiException::Errors::NotFound.new(detail: exception.message))
     end
 
     rescue_from 'ActiveModel::ForbiddenAttributesError' do
