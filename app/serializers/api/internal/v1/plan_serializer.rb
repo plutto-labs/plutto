@@ -1,5 +1,5 @@
 class Api::Internal::V1::PlanSerializer < ActiveModel::Serializer
-  attributes :id, :name, :plan_versions
+  attributes :id, :name, :currency, :plan_versions
 
   has_one :default_version
   has_many :plan_versions

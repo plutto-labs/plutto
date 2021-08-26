@@ -52,6 +52,10 @@ module.exports = {
         'secondary-200': '#99a2ff',
         'secondary-100': '#ccd0ff',
       },
+      fontSize: {
+        '2xs': '.625rem',
+        '3xs': '.5rem',
+      },
     },
   },
   variants: {},

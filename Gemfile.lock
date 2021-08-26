@@ -163,8 +163,6 @@ GEM
       activesupport (>= 5.0)
       request_store (>= 1.0)
     e2mmap (0.1.0)
-    enumerize (2.4.0)
-      activesupport (>= 3.2)
     erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
@@ -575,7 +573,6 @@ DEPENDENCIES
   devise-i18n
   dotenv-rails
   draper (~> 3.1)
-  enumerize
   factory_bot_rails
   faker
   guard-rspec

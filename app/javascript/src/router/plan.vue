@@ -8,6 +8,9 @@
         <div class="text-xl">
           Plan name: {{ currentPlan.name }}
         </div>
+        <div class="mt-4">
+          <span class="plutto-tag plutto-tag--green">{{ currentPlan.currency }}</span>
+        </div>
         <div class="flex items-center justify-between my-8">
           <div class="text-lg text-gray-300">
             Versions:

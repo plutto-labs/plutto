@@ -1,8 +1,11 @@
 <template>
   <div class="flex items-center w-full px-4 py-4 border border-gray-300 rounded">
     <div class="flex-1">
-      <div class="text-lg">
+      <div class="flex items-center text-lg">
         {{ plan.name }}
+        <span
+          class="ml-4 plutto-tag plutto-tag--green text-2xs"
+        >{{ plan.currency }}</span>
       </div>
       <div class="flex justify-between w-full">
         <div class="justify-between flex-1 pr-6 md:px-6 md:flex">

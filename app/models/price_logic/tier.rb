@@ -5,6 +5,10 @@ class PriceLogic::Tier < ApplicationRecord
   validates :upper_limit, numericality: { greater_than_or_equal_to: :lower_limit }
   validates :lower_limit, numericality: { greater_than_or_equal_to: 0 }
 
+  validates :price_currency, inclusion: { in: CURRENCIES.keys }
+
+  before_save :set_currency
+
   monetize :price_cents
 
   def units_in_tier
@@ -13,6 +17,12 @@ class PriceLogic::Tier < ApplicationRecord
 
   def units_in_tier_range?(units)
     units >= lower_limit && units <= upper_limit
+  end
+
+  private
+
+  def set_currency
+    self.price_currency = tierable.price_currency
   end
 end
 

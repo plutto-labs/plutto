@@ -3,9 +3,9 @@
     as="div"
     class="relative inline-block m-auto text-left"
   >
-    <div>
+    <div class="h-full">
       <MenuButton
-        class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm focus:outline-none text-gray-50 hover:bg-gray-500"
+        class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm focus:outline-none text-gray-50 hover:bg-gray-500"
       >
         {{ selected }}
         <ChevronDownIcon

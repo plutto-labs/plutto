@@ -5,6 +5,10 @@ RSpec.describe PriceLogic::StairStep, type: :model do
 
   it_behaves_like 'a metered price logic'
 
+  describe 'Validations' do
+    it { is_expected.to validate_inclusion_of(:price_currency).in_array(CURRENCIES.keys) }
+  end
+
   describe '#calculate_price' do
     let(:tier_prices) { [usd(300), usd(200), usd(100)] }
     let(:tiers_params) do

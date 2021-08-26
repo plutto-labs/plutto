@@ -6,6 +6,8 @@ class Plan < ApplicationRecord
   belongs_to :default_version, class_name: 'PlanVersion', optional: true,
     foreign_key: 'default_plan_version_id', inverse_of: :determinant_plan
 
+  enum currency: CURRENCIES
+
   validates :identifier, uniqueness: true
 
   before_create :generate_identifier
@@ -34,6 +36,7 @@ end
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  default_plan_version_id :bigint(8)
+#  currency                :integer          default("USD"), not null
 #
 # Indexes
 #

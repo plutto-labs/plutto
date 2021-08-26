@@ -7,6 +7,7 @@ import store from '@/store';
 import Segment from '@/mixins/segment';
 
 import Locales from '@/locales/locales.js';
+import FormatterMixin from '@/mixins/formatter-mixin';
 
 import '@/helpers/validation-rules.js';
 import '../css/application.css';
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       App,
     },
   });
+  app.mixin(FormatterMixin);
   app.use(router);
   app.use(store);
   app.use(i18n);
