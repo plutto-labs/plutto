@@ -7,7 +7,7 @@ class PriceLogic::Tier < ApplicationRecord
 
   validates :price_currency, inclusion: { in: CURRENCIES.keys }
 
-  before_save :set_currency
+  before_validation :set_currency
 
   monetize :price_cents
 

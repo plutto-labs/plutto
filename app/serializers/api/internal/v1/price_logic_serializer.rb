@@ -8,8 +8,4 @@ class Api::Internal::V1::PriceLogicSerializer < ActiveModel::Serializer
   def tiers
     object.tiers if object.respond_to?(:tiers)
   end
-
-  def price
-    object.price.amount
-  end
 end

@@ -5,7 +5,7 @@ class PriceLogic < ApplicationRecord
 
   validates :type, presence: true
   before_validation :set_lower_limits, on: :create, if: -> { respond_to?(:tiers) }
-  before_save :set_currency
+  before_validation :set_currency
 
   validates :price_currency, inclusion: { in: CURRENCIES.keys }
 
