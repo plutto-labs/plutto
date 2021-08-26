@@ -9,6 +9,14 @@ describe CreatePlanSubscription do
   end
 
   describe '#perform' do
+    let(:new_plan_subscription_service) do
+      instance_double(PlanSubscriptionService, initialize_next_billing_period: true)
+    end
+
+    before do
+      allow(PlanSubscriptionService).to receive(:new).and_return(new_plan_subscription_service)
+    end
+
     it 'creates a new subscription' do
       expect { perform }.to change { customer.plan_subscriptions.count }.by(1)
     end
@@ -18,15 +26,24 @@ describe CreatePlanSubscription do
       expect(plan_subscription.active).to be_truthy
     end
 
+    it 'returns the new PlanSubscription' do
+      expect(perform).to be_a(PlanSubscription)
+    end
+
+    it 'call PlanSubscriptionService to end the start next billing period' do
+      perform
+      expect(new_plan_subscription_service).to have_received(:initialize_next_billing_period)
+    end
+
     context 'when there is a previous active subscription' do
       let!(:plan_subscription) { create(:plan_subscription, customer: customer, active: true) }
-      let(:plan_subscription_service) { instance_double(PlanSubscriptionService) }
+      let(:plan_subscription_service) do
+        instance_double(PlanSubscriptionService, end_billing_period: true)
+      end
 
       before do
-        allow(PlanSubscriptionService).to receive(:new).with(plan_subscription: plan_subscription)
-                                                       .and_return(plan_subscription_service)
-        allow(plan_subscription_service).to receive(:end_billing_period)
-          .with(start_new_period: false)
+        allow(PlanSubscriptionService).to receive(:new)
+          .and_return(plan_subscription_service, new_plan_subscription_service)
       end
 
       it 'changes the previous plan_subscription to inactive' do
