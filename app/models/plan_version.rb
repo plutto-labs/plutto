@@ -20,10 +20,6 @@ class PlanVersion < ApplicationRecord
   before_create :generate_identifier
   after_create :set_version
 
-  def human_version
-    "V#{version} - #{created_at.strftime('%d %b %Y - %H:%M')}"
-  end
-
   private
 
   def generate_identifier
