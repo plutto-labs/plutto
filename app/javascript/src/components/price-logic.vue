@@ -13,8 +13,10 @@
             <PluttoDropdown
               class="mt-2"
               v-if="edit"
-              :selected="$t(`message.priceLogics.types.${priceLogic.type}`)"
+              :selected="priceLogic.type"
               :options="dropdownOptions"
+              label-key="label"
+              value-key="value"
               @selected="(priceLogicType) => updatePriceLogic('type', priceLogicType)"
             />
             <div
@@ -36,9 +38,17 @@
                 class="mt-2"
                 v-if="edit"
                 :selected="priceLogic.meterId"
-                :options="metersOptions"
+                :options="meters"
+                label-key="name"
+                value-key="id"
                 @selected="(meterId) => updatePriceLogic('meterId', meterId)"
               />
+              <div
+                class="flex items-center px-4 py-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
+                v-else
+              >
+                {{ meters && meters.find(meter => meter.id == priceLogic.meterId).name }}
+              </div>
             </div>
           </template>
         </div>
@@ -105,7 +115,7 @@ export default {
   },
   data() {
     return {
-      tierOptions: {
+      priceLogicOptions: {
         'PriceLogic::FlatFee': { tiered: false, metered: false },
         'PriceLogic::PerUnit': { tiered: false, metered: true },
         'PriceLogic::StairStep': { tiered: true, metered: true },
@@ -120,7 +130,7 @@ export default {
   },
   methods: {
     updatePriceLogic(key, val) {
-      if (key === 'type') this.priceLogic = Object.assign(this.priceLogic, this.tierOptions[val]);
+      if (key === 'type') this.priceLogic = Object.assign(this.priceLogic, this.priceLogicOptions[val]);
       this.priceLogic = { ...this.priceLogic, ...{ [key]: val } };
     },
   },
@@ -128,9 +138,6 @@ export default {
     ...mapState({
       meters: state => state.meters.meters,
     }),
-    metersOptions() {
-      return this.meters.map((meter) => ({ label: meter.name, value: meter.id }));
-    },
     priceLogic: {
       get() {
         return this.modelValue;
@@ -140,7 +147,7 @@ export default {
       },
     },
     dropdownOptions() {
-      return Object.keys(this.tierOptions).map((key) => (
+      return Object.keys(this.priceLogicOptions).map((key) => (
         { value: key, label: this.$t(`message.priceLogics.types.${key}`) }
       ));
     },
