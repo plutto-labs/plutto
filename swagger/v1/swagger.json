@@ -6,6 +6,92 @@
   },
   "basePath": "/api/v1",
   "definitions": {
+    "plan_subscription": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "subscription_80b199c7744342f3c5df8622",
+          "x-nullable": false
+        },
+        "customer_id": {
+          "type": "string",
+          "example": "customer_5198c6ad60c3363b089a1421",
+          "x-nullable": false
+        },
+        "plan_version_id": {
+          "type": "string",
+          "example": "version_46cf463812d56103d1dfa382",
+          "x-nullable": false
+        },
+        "created_at": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": false
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": true
+        },
+        "active": {
+          "type": "boolean",
+          "example": true,
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "customer_id",
+        "plan_version_id",
+        "created_at",
+        "active"
+      ]
+    },
+    "plan_subscription_create": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "example": "customer_5198c6ad60c3363b089a1421",
+          "x-nullable": false
+        },
+        "plan_version_id": {
+          "type": "string",
+          "example": "version_46cf463812d56103d1dfa382",
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "customer_id",
+        "plan_version_id"
+      ]
+    },
+    "plan_subscription_resource": {
+      "type": "object",
+      "properties": {
+        "plan_subscription": {
+          "$ref": "#/definitions/plan_subscription"
+        }
+      },
+      "required": [
+        "plan_subscription"
+      ]
+    },
+    "plan_subscriptions_collection": {
+      "type": "object",
+      "properties": {
+        "plan_subscriptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/plan_subscription"
+          }
+        }
+      },
+      "required": [
+        "plan_subscriptions"
+      ]
+    },
     "customer": {
       "type": "object",
       "properties": {
@@ -43,6 +129,36 @@
         "email"
       ]
     },
+    "customer_create": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Plutto Donald",
+          "x-nullable": true
+        },
+        "email": {
+          "type": "string",
+          "example": "donald@getplutto.com",
+          "x-nullable": false,
+          "format": "email"
+        }
+      },
+      "required": [
+        "email"
+      ]
+    },
+    "customer_resource": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/customer"
+        }
+      },
+      "required": [
+        "customer"
+      ]
+    },
     "customers_collection": {
       "type": "object",
       "properties": {
@@ -57,15 +173,61 @@
         "customers"
       ]
     },
-    "customer_resource": {
+    "unauthorized_error": {
       "type": "object",
       "properties": {
-        "customer": {
-          "$ref": "#/definitions/customer"
+        "type": {
+          "type": "string",
+          "example": "authentication_error",
+          "x-nullable": false
+        },
+        "code": {
+          "type": "string",
+          "example": "unauthorized",
+          "x-nullable": false
+        },
+        "message": {
+          "type": "string",
+          "example": "No valid API key provided.",
+          "x-nullable": false
+        },
+        "detail": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": true
+        },
+        "param": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": true
+        },
+        "request_id": {
+          "type": "string",
+          "example": "12d56103d1dfa382",
+          "x-nullable": true
+        },
+        "docs_url": {
+          "type": "string",
+          "example": "docs.getplutto.com",
+          "x-nullable": false
         }
       },
       "required": [
-        "customer"
+        "type",
+        "code",
+        "message",
+        "docs_url"
+      ]
+    },
+    "unauthorized_error_resource": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/unauthorized_error"
+        }
+      },
+      "required": [
+        "error"
       ]
     }
   },
@@ -81,6 +243,9 @@
     "/customers": {
       "get": {
         "summary": "Retrieves Customers",
+        "tags": [
+          "Customers"
+        ],
         "description": "Retrieves all the customers",
         "produces": [
           "application/json"
@@ -91,17 +256,35 @@
             }
           }
         ],
+        "parameters": [
+          {
+            "name": "error",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Customers retrieved",
             "schema": {
               "$ref": "#/definitions/customers_collection"
             }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
           }
         }
       },
       "post": {
         "summary": "Creates Customer",
+        "tags": [
+          "Customers"
+        ],
         "description": "Creates Customer",
         "consumes": [
           "application/json"
@@ -118,7 +301,29 @@
         "parameters": [
           {
             "name": "customer",
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "donald@getplutto.com",
+                  " x-nullable": false
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Plutto Donald",
+                  "x-nullable": true
+                }
+              }
+            }
+          },
+          {
+            "name": "error",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
           }
         ],
         "responses": {
@@ -126,6 +331,12 @@
             "description": "customer created",
             "schema": {
               "$ref": "#/definitions/customer_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
             }
           }
         }
@@ -142,12 +353,24 @@
       ],
       "get": {
         "summary": "Retrieves Customer",
+        "tags": [
+          "Customers"
+        ],
         "produces": [
           "application/json"
         ],
         "security": [
           {
             "Bearer": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "error",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
             }
           }
         ],
@@ -160,11 +383,20 @@
           },
           "404": {
             "description": "invalid customer id"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
           }
         }
       },
       "patch": {
         "summary": "Updates Customer",
+        "tags": [
+          "Customers"
+        ],
         "description": "Updates Customer",
         "consumes": [
           "application/json"
@@ -181,17 +413,48 @@
         "parameters": [
           {
             "name": "customer",
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "donald@getplutto.com",
+                  " x-nullable": false
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Plutto Donald",
+                  "x-nullable": true
+                }
+              }
+            }
+          },
+          {
+            "name": "error",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "customer updated"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
           }
         }
       },
       "delete": {
         "summary": "Deletes Customer",
+        "tags": [
+          "Customers"
+        ],
         "produces": [
           "application/json"
         ],
@@ -202,12 +465,153 @@
             }
           }
         ],
+        "parameters": [
+          {
+            "name": "error",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        ],
         "responses": {
           "204": {
             "description": "customer deleted"
           },
           "404": {
             "description": "customer not found"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/plan_subscriptions": {
+      "post": {
+        "summary": "Creates Plan Subscription",
+        "tags": [
+          "Plan Subscription"
+        ],
+        "description": "Creates Plan Subscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_subscription",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "customer_id": {
+                  "type": "string",
+                  "example": "customer_5198c6ad60c3363b089a1421",
+                  "x-nullable": false
+                },
+                "plan_version_id": {
+                  "type": "string",
+                  "example": "version_5198c6ad60c3363b089a1421",
+                  "x-nullable": false
+                }
+              }
+            }
+          },
+          {
+            "name": "error",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "plan_subscription created",
+            "schema": {
+              "$ref": "#/definitions/plan_subscription_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/plan_subscriptions/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "patch": {
+        "summary": "Updates Plan Subscription",
+        "tags": [
+          "Plan Subscription"
+        ],
+        "description": "Updates Plan Subscription status",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": {
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_subscription",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "active": {
+                  "type": "boolean",
+                  "example": true,
+                  "x-nullable": false
+                }
+              }
+            }
+          },
+          {
+            "name": "error",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "plan subscription updated"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
           }
         }
       }

@@ -7,6 +7,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
 
   path '/customers' do
     get 'Retrieves Customers' do
+      tags 'Customers'
       description 'Retrieves all the customers'
       produces 'application/json'
       security [Bearer: {}]
@@ -29,11 +30,19 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
     end
 
     post 'Creates Customer' do
+      tags 'Customers'
       description 'Creates Customer'
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: {}]
-      parameter(name: :customer, in: :body)
+      parameter name: :customer, in: :body, schema: {
+        type: :object,
+        properties:
+        {
+          email: { type: :string, example: 'donald@getplutto.com', ' x-nullable': false },
+          name: { type: :string, example: 'Plutto Donald', 'x-nullable': true }
+        }
+      }
 
       let(:customer) do
         {
@@ -64,6 +73,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
     let(:id) { existent_customer.identifier }
 
     get 'Retrieves Customer' do
+      tags 'Customers'
       produces 'application/json'
       security [Bearer: {}]
 
@@ -85,11 +95,19 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
     end
 
     patch 'Updates Customer' do
+      tags 'Customers'
       description 'Updates Customer'
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: {}]
-      parameter(name: :customer, in: :body)
+      parameter name: :customer, in: :body, schema: {
+        type: :object,
+        properties:
+        {
+          email: { type: :string, example: 'donald@getplutto.com', ' x-nullable': false },
+          name: { type: :string, example: 'Plutto Donald', 'x-nullable': true }
+        }
+      }
 
       let(:customer) do
         {
@@ -108,6 +126,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
     end
 
     delete 'Deletes Customer' do
+      tags 'Customers'
       produces 'application/json'
       description 'Deletes specific customer'
       security [Bearer: {}]

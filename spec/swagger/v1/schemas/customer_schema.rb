@@ -16,6 +16,18 @@ CUSTOMER_SCHEMA = {
   ]
 }
 
+CUSTOMER_CREATE_SCHEMA = {
+  type: :object,
+  properties: {
+    name: { type: :string, example: 'Plutto Donald', 'x-nullable': true },
+    email: { type: :string, example: 'donald@getplutto.com', 'x-nullable': false,
+             format: 'email' }
+  },
+  required: [
+    :email
+  ]
+}
+
 CUSTOMERS_COLLECTION_SCHEMA = {
   type: "object",
   properties: {
