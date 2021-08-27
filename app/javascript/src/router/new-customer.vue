@@ -67,9 +67,11 @@
           </label>
           <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
             <PluttoDropdown
-              :selected="displaySelectedPlan"
-              :options="planOptions"
-              @selected="selected"
+              :selected="newCustomer.planVersionId"
+              :options="planVersionsOptions"
+              label-key="name"
+              value-key="id"
+              @selected="selectPlanVersion"
             />
           </div>
         </div>
@@ -95,7 +97,9 @@ export default {
   components: { PluttoHeader, PluttoDropdown, Form, Field },
   data() {
     return {
-      newCustomer: {},
+      newCustomer: {
+        planVersionId: null,
+      },
       schema: {
         name: 'required',
         email: 'required|email',
@@ -107,13 +111,13 @@ export default {
       this.$store.dispatch('CREATE_CUSTOMER', this.newCustomer)
         .then(() => this.$router.go(-1));
     },
-    selected(planVersionId) {
+    selectPlanVersion(planVersionId) {
       this.newCustomer.planVersionId = planVersionId;
     },
   },
   computed: {
-    planOptions() {
-      return this.$store.getters.planOptions;
+    planVersionsOptions() {
+      return this.$store.getters.planVersionsOptions;
     },
     displaySelectedPlan() {
       if (!this.newCustomer.planVersionId) return 'Choose';

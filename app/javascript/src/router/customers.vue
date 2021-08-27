@@ -15,9 +15,11 @@
       >
         <template #component="row">
           <PluttoDropdown
-            :selected="row.row.activePlanSubscription && row.row.activePlanSubscription.planName || 'Choose'"
-            :options="planOptions()"
-            @selected="(planVersionId) => selected(row.row.id, planVersionId)"
+            :selected="row.row.activePlanSubscription.planVersionId"
+            :options="planVersionsOptions"
+            label-key="name"
+            value-key="id"
+            @selected="(planVersionId) => changeCustomerPlanVersion(row.row.id, planVersionId)"
           />
         </template>
       </PluttoTable>
@@ -66,6 +68,9 @@ export default {
       loading: state => state.customers.loading,
       customers: state => state.customers.customers,
     }),
+    planVersionsOptions() {
+      return this.$store.getters.planVersionsOptions;
+    },
   },
   async mounted() {
     await Promise.all([this.$store.dispatch('GET_CUSTOMERS'), this.$store.dispatch('GET_PLANS')]);
@@ -74,15 +79,12 @@ export default {
     destroyCustomer(customer) {
       this.$store.dispatch('DESTROY_CUSTOMER', customer);
     },
-    selected(customerId, planVersionId) {
+    changeCustomerPlanVersion(customerId, planVersionId) {
       this.$store.dispatch('CREATE_PLAN_SUBSCRIPTION', { customerId, planVersionId })
         .then((response) => {
           this.$store.dispatch('UPDATE_CUSTOMER_PLAN_SUBSCRIPTION',
             { id: customerId, planSubscription: response.planSubscription });
         });
-    },
-    planOptions() {
-      return this.$store.getters.planOptions;
     },
   },
 };

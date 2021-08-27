@@ -5,6 +5,5 @@ FactoryBot.define do
     lower_limit { 0 }
     upper_limit { 100 }
     price_cents { 1000 }
-    price_currency { 'USD' }
   end
 end

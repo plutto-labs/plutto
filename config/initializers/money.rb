@@ -71,7 +71,7 @@ MoneyRails.configure do |config|
     html_entity: "&#36;",
     decimal_mark: ",",
     thousands_separator: ".",
-    smallest_denomination: 10
+    smallest_denomination: 1
   }
 
   # Specify a rounding mode

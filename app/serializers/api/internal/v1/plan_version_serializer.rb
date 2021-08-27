@@ -4,6 +4,6 @@ class Api::Internal::V1::PlanVersionSerializer < ActiveModel::Serializer
   has_many :price_logics
 
   def version
-    object.human_version
+    "V#{object.version}"
   end
 end

@@ -2,29 +2,58 @@
   <div>
     <div class="relative flex items-center py-8 border border-gray-700">
       <div class="flex-1">
-        <div class="sm:col-span-3 md:ml-8">
-          <label
-            for="meter-type"
-            class="block text-sm font-medium text-gray-100"
-          >
-            Type
-          </label>
-          <PluttoDropdown
-            class="mt-2"
-            v-if="edit"
-            :selected="$t(`message.priceLogics.types.${priceLogic.type}`)"
-            :options="dropdownOptions"
-            @selected="(priceLogicType) => updatePriceLogic('type', priceLogicType)"
-          />
-          <div
-            class="inline-block w-auto px-4 py-2 mt-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md"
-            v-else
-          >
-            {{ $t(`message.priceLogics.types.${priceLogic.type}`) }}
+        <div class="flex">
+          <div class="sm:col-span-3 md:ml-8">
+            <label
+              for="meter-type"
+              class="block text-sm font-medium text-gray-100"
+            >
+              Type
+            </label>
+            <PluttoDropdown
+              class="mt-2"
+              v-if="edit"
+              :selected="priceLogic.type"
+              :options="dropdownOptions"
+              label-key="label"
+              value-key="value"
+              @selected="(priceLogicType) => updatePriceLogic('type', priceLogicType)"
+            />
+            <div
+              class="inline-block w-auto px-4 py-2 mt-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md"
+              v-else
+            >
+              {{ $t(`message.priceLogics.types.${priceLogic.type}`) }}
+            </div>
           </div>
-          <div class="mt-2 text-sm text-gray-200">
-            {{ $t(`message.priceLogics.descriptions.${priceLogic.type}`) }}
-          </div>
+          <template v-if="priceLogic.metered">
+            <div class="sm:col-span-3 md:ml-8">
+              <label
+                for="meter-type"
+                class="block text-sm font-medium text-gray-100"
+              >
+                Meter
+              </label>
+              <PluttoDropdown
+                class="mt-2"
+                v-if="edit"
+                :selected="priceLogic.meterId"
+                :options="meters"
+                label-key="name"
+                value-key="id"
+                @selected="(meterId) => updatePriceLogic('meterId', meterId)"
+              />
+              <div
+                class="flex items-center px-4 py-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
+                v-else
+              >
+                {{ meters && meters.find(meter => meter.id == priceLogic.meterId).name }}
+              </div>
+            </div>
+          </template>
+        </div>
+        <div class="mt-2 text-sm text-gray-200 sm:col-span-3 md:ml-8">
+          {{ $t(`message.priceLogics.descriptions.${priceLogic.type}`) }}
         </div>
         <div class="mt-4 md:mx-8">
           <template v-if="priceLogic.tiered">
@@ -39,7 +68,7 @@
           <template v-else>
             <label
               for="amount"
-              class="block text-sm font-medium text-gray-100"
+              class="block mt-2 text-sm font-medium text-gray-100"
             >
               Amount
             </label>
@@ -67,6 +96,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import PriceLogicTiers from '@/components/price-logic-tiers';
 import PluttoDropdown from '@/components/plutto-dropdown';
 
@@ -84,25 +115,29 @@ export default {
   },
   data() {
     return {
-      tierOptions: {
-        'PriceLogic::FlatFee': { tiered: false },
-        'PriceLogic::PerUnit': { tiered: false },
-        'PriceLogic::StairStep': { tiered: true },
-        'PriceLogic::Tiered': { tiered: true },
-        'PriceLogic::Volume': { tiered: true },
+      priceLogicOptions: {
+        'PriceLogic::FlatFee': { tiered: false, metered: false },
+        'PriceLogic::PerUnit': { tiered: false, metered: true },
+        'PriceLogic::StairStep': { tiered: true, metered: true },
+        'PriceLogic::Tiered': { tiered: true, metered: true },
+        'PriceLogic::Volume': { tiered: true, metered: true },
       },
     };
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('GET_METERS');
     if (this.modelValue) this.updatePriceLogic('type', this.modelValue.type);
   },
   methods: {
     updatePriceLogic(key, val) {
-      if (key === 'type') this.priceLogic = Object.assign(this.priceLogic, this.tierOptions[val]);
+      if (key === 'type') this.priceLogic = Object.assign(this.priceLogic, this.priceLogicOptions[val]);
       this.priceLogic = { ...this.priceLogic, ...{ [key]: val } };
     },
   },
   computed: {
+    ...mapState({
+      meters: state => state.meters.meters,
+    }),
     priceLogic: {
       get() {
         return this.modelValue;
@@ -112,7 +147,7 @@ export default {
       },
     },
     dropdownOptions() {
-      return Object.keys(this.tierOptions).map((key) => (
+      return Object.keys(this.priceLogicOptions).map((key) => (
         { value: key, label: this.$t(`message.priceLogics.types.${key}`) }
       ));
     },

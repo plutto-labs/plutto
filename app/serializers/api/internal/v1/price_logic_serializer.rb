@@ -1,7 +1,7 @@
 class Api::Internal::V1::PriceLogicSerializer < ActiveModel::Serializer
   include MoneyConcern
 
-  attributes :id, :type, :price, :price_currency
+  attributes :id, :type, :price, :price_currency, :meter_id
 
   has_many :tiers
 

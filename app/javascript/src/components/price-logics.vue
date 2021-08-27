@@ -60,11 +60,11 @@ export default {
   },
   beforeMount() {
     if (this.modelValue && this.modelValue.length > 0) this.priceLogics = this.modelValue;
-    else this.priceLogics = [{ type: 'PriceLogic::FlatFee', price: 0, tiers: null }];
+    else this.priceLogics = [{ type: 'PriceLogic::FlatFee', price: 0, tiers: null, meterId: null }];
   },
   methods: {
     addPriceLogic() {
-      this.priceLogics.push({ type: 'PriceLogic::FlatFee', price: 0, tiers: null });
+      this.priceLogics.push({ type: 'PriceLogic::FlatFee', price: 0, tiers: null, meterId: null });
     },
     deletePriceLogic(index) {
       this.priceLogics.splice(index - 1, 1);

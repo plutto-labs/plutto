@@ -1,12 +1,10 @@
 RSpec.describe PriceLogic::StairStep, type: :model do
   it_behaves_like 'a price logic' do
-    let(:subject) { build(:price_logic_stair_step) }
+    let(:price_logic) { build(:price_logic_stair_step) }
   end
 
-  it_behaves_like 'a metered price logic'
-
-  describe 'Validations' do
-    it { is_expected.to validate_inclusion_of(:price_currency).in_array(CURRENCIES.keys) }
+  it_behaves_like 'a metered price logic' do
+    let(:price_logic) { build(:price_logic_stair_step) }
   end
 
   describe '#calculate_price' do
