@@ -6,7 +6,7 @@ class Plan < ApplicationRecord
   belongs_to :default_version, class_name: 'PlanVersion', optional: true,
     foreign_key: 'default_plan_version_id', inverse_of: :determinant_plan
 
-  enum currency: CURRENCIES
+  enum currency: Currencies.keys
 
   validates :identifier, uniqueness: true
 
