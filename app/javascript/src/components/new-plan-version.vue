@@ -24,9 +24,7 @@
                 <PluttoDropdown
                   class="mt-2 plutto-input"
                   :selected="newPlan.currency"
-                  :options="[{ label: 'USD', value: 'USD' }, { label: 'CLP', value: 'CLP' }]"
-                  label-key="label"
-                  value-key="value"
+                  :options="CURRENCY_KEYS"
                   @selected="(currency) => newPlan.currency = currency"
                 />
               </div>
