@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_204143) do
+ActiveRecord::Schema.define(version: 2021_08_27_205601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,11 +83,11 @@ ActiveRecord::Schema.define(version: 2021_08_27_204143) do
   create_table "meter_counts", force: :cascade do |t|
     t.float "count", default: 0.0
     t.string "identifier"
-    t.bigint "billing_period_id", null: false
     t.bigint "meter_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["billing_period_id"], name: "index_meter_counts_on_billing_period_id"
+    t.bigint "customer_id"
+    t.index ["customer_id"], name: "index_meter_counts_on_customer_id"
     t.index ["identifier"], name: "index_meter_counts_on_identifier", unique: true
     t.index ["meter_id"], name: "index_meter_counts_on_meter_id"
   end
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(version: 2021_08_27_204143) do
 
   add_foreign_key "billing_periods", "plan_subscriptions"
   add_foreign_key "customers", "organizations"
-  add_foreign_key "meter_counts", "billing_periods"
+  add_foreign_key "meter_counts", "customers"
   add_foreign_key "meter_counts", "meters"
   add_foreign_key "meter_events", "billing_periods"
   add_foreign_key "meter_events", "meter_counts"

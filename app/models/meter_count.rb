@@ -1,7 +1,7 @@
 class MeterCount < ApplicationRecord
   include IdentifierAttribute
 
-  belongs_to :billing_period
+  belongs_to :customer
   belongs_to :meter
 
   has_many :meter_events, dependent: :nullify
@@ -33,22 +33,22 @@ end
 #
 # Table name: meter_counts
 #
-#  id                :bigint(8)        not null, primary key
-#  count             :float            default(0.0)
-#  identifier        :string
-#  billing_period_id :bigint(8)        not null
-#  meter_id          :bigint(8)        not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id          :bigint(8)        not null, primary key
+#  count       :float            default(0.0)
+#  identifier  :string
+#  meter_id    :bigint(8)        not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  customer_id :bigint(8)
 #
 # Indexes
 #
-#  index_meter_counts_on_billing_period_id  (billing_period_id)
-#  index_meter_counts_on_identifier         (identifier) UNIQUE
-#  index_meter_counts_on_meter_id           (meter_id)
+#  index_meter_counts_on_customer_id  (customer_id)
+#  index_meter_counts_on_identifier   (identifier) UNIQUE
+#  index_meter_counts_on_meter_id     (meter_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (billing_period_id => billing_periods.id)
+#  fk_rails_...  (customer_id => customers.id)
 #  fk_rails_...  (meter_id => meters.id)
 #
