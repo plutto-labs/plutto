@@ -17,5 +17,11 @@ module TiersFactoryHelper
         resource.tiers << tiers
       end
     end
+
+    trait(:without_set_currency) do
+      before(:create) do |object|
+        object.class.skip_callback(:validation, :before, :set_currency, raise: false)
+      end
+    end
   end
 end

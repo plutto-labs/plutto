@@ -2,24 +2,24 @@ require 'rails_helper'
 
 RSpec.describe PriceLogic::Tier, type: :model do
   describe 'Relations' do
-    it { is_expected.to belong_to(:tierable) }
+    let(:tier) { create(:price_logic_tier, :without_set_currency) }
+
+    it { expect(tier).to belong_to(:tierable) }
   end
 
   describe 'Validations' do
-    let(:tier) { build(:price_logic_tier) }
+    let(:tier) { create(:price_logic_tier) }
 
     it do
       expect(tier).to validate_numericality_of(:upper_limit)
         .is_greater_than_or_equal_to(tier.lower_limit)
     end
 
-    it { is_expected.to validate_presence_of(:upper_limit) }
-    it { is_expected.to validate_presence_of(:lower_limit) }
-    it { is_expected.to validate_presence_of(:price_cents) }
-    it { is_expected.to validate_presence_of(:index) }
-    it { is_expected.to validate_numericality_of(:lower_limit).is_greater_than_or_equal_to(0) }
-
-    it { is_expected.to validate_inclusion_of(:price_currency).in_array(CURRENCIES.keys) }
+    it { expect(tier).to validate_presence_of(:upper_limit) }
+    it { expect(tier).to validate_presence_of(:lower_limit) }
+    it { expect(tier).to validate_presence_of(:price_cents) }
+    it { expect(tier).to validate_presence_of(:index) }
+    it { expect(tier).to validate_numericality_of(:lower_limit).is_greater_than_or_equal_to(0) }
   end
 
   it { is_expected.to monetize(:price_cents) }
