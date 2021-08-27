@@ -5,8 +5,6 @@ class PriceLogic::Tier < ApplicationRecord
   validates :upper_limit, numericality: { greater_than_or_equal_to: :lower_limit }
   validates :lower_limit, numericality: { greater_than_or_equal_to: 0 }
 
-  validates :price_currency, inclusion: { in: CURRENCIES.keys }
-
   before_validation :set_currency
 
   monetize :price_cents
