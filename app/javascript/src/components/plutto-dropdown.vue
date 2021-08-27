@@ -7,7 +7,7 @@
       <MenuButton
         class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm focus:outline-none text-gray-50 hover:bg-gray-500"
       >
-        {{ selectedOption && selectedOption[labelKey] || 'Choose...' }}
+        {{ selectedOption[labelKey] || selectedOption || 'Choose...' }}
         <ChevronDownIcon
           class="w-5 h-5 ml-2 -mr-1"
           aria-hidden="true"
@@ -34,7 +34,7 @@
               @click="selectOption(option)"
               class="rounded-md"
               :class="[active ? 'bg-gray-500' : 'text-white', 'block px-4 py-2 text-sm']"
-            > {{ option[labelKey] }} </a>
+            > {{ option && option[labelKey] || option }} </a>
           </MenuItem>
         </div>
       </MenuItems>
@@ -74,16 +74,18 @@ export default {
   },
   data() {
     return {
-      selectedOption: {},
+      selectedOption: '',
     };
   },
   mounted() {
-    this.selectedOption = this.options.find((opt) => opt[this.valueKey] === this.selected);
+    if (this.selected) {
+      this.selectedOption = this.options.find((opt) => opt[this.valueKey] === this.selected) || this.selected;
+    }
   },
   methods: {
     selectOption(selectedOption) {
       this.selectedOption = selectedOption;
-      this.$emit('selected', selectedOption[this.valueKey]);
+      this.$emit('selected', selectedOption[this.valueKey] || this.selectedOption);
     },
   },
 };
