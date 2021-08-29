@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_29_135642) do
+ActiveRecord::Schema.define(version: 2021_08_29_152444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,7 +98,8 @@ ActiveRecord::Schema.define(version: 2021_08_29_135642) do
     t.bigint "meter_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "customer_id"
+    t.bigint "customer_id", null: false
+    t.index ["customer_id", "meter_id"], name: "index_meter_counts_on_customer_id_and_meter_id", unique: true
     t.index ["customer_id"], name: "index_meter_counts_on_customer_id"
     t.index ["identifier"], name: "index_meter_counts_on_identifier", unique: true
     t.index ["meter_id"], name: "index_meter_counts_on_meter_id"
