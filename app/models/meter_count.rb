@@ -5,6 +5,7 @@ class MeterCount < ApplicationRecord
   belongs_to :meter
 
   has_many :meter_events, dependent: :nullify
+  has_many :billing_period_meter_datas, dependent: :destroy
 
   validates :identifier, uniqueness: true
 

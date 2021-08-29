@@ -1,7 +1,8 @@
 RSpec.describe MeterCount, type: :model do
   describe 'Relations' do
-    it { is_expected.to belong_to(:billing_period) }
+    it { is_expected.to belong_to(:customer) }
     it { is_expected.to belong_to(:meter) }
+    it { is_expected.to have_many(:billing_period_meter_datas) }
   end
 
   it_behaves_like 'token-identifier model' do

@@ -2,6 +2,7 @@ class BillingPeriod < ApplicationRecord
   include IdentifierAttribute
 
   has_many :meter_events, dependent: :destroy
+  has_many :billing_period_meter_datas, dependent: :destroy
   belongs_to :plan_subscription
 
   delegate :plan_version_price_logics, to: :plan_subscription

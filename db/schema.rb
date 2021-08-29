@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_205601) do
+ActiveRecord::Schema.define(version: 2021_08_29_135642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,18 @@ ActiveRecord::Schema.define(version: 2021_08_27_205601) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["bearer_id", "bearer_type"], name: "index_api_keys_on_bearer_id_and_bearer_type"
     t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
+  end
+
+  create_table "billing_period_meter_data", force: :cascade do |t|
+    t.float "initial_count", default: 0.0
+    t.float "final_count"
+    t.bigint "billing_period_id", null: false
+    t.bigint "meter_count_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["billing_period_id"], name: "index_billing_period_meter_data_on_billing_period_id"
+    t.index ["meter_count_id", "billing_period_id"], name: "index_on_meter_count_id_and_billing_period_id", unique: true
+    t.index ["meter_count_id"], name: "index_billing_period_meter_data_on_meter_count_id"
   end
 
   create_table "billing_periods", force: :cascade do |t|
@@ -228,6 +240,8 @@ ActiveRecord::Schema.define(version: 2021_08_27_205601) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "billing_period_meter_data", "billing_periods"
+  add_foreign_key "billing_period_meter_data", "meter_counts"
   add_foreign_key "billing_periods", "plan_subscriptions"
   add_foreign_key "customers", "organizations"
   add_foreign_key "meter_counts", "customers"
