@@ -1,4 +1,4 @@
-SEGMENT_WRITE_KEY = ENV.fetch('REPORT_ANALYTICS') ? ENV.fetch('SEGMENT_RUBY_WRITE_KEY') : ''
+SEGMENT_WRITE_KEY = ENV.fetch('REPORT_ANALYTICS', false) ? ENV.fetch('SEGMENT_RUBY_WRITE_KEY') : ''
 
 Analytics = Segment::Analytics.new(
   write_key: SEGMENT_WRITE_KEY,
