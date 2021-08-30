@@ -22,14 +22,10 @@ describe PlanSubscriptionService do
     end
 
     it 'gets the current billing amount' do
-      period_days = (billing_period.from - billing_period.to).to_i
       service.end_billing_period
 
       expect(BillingPeriodPriceCalculator).to have_received(:for).with(
-        meter_counts: billing_period.meter_counts,
-        plan_subscription: plan_subscription,
-        total_period_days: period_days,
-        days_in_periods: period_days
+        billing_period: billing_period
       )
     end
 
