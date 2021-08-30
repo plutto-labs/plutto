@@ -13,6 +13,12 @@ export default {
     formatCurrency(val, currency = 'CLP') {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency }).format(val);
     },
+    formatDateTime(date, utc = false) {
+      if (!date) return date;
+      if (utc) return moment(String(date)).utc().format('DD/MM/YYYY - HH:mm');
+
+      return moment(String(date)).format('DD/MM/YYYY - HH:mm');
+    },
     humanizedDuration(val) {
       return moment.duration(val).humanize();
     },

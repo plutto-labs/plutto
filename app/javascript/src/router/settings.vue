@@ -75,7 +75,6 @@
 import { mapState } from 'vuex';
 import PluttoHeader from '@/components/plutto-header';
 import PluttoCopyableDiv from '@/components/plutto-copyable-div';
-import dateTime from '@/utils/date-time';
 import { TrashIcon } from '@heroicons/vue/outline';
 
 export default {
@@ -102,9 +101,6 @@ export default {
   methods: {
     copyToClipboard() {
       navigator.clipboard.writeText(this.apiKey);
-    },
-    formatDateTime(date) {
-      return dateTime(date);
     },
     createApiKey() {
       this.$store.dispatch('CREATE_API_KEY', { ...this.bearer, name: this.name })
