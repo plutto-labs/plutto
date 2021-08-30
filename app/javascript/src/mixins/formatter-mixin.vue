@@ -22,7 +22,11 @@ export default {
     humanizedDuration(val) {
       if (!val) return null;
 
-      return moment.duration(val).humanize();
+      let humanDuration = moment.duration(val).humanize();
+
+      if (humanDuration.charAt(0) === 'a') humanDuration = humanDuration.substring(2); // eslint-disable-line
+
+      return humanDuration;
     },
   },
 };

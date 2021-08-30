@@ -4,10 +4,12 @@
       button-text="Add Plan"
       @button-clicked="$router.push({ name: 'new-plan'})"
     />
-    <div class="px-6 mt-6">
-      <div v-if="!loading">
+    <div class="px-6 mx-auto mt-6 max-w-7xl">
+      <div
+        v-if="!loading"
+        class="grid grid-rows-1 gap-6 md:grid-cols-3"
+      >
         <PlanCard
-          class="mb-4"
           v-for="plan in plans"
           :key="plan.id"
           :plan="plan"
