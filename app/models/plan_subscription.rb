@@ -12,7 +12,7 @@ class PlanSubscription < ApplicationRecord
   before_create :generate_identifier
 
   def current_billing_period
-    billing_periods.where(billing_date: nil).last
+    billing_periods.order(created_at: :asc).last
   end
 
   private

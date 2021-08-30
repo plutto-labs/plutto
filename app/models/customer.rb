@@ -1,7 +1,7 @@
 class Customer < ApplicationRecord
   include IdentifierAttribute
 
-  has_many :meter_events, dependent: :nullify
+  has_many :meter_counts, dependent: :nullify
   has_many :plan_subscriptions, dependent: :destroy
   has_one :active_plan_subscription, -> { where(active: true) },
           class_name: 'PlanSubscription', inverse_of: :customer

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_203607) do
+ActiveRecord::Schema.define(version: 2021_08_29_152444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,18 @@ ActiveRecord::Schema.define(version: 2021_08_27_203607) do
     t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
   end
 
+  create_table "billing_period_meter_data", force: :cascade do |t|
+    t.float "initial_count", default: 0.0
+    t.float "final_count"
+    t.bigint "billing_period_id", null: false
+    t.bigint "meter_count_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["billing_period_id"], name: "index_billing_period_meter_data_on_billing_period_id"
+    t.index ["meter_count_id", "billing_period_id"], name: "index_on_meter_count_id_and_billing_period_id", unique: true
+    t.index ["meter_count_id"], name: "index_billing_period_meter_data_on_meter_count_id"
+  end
+
   create_table "billing_periods", force: :cascade do |t|
     t.datetime "from", null: false
     t.datetime "to", null: false
@@ -83,11 +95,12 @@ ActiveRecord::Schema.define(version: 2021_08_27_203607) do
   create_table "meter_counts", force: :cascade do |t|
     t.float "count", default: 0.0
     t.string "identifier"
-    t.bigint "billing_period_id", null: false
     t.bigint "meter_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["billing_period_id"], name: "index_meter_counts_on_billing_period_id"
+    t.bigint "customer_id", null: false
+    t.index ["customer_id", "meter_id"], name: "index_meter_counts_on_customer_id_and_meter_id", unique: true
+    t.index ["customer_id"], name: "index_meter_counts_on_customer_id"
     t.index ["identifier"], name: "index_meter_counts_on_identifier", unique: true
     t.index ["meter_id"], name: "index_meter_counts_on_meter_id"
   end
@@ -98,12 +111,14 @@ ActiveRecord::Schema.define(version: 2021_08_27_203607) do
     t.integer "action", default: 0
     t.string "identifier"
     t.bigint "meter_id", null: false
-    t.bigint "customer_id", null: false
     t.bigint "meter_count_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "idempotency_key"
+    t.float "current_meter_count"
+    t.bigint "billing_period_id"
     t.index ["action"], name: "index_meter_events_on_action"
-    t.index ["customer_id"], name: "index_meter_events_on_customer_id"
+    t.index ["billing_period_id"], name: "index_meter_events_on_billing_period_id"
     t.index ["identifier"], name: "index_meter_events_on_identifier", unique: true
     t.index ["meter_count_id"], name: "index_meter_events_on_meter_count_id"
     t.index ["meter_id"], name: "index_meter_events_on_meter_id"
@@ -226,11 +241,13 @@ ActiveRecord::Schema.define(version: 2021_08_27_203607) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "billing_period_meter_data", "billing_periods"
+  add_foreign_key "billing_period_meter_data", "meter_counts"
   add_foreign_key "billing_periods", "plan_subscriptions"
   add_foreign_key "customers", "organizations"
-  add_foreign_key "meter_counts", "billing_periods"
+  add_foreign_key "meter_counts", "customers"
   add_foreign_key "meter_counts", "meters"
-  add_foreign_key "meter_events", "customers"
+  add_foreign_key "meter_events", "billing_periods"
   add_foreign_key "meter_events", "meter_counts"
   add_foreign_key "meter_events", "meters"
   add_foreign_key "meters", "organizations"
