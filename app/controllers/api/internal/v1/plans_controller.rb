@@ -38,7 +38,9 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
   def plan_params
     params.require(:plan).permit(
       :name,
-      :currency
+      :currency,
+      :bills_at,
+      :billing_period_duration
     )
   end
 
@@ -47,7 +49,6 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
       price_logics_attributes: [
         :price,
         :type,
-        :bills_at,
         :meter_id,
         { tiers_attributes: [:index, :lower_limit, :upper_limit, :price] }
       ]

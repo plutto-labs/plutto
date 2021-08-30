@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_29_152444) do
+ActiveRecord::Schema.define(version: 2021_08_30_160420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 2021_08_29_152444) do
     t.bigint "default_plan_version_id"
     t.integer "currency", default: 0, null: false
     t.integer "bills_at", default: 0
+    t.string "billing_period_duration"
     t.index ["default_plan_version_id"], name: "index_plans_on_default_plan_version_id"
     t.index ["identifier"], name: "index_plans_on_identifier", unique: true
     t.index ["organization_id"], name: "index_plans_on_organization_id"

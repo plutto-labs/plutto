@@ -14,6 +14,9 @@
         <div class="mt-4">
           Bills at <span class="underline text-primary-300">{{ currentPlan.billsAt }}</span> of period
         </div>
+        <div class="mt-4">
+          Bills every <span class="underline text-success-light">{{ humanizedDuration(currentPlan.billingPeriodDuration) }}</span>
+        </div>
         <div class="flex items-center justify-between my-8">
           <div class="text-lg text-gray-300">
             Versions:
