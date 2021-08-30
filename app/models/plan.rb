@@ -8,6 +8,7 @@ class Plan < ApplicationRecord
 
   enum currency: Currencies.keys
   enum bills_at: { start: 0, end: 1 }, _prefix: :bills_at
+  attribute :billing_period_duration, :duration
 
   validates :identifier, uniqueness: true
 
@@ -38,7 +39,8 @@ end
 #  updated_at              :datetime         not null
 #  default_plan_version_id :bigint(8)
 #  currency                :integer          default("USD"), not null
-#  bills_at                :integer          default(0)
+#  bills_at                :integer          default("start")
+#  billing_period_duration :string
 #
 # Indexes
 #
