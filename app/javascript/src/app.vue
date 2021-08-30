@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <side-bar v-if="loggedIn">
+    <NavBar v-if="loggedIn">
       <router-view />
-    </side-bar>
+    </NavBar>
     <router-view v-else />
   </div>
 </template>
 
 <script>
-import SideBar from './components/side-bar.vue';
+import NavBar from './components/nav-bar.vue';
 
 export default {
   components: {
-    SideBar,
+    NavBar,
   },
   computed: {
     loggedIn() {
