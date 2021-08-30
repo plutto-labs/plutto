@@ -70,6 +70,7 @@
             </div>
             <PriceLogics
               v-model="priceLogics"
+              :allow-metered="newPlan.billsAt === 'end'"
             />
           </div>
         </div>

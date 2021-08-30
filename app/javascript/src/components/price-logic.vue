@@ -112,6 +112,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    allowMetered: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -130,7 +134,7 @@ export default {
   },
   methods: {
     updatePriceLogic(key, val) {
-      if (key === 'type') this.priceLogic = Object.assign(this.priceLogic, this.priceLogicOptions[val]);
+      if (key === 'type') this.priceLogic = Object.assign(this.priceLogic, this.allowedPriceLogicOptions[val]);
       this.priceLogic = { ...this.priceLogic, ...{ [key]: val } };
     },
   },
@@ -147,9 +151,19 @@ export default {
       },
     },
     dropdownOptions() {
-      return Object.keys(this.priceLogicOptions).map((key) => (
+      return Object.keys(this.allowedPriceLogicOptions).map((key) => (
         { value: key, label: this.$t(`message.priceLogics.types.${key}`) }
       ));
+    },
+    allowedPriceLogicOptions() {
+      if (this.allowMetered) return this.priceLogicOptions;
+
+      const allowed = {};
+      Object.keys(this.priceLogicOptions).forEach((key) => {
+        if (!this.priceLogicOptions[key].metered) allowed[key] = this.priceLogicOptions[key];
+      });
+
+      return allowed;
     },
   },
 };

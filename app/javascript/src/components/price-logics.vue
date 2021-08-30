@@ -4,6 +4,7 @@
       v-for="index in priceLogics.length"
       :key="index"
       :edit="edit"
+      :allow-metered="allowMetered"
       v-model="priceLogics[index - 1]"
     >
       <template
@@ -54,6 +55,10 @@ export default {
       default: () => [],
     },
     edit: {
+      type: Boolean,
+      default: true,
+    },
+    allowMetered: {
       type: Boolean,
       default: true,
     },
