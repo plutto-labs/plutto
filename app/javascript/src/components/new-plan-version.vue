@@ -158,14 +158,18 @@ export default {
     ...mapState({
       currentPlan: state => state.plans.currentPlan,
     }),
+    priceLogicsValid() {
+      return this.priceLogics.every((pl) => (!pl.metered || pl.meterId) && (!pl.tiered || pl.tiers));
+    },
     canCreatePlan() {
-      return this.priceLogics.length > 0 && (!this.createPlan || this.newPlan.name);
+      return this.priceLogics.length > 0 && this.priceLogicsValid &&
+        (!this.createPlan || (this.newPlan.name && this.newPlan.billingPeriodDuration));
     },
     planVersion() {
       return {
         priceLogicsAttributes: this.priceLogics.map(pl => {
           const priceLogic = Object.assign({}, { price: pl.price, type: pl.type, meterId: pl.meterId });
-          if (pl.tiers) {
+          if (pl.tiers && pl.tierable) {
             const tiers = pl.tiers.map((tier, index) => (
               Object.assign({}, { index, upperLimit: tier.upperLimit, price: tier.price })
             ));
