@@ -1,7 +1,12 @@
 <template>
   <header>
-    <span @click="$router.go(-1)">arrow_back</span>
-    <h1>{{ title }}</h1>
+    <span
+      v-if="showBackButton"
+      @click="$router.go(-1)"
+    >arrow_back</span>
+    <h1 v-if="title">
+      {{ title }}
+    </h1>
     <div v-if="buttonText">
       <button
         class="btn"
@@ -18,7 +23,11 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      default: null,
+    },
+    showBackButton: {
+      type: Boolean,
+      default: false,
     },
     buttonText: {
       type: String,
@@ -30,7 +39,7 @@ export default {
 
 <style scoped lang="scss">
 header {
-  @apply grid gap-3 text-3xl border-b-4 border-gray-600 pb-5 px-6 text-white;
+  @apply grid gap-3 text-xl px-6 text-white;
 
   grid-template-columns: 3rem 1fr minmax(auto, 15rem);
   grid-template-areas: 'back title action';
