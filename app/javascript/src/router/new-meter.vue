@@ -2,6 +2,7 @@
   <main>
     <PluttoHeader
       title="New Meter"
+      :show-back-button="true"
     />
     <div class="px-6 mt-6">
       <Form

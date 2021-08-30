@@ -1,7 +1,6 @@
 <template>
   <main>
     <PluttoHeader
-      title="Plans"
       button-text="Add Plan"
       @button-clicked="$router.push({ name: 'new-plan'})"
     />

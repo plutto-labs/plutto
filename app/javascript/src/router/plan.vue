@@ -3,6 +3,7 @@
     <template v-if="currentPlan">
       <PluttoHeader
         title="Plan details"
+        :show-back-button="true"
       />
       <div class="px-6 mt-6">
         <div class="text-xl">

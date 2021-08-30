@@ -1,8 +1,5 @@
 <template>
   <main>
-    <PluttoHeader
-      title="Settings"
-    />
     <div class="px-6 mt-6">
       <div class="w-full mx-auto md:max-w-xl">
         <p class="pb-2 border-b text-gray-5 border-gray-50">
@@ -73,12 +70,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import PluttoHeader from '@/components/plutto-header';
 import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 import { TrashIcon } from '@heroicons/vue/outline';
 
 export default {
-  components: { PluttoHeader, PluttoCopyableDiv, TrashIcon },
+  components: { PluttoCopyableDiv, TrashIcon },
   data() {
     return {
       name: '',
