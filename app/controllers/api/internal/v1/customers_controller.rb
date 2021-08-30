@@ -3,7 +3,12 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   include Pundit
 
   def index
-    respond_with(authorize(Customer.where(organization_id: current_user.organization_id)))
+    respond_with(
+      authorize(
+        Customer.where(organization_id: current_user.organization_id)
+          .includes([:active_plan_subscription])
+      )
+    )
   end
 
   def show
