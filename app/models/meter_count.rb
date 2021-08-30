@@ -7,7 +7,7 @@ class MeterCount < ApplicationRecord
   has_many :meter_events, dependent: :nullify
   has_many :billing_period_meter_datas, dependent: :destroy
 
-  validates :meter_id, :customer_id, presence: true
+  validates :meter, :customer, presence: true
   validates :identifier, uniqueness: true
   validates :customer_id, uniqueness: { scope: :meter_id }
 
