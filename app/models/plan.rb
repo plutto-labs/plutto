@@ -7,6 +7,7 @@ class Plan < ApplicationRecord
     foreign_key: 'default_plan_version_id', inverse_of: :determinant_plan
 
   enum currency: Currencies.keys
+  enum bills_at: { start: 0, end: 1 }, _prefix: :bills_at
 
   validates :identifier, uniqueness: true
 
@@ -37,6 +38,7 @@ end
 #  updated_at              :datetime         not null
 #  default_plan_version_id :bigint(8)
 #  currency                :integer          default("USD"), not null
+#  bills_at                :integer          default(0)
 #
 # Indexes
 #
