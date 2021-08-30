@@ -14,20 +14,6 @@
               Plan information
             </div>
             <div class="flex">
-              <div class="w-32 mr-8">
-                <label
-                  for="name"
-                  class="block text-sm font-medium text-gray-100"
-                >
-                  {{ $t('message.global.currency') }}
-                </label>
-                <PluttoDropdown
-                  class="mt-2 plutto-input"
-                  :selected="newPlan.currency"
-                  :options="CURRENCY_KEYS"
-                  @selected="(currency) => newPlan.currency = currency"
-                />
-              </div>
               <div class="w-full">
                 <label
                   for="name"
@@ -46,6 +32,35 @@
                     class="plutto-input__input"
                   >
                 </div>
+              </div>
+            </div>
+            <div class="flex mt-4">
+              <div class="w-32 mr-8">
+                <label
+                  for="currency"
+                  class="block text-sm font-medium text-gray-100"
+                >
+                  {{ $t('message.global.currency') }}
+                </label>
+                <PluttoDropdown
+                  class="mt-2 plutto-input"
+                  :selected="newPlan.currency"
+                  :options="CURRENCY_KEYS"
+                  @selected="(currency) => newPlan.currency = currency"
+                />
+              </div>
+              <div class="mr-8 w-50">
+                <label
+                  for="bills_at"
+                  class="block mb-2 text-sm font-medium text-gray-100"
+                >
+                  Bill when periods:
+                </label>
+                <PluttoRadioInput
+                  input-id="billsAt"
+                  :options="['start', 'end']"
+                  v-model="newPlan.billsAt"
+                />
               </div>
             </div>
           </template>
@@ -78,10 +93,11 @@ import { mapState } from 'vuex';
 import PriceLogics from '@/components/price-logics';
 import PluttoHeader from '@/components/plutto-header';
 import PluttoDropdown from '@/components/plutto-dropdown';
+import PluttoRadioInput from '@/components/plutto-radio-input';
 import { Form } from 'vee-validate';
 
 export default {
-  components: { PluttoHeader, PriceLogics, Form, PluttoDropdown },
+  components: { PluttoHeader, PriceLogics, Form, PluttoDropdown, PluttoRadioInput },
   props: {
     createPlan: {
       type: Boolean,
@@ -92,6 +108,7 @@ export default {
     return {
       newPlan: {
         currency: 'USD',
+        billsAt: 'end',
       },
       priceLogics: [],
     };

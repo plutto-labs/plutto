@@ -5,6 +5,7 @@ FactoryBot.define do
   factory :plan do
     organization
     name { 'Fixed' }
+    bills_at { 'end' }
     sequence(:identifier) { |i| "plan_#{i}" }
   end
 end
