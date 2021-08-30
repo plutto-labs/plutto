@@ -62,6 +62,22 @@
                   v-model="newPlan.billsAt"
                 />
               </div>
+              <div class="mr-8 w-50">
+                <label
+                  for="bills_at"
+                  class="block text-sm font-medium text-gray-100"
+                >
+                  Bill every:
+                </label>
+                <PluttoDropdown
+                  class="mt-2 plutto-input"
+                  :options="billingPeriodDurations"
+                  :selected="newPlan.billingPeriodDuration"
+                  @selected="(bpd) => newPlan.billingPeriodDuration = bpd"
+                  label-key="label"
+                  value-key="value"
+                />
+              </div>
             </div>
           </template>
           <div class="sm:col-span-3">
@@ -112,6 +128,14 @@ export default {
         billsAt: 'end',
       },
       priceLogics: [],
+      billingPeriodDurations: [
+        { label: 'day', value: 'P1D' },
+        { label: 'week', value: 'P1W' },
+        { label: 'month', value: 'P1M' },
+        { label: '3 months', value: 'P3M' },
+        { label: '6 months', value: 'P6M' },
+        { label: 'year', value: 'P1Y' },
+      ],
     };
   },
   beforeMount() {
