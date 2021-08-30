@@ -11,6 +11,6 @@ class Api::Internal::V1::PlanSerializer < ActiveModel::Serializer
   end
 
   def billing_period_duration
-    object.billing_period_duration.iso8601
+    object.billing_period_duration&.iso8601
   end
 end

@@ -20,6 +20,8 @@ export default {
       return moment(String(date)).format('DD/MM/YYYY - HH:mm');
     },
     humanizedDuration(val) {
+      if (!val) return null;
+
       return moment.duration(val).humanize();
     },
   },
