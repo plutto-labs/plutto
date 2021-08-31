@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_30_160420) do
+ActiveRecord::Schema.define(version: 2021_08_30_204101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,21 @@ ActiveRecord::Schema.define(version: 2021_08_30_160420) do
   end
 
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.string "identifier"
+    t.bigint "subtotal_cents", default: 0, null: false
+    t.bigint "tax_cents", default: 0, null: false
+    t.bigint "discount_cents", default: 0, null: false
+    t.string "currency", default: "usd"
+    t.datetime "issue_date"
+    t.jsonb "details", default: {}
+    t.bigint "billing_period_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
+    t.index ["identifier"], name: "index_invoices_on_identifier", unique: true
   end
 
   create_table "meter_counts", force: :cascade do |t|
@@ -246,6 +261,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_160420) do
   add_foreign_key "billing_period_meter_data", "meter_counts"
   add_foreign_key "billing_periods", "plan_subscriptions"
   add_foreign_key "customers", "organizations"
+  add_foreign_key "invoices", "billing_periods"
   add_foreign_key "meter_counts", "customers"
   add_foreign_key "meter_counts", "meters"
   add_foreign_key "meter_events", "billing_periods"
