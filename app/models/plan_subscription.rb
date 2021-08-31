@@ -6,6 +6,7 @@ class PlanSubscription < ApplicationRecord
   belongs_to :customer
 
   delegate :price_logics, to: :plan_version, allow_nil: true, prefix: true
+  delegate :bills_at_start?, to: :plan_version
 
   validates :identifier, uniqueness: true
 
