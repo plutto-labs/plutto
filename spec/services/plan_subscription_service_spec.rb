@@ -1,7 +1,10 @@
 describe PlanSubscriptionService do
   let(:plan_subscription) { create(:plan_subscription) }
   let(:service) { described_class.new(plan_subscription: plan_subscription) }
-  let(:date) { DateTime.new(2021, 3, 20, 12, 0, 0) }
+  let(:date) { Date.current }
+  let!(:billing_period) do
+    create(:billing_period, plan_subscription: plan_subscription, from: date - 1.month, to: date)
+  end
 
   before do
     Timecop.freeze(date)
