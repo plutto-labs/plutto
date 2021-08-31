@@ -44,7 +44,7 @@
             <a
               @click="$emit('add-element-clicked')"
               :class="[active ? 'bg-gray-500' : 'text-white', 'block px-4 py-2 text-sm']"
-            ><span class="mr-4 plutto-icon">add_circle_outline</span> {{ addElementText }} </a>
+            ><span class="mr-4 plutto-icon">add</span> {{ addElementText }} </a>
           </MenuItem>
         </div>
       </MenuItems>
