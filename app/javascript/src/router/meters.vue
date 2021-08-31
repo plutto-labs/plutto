@@ -2,7 +2,7 @@
   <main>
     <PluttoHeader
       button-text="Add Meter"
-      @button-clicked="$router.push({ name: 'new-meter'})"
+      @button-clicked="showNewMeterForm = true"
     />
     <div class="px-6 mt-6">
       <PluttoTable
@@ -13,16 +13,26 @@
         @delete-clicked="destroyMeter"
       />
     </div>
+    <PluttoModal
+      :showing="showNewMeterForm"
+      @close="showNewMeterForm = false"
+    >
+      <NewMeterForm
+        @created-meter="meter => showNewMeterForm = false"
+      />
+    </PluttoModal>
   </main>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import PluttoTable from '@/components/plutto-table';
-import PluttoHeader from '../components/plutto-header';
+import PluttoHeader from '@/components/plutto-header';
+import PluttoModal from '@/components/plutto-modal';
+import NewMeterForm from '@/components/new-meter-form';
 
 export default {
-  components: { PluttoHeader, PluttoTable },
+  components: { PluttoHeader, PluttoTable, PluttoModal, NewMeterForm },
   data() {
     return {
       headers: [
@@ -42,6 +52,7 @@ export default {
           action: 'delete',
         },
       ],
+      showNewMeterForm: false,
     };
   },
   computed: {
