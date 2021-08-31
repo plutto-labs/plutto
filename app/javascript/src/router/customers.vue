@@ -19,6 +19,8 @@
             label-key="name"
             value-key="id"
             @selected="(planVersionId) => changeCustomerPlanVersion(row.row.id, planVersionId)"
+            add-element-text="Add Plan"
+            @addElementClicked="showNewMeterModal = true"
           />
         </template>
       </PluttoTable>
