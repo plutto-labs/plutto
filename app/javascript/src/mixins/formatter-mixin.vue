@@ -20,7 +20,13 @@ export default {
       return moment(String(date)).format('DD/MM/YYYY - HH:mm');
     },
     humanizedDuration(val) {
-      return moment.duration(val).humanize();
+      if (!val) return null;
+
+      let humanDuration = moment.duration(val).humanize();
+
+      if (humanDuration.charAt(0) === 'a') humanDuration = humanDuration.substring(2); // eslint-disable-line
+
+      return humanDuration;
     },
   },
 };

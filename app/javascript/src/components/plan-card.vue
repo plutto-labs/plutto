@@ -1,45 +1,42 @@
 <template>
-  <div class="flex items-center w-full px-4 py-4 border border-gray-300 rounded">
-    <div class="flex-1">
-      <div class="flex items-center text-lg">
+  <div
+    class="relative flex flex-col border border-gray-300 rounded"
+    @click="$router.push({ name: 'plan', params: { id: plan.id } })"
+  >
+    <div class="flex-1 px-4 pt-6">
+      <div class="text-xl">
         {{ plan.name }}
         <span
-          class="ml-4 plutto-tag plutto-tag--green text-2xs"
+          class="absolute top-0 right-0 px-4 ml-4 border-b border-l border-gray-300 rounded-bl text-primary text-2xs"
         >{{ plan.currency }}</span>
       </div>
-      <div class="flex justify-between w-full">
-        <div class="justify-between flex-1 pr-6 md:px-6 md:flex">
-          <div>
-            <div class="text-sm text-gray-100">
-              Active version: {{ plan.defaultVersion && plan.defaultVersion.version }}
-            </div>
-            <div class="text-xs text-gray-300">
-              {{ plan.defaultVersion && plan.defaultVersion.identifier }}
-            </div>
-          </div>
-          <div class="flex items-center h-full">
-            <div
-              class="flex items-center h-full"
-              v-for="(priceLogic, index) in plan.defaultVersion && plan.defaultVersion.priceLogics"
-              :key="priceLogic.id"
-            >
-              <div class="flex items-center h-full px-4 text-xs border border-gray-700">
-                {{ $t(`message.priceLogics.initials.${priceLogic.type}`) }}
-              </div>
-              <span
-                class="mx-2"
-                v-if="index !== plan.defaultVersion.priceLogics.length - 1"
-              >+</span>
-            </div>
-          </div>
+      <div class="text-gray-100 text-2xs">
+        {{ plan.defaultVersion && plan.defaultVersion.version }} ·
+        {{ plan.defaultVersion && plan.defaultVersion.identifier }}
+      </div>
+      <div class="pr-2 mt-4 text-sm text-gray-200 md:px-6">
+        <div class="flex items-center">
+          <span class="mr-4 plutto-icon">date_range</span><span>Bills at <u>{{ plan.billsAt }}</u> of period</span>
+        </div>
+        <div
+          v-if="plan.billingPeriodDuration"
+          class="flex items-center mt-2"
+        >
+          <span class="mr-4 plutto-icon">autorenew</span><span>Bills every <u>{{ humanizedDuration(plan.billingPeriodDuration) }}</u></span>
+        </div>
+        <div
+          v-if="plan.defaultVersion"
+          class="flex items-center mt-2"
+        >
+          <span class="mr-4 plutto-icon">monetization_on</span><span><u>{{ priceLogicSummary(plan.defaultVersion.priceLogics) }}</u></span>
         </div>
       </div>
     </div>
     <div
       @click="$router.push({ name: 'plan', params: { id: plan.id } })"
-      class="flex items-center justify-center w-8 h-full border-l border-gray-300 cursor-pointer md:w-12"
+      class="px-4 py-2 text-xs text-right text-gray-200 cursor-pointer"
     >
-      <span class="text-xl md:text-3xl plutto-icon">chevron_right</span>
+      Details
     </div>
   </div>
 </template>
@@ -50,6 +47,11 @@ export default {
     plan: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    priceLogicSummary(priceLogics) {
+      return priceLogics.map((pl) => this.$t(`message.priceLogics.types.${pl.type}`)).join(' + ');
     },
   },
 };

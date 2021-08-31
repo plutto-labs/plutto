@@ -2,6 +2,7 @@
   <main>
     <PluttoHeader
       title="New Customer"
+      :show-back-button="true"
     />
     <div class="px-6 mt-6">
       <Form

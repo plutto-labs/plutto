@@ -1,7 +1,6 @@
 <template>
   <main>
     <PluttoHeader
-      title="Meters"
       button-text="Add Meter"
       @button-clicked="$router.push({ name: 'new-meter'})"
     />

@@ -3,6 +3,7 @@
     <template v-if="currentPlan">
       <PluttoHeader
         title="Plan details"
+        :show-back-button="true"
       />
       <div class="px-6 mt-6">
         <div class="text-xl">
@@ -14,7 +15,10 @@
         <div class="mt-4">
           Bills at <span class="underline text-primary-300">{{ currentPlan.billsAt }}</span> of period
         </div>
-        <div class="mt-4">
+        <div
+          v-if="currentPlan.billingPeriodDuration"
+          class="mt-4"
+        >
           Bills every <span class="underline text-success-light">{{ humanizedDuration(currentPlan.billingPeriodDuration) }}</span>
         </div>
         <div class="flex items-center justify-between my-8">
