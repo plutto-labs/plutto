@@ -1,4 +1,5 @@
 class MeterEvent < ApplicationRecord
+  include PowerTypes::Observable
   include IdentifierAttribute
 
   belongs_to :meter
@@ -10,6 +11,7 @@ class MeterEvent < ApplicationRecord
   validates :identifier, uniqueness: true
   validates :timestamp, presence: true
 
+  delegate :customer, to: :meter_count
 
   before_create :generate_identifier
 
