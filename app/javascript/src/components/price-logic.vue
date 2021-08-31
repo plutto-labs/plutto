@@ -32,7 +32,7 @@
                 for="meter-type"
                 class="block text-sm font-medium text-gray-100"
               >
-                Meter
+                {{ edit ? 'Connect to' : 'connected to' }}
               </label>
               <PluttoDropdown
                 class="mt-2"
@@ -42,6 +42,8 @@
                 label-key="name"
                 value-key="id"
                 @selected="(meterId) => updatePriceLogic('meterId', meterId)"
+                add-element-text="Add Meter"
+                @addElementClicked="showNewMeterModal = true"
               />
               <div
                 class="flex items-center px-4 py-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
@@ -56,7 +58,7 @@
           {{ $t(`message.priceLogics.descriptions.${priceLogic.type}`) }}
         </div>
         <div class="mt-4 md:mx-8">
-          <template v-if="priceLogic.tiered">
+          <template v-if="priceLogic.tierable">
             <PriceLogicTiers
               :first-row-text="priceLogic.type === 'PriceLogic::Volume' ? 'Total of units' : 'For the first'"
               :other-rows-text="priceLogic.type === 'PriceLogic::Volume' ? 'Total of units' : 'For the next'"
@@ -92,6 +94,14 @@
       <slot name="delete" />
     </div>
     <slot name="separator" />
+    <PluttoModal
+      :showing="showNewMeterModal"
+      @close="showNewMeterModal = false"
+    >
+      <NewMeterForm
+        @created-meter="meter => assignNewMeter(meter)"
+      />
+    </PluttoModal>
   </div>
 </template>
 
@@ -101,8 +111,11 @@ import { mapState } from 'vuex';
 import PriceLogicTiers from '@/components/price-logic-tiers';
 import PluttoDropdown from '@/components/plutto-dropdown';
 
+import PluttoModal from '@/components/plutto-modal';
+import NewMeterForm from '@/components/forms/new-meter-form';
+
 export default {
-  components: { PriceLogicTiers, PluttoDropdown },
+  components: { PriceLogicTiers, PluttoDropdown, PluttoModal, NewMeterForm },
   props: {
     modelValue: {
       type: Object,
@@ -120,12 +133,13 @@ export default {
   data() {
     return {
       priceLogicOptions: {
-        'PriceLogic::FlatFee': { tiered: false, metered: false },
-        'PriceLogic::PerUnit': { tiered: false, metered: true },
-        'PriceLogic::StairStep': { tiered: true, metered: true },
-        'PriceLogic::Tiered': { tiered: true, metered: true },
-        'PriceLogic::Volume': { tiered: true, metered: true },
+        'PriceLogic::FlatFee': { tierable: false, metered: false },
+        'PriceLogic::PerUnit': { tierable: false, metered: true },
+        'PriceLogic::StairStep': { tierable: true, metered: true },
+        'PriceLogic::Tiered': { tierable: true, metered: true },
+        'PriceLogic::Volume': { tierable: true, metered: true },
       },
+      showNewMeterModal: false,
     };
   },
   async mounted() {
@@ -136,6 +150,10 @@ export default {
     updatePriceLogic(key, val) {
       if (key === 'type') this.priceLogic = Object.assign(this.priceLogic, this.allowedPriceLogicOptions[val]);
       this.priceLogic = { ...this.priceLogic, ...{ [key]: val } };
+    },
+    assignNewMeter(newMeter) {
+      this.showNewMeterModal = false;
+      this.updatePriceLogic('meterId', newMeter.id);
     },
   },
   computed: {
