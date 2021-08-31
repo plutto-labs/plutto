@@ -7,5 +7,6 @@ FactoryBot.define do
     name { 'Fixed' }
     bills_at { 'end' }
     sequence(:identifier) { |i| "plan_#{i}" }
+    billing_period_duration { 1.month }
   end
 end
