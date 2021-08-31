@@ -20,7 +20,7 @@
             value-key="id"
             @selected="(planVersionId) => changeCustomerPlanVersion(row.row.id, planVersionId)"
             add-element-text="Add Plan"
-            @addElementClicked="showNewMeterModal = true"
+            @addElementClicked="showNewPlanVersionForm = true"
           />
         </template>
       </PluttoTable>
@@ -33,6 +33,16 @@
         @created-customer="customer => showNewCustomerForm = false"
       />
     </PluttoModal>
+    <PluttoSlideover
+      :showing="showNewPlanVersionForm"
+      @close="showNewPlanVersionForm = false"
+    >
+      <NewPlanVersionForm
+        @created-plan="plan => showNewPlanVersionForm = false"
+        :create-plan="true"
+        class="pb-8 mx-auto"
+      />
+    </PluttoSlideover>
   </main>
 </template>
 <script>
@@ -42,9 +52,13 @@ import PluttoHeader from '@/components/plutto-header';
 import PluttoDropdown from '@/components/plutto-dropdown';
 import PluttoModal from '@/components/plutto-modal';
 import NewCustomerForm from '@/components/forms/new-customer-form';
+import PluttoSlideover from '@/components/plutto-slideover';
+import NewPlanVersionForm from '@/components/forms/new-plan-version-form';
 
 export default {
-  components: { PluttoTable, PluttoHeader, PluttoDropdown, PluttoModal, NewCustomerForm },
+  components: {
+    PluttoTable, PluttoHeader, PluttoDropdown, PluttoModal, NewCustomerForm, PluttoSlideover, NewPlanVersionForm,
+  },
   data() {
     return {
       headers: [
@@ -69,6 +83,7 @@ export default {
         },
       ],
       showNewCustomerForm: false,
+      showNewPlanVersionForm: false,
     };
   },
   computed: {
