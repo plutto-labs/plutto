@@ -14,7 +14,7 @@
       >
         <template #component="row">
           <PluttoDropdown
-            :selected="row.row.activePlanSubscription && planVersionId"
+            :selected="row.row.activePlanSubscription && row.row.activePlanSubscription.planVersionId"
             :options="planVersionsOptions"
             label-key="name"
             value-key="id"
