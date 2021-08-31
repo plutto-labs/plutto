@@ -39,7 +39,7 @@ import PluttoTable from '@/components/plutto-table';
 import PluttoHeader from '@/components/plutto-header';
 import PluttoDropdown from '@/components/plutto-dropdown';
 import PluttoModal from '@/components/plutto-modal';
-import NewCustomerForm from '@/components/new-customer-form';
+import NewCustomerForm from '@/components/forms/new-customer-form';
 
 export default {
   components: { PluttoTable, PluttoHeader, PluttoDropdown, PluttoModal, NewCustomerForm },

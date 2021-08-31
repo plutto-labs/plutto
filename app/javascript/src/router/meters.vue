@@ -29,7 +29,7 @@ import { mapState } from 'vuex';
 import PluttoTable from '@/components/plutto-table';
 import PluttoHeader from '@/components/plutto-header';
 import PluttoModal from '@/components/plutto-modal';
-import NewMeterForm from '@/components/new-meter-form';
+import NewMeterForm from '@/components/forms/new-meter-form';
 
 export default {
   components: { PluttoHeader, PluttoTable, PluttoModal, NewMeterForm },
