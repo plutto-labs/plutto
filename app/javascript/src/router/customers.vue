@@ -2,7 +2,7 @@
   <main>
     <PluttoHeader
       button-text="Add Customer"
-      @button-clicked="$router.push({ name: 'new-customer'})"
+      @button-clicked="showNewCustomerForm = true"
     />
     <div class="px-6 mt-6">
       <PluttoTable
@@ -23,6 +23,14 @@
         </template>
       </PluttoTable>
     </div>
+    <PluttoModal
+      :showing="showNewCustomerForm"
+      @close="showNewCustomerForm = false"
+    >
+      <NewCustomerForm
+        @created-customer="customer => showNewCustomerForm = false"
+      />
+    </PluttoModal>
   </main>
 </template>
 <script>
@@ -30,13 +38,11 @@ import { mapState } from 'vuex';
 import PluttoTable from '@/components/plutto-table';
 import PluttoHeader from '@/components/plutto-header';
 import PluttoDropdown from '@/components/plutto-dropdown';
+import PluttoModal from '@/components/plutto-modal';
+import NewCustomerForm from '@/components/new-customer-form';
 
 export default {
-  components: {
-    PluttoTable,
-    PluttoHeader,
-    PluttoDropdown,
-  },
+  components: { PluttoTable, PluttoHeader, PluttoDropdown, PluttoModal, NewCustomerForm },
   data() {
     return {
       headers: [
@@ -60,6 +66,7 @@ export default {
           action: 'delete',
         },
       ],
+      showNewCustomerForm: false,
     };
   },
   computed: {
