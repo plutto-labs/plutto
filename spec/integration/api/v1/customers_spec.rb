@@ -35,14 +35,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: {}]
-      parameter name: :customer, in: :body, schema: {
-        type: :object,
-        properties:
-        {
-          email: { type: :string, example: 'donald@getplutto.com', ' x-nullable': false },
-          name: { type: :string, example: 'Plutto Donald', 'x-nullable': true }
-        }
-      }
+      parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/customer_create' }
 
       let(:customer) do
         {
@@ -100,14 +93,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: {}]
-      parameter name: :customer, in: :body, schema: {
-        type: :object,
-        properties:
-        {
-          email: { type: :string, example: 'donald@getplutto.com', ' x-nullable': false },
-          name: { type: :string, example: 'Plutto Donald', 'x-nullable': true }
-        }
-      }
+      parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/meter_event_create' }
 
       let(:customer) do
         {
