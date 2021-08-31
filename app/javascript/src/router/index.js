@@ -5,7 +5,6 @@ import Auth from '@/router/auth';
 import Customers from '@/router/customers';
 import Plans from '@/router/plans';
 import Plan from '@/router/plan';
-import NewPlanVersion from '@/components/new-plan-version';
 import Meters from '@/router/meters';
 import Settings from '@/router/settings';
 import store from '@/store';
@@ -42,24 +41,6 @@ const router = createRouter({
       component: Plans,
       meta: {
         title: 'Plans | Plutto',
-        authRequired: true,
-      },
-    }, {
-      path: '/plans/new',
-      name: 'new-plan',
-      component: NewPlanVersion,
-      props: { createPlan: true },
-      meta: {
-        title: 'New Plan | Plutto',
-        authRequired: true,
-      },
-    }, {
-      path: '/plan/:id/new-version',
-      name: 'new-plan-version',
-      component: NewPlanVersion,
-      props: { createPlan: false },
-      meta: {
-        title: 'New Plan Version | Plutto',
         authRequired: true,
       },
     }, {
