@@ -22,6 +22,10 @@ module TiersFactoryHelper
       before(:create) do |object|
         object.class.skip_callback(:validation, :before, :set_currency, raise: false)
       end
+
+      after(:create) do |object|
+        object.class.skip_callback(:validation, :before, :set_currency, raise: false)
+      end
     end
   end
 end

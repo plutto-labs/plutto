@@ -1,14 +1,17 @@
 class MeterEvent < ApplicationRecord
+  include PowerTypes::Observable
   include IdentifierAttribute
 
   belongs_to :meter
   belongs_to :meter_count
-  belongs_to :billing_period
+  belongs_to :billing_period, optional: true
 
   enum action: { increment: 0, set: 1, decrement: 2 }, _suffix: true
 
   validates :identifier, uniqueness: true
   validates :timestamp, presence: true
+
+  delegate :customer, to: :meter_count
 
   before_create :generate_identifier
 

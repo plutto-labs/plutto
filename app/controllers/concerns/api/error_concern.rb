@@ -23,6 +23,15 @@ module Api::ErrorConcern
     rescue_from 'ActiveRecord::RecordInvalid' do
       respond_api_error(ApiException::Errors::BadRequest.new)
     end
+
+    rescue_from 'ArgumentError' do |exception|
+      respond_api_error(
+        ApiException::Errors::BadRequest.new(
+          detail: exception.message,
+          param: exception.message.split(' ')[-1]
+        )
+      )
+    end
   end
 
   def respond_with_forbidden

@@ -14,16 +14,8 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: {}]
-      parameter name: :plan_subscription, in: :body, schema: {
-        type: :object,
-        properties:
-        {
-          customer_id: { type: :string, example: 'customer_5198c6ad60c3363b089a1421',
-                         'x-nullable': false },
-          plan_version_id: { type: :string, example: 'version_5198c6ad60c3363b089a1421',
-                             'x-nullable': false }
-        }
-      }
+      parameter name: :plan_subscription, in: :body,
+                schema: { '$ref': '#/definitions/plan_subscription_create' }
 
       let(:plan_subscription) do
         {
@@ -58,12 +50,8 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: {}]
-      parameter name: :plan_subscription, in: :body, schema: {
-        type: :object,
-        properties: {
-          active: { type: :boolean, example: true, 'x-nullable': false }
-        }
-      }
+      parameter name: :plan_subscription, in: :body,
+                schema: { '$ref': '#/definitions/plan_subscription_create' }
 
       let(:plan_subscription) { { active: 'false' } }
 
