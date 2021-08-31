@@ -23,7 +23,7 @@
       leave-from-class="transform scale-100 opacity-100"
       leave-to-class="transform scale-95 opacity-0"
     >
-      <MenuItems class="absolute right-0 z-50 w-56 mt-2 origin-top-right bg-gray-700 rounded-md shadow-lg outline-none ring-1 ring-black ring-opacity-5">
+      <MenuItems class="absolute left-0 right-0 z-50 w-56 mt-2 bg-gray-700 rounded-md shadow-lg outline-none ring-1 ring-black ring-opacity-5">
         <div>
           <MenuItem
             v-slot="{ active }"
@@ -35,6 +35,16 @@
               class="rounded-md"
               :class="[active ? 'bg-gray-500' : 'text-white', 'block px-4 py-2 text-sm']"
             > {{ option && option[labelKey] || option }} </a>
+          </MenuItem>
+          <MenuItem
+            v-slot="{ active }"
+            v-if="addElementText"
+            class="flex items-center border-t-2 border-gray-400"
+          >
+            <a
+              @click="$emit('add-element-clicked')"
+              :class="[active ? 'bg-gray-500' : 'text-white', 'block px-4 py-2 text-sm']"
+            ><span class="mr-4 plutto-icon">add</span> {{ addElementText }} </a>
           </MenuItem>
         </div>
       </MenuItems>
@@ -71,6 +81,10 @@ export default {
       type: String,
       default: 'name',
     },
+    addElementText: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -86,6 +100,13 @@ export default {
     selectOption(selectedOption) {
       this.selectedOption = selectedOption;
       this.$emit('selected', selectedOption[this.valueKey] || this.selectedOption);
+    },
+  },
+  watch: {
+    selected() {
+      if (this.selected) {
+        this.selectedOption = this.options.find((opt) => opt[this.valueKey] === this.selected) || this.selected;
+      }
     },
   },
 };

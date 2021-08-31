@@ -74,7 +74,13 @@ export const actions = {
 
     return metersApi.create(payload)
       .then((data) => {
-        if (data.meter) commit('addMeter', data.meter);
+        if (data.meter) {
+          commit('addMeter', data.meter);
+
+          return data.meter;
+        }
+
+        return null;
       })
       .catch((err) => {
         commit('setError', err);

@@ -2,7 +2,7 @@
   <main>
     <PluttoHeader
       button-text="Add Plan"
-      @button-clicked="$router.push({ name: 'new-plan'})"
+      @button-clicked="showNewPlanVersionForm = true"
     />
     <div class="px-6 mx-auto mt-6 max-w-7xl">
       <div
@@ -19,17 +19,34 @@
         v-else
       />
     </div>
+    <PluttoSlideover
+      :showing="showNewPlanVersionForm"
+      @close="showNewPlanVersionForm = false"
+    >
+      <NewPlanVersionForm
+        @created-plan="plan => showNewPlanVersionForm = false"
+        :create-plan="true"
+        class="pb-8 mx-auto"
+      />
+    </PluttoSlideover>
   </main>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import PlanCard from '@/components/plan-card';
-import PluttoHeader from '../components/plutto-header';
-import PluttoLoader from '../components/plutto-loader';
+import PluttoHeader from '@/components/plutto-header';
+import PluttoLoader from '@/components/plutto-loader';
+import PluttoSlideover from '@/components/plutto-slideover';
+import NewPlanVersionForm from '@/components/forms/new-plan-version-form';
 
 export default {
-  components: { PluttoHeader, PluttoLoader, PlanCard },
+  components: { PluttoHeader, PluttoLoader, PlanCard, PluttoSlideover, NewPlanVersionForm },
+  data() {
+    return {
+      showNewPlanVersionForm: false,
+    };
+  },
   computed: {
     ...mapState({
       loading: state => state.plans.loading,

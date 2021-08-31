@@ -27,7 +27,7 @@
           </div>
           <button
             class="btn btn--filled"
-            @click="$router.push({ name: 'new-plan-version', params: { id: currentPlan.id } })"
+            @click="showNewPlanVersionForm = true"
           >
             New version
           </button>
@@ -44,6 +44,16 @@
     <PluttoLoader
       v-else-if="loading"
     />
+    <PluttoSlideover
+      :showing="showNewPlanVersionForm"
+      @close="showNewPlanVersionForm = false"
+    >
+      <NewPlanVersionForm
+        @created-plan-version="planVersion => showNewPlanVersionForm = false"
+        :create-plan="false"
+        class="pb-8 mx-auto"
+      />
+    </PluttoSlideover>
   </main>
 </template>
 
@@ -52,14 +62,17 @@ import { mapState } from 'vuex';
 import PlanVersion from '@/components/plan-version';
 import PluttoHeader from '@/components/plutto-header';
 import PluttoLoader from '@/components/plutto-loader';
+import PluttoSlideover from '@/components/plutto-slideover';
+import NewPlanVersionForm from '@/components/forms/new-plan-version-form';
 
 export default {
-  components: { PluttoHeader, PluttoLoader, PlanVersion },
+  components: { PluttoHeader, PluttoLoader, PlanVersion, PluttoSlideover, NewPlanVersionForm },
   data() {
     return {
       newPlanVersion: {
         temp: 'value',
       },
+      showNewPlanVersionForm: false,
     };
   },
   async beforeMount() {
