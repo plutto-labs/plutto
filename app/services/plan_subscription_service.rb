@@ -26,10 +26,6 @@ class PlanSubscriptionService < PowerTypes::Service.new(:plan_subscription)
     @billing_period ||= @plan_subscription.current_billing_period
   end
 
-  def get_billing_amount_for_period
-    BillingPeriodPriceCalculator.for(billing_period: billing_period)
-  end
-
   def create_invoice(billing_period)
     CreateInvoice.for(billing_period: billing_period)
   end

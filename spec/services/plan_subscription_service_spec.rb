@@ -14,26 +14,9 @@ describe PlanSubscriptionService do
       create(:billing_period, plan_subscription: plan_subscription, from: date - 1.month, to: date)
     end
 
-    before do
-      allow(BillingPeriodPriceCalculator).to receive(:for).and_return(usd(100))
-    end
-
     it 'set the current Date as billing_date' do
       expect { service.end_billing_period }.to change { billing_period.reload.billing_date }
         .from(nil).to(date)
-    end
-
-    it 'gets the current billing amount' do
-      service.end_billing_period
-
-      expect(BillingPeriodPriceCalculator).to have_received(:for).with(
-        billing_period: billing_period
-      )
-    end
-
-    it 'sets the billing_amount' do
-      expect { service.end_billing_period }.to change { billing_period.reload.billing_amount }
-        .from(usd(0)).to(usd(100))
     end
 
     context 'when called with start_new_period=false flag' do
