@@ -1,4 +1,5 @@
 class PlanSubscription < ApplicationRecord
+  include PowerTypes::Observable
   include IdentifierAttribute
 
   has_many :billing_periods, dependent: :nullify
