@@ -2,7 +2,7 @@ class PlanSubscriptionService < PowerTypes::Service.new(:plan_subscription)
   def end_billing_period(start_new_period = true)
     ActiveRecord::Base.transaction do
       billing_period.billing_date = DateTime.current
-      billing_period.billing_amount = get_billing_amount_for_period
+      create_invoice(billing_period) unless @plan_subscription.bills_at_start?
       billing_period.save!
     end
 
@@ -17,6 +17,7 @@ class PlanSubscriptionService < PowerTypes::Service.new(:plan_subscription)
                                                plan_subscription: @plan_subscription)
 
     StartBillingPeriod.for(billing_period: next_billing_period)
+    create_invoice(next_billing_period) if @plan_subscription.bills_at_start?
   end
 
   private
@@ -25,7 +26,7 @@ class PlanSubscriptionService < PowerTypes::Service.new(:plan_subscription)
     @billing_period ||= @plan_subscription.current_billing_period
   end
 
-  def get_billing_amount_for_period
-    BillingPeriodPriceCalculator.for(billing_period: billing_period)
+  def create_invoice(billing_period)
+    CreateInvoice.for(billing_period: billing_period)
   end
 end
