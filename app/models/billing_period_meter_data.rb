@@ -13,6 +13,12 @@ class BillingPeriodMeterData < ApplicationRecord
       final_count
     end
   end
+
+  private
+
+  def generate_id
+    init_id('period-meter-data')
+  end
 end
 
 # == Schema Information

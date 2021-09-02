@@ -7,6 +7,12 @@ class BillingPeriod < ApplicationRecord
   delegate :plan_version_price_logics, to: :plan_subscription
 
   monetize :billing_amount_cents
+
+  private
+
+  def generate_id
+    init_id('period')
+  end
 end
 
 # == Schema Information

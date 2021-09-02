@@ -19,6 +19,12 @@ class MeterCount < ApplicationRecord
     end
     save!
   end
+
+  private
+
+  def generate_id
+    init_id('count')
+  end
 end
 
 # == Schema Information

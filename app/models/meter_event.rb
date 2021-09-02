@@ -10,6 +10,12 @@ class MeterEvent < ApplicationRecord
   validates :timestamp, presence: true
 
   delegate :customer, to: :meter_count
+
+  private
+
+  def generate_id
+    init_id('event')
+  end
 end
 
 # == Schema Information

@@ -13,6 +13,12 @@ class Plan < ApplicationRecord
     self.default_version = plan_version
     plan_version
   end
+
+  private
+
+  def generate_id
+    init_id('plan')
+  end
 end
 
 # == Schema Information

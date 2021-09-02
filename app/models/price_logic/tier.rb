@@ -24,6 +24,10 @@ class PriceLogic::Tier < ApplicationRecord
   def set_currency
     self.price_currency = tierable.price_currency
   end
+
+  def generate_id
+    init_id('tier')
+  end
 end
 
 # == Schema Information

@@ -8,6 +8,12 @@ class PriceLogic::FlatFee < PriceLogic
   def self.metered?
     false
   end
+
+  private
+
+  def generate_id
+    init_id('price-logic')
+  end
 end
 
 # == Schema Information

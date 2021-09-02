@@ -22,6 +22,10 @@ class PlanVersion < ApplicationRecord
   def set_version
     update_column(:version, previous_version&.version.to_i + 1)
   end
+
+  def generate_id
+    init_id('version')
+  end
 end
 
 # == Schema Information

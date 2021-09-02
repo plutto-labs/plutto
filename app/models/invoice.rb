@@ -9,6 +9,10 @@ class Invoice < ApplicationRecord
   def set_currency
     self.currency = billing_period.plan_subscription.plan_version.currency
   end
+
+  def generate_id
+    init_id('invoice')
+  end
 end
 
 # == Schema Information

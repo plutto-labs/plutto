@@ -9,6 +9,6 @@ class ApplicationRecord < ActiveRecord::Base
   private
 
   def generate_id
-    init_id(self.class.name.underscore.split('_')[-1])
+    raise NotImplementedError
   end
 end

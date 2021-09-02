@@ -11,6 +11,12 @@ class Customer < ApplicationRecord
     plan_version = PlanVersion.find_by(id: plan_version_id)
     CreatePlanSubscription.for(plan_version: plan_version, customer: self)
   end
+
+  private
+
+  def generate_id
+    init_id('customer')
+  end
 end
 
 # == Schema Information

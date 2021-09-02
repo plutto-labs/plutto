@@ -23,6 +23,12 @@ class PriceLogic::Tiered < PriceLogic
   def self.metered?
     true
   end
+
+  private
+
+  def generate_id
+    init_id('price-logic')
+  end
 end
 
 # == Schema Information

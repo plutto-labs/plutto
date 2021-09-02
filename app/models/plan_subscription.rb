@@ -12,6 +12,12 @@ class PlanSubscription < ApplicationRecord
   def current_billing_period
     billing_periods.order(created_at: :asc).last
   end
+
+  private
+
+  def generate_id
+    init_id('subscription')
+  end
 end
 
 # == Schema Information

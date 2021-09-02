@@ -7,6 +7,12 @@ class Meter < ApplicationRecord
   validates :meter_type, presence: true
 
   enum meter_type: { period_sum: 0, history_sum: 1 }
+
+  private
+
+  def generate_id
+    init_id('meter')
+  end
 end
 
 # == Schema Information

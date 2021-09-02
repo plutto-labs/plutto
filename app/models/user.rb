@@ -21,6 +21,12 @@ class User < ApplicationRecord
       )
     end
   end
+
+  private
+
+  def generate_id
+    init_id('user')
+  end
 end
 
 # == Schema Information

@@ -24,6 +24,10 @@ class PriceLogic::StairStep < PriceLogic
 
     tiers.last
   end
+
+  def generate_id
+    init_id('price-logic')
+  end
 end
 
 # == Schema Information

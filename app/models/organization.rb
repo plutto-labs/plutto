@@ -24,6 +24,10 @@ class Organization < ApplicationRecord
       traits: { name: name, created_at: created_at }
     )
   end
+
+  def generate_id
+    init_id('organization')
+  end
 end
 
 # == Schema Information
