@@ -32,9 +32,7 @@ class Api::Internal::V1::MetersController < Api::Internal::V1::BaseController
   private
 
   def meter_params
-    params.require(:meter).permit(
-      :name, :meter_type
-    )
+    params.require(:meter).permit(:name)
   end
 
   def meter

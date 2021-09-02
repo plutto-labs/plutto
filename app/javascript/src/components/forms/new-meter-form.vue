@@ -32,37 +32,6 @@
           </div>
         </div>
       </div>
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-        <label
-          for="meter-type"
-          class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
-        >
-          Type
-        </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
-          <Field
-            class="block bg-gray-700 border-gray-500 plutto-input__input text-gray-50 sm:max-w-xs sm:text-sm"
-            name="type"
-            autocomplete="meter-type"
-            as="select"
-            v-model="newMeter.meterType"
-          >
-            <option
-              v-for="(type, index) in meterTypes"
-              :key="index"
-              :value="decamelizeString(type)"
-            >
-              {{ $t(`message.meters.types.${type}`) }}
-            </option>
-          </Field>
-          <span
-            class="absolute text-sm text-danger-light"
-            v-if="errors.type"
-          >
-            Required
-          </span>
-        </div>
-      </div>
     </div>
 
     <div class="pt-5 mt-5">
@@ -76,7 +45,6 @@
 </template>
 
 <script>
-import { decamelize } from 'humps';
 import { Form, Field } from 'vee-validate';
 
 export default {
@@ -84,17 +52,12 @@ export default {
   data() {
     return {
       newMeter: {},
-      meterTypes: ['periodSum', 'historySum'],
       schema: {
         name: 'required',
-        type: 'required',
       },
     };
   },
   methods: {
-    decamelizeString(string) {
-      return decamelize(string);
-    },
     createMeter() {
       this.$store.dispatch('CREATE_METER', this.newMeter)
         .then((meter) => this.$emit('created-meter', meter));

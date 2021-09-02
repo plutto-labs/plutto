@@ -9,13 +9,8 @@ export default {
         info: 'Info',
         id: 'Id',
         planSubscription: 'Plan Subscription',
+        name: 'Name',
         none: '',
-      },
-    },
-    meters: {
-      types: {
-        periodSum: 'Periodic sum',
-        historySum: 'Historic sum',
       },
     },
     priceLogics: {
