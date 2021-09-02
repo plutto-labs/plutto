@@ -74,7 +74,7 @@
     <div class="pt-5 mt-5">
       <div class="flex justify-end">
         <button class="btn">
-          Create Plan
+          Create Customer
         </button>
       </div>
     </div>
