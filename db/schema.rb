@@ -85,6 +85,9 @@ ActiveRecord::Schema.define(version: 2021_09_02_163441) do
     t.index ["organization_id"], name: "index_customers_on_organization_id"
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "invoices", id: :string, force: :cascade do |t|
     t.bigint "subtotal_cents", default: 0, null: false
     t.bigint "tax_cents", default: 0, null: false
@@ -194,7 +197,7 @@ ActiveRecord::Schema.define(version: 2021_09_02_163441) do
     t.string "price_currency", default: "USD", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "meter_id"
+    t.string "meter_id"
     t.integer "meter_count_method", null: false
     t.index ["meter_id"], name: "index_price_logics_on_meter_id"
     t.index ["plan_version_id"], name: "index_price_logics_on_plan_version_id"
