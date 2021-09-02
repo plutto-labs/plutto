@@ -160,7 +160,12 @@ export default {
     planVersion() {
       return {
         priceLogicsAttributes: this.priceLogics.map(pl => {
-          const priceLogic = Object.assign({}, { price: pl.price, type: pl.type, meterId: pl.meterId });
+          const priceLogic = Object.assign({}, {
+            price: pl.price,
+            type: pl.type,
+            meterId: pl.meterId,
+            meterCountMethod: pl.meterCountMethod,
+          });
           if (pl.tiers && pl.tierable) {
             const tiers = pl.tiers.map((tier, index) => (
               Object.assign({}, { index, upperLimit: tier.upperLimit, price: tier.price })
