@@ -6,5 +6,6 @@ FactoryBot.define do
   factory :price_logic_volume, class: 'PriceLogic::Volume' do
     plan_version
     meter
+    meter_count_method { 'period_sum' }
   end
 end

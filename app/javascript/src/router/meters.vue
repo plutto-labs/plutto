@@ -37,10 +37,8 @@ export default {
     return {
       headers: [
         {
-          title: 'info',
-          type: 'twoLinesText',
-          bigText: 'name',
-          smallText: 'meterType',
+          title: 'name',
+          type: 'oneLineText',
         },
         {
           title: 'id',

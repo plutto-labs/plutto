@@ -2,16 +2,16 @@
   <div>
     <div class="relative flex items-center py-8 border border-gray-700">
       <div class="flex-1">
-        <div class="flex">
-          <div class="sm:col-span-3 md:ml-8">
+        <div class="block md:mx-8">
+          <div class="inline-block sm:col-span-3">
             <label
               for="meter-type"
-              class="block text-sm font-medium text-gray-100"
+              class="text-sm font-medium text-gray-100"
             >
-              Type
+              Charge
             </label>
             <PluttoDropdown
-              class="mt-2"
+              class="mx-2 mt-2"
               v-if="edit"
               :selected="priceLogic.type"
               :options="dropdownOptions"
@@ -27,15 +27,15 @@
             </div>
           </div>
           <template v-if="priceLogic.metered">
-            <div class="sm:col-span-3 md:ml-8">
+            <div class="inline-block sm:col-span-3">
               <label
                 for="meter-type"
-                class="block text-sm font-medium text-gray-100"
+                class="text-sm font-medium text-gray-100"
               >
-                {{ edit ? 'Connect to' : 'connected to' }}
+                metered with
               </label>
               <PluttoDropdown
-                class="mt-2"
+                class="mx-2 mt-2"
                 v-if="edit"
                 :selected="priceLogic.meterId"
                 :options="meters"
@@ -50,6 +50,31 @@
                 v-else
               >
                 {{ meters && meters.find(meter => meter.id == priceLogic.meterId).name }}
+              </div>
+            </div>
+          </template>
+          <template v-if="priceLogic.metered">
+            <div class="inline-block sm:col-span-3">
+              <label
+                for="meter-type"
+                class="text-sm font-medium text-gray-100"
+              >
+                using
+              </label>
+              <PluttoDropdown
+                class="mx-2 mt-2"
+                v-if="edit"
+                :selected="priceLogic.meterCountMethod"
+                :options="meterCountMethods"
+                label-key="label"
+                value-key="value"
+                @selected="(method) => priceLogic.meterCountMethod = method"
+              />
+              <div
+                class="flex items-center px-4 py-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
+                v-else
+              >
+                {{ meterCountMethods.find(method => method.value == priceLogic.meterCountMethod).label }}
               </div>
             </div>
           </template>
@@ -140,6 +165,11 @@ export default {
         'PriceLogic::Volume': { tierable: true, metered: true },
       },
       showNewMeterModal: false,
+      meterCountMethods: [
+        { value: 'period_sum', label: 'the last period information' },
+        { value: 'history_sum', label: 'the historic information' },
+      ],
+      selectedMeterCountMethod: null,
     };
   },
   async mounted() {

@@ -27,6 +27,7 @@ class Api::Internal::V1::PlanVersionsController < Api::Internal::V1::BaseControl
         :price,
         :type,
         :meter_id,
+        :meter_count_method,
         { tiers_attributes: [:index, :lower_limit, :upper_limit, :price] }
       ]
     )

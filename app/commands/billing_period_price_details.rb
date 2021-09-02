@@ -5,7 +5,9 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
 
     plan_subscription.plan_version_price_logics.each_with_index do |price_logic, i|
       billing_period_meter_data = billing_period_meter_data_for_price_logic(price_logic)
-      price_logic_price = price_logic.calculate_price(billing_period_meter_data&.count || 0)
+      price_logic_price = price_logic.calculate_price(
+        billing_period_meter_data&.count(price_logic.meter_count_method) || 0
+      )
       details[i] = details_from_price_logic(price_logic, billing_period_meter_data,
                                             price_logic_price)
       total_price += price_logic_price
@@ -49,7 +51,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
 
     if price_logic.class.metered?
       details[:meter] = price_logic.meter.name
-      details[:quantity] = billing_period_meter_data.count
+      details[:quantity] = billing_period_meter_data.count(price_logic.meter_count_method)
     end
 
     details

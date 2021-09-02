@@ -3,11 +3,13 @@ class PriceLogic < ApplicationRecord
 
   belongs_to :plan_version
 
-  validates :type, presence: true
+  validates :type, :meter_count_method, presence: true
   before_validation :set_lower_limits, on: :create, if: -> { respond_to?(:tiers) }
   before_validation :set_currency
 
   monetize :price_cents
+
+  enum meter_count_method: { period_sum: 0, history_sum: 1 }
 
   def calculate_price(n_units = 0)
     raise NotImplementedError
@@ -34,14 +36,15 @@ end
 #
 # Table name: price_logics
 #
-#  id              :string           not null, primary key
-#  type            :string           not null
-#  plan_version_id :string           not null
-#  price_cents     :bigint(8)        default(0), not null
-#  price_currency  :string           default("USD"), not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  meter_id        :string
+#  id                 :string           not null, primary key
+#  type               :string           not null
+#  plan_version_id    :string           not null
+#  price_cents        :bigint(8)        default(0), not null
+#  price_currency     :string           default("USD"), not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  meter_id           :string
+#  meter_count_method :integer          not null
 #
 # Indexes
 #
