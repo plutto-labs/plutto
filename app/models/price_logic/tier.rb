@@ -30,14 +30,14 @@ end
 #
 # Table name: price_logic_tiers
 #
-#  id             :bigint(8)        not null, primary key
+#  id             :string           not null, primary key
 #  upper_limit    :float            not null
 #  lower_limit    :float            not null
 #  price_cents    :bigint(8)        default(0), not null
 #  price_currency :string           default("USD"), not null
 #  index          :integer          not null
 #  tierable_type  :string
-#  tierable_id    :bigint(8)
+#  tierable_id    :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

@@ -1,27 +1,15 @@
 class Customer < ApplicationRecord
-  include IdentifierAttribute
-
   has_many :meter_counts, dependent: :nullify
   has_many :plan_subscriptions, dependent: :destroy
   has_one :active_plan_subscription, -> { where(active: true) },
           class_name: 'PlanSubscription', inverse_of: :customer
   belongs_to :organization
 
-  delegate :identifier, to: :organization, prefix: true
-
-  validates :identifier, uniqueness: true
-
-  before_create :generate_identifier
+  delegate :id, to: :organization, prefix: true
 
   def add_plan_subcription(plan_version_id)
     plan_version = PlanVersion.find_by(id: plan_version_id)
     CreatePlanSubscription.for(plan_version: plan_version, customer: self)
-  end
-
-  private
-
-  def generate_identifier
-    init_identifier('customer')
   end
 end
 
@@ -29,17 +17,15 @@ end
 #
 # Table name: customers
 #
-#  id              :bigint(8)        not null, primary key
+#  id              :string           not null, primary key
 #  email           :string           not null
 #  name            :string
-#  identifier      :string           not null
-#  organization_id :bigint(8)        not null
+#  organization_id :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 # Indexes
 #
-#  index_customers_on_identifier       (identifier) UNIQUE
 #  index_customers_on_organization_id  (organization_id)
 #
 # Foreign Keys

@@ -19,11 +19,11 @@ end
 #
 # Table name: billing_period_meter_data
 #
-#  id                :bigint(8)        not null, primary key
+#  id                :string           not null, primary key
 #  initial_count     :float            default(0.0)
 #  final_count       :float
-#  billing_period_id :bigint(8)        not null
-#  meter_count_id    :bigint(8)        not null
+#  billing_period_id :string           not null
+#  meter_count_id    :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #

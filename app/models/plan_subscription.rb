@@ -1,6 +1,5 @@
 class PlanSubscription < ApplicationRecord
   include PowerTypes::Observable
-  include IdentifierAttribute
 
   has_many :billing_periods, dependent: :nullify
   belongs_to :plan_version
@@ -10,18 +9,8 @@ class PlanSubscription < ApplicationRecord
   delegate :bills_at_start?, to: :plan_version
   delegate :billing_period_duration, to: :plan_version
 
-  validates :identifier, uniqueness: true
-
-  before_create :generate_identifier
-
   def current_billing_period
     billing_periods.order(created_at: :asc).last
-  end
-
-  private
-
-  def generate_identifier
-    init_identifier('subscription')
   end
 end
 
@@ -29,10 +18,9 @@ end
 #
 # Table name: plan_subscriptions
 #
-#  id              :bigint(8)        not null, primary key
-#  customer_id     :bigint(8)        not null
-#  plan_version_id :bigint(8)        not null
-#  identifier      :string           not null
+#  id              :string           not null, primary key
+#  customer_id     :string           not null
+#  plan_version_id :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  active          :boolean          default(FALSE)
@@ -40,7 +28,6 @@ end
 # Indexes
 #
 #  index_plan_subscriptions_on_customer_id      (customer_id)
-#  index_plan_subscriptions_on_identifier       (identifier) UNIQUE
 #  index_plan_subscriptions_on_plan_version_id  (plan_version_id)
 #
 # Foreign Keys

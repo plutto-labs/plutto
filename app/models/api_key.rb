@@ -40,9 +40,9 @@ end
 #
 # Table name: api_keys
 #
-#  id           :bigint(8)        not null, primary key
+#  id           :string           not null, primary key
 #  name         :string           not null
-#  bearer_id    :integer          not null
+#  bearer_id    :string           not null
 #  bearer_type  :string           not null
 #  token_digest :string           not null
 #  created_at   :datetime         not null

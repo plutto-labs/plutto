@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_204101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "active_admin_comments", force: :cascade do |t|
+  create_table "active_admin_comments", id: :string, force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_204101) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
-  create_table "admin_users", force: :cascade do |t|
+  create_table "admin_users", id: :string, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -41,9 +41,9 @@ ActiveRecord::Schema.define(version: 2021_08_30_204101) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "api_keys", force: :cascade do |t|
+  create_table "api_keys", id: :string, force: :cascade do |t|
     t.string "name", null: false
-    t.integer "bearer_id", null: false
+    t.string "bearer_id", null: false
     t.string "bearer_type", null: false
     t.string "token_digest", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -52,11 +52,11 @@ ActiveRecord::Schema.define(version: 2021_08_30_204101) do
     t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
   end
 
-  create_table "billing_period_meter_data", force: :cascade do |t|
+  create_table "billing_period_meter_data", id: :string, force: :cascade do |t|
     t.float "initial_count", default: 0.0
     t.float "final_count"
-    t.bigint "billing_period_id", null: false
-    t.bigint "meter_count_id", null: false
+    t.string "billing_period_id", null: false
+    t.string "meter_count_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["billing_period_id"], name: "index_billing_period_meter_data_on_billing_period_id"
@@ -64,161 +64,138 @@ ActiveRecord::Schema.define(version: 2021_08_30_204101) do
     t.index ["meter_count_id"], name: "index_billing_period_meter_data_on_meter_count_id"
   end
 
-  create_table "billing_periods", force: :cascade do |t|
+  create_table "billing_periods", id: :string, force: :cascade do |t|
     t.datetime "from", null: false
     t.datetime "to", null: false
-    t.string "identifier"
-    t.bigint "plan_subscription_id", null: false
+    t.string "plan_subscription_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "billing_date"
     t.bigint "billing_amount_cents", default: 0, null: false
     t.string "billing_amount_currency", default: "USD", null: false
-    t.index ["identifier"], name: "index_billing_periods_on_identifier", unique: true
     t.index ["plan_subscription_id"], name: "index_billing_periods_on_plan_subscription_id"
   end
 
-  create_table "customers", force: :cascade do |t|
+  create_table "customers", id: :string, force: :cascade do |t|
     t.string "email", null: false
     t.string "name"
-    t.string "identifier", null: false
-    t.bigint "organization_id", null: false
+    t.string "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["identifier"], name: "index_customers_on_identifier", unique: true
     t.index ["organization_id"], name: "index_customers_on_organization_id"
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
-  end
-
-  create_table "invoices", force: :cascade do |t|
-    t.string "identifier"
+  create_table "invoices", id: :string, force: :cascade do |t|
     t.bigint "subtotal_cents", default: 0, null: false
     t.bigint "tax_cents", default: 0, null: false
     t.bigint "discount_cents", default: 0, null: false
     t.string "currency", default: "usd"
     t.datetime "issue_date"
     t.jsonb "details", default: {}
-    t.bigint "billing_period_id", null: false
+    t.string "billing_period_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
-    t.index ["identifier"], name: "index_invoices_on_identifier", unique: true
   end
 
-  create_table "meter_counts", force: :cascade do |t|
+  create_table "meter_counts", id: :string, force: :cascade do |t|
     t.float "count", default: 0.0
-    t.string "identifier"
-    t.bigint "meter_id", null: false
+    t.string "meter_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "customer_id", null: false
+    t.string "customer_id", null: false
     t.index ["customer_id", "meter_id"], name: "index_meter_counts_on_customer_id_and_meter_id", unique: true
     t.index ["customer_id"], name: "index_meter_counts_on_customer_id"
-    t.index ["identifier"], name: "index_meter_counts_on_identifier", unique: true
     t.index ["meter_id"], name: "index_meter_counts_on_meter_id"
   end
 
-  create_table "meter_events", force: :cascade do |t|
+  create_table "meter_events", id: :string, force: :cascade do |t|
     t.datetime "timestamp", null: false
     t.float "amount", default: 1.0
     t.integer "action", default: 0
-    t.string "identifier"
-    t.bigint "meter_id", null: false
-    t.bigint "meter_count_id", null: false
+    t.string "meter_id", null: false
+    t.string "meter_count_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "idempotency_key"
     t.float "current_meter_count"
-    t.bigint "billing_period_id"
+    t.string "billing_period_id"
     t.index ["action"], name: "index_meter_events_on_action"
     t.index ["billing_period_id"], name: "index_meter_events_on_billing_period_id"
-    t.index ["identifier"], name: "index_meter_events_on_identifier", unique: true
     t.index ["meter_count_id"], name: "index_meter_events_on_meter_count_id"
     t.index ["meter_id"], name: "index_meter_events_on_meter_id"
   end
 
-  create_table "meters", force: :cascade do |t|
+  create_table "meters", id: :string, force: :cascade do |t|
     t.string "name"
-    t.string "identifier"
-    t.bigint "organization_id", null: false
+    t.string "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "meter_type", null: false
-    t.index ["identifier"], name: "index_meters_on_identifier", unique: true
     t.index ["organization_id"], name: "index_meters_on_organization_id"
   end
 
-  create_table "organizations", force: :cascade do |t|
+  create_table "organizations", id: :string, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "identifier", null: false
-    t.index ["identifier"], name: "index_organizations_on_identifier", unique: true
   end
 
-  create_table "plan_subscriptions", force: :cascade do |t|
-    t.bigint "customer_id", null: false
-    t.bigint "plan_version_id", null: false
-    t.string "identifier", null: false
+  create_table "plan_subscriptions", id: :string, force: :cascade do |t|
+    t.string "customer_id", null: false
+    t.string "plan_version_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: false
     t.index ["customer_id"], name: "index_plan_subscriptions_on_customer_id"
-    t.index ["identifier"], name: "index_plan_subscriptions_on_identifier", unique: true
     t.index ["plan_version_id"], name: "index_plan_subscriptions_on_plan_version_id"
   end
 
-  create_table "plan_versions", force: :cascade do |t|
-    t.bigint "plan_id", null: false
-    t.bigint "previous_version_id"
+  create_table "plan_versions", id: :string, force: :cascade do |t|
+    t.string "plan_id", null: false
+    t.string "previous_version_id"
     t.boolean "deployed", default: false
-    t.string "identifier", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "version", limit: 2
-    t.index ["identifier"], name: "index_plan_versions_on_identifier", unique: true
     t.index ["plan_id"], name: "index_plan_versions_on_plan_id"
     t.index ["previous_version_id"], name: "index_plan_versions_on_previous_version_id"
   end
 
-  create_table "plans", force: :cascade do |t|
+  create_table "plans", id: :string, force: :cascade do |t|
     t.string "name"
-    t.string "identifier", null: false
-    t.bigint "organization_id", null: false
+    t.string "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "default_plan_version_id"
+    t.string "default_plan_version_id"
     t.integer "currency", default: 0, null: false
     t.integer "bills_at", default: 0
     t.string "billing_period_duration"
     t.index ["default_plan_version_id"], name: "index_plans_on_default_plan_version_id"
-    t.index ["identifier"], name: "index_plans_on_identifier", unique: true
     t.index ["organization_id"], name: "index_plans_on_organization_id"
   end
 
-  create_table "price_logic_tiers", force: :cascade do |t|
+  create_table "price_logic_tiers", id: :string, force: :cascade do |t|
     t.float "upper_limit", null: false
     t.float "lower_limit", null: false
     t.bigint "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
     t.integer "index", null: false
     t.string "tierable_type"
-    t.bigint "tierable_id"
+    t.string "tierable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["tierable_type", "tierable_id"], name: "index_price_logic_tiers_on_tierable"
   end
 
-  create_table "price_logics", force: :cascade do |t|
+  create_table "price_logics", id: :string, force: :cascade do |t|
     t.string "type", null: false
+    t.string "plan_version_id", null: false
     t.bigint "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "plan_version_id"
-    t.bigint "meter_id"
+    t.string "meter_id"
     t.index ["meter_id"], name: "index_price_logics_on_meter_id"
     t.index ["plan_version_id"], name: "index_price_logics_on_plan_version_id"
   end
@@ -226,14 +203,14 @@ ActiveRecord::Schema.define(version: 2021_08_30_204101) do
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "resource_type"
-    t.bigint "resource_id"
+    t.string "resource_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :string, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -241,7 +218,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_204101) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organization_id"
+    t.string "organization_id"
     t.string "authentication_token", limit: 30
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -250,7 +227,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_204101) do
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|
-    t.bigint "user_id"
+    t.string "user_id"
     t.bigint "role_id"
     t.index ["role_id"], name: "index_users_roles_on_role_id"
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
