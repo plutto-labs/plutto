@@ -49,6 +49,6 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
   end
 
   def lock_id
-    plan_subscription&.identifier || customer.identifier
+    plan_subscription&.id || customer.id
   end
 end
