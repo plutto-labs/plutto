@@ -5,8 +5,8 @@ class BillingPeriodMeterData < ApplicationRecord
   validates :meter_count, :billing_period, presence: true
   validates :meter_count_id, uniqueness: { scope: :billing_period_id }
 
-  def count
-    case meter_count.meter.meter_type
+  def count(type)
+    case type
     when 'period_sum'
       final_count - initial_count
     when 'history_sum'
