@@ -17,6 +17,7 @@ class PlanVersion < ApplicationRecord
 
   delegate :currency, to: :plan
   delegate :bills_at_start?, to: :plan
+  delegate :billing_period_duration, to: :plan
 
   before_create :generate_identifier
   after_create :set_version

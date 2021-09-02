@@ -31,6 +31,7 @@ gem 'sidekiq-scheduler', '>= 3.0.1'
 gem 'strong_migrations'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
+gem 'with_advisory_lock'
 
 group :development do
   gem 'annotate', '~> 3.0'

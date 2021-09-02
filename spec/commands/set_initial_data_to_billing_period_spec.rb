@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe StartBillingPeriod do
+describe SetInitialDataToBillingPeriod do
   let(:customer) { create(:customer) }
   let(:plan_version) { build(:plan_version) }
   let(:plan_subscription) do
