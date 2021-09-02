@@ -10,15 +10,15 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   private
 
   def plan_subscription
-    @plan_subscription ||= policy_scope(PlanSubscription).find_by!(identifier: params[:identifier])
+    @plan_subscription ||= policy_scope(PlanSubscription).find(params[:id])
   end
 
   def plan_version
-    PlanVersion.find_by!(identifier: create_params[:plan_version_id])
+    PlanVersion.find(create_params[:plan_version_id])
   end
 
   def customer
-    policy_scope(Customer).find_by!(identifier: create_params[:customer_id])
+    policy_scope(Customer).find(create_params[:customer_id])
   end
 
   def create_params

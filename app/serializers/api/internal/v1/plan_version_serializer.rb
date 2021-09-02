@@ -1,5 +1,5 @@
 class Api::Internal::V1::PlanVersionSerializer < ActiveModel::Serializer
-  attributes :id, :identifier, :version
+  attributes :id, :version
 
   has_many :price_logics
 

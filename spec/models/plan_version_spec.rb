@@ -5,8 +5,4 @@ RSpec.describe PlanVersion, type: :model do
     it { is_expected.to belong_to(:previous_version).optional }
     it { is_expected.to belong_to(:plan) }
   end
-
-  it_behaves_like 'token-identifier model' do
-    let(:subject) { build(:customer) }
-  end
 end

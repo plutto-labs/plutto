@@ -63,7 +63,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
     parameter name: :id, in: :path, type: :string
 
     let(:existent_customer) { create(:customer, organization: organization) }
-    let(:id) { existent_customer.identifier }
+    let(:id) { existent_customer.id }
 
     get 'Retrieves Customer' do
       tags 'Customers'

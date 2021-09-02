@@ -4,7 +4,6 @@ ActiveAdmin.register MeterEvent do
   show do
     attributes_table do
       row :id
-      row :identifier
       row :customer
       row :meter_count
       row :timestamp

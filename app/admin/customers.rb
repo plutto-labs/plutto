@@ -5,13 +5,11 @@ ActiveAdmin.register Customer do
   index do
     selectable_column
     id_column
-    column :identifier
     column :name
     column :created_at
     actions
   end
 
-  filter :identifier
   filter :name
   filter :created_at
 
@@ -26,7 +24,6 @@ ActiveAdmin.register Customer do
   show do
     attributes_table do
       row :id
-      row :identifier
       row :plan_subscription
       row :name
       row :email

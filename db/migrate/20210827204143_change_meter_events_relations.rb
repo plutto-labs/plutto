@@ -3,7 +3,7 @@ class ChangeMeterEventsRelations < ActiveRecord::Migration[6.1]
 
   def change
     safety_assured {
-      add_reference :meter_events, :billing_period, index: true
+      add_reference :meter_events, :billing_period, index: true, type: :string
       add_foreign_key :meter_events, :billing_periods
       remove_column :meter_events, :customer_id
     }

@@ -1,6 +1,4 @@
 class PlanVersion < ApplicationRecord
-  include IdentifierAttribute
-
   has_many :plan_subscriptions, dependent: :destroy
   has_one :next_version, class_name: 'PlanVersion', dependent: :nullify,
     foreign_key: 'previous_version_id', inverse_of: :previous_version
@@ -13,23 +11,20 @@ class PlanVersion < ApplicationRecord
   has_many :price_logics, dependent: :destroy
   accepts_nested_attributes_for :price_logics, allow_destroy: true
 
-  validates :identifier, uniqueness: true
-
   delegate :currency, to: :plan
   delegate :bills_at_start?, to: :plan
   delegate :billing_period_duration, to: :plan
 
-  before_create :generate_identifier
   after_create :set_version
 
   private
 
-  def generate_identifier
-    init_identifier('version')
-  end
-
   def set_version
     update_column(:version, previous_version&.version.to_i + 1)
+  end
+
+  def generate_id
+    init_id('version')
   end
 end
 
@@ -37,18 +32,16 @@ end
 #
 # Table name: plan_versions
 #
-#  id                  :bigint(8)        not null, primary key
-#  plan_id             :bigint(8)        not null
-#  previous_version_id :bigint(8)
+#  id                  :string           not null, primary key
+#  plan_id             :string           not null
+#  previous_version_id :string
 #  deployed            :boolean          default(FALSE)
-#  identifier          :string           not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  version             :integer
 #
 # Indexes
 #
-#  index_plan_versions_on_identifier           (identifier) UNIQUE
 #  index_plan_versions_on_plan_id              (plan_id)
 #  index_plan_versions_on_previous_version_id  (previous_version_id)
 #

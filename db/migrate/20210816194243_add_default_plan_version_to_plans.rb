@@ -3,7 +3,8 @@ class AddDefaultPlanVersionToPlans < ActiveRecord::Migration[6.1]
 
   def change
     safety_assured {
-      add_reference :plans, :default_plan_version, foreign_key: { to_table: :plan_versions }, index: false
+      add_column :plans, :default_plan_version_id, :string
+      add_foreign_key :plans, :plan_versions, column: :default_plan_version_id
       add_index :plans, :default_plan_version_id, algorithm: :concurrently
     }
   end

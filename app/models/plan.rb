@@ -1,6 +1,4 @@
 class Plan < ApplicationRecord
-  include IdentifierAttribute
-
   has_many :plan_versions, dependent: :destroy
   belongs_to :organization
   belongs_to :default_version, class_name: 'PlanVersion', optional: true,
@@ -10,10 +8,6 @@ class Plan < ApplicationRecord
   enum bills_at: { start: 0, end: 1 }, _prefix: :bills_at
   attribute :billing_period_duration, :duration
 
-  validates :identifier, uniqueness: true
-
-  before_create :generate_identifier
-
   def add_plan_version(**params)
     plan_version = plan_versions.build(params.merge({ previous_version: default_version }))
     self.default_version = plan_version
@@ -22,8 +16,8 @@ class Plan < ApplicationRecord
 
   private
 
-  def generate_identifier
-    init_identifier('plan')
+  def generate_id
+    init_id('plan')
   end
 end
 
@@ -31,13 +25,12 @@ end
 #
 # Table name: plans
 #
-#  id                      :bigint(8)        not null, primary key
+#  id                      :string           not null, primary key
 #  name                    :string
-#  identifier              :string           not null
-#  organization_id         :bigint(8)        not null
+#  organization_id         :string           not null
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  default_plan_version_id :bigint(8)
+#  default_plan_version_id :string
 #  currency                :integer          default("USD"), not null
 #  bills_at                :integer          default("start")
 #  billing_period_duration :string
@@ -45,7 +38,6 @@ end
 # Indexes
 #
 #  index_plans_on_default_plan_version_id  (default_plan_version_id)
-#  index_plans_on_identifier               (identifier) UNIQUE
 #  index_plans_on_organization_id          (organization_id)
 #
 # Foreign Keys

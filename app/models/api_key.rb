@@ -27,6 +27,10 @@ class ApiKey < ApplicationRecord
 
   private
 
+  def generate_id
+    init_id('api-key')
+  end
+
   def generate_token_hmac_digest
     random_hex = "sk_live_#{SecureRandom.hex(32)}"
     self.token = random_hex
@@ -40,9 +44,9 @@ end
 #
 # Table name: api_keys
 #
-#  id           :bigint(8)        not null, primary key
+#  id           :string           not null, primary key
 #  name         :string           not null
-#  bearer_id    :integer          not null
+#  bearer_id    :string           not null
 #  bearer_type  :string           not null
 #  token_digest :string           not null
 #  created_at   :datetime         not null

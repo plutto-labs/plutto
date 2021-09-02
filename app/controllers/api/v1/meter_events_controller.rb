@@ -7,8 +7,8 @@ class Api::V1::MeterEventsController < Api::V1::BaseController
       timestamp: create_params['timestamp'],
       amount: create_params['amount'],
       action: create_params['action'],
-      meter_identifier: create_params['meter_id'],
-      customer_identifier: create_params['customer_id'],
+      meter_id: create_params['meter_id'],
+      customer_id: create_params['customer_id'],
       idempotency_key: create_params['idempotency_key']
     )
     respond_with meter_event

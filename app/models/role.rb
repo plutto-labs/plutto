@@ -7,6 +7,10 @@ class Role < ApplicationRecord
   scopify
 
   USER_ROLES = [:admin, :operator]
+
+  private
+
+  def generate_id; end
 end
 
 # == Schema Information
@@ -16,7 +20,7 @@ end
 #  id            :bigint(8)        not null, primary key
 #  name          :string
 #  resource_type :string
-#  resource_id   :bigint(8)
+#  resource_id   :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #

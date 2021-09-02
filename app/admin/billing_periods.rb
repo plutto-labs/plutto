@@ -4,7 +4,6 @@ ActiveAdmin.register BillingPeriod do
   show do
     attributes_table do
       row :id
-      row :identifier
       row :plan_subscription
       row :to
       row :from
@@ -19,7 +18,6 @@ ActiveAdmin.register BillingPeriod do
                   admin_organization_meter_counts_path(organization_id: resource.id,
                                                        meter_count_id: meter_count.id))
         end
-        column :identifier
         column :meter
         column :count
         column :updated_at

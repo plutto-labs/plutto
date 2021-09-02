@@ -8,8 +8,4 @@ RSpec.describe MeterEvent, type: :model do
   describe 'Validations' do
     it { is_expected.to validate_presence_of(:timestamp) }
   end
-
-  it_behaves_like 'token-identifier model' do
-    let(:subject) { build(:meter_event) }
-  end
 end

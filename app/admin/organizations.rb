@@ -53,7 +53,6 @@ ActiveAdmin.register Organization do
           link_to(plan.id,
                   admin_organization_plans_path(organization_id: resource.id, plan_id: plan.id))
         end
-        column :identifier
         column :name
         column :created_at
       end
@@ -65,7 +64,6 @@ ActiveAdmin.register Organization do
           link_to(meter.id,
                   admin_organization_meters_path(organization_id: resource.id, meter_id: meter.id))
         end
-        column :identifier
         column :name
         column :created_at
       end

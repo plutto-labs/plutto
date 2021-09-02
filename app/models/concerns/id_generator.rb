@@ -1,8 +1,8 @@
-module IdentifierAttribute
+module IdGenerator
   extend ActiveSupport::Concern
 
-  def init_identifier(prefix)
-    self.identifier = loop do
+  def init_id(prefix)
+    self.id = loop do
       random_token = build_token(prefix)
       break random_token unless ensure_unique_token(random_token)
     end
@@ -16,6 +16,6 @@ module IdentifierAttribute
   end
 
   def ensure_unique_token(token)
-    self.class.exists?(identifier: token)
+    self.class.exists?(id: token)
   end
 end

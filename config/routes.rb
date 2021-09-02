@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   end
   scope path: '/api' do
     api_version(module: 'Api::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
-      resources :customers, param: :identifier
+      resources :customers
       resources :meter_events, only: [:create]
-      resources :plan_subscriptions, param: :identifier, only: [:update, :create]
+      resources :plan_subscriptions, only: [:update, :create]
     end
   end
   mount Rswag::Api::Engine => '/api-docs'

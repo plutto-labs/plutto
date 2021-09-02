@@ -19,8 +19,8 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
 
       let(:plan_subscription) do
         {
-          customer_id: customer.identifier,
-          plan_version_id: plan_version.identifier
+          customer_id: customer.id,
+          plan_version_id: plan_version.id
         }
       end
 
@@ -42,7 +42,7 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
       create(:plan_subscription, customer: customer, plan_version: plan_version)
     end
 
-    let(:id) { existent_plan_subscription.identifier }
+    let(:id) { existent_plan_subscription.id }
 
     patch 'Updates Plan Subscription' do
       tags 'Plan Subscription'

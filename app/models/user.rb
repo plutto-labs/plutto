@@ -21,13 +21,19 @@ class User < ApplicationRecord
       )
     end
   end
+
+  private
+
+  def generate_id
+    init_id('user')
+  end
 end
 
 # == Schema Information
 #
 # Table name: users
 #
-#  id                     :bigint(8)        not null, primary key
+#  id                     :string           not null, primary key
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
@@ -35,7 +41,7 @@ end
 #  remember_created_at    :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  organization_id        :bigint(8)
+#  organization_id        :string
 #  authentication_token   :string(30)
 #
 # Indexes

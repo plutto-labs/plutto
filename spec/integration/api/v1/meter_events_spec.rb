@@ -21,8 +21,8 @@ describe 'API V1 Meter Events', swagger_doc: 'v1/swagger.json' do
           timestamp: '1984-06-04 09:00',
           amount: 10,
           action: 'increment',
-          customer_id: customer.identifier,
-          meter_id: meter.identifier
+          customer_id: customer.id,
+          meter_id: meter.id
         }
       end
 

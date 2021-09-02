@@ -34,9 +34,9 @@
         </div>
         <PlanVersion
           v-for="planVersion in currentPlan.planVersions"
-          :key="planVersion.identifier"
+          :key="planVersion.id"
           :plan-version="planVersion"
-          :is-default-version="planVersion.identifier == currentPlan.defaultVersion.identifier"
+          :is-default-version="planVersion.id == currentPlan.defaultVersion.id"
           class="p-4 my-4 border border-gray-200 rounded"
         />
       </div>

@@ -1,15 +1,21 @@
 class AdminUser < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, 
+  devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
+
+  private
+
+  def generate_id
+    init_id('admin')
+  end
 end
 
 # == Schema Information
 #
 # Table name: admin_users
 #
-#  id                     :bigint(8)        not null, primary key
+#  id                     :string           not null, primary key
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string

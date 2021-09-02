@@ -35,13 +35,12 @@ RSpec.describe ApiKey, type: :model do
 
   describe '#self.authenticate_by_token!' do
     before do
-      allow(SecureRandom).to receive(
-        :hex
-      ).with(32).and_return(token)
+      allow(SecureRandom).to receive(:hex).with(12)
+      allow(SecureRandom).to receive(:hex).with(32).and_return(token)
     end
 
     let(:token) { 'token' }
-    let!(:organization) { create(:organization, :without_generate_identifier_callback) }
+    let!(:organization) { create(:organization) }
     let!(:api_key) { create(:api_key, token: token, bearer: organization) }
 
     context 'with valid token' do

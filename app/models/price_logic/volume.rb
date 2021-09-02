@@ -24,20 +24,24 @@ class PriceLogic::Volume < PriceLogic
 
     tiers.last
   end
+
+  def generate_id
+    init_id('price-logic')
+  end
 end
 
 # == Schema Information
 #
 # Table name: price_logics
 #
-#  id              :bigint(8)        not null, primary key
+#  id              :string           not null, primary key
 #  type            :string           not null
+#  plan_version_id :string           not null
 #  price_cents     :bigint(8)        default(0), not null
 #  price_currency  :string           default("USD"), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  plan_version_id :bigint(8)
-#  meter_id        :bigint(8)
+#  meter_id        :string
 #
 # Indexes
 #

@@ -12,8 +12,4 @@ RSpec.describe MeterCount, type: :model do
     it { expect(meter_count).to validate_presence_of(:meter) }
     it { expect(meter_count).to validate_uniqueness_of(:customer_id).scoped_to(:meter_id) }
   end
-
-  it_behaves_like 'token-identifier model' do
-    let(:subject) { build(:meter_count) }
-  end
 end

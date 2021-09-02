@@ -5,12 +5,10 @@ ActiveAdmin.register PlanSubscription do
   index do
     selectable_column
     id_column
-    column :identifier
     column :created_at
     actions
   end
 
-  filter :identifier
   filter :created_at
 
   form do |f|
@@ -24,7 +22,6 @@ ActiveAdmin.register PlanSubscription do
   show do
     attributes_table do
       row :id
-      row :identifier
       row :name
       row :created_at
       row :updated_at

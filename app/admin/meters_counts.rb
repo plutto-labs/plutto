@@ -4,7 +4,6 @@ ActiveAdmin.register MeterCount do
   show do
     attributes_table do
       row :id
-      row :identifier
       row :billing_period
       row :meter
       row :count
@@ -19,7 +18,6 @@ ActiveAdmin.register MeterCount do
                   admin_organization_meter_events_path(organization_id: resource.id,
                                                        meter_event_id: meter_event.id))
         end
-        column :identifier
         column :name
         column :customer
         column :amount

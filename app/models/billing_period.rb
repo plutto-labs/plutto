@@ -1,6 +1,4 @@
 class BillingPeriod < ApplicationRecord
-  include IdentifierAttribute
-
   has_many :meter_events, dependent: :destroy
   has_many :billing_period_meter_datas, dependent: :destroy
   has_one :invoice, dependent: :destroy
@@ -8,16 +6,12 @@ class BillingPeriod < ApplicationRecord
 
   delegate :plan_version_price_logics, to: :plan_subscription
 
-  validates :identifier, uniqueness: true
-
-  before_create :generate_identifier
-
   monetize :billing_amount_cents
 
   private
 
-  def generate_identifier
-    init_identifier('period')
+  def generate_id
+    init_id('period')
   end
 end
 
@@ -25,11 +19,10 @@ end
 #
 # Table name: billing_periods
 #
-#  id                      :bigint(8)        not null, primary key
+#  id                      :string           not null, primary key
 #  from                    :datetime         not null
 #  to                      :datetime         not null
-#  identifier              :string
-#  plan_subscription_id    :bigint(8)        not null
+#  plan_subscription_id    :string           not null
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  billing_date            :datetime
@@ -38,7 +31,6 @@ end
 #
 # Indexes
 #
-#  index_billing_periods_on_identifier            (identifier) UNIQUE
 #  index_billing_periods_on_plan_subscription_id  (plan_subscription_id)
 #
 # Foreign Keys

@@ -2,8 +2,8 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
   :timestamp,
   :amount,
   :action,
-  :meter_identifier,
-  :customer_identifier,
+  :meter_id,
+  :customer_id,
   :idempotency_key
 )
   def perform
@@ -24,11 +24,11 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
   private
 
   def meter
-    @meter ||= Meter.find_by!(identifier: @meter_identifier)
+    @meter ||= Meter.find(@meter_id)
   end
 
   def customer
-    @customer ||= Customer.find_by!(identifier: @customer_identifier)
+    @customer ||= Customer.find(@customer_id)
   end
 
   def meter_count
@@ -49,6 +49,6 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
   end
 
   def lock_id
-    plan_subscription&.identifier || customer.identifier
+    plan_subscription&.id || customer.id
   end
 end
