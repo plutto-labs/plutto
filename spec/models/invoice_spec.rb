@@ -8,8 +8,4 @@ RSpec.describe Invoice, type: :model do
   it { is_expected.to monetize(:subtotal_cents).with_model_currency(:currency) }
   it { is_expected.to monetize(:tax_cents).with_model_currency(:currency) }
   it { is_expected.to monetize(:discount_cents).with_model_currency(:currency) }
-
-  it_behaves_like 'token-identifier model' do
-    let(:subject) { build(:invoice) }
-  end
 end

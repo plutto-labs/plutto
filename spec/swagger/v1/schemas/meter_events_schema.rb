@@ -4,7 +4,7 @@ METER_EVENT_SCHEMA = {
     timestamp: { type: :string, example: '2021-06-04 09:00' },
     amount: { type: :float, example: 1000, 'x-nullable': false },
     action: { type: :string, example: 'set', 'x-nullable': false },
-    identifier: { type: :string, example: 'event_80b199c7744342f3c5df8622', 'x-nullable': false },
+    id: { type: :string, example: 'event_80b199c7744342f3c5df8622', 'x-nullable': false },
     meter_id: { type: :string, example: 10, 'x-nullable': false },
     created_at: { type: :string, example: '2021-06-04 09:00', 'x-nullable': false },
     idempotency_key: { type: :string, example: 'Some idempotency_key', 'x-nullable': true },

@@ -3,8 +3,8 @@ require 'rails_helper'
 describe CreateNewMeterEvent do
   let(:amount) { 10 }
   let(:action) { 'set' }
-  let(:meter_identifier) { 'meter' }
-  let(:customer_identifier) { 'customer' }
+  let(:meter) { create(:meter) }
+  let(:customer) { create(:customer) }
   let(:idempotency_key) { nil }
 
   def perform
@@ -12,20 +12,14 @@ describe CreateNewMeterEvent do
       timestamp: DateTime.current,
       amount: amount,
       action: action,
-      meter_identifier: meter_identifier,
-      customer_identifier: customer_identifier,
+      meter_id: meter.id,
+      customer_id: customer.id,
       idempotency_key: idempotency_key
     )
   end
 
   describe '#perform' do
     before do
-      meter = create(
-        :meter, :without_generate_identifier_callback, identifier: meter_identifier
-      )
-      customer = create(
-        :customer, :without_generate_identifier_callback, identifier: customer_identifier
-      )
       plan_subscription = create(:plan_subscription, customer: customer)
       meter_count = create(:meter_count, customer: customer, meter: meter)
       create(:billing_period, plan_subscription: plan_subscription)
