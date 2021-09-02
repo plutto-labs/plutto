@@ -19,7 +19,7 @@ describe BillingPeriodPriceDetails do
   end
 
   def mock_metered_price_logic
-    meter = create(:meter, meter_type: 'period_sum')
+    meter = create(:meter)
     meter_count = create(:meter_count, meter: meter, count: 250, customer: customer)
     create(:billing_period_meter_data, initial_count: 10, final_count: 260,
            billing_period: billing_period, meter_count: meter_count)

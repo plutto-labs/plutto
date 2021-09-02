@@ -4,5 +4,6 @@ FactoryBot.define do
     price_cents { 100 }
     price_currency { 'USD' }
     meter
+    meter_count_method { 'period_sum' }
   end
 end

@@ -4,10 +4,6 @@ class Meter < ApplicationRecord
   has_many :price_logics, dependent: :destroy
   belongs_to :organization
 
-  validates :meter_type, presence: true
-
-  enum meter_type: { period_sum: 0, history_sum: 1 }
-
   private
 
   def generate_id
@@ -24,7 +20,6 @@ end
 #  organization_id :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  meter_type      :integer          not null
 #
 # Indexes
 #

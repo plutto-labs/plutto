@@ -27,9 +27,7 @@ unless Rails.env.production?
     end
   end
 
-  meter = Meter.find_or_create_by(name: 'api calls', organization: plutto) do |meter|
-    meter.meter_type = 'history_sum'
-  end
+  meter = Meter.find_or_create_by(name: 'api calls', organization: plutto)
 
   customers.each do |customer|
     Customer.find_or_create_by(email: customer, organization: plutto)
@@ -48,6 +46,7 @@ unless Rails.env.production?
   if plan_version
     PriceLogic::FlatFee.find_or_create_by(plan_version: plan_version) do |flat_fee|
       flat_fee.price = Money.new(100, plan.currency)
+      flat_fee.meter_count_method = 'period_sum'
     end
 
     PriceLogic::PerUnit.find_or_create_by(plan_version: plan_version, meter: meter) do |per_unit|
