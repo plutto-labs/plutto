@@ -104,6 +104,19 @@ describe BillingPeriodPriceDetails do
           expect(perform[:price]).to eq(expected_price)
         end
       end
+
+      context 'when billing period bills at start' do
+        let(:billing_date) { nil }
+
+        before do
+          allow(plan_subscription).to receive(:bills_at_start?).and_return(true)
+        end
+
+        it 'returns the correct price' do
+          expected_price = (usd(100) * 250 + usd(100)) * 1
+          expect(perform[:price]).to eq(expected_price)
+        end
+      end
     end
   end
 end
