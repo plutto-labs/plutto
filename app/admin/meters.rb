@@ -4,7 +4,6 @@ ActiveAdmin.register Meter do
   show do
     attributes_table do
       row :id
-      row :identifier
       row :organization
       row :name
       row :created_at

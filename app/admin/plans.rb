@@ -10,13 +10,11 @@ ActiveAdmin.register Plan do
   index do
     selectable_column
     id_column
-    column :identifier
     column :name
     column :created_at
     actions
   end
 
-  filter :identifier
   filter :name
   filter :created_at
 
@@ -31,7 +29,6 @@ ActiveAdmin.register Plan do
   show do
     attributes_table do
       row :id
-      row :identifier
       row :name
       row :created_at
       row :updated_at
