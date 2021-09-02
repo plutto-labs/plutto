@@ -43,7 +43,7 @@ export default {
           smallText: 'meterType',
         },
         {
-          title: 'identifier',
+          title: 'id',
           type: 'oneLineText',
         },
         {

@@ -7,7 +7,7 @@ export default {
     table: {
       headers: {
         info: 'Info',
-        identifier: 'Identifier',
+        id: 'Id',
         planSubscription: 'Plan Subscription',
         none: '',
       },

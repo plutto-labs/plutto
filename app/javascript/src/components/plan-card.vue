@@ -12,7 +12,7 @@
       </div>
       <div class="text-gray-100 text-2xs">
         {{ plan.defaultVersion && plan.defaultVersion.version }} ·
-        {{ plan.defaultVersion && plan.defaultVersion.identifier }}
+        {{ plan.defaultVersion && plan.defaultVersion.id }}
       </div>
       <div class="pr-2 mt-4 text-sm text-gray-200 md:px-6">
         <div class="flex items-center">

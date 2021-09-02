@@ -69,7 +69,7 @@ export default {
           smallText: 'email',
         },
         {
-          title: 'identifier',
+          title: 'id',
           type: 'oneLineText',
         },
         {
