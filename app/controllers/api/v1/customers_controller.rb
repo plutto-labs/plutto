@@ -22,7 +22,7 @@ class Api::V1::CustomersController < Api::V1::BaseController
   private
 
   def customer
-    @customer ||= policy_scope(Customer).find_by!(identifier: params[:identifier])
+    @customer ||= policy_scope(Customer).find(params[:id])
   end
 
   def customer_params
