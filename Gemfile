@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+gem 'aasm'
 gem 'activeadmin', '~> 2.6'
 gem 'activeadmin_addons', '~> 1.8.3'
 gem 'analytics-ruby', '~> 2.4.0', require: 'segment/analytics'
