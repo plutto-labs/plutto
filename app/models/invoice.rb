@@ -29,6 +29,9 @@ class Invoice < ApplicationRecord
     end
   end
 
+  enum tax_type: { IVA: 0, VAT: 1 }, _suffix: true
+  enum payment_method: { bank_transfer: 0, credit: 1 }, _suffix: true
+
   private
 
   def set_currency
@@ -56,6 +59,10 @@ end
 #  updated_at        :datetime         not null
 #  customer_id       :string           not null
 #  aasm_state        :string           default("new")
+#  payed_at          :datetime
+#  payment_method    :integer
+#  tax_type          :integer
+#  document_id       :integer
 #
 # Indexes
 #
