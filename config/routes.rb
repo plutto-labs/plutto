@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :api_keys, only: [:create, :index, :destroy]
       resources :auth, only: [:create]
       resources :customers, only: [:index, :show, :create, :update, :destroy]
+      resources :invoices, only: [:index]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
       resources :plan_subscriptions, only: [:create]
       resources :plans, only: [:index, :show, :create, :update, :destroy] do
