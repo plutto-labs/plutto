@@ -17,7 +17,10 @@ describe EndBillingPeriod do
         .with(plan_subscription: plan_subscription, billing_period: billing_period)
         .and_return(true)
       allow(plan_subscription).to receive(:bills_at_start?).and_return(bills_at_start)
-      allow(CreateInvoice).to receive(:for).with(billing_period: billing_period)
+      allow(CreateInvoice).to receive(:for).with(
+        billing_period: billing_period,
+        customer: billing_period.plan_subscription.customer
+      )
     end
 
     it 'set the current Date as billing_date' do
@@ -49,14 +52,20 @@ describe EndBillingPeriod do
 
       it 'calls CreateInvoice command' do
         perform
-        expect(CreateInvoice).to have_received(:for).with(billing_period: billing_period)
+        expect(CreateInvoice).to have_received(:for).with(
+          billing_period: billing_period,
+          customer: billing_period.plan_subscription.customer
+        )
       end
     end
 
     context 'when plan bill at start' do
       it 'does not call CreateInvoice command' do
         perform
-        expect(CreateInvoice).not_to have_received(:for).with(billing_period: billing_period)
+        expect(CreateInvoice).not_to have_received(:for).with(
+          billing_period: billing_period,
+          customer: billing_period.plan_subscription.customer
+        )
       end
     end
   end
