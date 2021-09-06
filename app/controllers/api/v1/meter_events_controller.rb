@@ -9,7 +9,8 @@ class Api::V1::MeterEventsController < Api::V1::BaseController
       action: create_params['action'],
       meter_id: create_params['meter_id'],
       customer_id: create_params['customer_id'],
-      idempotency_key: create_params['idempotency_key']
+      idempotency_key: create_params['idempotency_key'],
+      organization: current_bearer
     )
     respond_with meter_event
   end

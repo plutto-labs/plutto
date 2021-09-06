@@ -4,7 +4,8 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
   :action,
   :meter_id,
   :customer_id,
-  :idempotency_key
+  :idempotency_key,
+  :organization
 )
   def perform
     return if exist_meter_event?(@idempotency_key)
@@ -24,11 +25,13 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
   private
 
   def meter
-    @meter ||= Meter.find(@meter_id)
+    @meter ||= @organization.meters.find(@meter_id)
   end
 
   def customer
-    @customer ||= Customer.find(@customer_id)
+    @customer ||= @organization.customers.find_by!(
+      'id = ? OR identifier = ?', @customer_id, @customer_id
+    )
   end
 
   def meter_count

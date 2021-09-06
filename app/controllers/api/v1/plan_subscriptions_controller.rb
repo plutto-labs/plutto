@@ -18,7 +18,9 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   end
 
   def customer
-    policy_scope(Customer).find(create_params[:customer_id])
+    policy_scope(Customer).find_by!(
+      'id = ? OR identifier = ?', create_params[:customer_id], create_params[:customer_id]
+    )
   end
 
   def create_params
