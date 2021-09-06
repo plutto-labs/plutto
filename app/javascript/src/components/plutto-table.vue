@@ -45,11 +45,19 @@
                 <template v-else-if="header.type === 'tag'">
                   <div
                     class="inline-flex px-2 text-xs font-semibold leading-5 rounded-full whitespace-nowrap"
-                    :class="row[header.title] ?
-                      'text-success-dark bg-success-light' :
-                      'text-danger-dark bg-danger-light'"
+                    :class="`text-${header.tags[row[header.title]]}-800 bg-${header.tags[row[header.title]]}-200`"
                   >
-                    {{ row[header.title] }}
+                    {{ $t(`message.table.tags.${row[header.title]}`) }}
+                  </div>
+                </template>
+                <template v-else-if="header.type === 'currency'">
+                  <div class="py-4 text-sm text-gray-50 whitespace-nowrap">
+                    {{ formatCurrency(row[header.title], row.currency) }}
+                  </div>
+                </template>
+                <template v-else-if="header.type === 'date'">
+                  <div class="py-4 text-sm text-gray-50 whitespace-nowrap">
+                    {{ formatDateTime(row[header.title]) }}
                   </div>
                 </template>
                 <template v-else-if="header.type === 'action'">
