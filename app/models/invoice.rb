@@ -1,5 +1,6 @@
 class Invoice < ApplicationRecord
   include AASM
+  include PowerTypes::Observable
 
   belongs_to :billing_period
   belongs_to :customer
