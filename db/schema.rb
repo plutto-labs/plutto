@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_02_163441) do
+ActiveRecord::Schema.define(version: 2021_09_06_133842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,10 +82,8 @@ ActiveRecord::Schema.define(version: 2021_09_02_163441) do
     t.string "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "identifier"
     t.index ["organization_id"], name: "index_customers_on_organization_id"
-  end
-
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
   create_table "invoices", id: :string, force: :cascade do |t|

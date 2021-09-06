@@ -29,8 +29,8 @@ unless Rails.env.production?
 
   meter = Meter.find_or_create_by(name: 'api calls', organization: plutto)
 
-  customers.each do |customer|
-    Customer.find_or_create_by(email: customer, organization: plutto)
+  customers.each_with_index do |customer, index|
+    Customer.find_or_create_by(email: customer, organization: plutto, identifier: index)
   end
 
   plan = Plan.find_or_create_by(name: 'Plutto', organization: plutto) do |plan|

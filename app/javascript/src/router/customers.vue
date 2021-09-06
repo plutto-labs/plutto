@@ -61,27 +61,25 @@ export default {
   },
   data() {
     return {
-      headers: [
-        {
-          title: 'info',
-          type: 'twoLinesText',
-          bigText: 'name',
-          smallText: 'email',
-        },
-        {
-          title: 'id',
-          type: 'oneLineText',
-        },
-        {
-          title: 'planSubscription',
-          type: 'component',
-        },
-        {
-          title: 'none',
-          type: 'action',
-          action: 'delete',
-        },
-      ],
+      headers: [{
+        title: 'info',
+        type: 'twoLinesText',
+        bigText: 'name',
+        smallText: 'email',
+      }, {
+        title: 'identifier',
+        type: 'oneLineText',
+      }, {
+        title: 'id',
+        type: 'oneLineText',
+      }, {
+        title: 'planSubscription',
+        type: 'component',
+      }, {
+        title: 'none',
+        type: 'action',
+        action: 'delete',
+      }],
       showNewCustomerForm: false,
       showNewPlanVersionForm: false,
     };
