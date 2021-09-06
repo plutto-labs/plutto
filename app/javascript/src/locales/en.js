@@ -8,6 +8,7 @@ export default {
       headers: {
         info: 'Info',
         id: 'Id',
+        identifier: 'Identifier',
         planSubscription: 'Plan Subscription',
         name: 'Name',
         none: '',

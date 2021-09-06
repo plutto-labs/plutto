@@ -2,19 +2,20 @@ require 'rails_helper'
 
 describe CreateNewMeterEvent do
   let(:amount) { 10 }
-  let(:action) { 'set' }
-  let(:meter) { create(:meter) }
-  let(:customer) { create(:customer) }
+  let(:organization) { create(:organization) }
+  let(:meter) { create(:meter, organization: organization) }
+  let(:customer) { create(:customer, organization: organization) }
   let(:idempotency_key) { nil }
 
   def perform
     described_class.for(
       timestamp: DateTime.current,
       amount: amount,
-      action: action,
+      action: 'set',
       meter_id: meter.id,
       customer_id: customer.id,
-      idempotency_key: idempotency_key
+      idempotency_key: idempotency_key,
+      organization: organization
     )
   end
 

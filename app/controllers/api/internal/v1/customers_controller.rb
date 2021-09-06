@@ -49,7 +49,9 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   end
 
   def customer
-    @customer ||= Customer.find(params[:id])
+    @customer ||= policy_scope(Customer).find_by!(
+      'id = ? OR identifier = ?', params[:id], params[:id]
+    )
   end
 
   def plan_version_params

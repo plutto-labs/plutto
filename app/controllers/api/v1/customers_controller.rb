@@ -22,10 +22,12 @@ class Api::V1::CustomersController < Api::V1::BaseController
   private
 
   def customer
-    @customer ||= policy_scope(Customer).find(params[:id])
+    @customer ||= policy_scope(Customer).find_by!(
+      'id = ? OR identifier = ?', params[:id], params[:id]
+    )
   end
 
   def customer_params
-    params.require(:customer).permit(:email, :name)
+    params.require(:customer).permit(:email, :name, :identifier)
   end
 end
