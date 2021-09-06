@@ -9,6 +9,8 @@ class PlanSubscription < ApplicationRecord
   delegate :bills_at_start?, to: :plan_version
   delegate :billing_period_duration, to: :plan_version
 
+  enum price_type: { tax_inclusive: 0, tax_exclusive: 1 }, _suffix: true
+
   def current_billing_period
     billing_periods.order(created_at: :asc).last
   end
@@ -31,6 +33,7 @@ end
 #  updated_at      :datetime         not null
 #  active          :boolean          default(FALSE)
 #  auto_collection :boolean          default(TRUE)
+#  price_type      :integer          default("tax_inclusive")
 #
 # Indexes
 #

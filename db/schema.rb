@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_06_133842) do
+ActiveRecord::Schema.define(version: 2021_09_06_180541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,22 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
     t.index ["token_digest"], name: "index_api_keys_on_token_digest", unique: true
   end
 
+  create_table "billing_informations", id: :string, force: :cascade do |t|
+    t.string "legal_name"
+    t.string "country_iso_code", null: false
+    t.string "state"
+    t.string "city"
+    t.string "address"
+    t.string "zip"
+    t.string "activity"
+    t.string "tax_id"
+    t.string "phone"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "customer_id", null: false
+    t.index ["customer_id"], name: "index_billing_informations_on_customer_id"
+  end
+
   create_table "billing_period_meter_data", id: :string, force: :cascade do |t|
     t.float "initial_count", default: 0.0
     t.float "final_count"
@@ -77,13 +93,16 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
   end
 
   create_table "customers", id: :string, force: :cascade do |t|
-    t.string "email", null: false
-    t.string "name"
     t.string "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email", null: false
     t.string "identifier"
+    t.string "name"
     t.index ["organization_id"], name: "index_customers_on_organization_id"
+  end
+
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
   create_table "invoices", id: :string, force: :cascade do |t|
@@ -98,6 +117,10 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "customer_id", null: false
     t.string "aasm_state", default: "new"
+    t.datetime "payed_at"
+    t.integer "payment_method"
+    t.integer "tax_type"
+    t.integer "document_id"
     t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
     t.index ["customer_id"], name: "index_invoices_on_customer_id"
   end
@@ -150,6 +173,8 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: false
+    t.boolean "auto_collection", default: true
+    t.integer "price_type", default: 0
     t.index ["customer_id"], name: "index_plan_subscriptions_on_customer_id"
     t.index ["plan_version_id"], name: "index_plan_subscriptions_on_plan_version_id"
   end
@@ -199,7 +224,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "meter_id"
-    t.integer "meter_count_method"
+    t.integer "meter_count_method", null: false
     t.index ["meter_id"], name: "index_price_logics_on_meter_id"
     t.index ["plan_version_id"], name: "index_price_logics_on_plan_version_id"
   end
@@ -238,6 +263,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "billing_informations", "customers"
   add_foreign_key "billing_period_meter_data", "billing_periods"
   add_foreign_key "billing_period_meter_data", "meter_counts"
   add_foreign_key "billing_periods", "plan_subscriptions"
