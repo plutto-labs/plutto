@@ -1,7 +1,8 @@
-class CreateInvoice < PowerTypes::Command.new(:billing_period)
+class CreateInvoice < PowerTypes::Command.new(:billing_period, :customer)
   def perform
-    invoice = Invoice.new(billing_period: @billing_period)
-    invoice.subtotal = get_billing_amount_for_period(invoice)
+    invoice = Invoice.new(billing_period: @billing_period, customer: @customer)
+    invoice.details = get_billing_amount_for_period
+    invoice.subtotal = invoice.details['price']['cents']
     # TODO: Add discount and tax logic
     invoice.discount_cents = 0
     invoice.tax_cents = 0
@@ -12,7 +13,7 @@ class CreateInvoice < PowerTypes::Command.new(:billing_period)
 
   private
 
-  def get_billing_amount_for_period(invoice)
-    BillingPeriodPriceDetails.for(billing_period: @billing_period, invoice: invoice)
+  def get_billing_amount_for_period
+    BillingPeriodPriceDetails.for(billing_period: @billing_period)
   end
 end

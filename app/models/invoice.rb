@@ -1,8 +1,32 @@
 class Invoice < ApplicationRecord
+  include AASM
+
   belongs_to :billing_period
+  belongs_to :customer
 
   monetize :subtotal_cents, with_model_currency: :currency
   monetize :tax_cents, :discount_cents, allow_nil: true, with_model_currency: :currency
+
+  aasm do
+    state :new, initial: true
+    state :posted, :paid, :not_paid, :voided
+
+    event :post do
+      transitions from: :new, to: :posted
+    end
+
+    event :charge do
+      transitions from: [:posted], to: :paid
+    end
+
+    event :fail do
+      transitions from: [:new, :posted], to: :not_paid
+    end
+
+    event :void do
+      transitions from: [:new, :posted, :not_paid], to: :voided
+    end
+  end
 
   private
 
@@ -29,12 +53,16 @@ end
 #  billing_period_id :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  customer_id       :string           not null
+#  aasm_state        :string           default("new")
 #
 # Indexes
 #
 #  index_invoices_on_billing_period_id  (billing_period_id)
+#  index_invoices_on_customer_id        (customer_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (billing_period_id => billing_periods.id)
+#  fk_rails_...  (customer_id => customers.id)
 #

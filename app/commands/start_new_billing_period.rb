@@ -15,6 +15,9 @@ class StartNewBillingPeriod < PowerTypes::Command.new(:plan_subscription, :billi
   private
 
   def create_invoice(billing_period)
-    CreateInvoice.for(billing_period: billing_period)
+    CreateInvoice.for(
+      billing_period: billing_period,
+      customer: @plan_subscription.customer
+    )
   end
 end
