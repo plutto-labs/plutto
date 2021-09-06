@@ -122,6 +122,11 @@
           "example": "2020-01-01T00:00:00.000Z",
           "x-nullable": true,
           "format": "date-time"
+        },
+        "identifier": {
+          "type": "string",
+          "example": "1",
+          "x-nullable": true
         }
       },
       "required": [
@@ -171,6 +176,104 @@
       },
       "required": [
         "customers"
+      ]
+    },
+    "meter_event": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "example": "2021-06-04 09:00"
+        },
+        "amount": {
+          "type": "number",
+          "example": 1000,
+          "x-nullable": false
+        },
+        "action": {
+          "type": "string",
+          "example": "set",
+          "x-nullable": false
+        },
+        "id": {
+          "type": "string",
+          "example": "event_80b199c7744342f3c5df8622",
+          "x-nullable": false
+        },
+        "meter_id": {
+          "type": "string",
+          "example": 10,
+          "x-nullable": false
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2021-06-04 09:00",
+          "x-nullable": false
+        },
+        "idempotency_key": {
+          "type": "string",
+          "example": "Some idempotency_key",
+          "x-nullable": true
+        },
+        "customer_id": {
+          "type": "string",
+          "example": "customer_5198c6ad60c3363b089a1421",
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "timestamp",
+        "action",
+        "amount",
+        "meter_id",
+        "customer_id",
+        "created_at"
+      ]
+    },
+    "meter_event_create": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "example": "customer_5198c6ad60c3363b089a1421",
+          "x-nullable": false
+        },
+        "meter_id": {
+          "type": "string",
+          "example": "meter_46cf463812d56103d1dfa382",
+          "x-nullable": false
+        },
+        "amount": {
+          "type": "number",
+          "example": 6.66,
+          "x-nullable": false
+        },
+        "action": {
+          "type": "string",
+          "example": "increment",
+          "x-nullable": false
+        },
+        "timestamp": {
+          "type": "string",
+          "example": "2021-06-04 09:00"
+        }
+      },
+      "required": [
+        "action",
+        "amount",
+        "customer_id",
+        "meter_id"
+      ]
+    },
+    "meter_event_resource": {
+      "type": "object",
+      "properties": {
+        "meter_event": {
+          "$ref": "#/definitions/meter_event"
+        }
+      },
+      "required": [
+        "meter_event"
       ]
     },
     "unauthorized_error": {
@@ -252,17 +355,9 @@
         ],
         "security": [
           {
-            "Bearer": {
-            }
-          }
-        ],
-        "parameters": [
-          {
-            "name": "error",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
-            }
+            "Bearer": [
+
+            ]
           }
         ],
         "responses": {
@@ -294,8 +389,9 @@
         ],
         "security": [
           {
-            "Bearer": {
-            }
+            "Bearer": [
+
+            ]
           }
         ],
         "parameters": [
@@ -303,26 +399,7 @@
             "name": "customer",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "donald@getplutto.com",
-                  " x-nullable": false
-                },
-                "name": {
-                  "type": "string",
-                  "example": "Plutto Donald",
-                  "x-nullable": true
-                }
-              }
-            }
-          },
-          {
-            "name": "error",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+              "$ref": "#/definitions/customer_create"
             }
           }
         ],
@@ -361,17 +438,9 @@
         ],
         "security": [
           {
-            "Bearer": {
-            }
-          }
-        ],
-        "parameters": [
-          {
-            "name": "error",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
-            }
+            "Bearer": [
+
+            ]
           }
         ],
         "responses": {
@@ -406,8 +475,9 @@
         ],
         "security": [
           {
-            "Bearer": {
-            }
+            "Bearer": [
+
+            ]
           }
         ],
         "parameters": [
@@ -415,26 +485,7 @@
             "name": "customer",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "donald@getplutto.com",
-                  " x-nullable": false
-                },
-                "name": {
-                  "type": "string",
-                  "example": "Plutto Donald",
-                  "x-nullable": true
-                }
-              }
-            }
-          },
-          {
-            "name": "error",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+              "$ref": "#/definitions/meter_event_create"
             }
           }
         ],
@@ -461,17 +512,9 @@
         "description": "Deletes specific customer",
         "security": [
           {
-            "Bearer": {
-            }
-          }
-        ],
-        "parameters": [
-          {
-            "name": "error",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
-            }
+            "Bearer": [
+
+            ]
           }
         ],
         "responses": {
@@ -480,6 +523,48 @@
           },
           "404": {
             "description": "customer not found"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/meter_events": {
+      "post": {
+        "summary": "Creates Meter Event",
+        "description": "Creates Meter Event",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "meter_event",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/meter_event_create"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "meter_event created",
+            "schema": {
+              "$ref": "#/definitions/meter_event_resource"
+            }
           },
           "401": {
             "description": "authentication failed",
@@ -505,8 +590,9 @@
         ],
         "security": [
           {
-            "Bearer": {
-            }
+            "Bearer": [
+
+            ]
           }
         ],
         "parameters": [
@@ -514,26 +600,7 @@
             "name": "plan_subscription",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "customer_id": {
-                  "type": "string",
-                  "example": "customer_5198c6ad60c3363b089a1421",
-                  "x-nullable": false
-                },
-                "plan_version_id": {
-                  "type": "string",
-                  "example": "version_5198c6ad60c3363b089a1421",
-                  "x-nullable": false
-                }
-              }
-            }
-          },
-          {
-            "name": "error",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+              "$ref": "#/definitions/plan_subscription_create"
             }
           }
         ],
@@ -576,8 +643,9 @@
         ],
         "security": [
           {
-            "Bearer": {
-            }
+            "Bearer": [
+
+            ]
           }
         ],
         "parameters": [
@@ -585,21 +653,7 @@
             "name": "plan_subscription",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "active": {
-                  "type": "boolean",
-                  "example": true,
-                  "x-nullable": false
-                }
-              }
-            }
-          },
-          {
-            "name": "error",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+              "$ref": "#/definitions/plan_subscription_create"
             }
           }
         ],

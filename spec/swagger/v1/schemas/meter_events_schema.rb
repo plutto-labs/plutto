@@ -2,7 +2,7 @@ METER_EVENT_SCHEMA = {
   type: :object,
   properties: {
     timestamp: { type: :string, example: '2021-06-04 09:00' },
-    amount: { type: :float, example: 1000, 'x-nullable': false },
+    amount: { type: :number, example: 1000, 'x-nullable': false },
     action: { type: :string, example: 'set', 'x-nullable': false },
     id: { type: :string, example: 'event_80b199c7744342f3c5df8622', 'x-nullable': false },
     meter_id: { type: :string, example: 10, 'x-nullable': false },
@@ -28,7 +28,7 @@ METER_EVENT_CREATE_SCHEMA = {
                    'x-nullable': false },
     meter_id: { type: :string, example: 'meter_46cf463812d56103d1dfa382',
                 'x-nullable': false },
-    amount: { type: :float, example: 6.66, 'x-nullable': false },
+    amount: { type: :number, example: 6.66, 'x-nullable': false },
     action: { type: :string, example: 'increment', 'x-nullable': false },
     timestamp: { type: :string, example: '2021-06-04 09:00' }
   },

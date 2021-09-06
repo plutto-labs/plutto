@@ -10,7 +10,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       tags 'Customers'
       description 'Retrieves all the customers'
       produces 'application/json'
-      security [Bearer: {}]
+      security [Bearer: []]
 
       let(:collection_count) { 5 }
       let(:expected_collection_count) { collection_count }
@@ -34,7 +34,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       description 'Creates Customer'
       consumes 'application/json'
       produces 'application/json'
-      security [Bearer: {}]
+      security [Bearer: []]
       parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/customer_create' }
 
       let(:customer) do
@@ -68,7 +68,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
     get 'Retrieves Customer' do
       tags 'Customers'
       produces 'application/json'
-      security [Bearer: {}]
+      security [Bearer: []]
 
       response '200', 'customer retrieved' do
         schema('$ref' => '#/definitions/customer_resource')
@@ -92,7 +92,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       description 'Updates Customer'
       consumes 'application/json'
       produces 'application/json'
-      security [Bearer: {}]
+      security [Bearer: []]
       parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/meter_event_create' }
 
       let(:customer) do
@@ -115,7 +115,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       tags 'Customers'
       produces 'application/json'
       description 'Deletes specific customer'
-      security [Bearer: {}]
+      security [Bearer: []]
 
       response '204', 'customer deleted' do
         let(:Authorization) { "Bearer #{token}" }

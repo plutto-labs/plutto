@@ -12,7 +12,7 @@ describe 'API V1 Meter Events', swagger_doc: 'v1/swagger.json' do
       description 'Creates Meter Event'
       consumes 'application/json'
       produces 'application/json'
-      security [Bearer: {}]
+      security [Bearer: []]
       parameter name: :meter_event, in: :body,
                 schema: { '$ref': '#/definitions/meter_event_create' }
 
