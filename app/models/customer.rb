@@ -7,10 +7,15 @@ class Customer < ApplicationRecord
   belongs_to :organization
 
   delegate :id, to: :organization, prefix: true
+  delegate :email, to: :billing_information, allow_nil: true
 
   def add_plan_subcription(plan_version_id)
     plan_version = PlanVersion.find_by(id: plan_version_id)
     CreatePlanSubscription.for(plan_version: plan_version, customer: self)
+  end
+
+  def name
+    billing_information&.company_name
   end
 
   private
