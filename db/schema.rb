@@ -96,7 +96,10 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
     t.string "billing_period_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "customer_id", null: false
+    t.string "aasm_state", default: "new"
     t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
+    t.index ["customer_id"], name: "index_invoices_on_customer_id"
   end
 
   create_table "meter_counts", id: :string, force: :cascade do |t|
@@ -196,7 +199,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "meter_id"
-    t.integer "meter_count_method", null: false
+    t.integer "meter_count_method"
     t.index ["meter_id"], name: "index_price_logics_on_meter_id"
     t.index ["plan_version_id"], name: "index_price_logics_on_plan_version_id"
   end
@@ -240,6 +243,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_133842) do
   add_foreign_key "billing_periods", "plan_subscriptions"
   add_foreign_key "customers", "organizations"
   add_foreign_key "invoices", "billing_periods"
+  add_foreign_key "invoices", "customers"
   add_foreign_key "meter_counts", "customers"
   add_foreign_key "meter_counts", "meters"
   add_foreign_key "meter_events", "billing_periods"

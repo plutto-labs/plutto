@@ -4,6 +4,8 @@ class PriceLogic::Tiered < PriceLogic
 
   accepts_nested_attributes_for :tiers, allow_destroy: true
 
+  validates :meter_count_method, presence: true
+
   NAME = 'tiered'
 
   def calculate_price(n_units = 0)
@@ -43,7 +45,7 @@ end
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  meter_id           :string
-#  meter_count_method :integer          not null
+#  meter_count_method :integer
 #
 # Indexes
 #

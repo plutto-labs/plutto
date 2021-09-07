@@ -1,6 +1,8 @@
 class PriceLogic::PerUnit < PriceLogic
   belongs_to :meter
 
+  validates :meter_count_method, presence: true
+
   NAME = 'per_unit'
 
   def calculate_price(n_units = 0)
@@ -30,7 +32,7 @@ end
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  meter_id           :string
-#  meter_count_method :integer          not null
+#  meter_count_method :integer
 #
 # Indexes
 #

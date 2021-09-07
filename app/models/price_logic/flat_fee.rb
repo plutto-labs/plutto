@@ -28,7 +28,7 @@ end
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  meter_id           :string
-#  meter_count_method :integer          not null
+#  meter_count_method :integer
 #
 # Indexes
 #

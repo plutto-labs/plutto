@@ -4,4 +4,8 @@ module MoneyConcern
   def price
     object.price.amount
   end
+
+  def subtotal
+    object.subtotal.amount
+  end
 end

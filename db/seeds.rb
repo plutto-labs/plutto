@@ -51,6 +51,7 @@ unless Rails.env.production?
 
     PriceLogic::PerUnit.find_or_create_by(plan_version: plan_version, meter: meter) do |per_unit|
       per_unit.price = Money.new(5, plan.currency)
+      per_unit.meter_count_method = 'period_sum'
     end
   end
 end

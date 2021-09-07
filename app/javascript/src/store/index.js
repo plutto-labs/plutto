@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 import apiKeys from './api-keys';
 import auth from './auth';
 import customers from './customers';
+import invoices from './invoices';
 import meters from './meters';
 import plans from './plans';
 import planSubscriptions from './plan_subscriptions';
@@ -13,6 +14,7 @@ const initialState = {
   apiKeys: apiKeys.state,
   auth: auth.state,
   customers: customers.state,
+  invoices: invoices.state,
   meters: meters.state,
   plans: plans.state,
   planSubscriptions: planSubscriptions.state,
@@ -31,6 +33,7 @@ export default createStore({
     apiKeys,
     auth,
     customers,
+    invoices,
     meters,
     plans,
     planSubscriptions,

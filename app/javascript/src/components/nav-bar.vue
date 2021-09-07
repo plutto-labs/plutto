@@ -50,17 +50,13 @@ import { mapState } from 'vuex';
 
 const navigation = [
   { label: 'Customers', path: '/customers', matchingRoutes: ['customers'] },
+  { label: 'Payments', path: '/payments', matchingRoutes: ['payments'] },
   { label: 'Plans', path: '/plans', matchingRoutes: ['plans', 'plan'] },
   { label: 'Meters', path: '/meters', matchingRoutes: ['meters'] },
   { label: 'Settings', path: '/settings', matchingRoutes: ['settings'] },
 ];
 
 export default {
-  data() {
-    return {
-      settingsItem: { label: 'Settings', path: '/settings' },
-    };
-  },
   computed: {
     ...mapState({
       currentUser: state => state.auth,

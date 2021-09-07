@@ -1,15 +1,25 @@
 require 'rails_helper'
 
 describe CreateInvoice do
-  let(:billing_period) { build(:billing_period) }
+  let(:customer) { create(:customer) }
+  let(:plan_subscription) { create(:plan_subscription, customer: customer) }
+  let(:billing_period) { create(:billing_period, plan_subscription: plan_subscription) }
 
   def perform
-    described_class.for(billing_period: billing_period)
+    described_class.for(billing_period: billing_period, customer: customer)
   end
 
   describe '#perform' do
+    let(:response) do
+      {
+        price: {
+          cents: 100
+        }
+      }
+    end
+
     before do
-      allow(BillingPeriodPriceDetails).to receive(:for).and_return(usd(100))
+      allow(BillingPeriodPriceDetails).to receive(:for).and_return(response)
       Timecop.freeze
     end
 

@@ -3,7 +3,7 @@ class PriceLogic < ApplicationRecord
 
   belongs_to :plan_version
 
-  validates :type, :meter_count_method, presence: true
+  validates :type, presence: true
   before_validation :set_lower_limits, on: :create, if: -> { respond_to?(:tiers) }
   before_validation :set_currency
 
@@ -44,7 +44,7 @@ end
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  meter_id           :string
-#  meter_count_method :integer          not null
+#  meter_count_method :integer
 #
 # Indexes
 #

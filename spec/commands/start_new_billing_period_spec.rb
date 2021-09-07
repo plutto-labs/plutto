@@ -16,7 +16,10 @@ describe StartNewBillingPeriod do
       allow(SetInitialDataToBillingPeriod).to receive(:for)
         .with(billing_period: new_billing_period)
         .and_return(true)
-      allow(CreateInvoice).to receive(:for).with(billing_period: new_billing_period)
+      allow(CreateInvoice).to receive(:for).with(
+        billing_period: new_billing_period,
+        customer: billing_period.plan_subscription.customer
+      )
     end
 
     it 'creates the next billing period' do
@@ -42,7 +45,10 @@ describe StartNewBillingPeriod do
 
       it 'calls CreateInvoice command' do
         perform
-        expect(CreateInvoice).to have_received(:for).with(billing_period: new_billing_period)
+        expect(CreateInvoice).to have_received(:for).with(
+          billing_period: new_billing_period,
+          customer: billing_period.plan_subscription.customer
+        )
       end
     end
 
