@@ -147,6 +147,11 @@
           "example": "donald@getplutto.com",
           "x-nullable": false,
           "format": "email"
+        },
+        "identifier": {
+          "type": "string",
+          "example": "1",
+          "x-nullable": true
         }
       },
       "required": [
@@ -536,6 +541,9 @@
     "/meter_events": {
       "post": {
         "summary": "Creates Meter Event",
+        "tags": [
+          "Meter Event"
+        ],
         "description": "Creates Meter Event",
         "consumes": [
           "application/json"

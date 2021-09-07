@@ -9,6 +9,7 @@ describe 'API V1 Meter Events', swagger_doc: 'v1/swagger.json' do
 
   path '/meter_events' do
     post 'Creates Meter Event' do
+      tags 'Meter Event'
       description 'Creates Meter Event'
       consumes 'application/json'
       produces 'application/json'
