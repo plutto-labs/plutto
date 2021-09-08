@@ -1,10 +1,10 @@
-class SetInitialDataToBillingPeriod < PowerTypes::Command.new(:billing_period)
+class SetDataToBillingPeriod < PowerTypes::Command.new(:billing_period, :count_type)
   def perform
     @billing_period.plan_version_price_logics.each do |price_logic|
       if price_logic.class.metered?
         meter_count = find_or_create_meter_count(price_logic.meter)
         billing_period_meter_data = find_or_create_billing_period_meter_data(meter_count)
-        billing_period_meter_data.update(initial_count: meter_count.count)
+        set_count_to_billing_period_meter_data(billing_period_meter_data, meter_count, @count_type)
       end
     end
   end
@@ -24,5 +24,11 @@ class SetInitialDataToBillingPeriod < PowerTypes::Command.new(:billing_period)
       billing_period: @billing_period,
       meter_count: meter_count
     )
+  end
+
+  def set_count_to_billing_period_meter_data(billing_period_meter_data, meter_count, count_type)
+    return if !['initial_count', 'final_count'].include? count_type
+
+    billing_period_meter_data.update(count_type.to_sym => meter_count.count)
   end
 end
