@@ -13,7 +13,7 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
       description 'Creates Plan Subscription'
       consumes 'application/json'
       produces 'application/json'
-      security [Bearer: {}]
+      security [Bearer: []]
       parameter name: :plan_subscription, in: :body,
                 schema: { '$ref': '#/definitions/plan_subscription_create' }
 
@@ -49,7 +49,7 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
       description 'Updates Plan Subscription status'
       consumes 'application/json'
       produces 'application/json'
-      security [Bearer: {}]
+      security [Bearer: []]
       parameter name: :plan_subscription, in: :body,
                 schema: { '$ref': '#/definitions/plan_subscription_create' }
 
