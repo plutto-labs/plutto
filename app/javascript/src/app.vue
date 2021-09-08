@@ -8,13 +8,28 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import NavBar from './components/nav-bar.vue';
 
 export default {
   components: {
     NavBar,
   },
+  beforeMount() {
+    if (this.loggedIn) {
+      this.$store.dispatch('UPDATE_USER_DATA', this.currentUser.id)
+        .catch((err) => {
+          if (err.response && err.response.status === 401) {
+            this.$store.dispatch('LOGOUT_USER');
+            this.$router.replace('/login');
+          }
+        });
+    }
+  },
   computed: {
+    ...mapState({
+      currentUser: state => state.auth,
+    }),
     loggedIn() {
       return this.$store.getters.isLoggedIn;
     },

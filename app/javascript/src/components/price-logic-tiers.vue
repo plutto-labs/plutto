@@ -38,7 +38,7 @@
           >
             {{ measurementText }}
           </th>
-          <th class="bg-gray-900" />
+          <th class="bg-gray-700" />
         </tr>
       </thead>
       <tbody class="bg-gray-800">
@@ -64,7 +64,7 @@
             <div class="flex items-end justify-center">
               <Field
                 :as="edit ? 'input' : 'div'"
-                :name="`tier-${index}`"
+                :name="`${priceLogicIndex}-tier-${index}`"
                 :rules="`required|minValue:${tierLowerLimit(index) + 1}`"
                 type="number"
                 class="flex items-center px-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
@@ -76,7 +76,7 @@
               <ErrorMessage
                 as="p"
                 class="absolute text-xs text-danger-light"
-                :name="`tier-${index}`"
+                :name="`${priceLogicIndex}-tier-${index}`"
                 v-slot="{ message }"
               >
                 <p v-if="message">
@@ -101,7 +101,7 @@
               <div class="flex items-end justify-center">
                 <Field
                   :as="edit ? 'input' : 'div'"
-                  :name="`price-${index}`"
+                  :name="`${priceLogicIndex}-price-${index}`"
                   rules="required"
                   type="number"
                   class="flex items-center pl-2 pr-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
@@ -115,7 +115,7 @@
                 <ErrorMessage
                   as="p"
                   class="absolute text-xs text-danger-light"
-                  :name="`price-${index}`"
+                  :name="`${priceLogicIndex}-price-${index}`"
                   v-slot="{ message }"
                 >
                   <p v-if="message">
@@ -125,9 +125,9 @@
               </div>
             </div>
           </td>
-          <td class="bg-gray-900">
+          <td class="bg-gray-800">
             <span
-              class="cursor-pointer plutto-icon text-primary"
+              class="bg-gray-800 cursor-pointer plutto-icon text-primary"
               @click="deleteTier(index)"
               v-if="edit && index !== tiers.length - 1 && index !== 0"
             >
@@ -165,6 +165,10 @@ export default {
     edit: {
       type: Boolean,
       default: true,
+    },
+    priceLogicIndex: {
+      type: Number,
+      default: 0,
     },
   },
   data() {

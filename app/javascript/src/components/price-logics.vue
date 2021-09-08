@@ -5,6 +5,7 @@
       :key="index"
       :edit="edit"
       :allow-metered="allowMetered"
+      :index="index - 1"
       v-model="priceLogics[index - 1]"
     >
       <template

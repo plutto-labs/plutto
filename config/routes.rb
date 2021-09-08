@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :plans, only: [:index, :show, :create, :update, :destroy] do
         resources :plan_versions, only: [:create, :update, :destroy]
       end
+      resources :users, only: [:show]
     end
   end
   scope path: '/api' do
