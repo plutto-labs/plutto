@@ -3,7 +3,7 @@
     <nav class="flex justify-between px-4 py-4 bg-gray-800 md:px-8">
       <h1 class="flex items-center text-2xl font-semibold text-primary">
         <span class="mr-2 text-white md:mr-8 material-icons">nightlight</span>
-        <div class="flex ">
+        <div class="flex">
           <p>
             Plutto
           </p>
@@ -34,32 +34,41 @@
         </div>
       </div>
     </nav>
-    <!-- <div class="plutto-spacer" /> -->
-    <nav class="flex px-4 overflow-x-scroll md:px-16">
-      <router-link
-        v-for="item in navigation"
-        :key="item.label"
-        :to="item.path"
-        :class="[
-          item.matchingRoutes.indexOf($route.name) !== -1 ?
-            'text-white border-b border-primary' : 'text-gray-300 hover:text-white',
-          'px-3 mx-1 py-4 text-xs md:text-sm font-medium'
-        ]"
-      >
-        {{ item.label }}
-      </router-link>
-      <div
-        class="flex items-center px-3 py-4 mx-1 ml-auto text-xs font-medium text-gray-300 cursor-pointer hover:text-white md:text-sm"
-        @click="changeEnvironment"
-      >
-        <span
-          class="mr-2 text-xl plutto-icon"
+    <nav class="flex justify-between px-4 overflow-x-scroll md:px-16">
+      <div class="flex">
+        <router-link
+          v-for="item in navigation"
+          :key="item.label"
+          :to="item.path"
+          :class="[
+            item.matchingRoutes.indexOf($route.name) !== -1 ?
+              'text-white border-b border-primary' : 'text-gray-300 hover:text-white',
+            'px-3 mx-1 py-4 text-xs md:text-sm font-medium'
+          ]"
         >
-          {{ environment === 'app' ? 'code' : 'podcasts' }}
-        </span>
-        <p>
-          {{ environment === 'app' ? 'Go to sandbox' : 'Go live' }}
-        </p>
+          {{ item.label }}
+        </router-link>
+      </div>
+      <div class="flex">
+        <a
+          href="https://plutto.readme.io/docs/welcome"
+          target="_blank"
+          class="flex items-center mr-4 text-gray-300 hover:text-white"
+        >
+          <span class="mr-2 underline">Docs</span>
+          <span class="plutto-icon text-primary">open_in_new</span>
+        </a>
+        <div
+          class="flex items-center px-3 mx-1 ml-auto text-xs font-medium text-gray-300 cursor-pointer hover:text-white md:text-sm"
+          @click="changeEnvironment"
+        >
+          <span class="mr-2 text-xl plutto-icon">
+            {{ environment === 'app' ? 'code' : 'podcasts' }}
+          </span>
+          <p>
+            {{ environment === 'app' ? 'Back to sandbox' : 'Go live' }}
+          </p>
+        </div>
       </div>
     </nav>
     <div class="md:px-16">
