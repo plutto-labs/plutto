@@ -2,7 +2,18 @@
   <div class="bg-gray-900">
     <nav class="flex justify-between px-4 py-4 bg-gray-800 md:px-8">
       <h1 class="flex items-center text-2xl font-semibold text-primary">
-        <span class="mr-2 text-white md:mr-8 material-icons">nightlight</span> Plutto
+        <span class="mr-2 text-white md:mr-8 material-icons">nightlight</span>
+        <div class="flex ">
+          <p>
+            Plutto
+          </p>
+          <p
+            v-if="environment !== 'production'"
+            class="text-xs text-primary-700"
+          >
+            {{ environment }}
+          </p>
+        </div>
       </h1>
       <div class="flex">
         <div class="flex items-center">
@@ -37,6 +48,19 @@
       >
         {{ item.label }}
       </router-link>
+      <div
+        class="flex items-center px-3 py-4 mx-1 ml-auto text-xs font-medium text-gray-300 cursor-pointer hover:text-white md:text-sm"
+        @click="changeEnvironment"
+      >
+        <span
+          class="mr-2 text-xl plutto-icon"
+        >
+          {{ environment === 'production' ? 'code' : 'podcasts' }}
+        </span>
+        <p>
+          {{ environment === 'production' ? 'Go to sandbox' : 'Go live' }}
+        </p>
+      </div>
     </nav>
     <div class="md:px-16">
       <slot />
@@ -60,6 +84,7 @@ export default {
   computed: {
     ...mapState({
       currentUser: state => state.auth,
+      environment: state => state.ui.environment,
     }),
   },
   mounted() {
@@ -74,6 +99,11 @@ export default {
     logout() {
       this.$store.dispatch('LOGOUT_USER');
       this.$router.replace('/login');
+    },
+    changeEnvironment() {
+      if (this.environment === 'development') return;
+
+      window.location.replace(`https://${this.environment === 'production' ? 'sandbox' : 'app'}.getplutto.com`);
     },
   },
   setup() {

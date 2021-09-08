@@ -1,16 +1,23 @@
 const initialState = {
   loading: false,
+  environment: null,
 };
 
 export const mutations = {
-  SET_LOADING(state, payload) {
+  setLoading(state, payload) {
     state.loading = payload;
+  },
+  setEnvironment(state, payload) {
+    state.environment = payload;
   },
 };
 
 export const actions = {
-  setLoading({ commit }, payload) {
-    commit('SET_LOADING', payload);
+  SET_LOADING({ commit }, payload) {
+    commit('setLoading', payload);
+  },
+  SET_ENVIRONMENT({ commit }, payload) {
+    commit('setEnvironment', payload);
   },
 };
 

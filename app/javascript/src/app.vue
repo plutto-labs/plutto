@@ -11,6 +11,12 @@
 import NavBar from './components/nav-bar.vue';
 
 export default {
+  props: {
+    environment: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     NavBar,
   },
@@ -18,6 +24,9 @@ export default {
     loggedIn() {
       return this.$store.getters.isLoggedIn;
     },
+  },
+  beforeMount() {
+    this.$store.dispatch('SET_ENVIRONMENT', this.environment);
   },
 };
 </script>
