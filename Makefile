@@ -20,12 +20,14 @@ services-port:
 	docker-compose port ${SERVICE} ${PORT} 2> /dev/null | cut -d':' -f2 || echo ${PORT}
 
 backup-staging: ROLE=staging
+backup-sandbox: ROLE=sandbox-production
 backup-production: ROLE=production
 backup-%:
 	@echo Capturing $(ROLE)....
 	@heroku pg:backups:capture --remote $(ROLE)
 
 restore-from-staging: ROLE=staging
+restore-from-sandbox: ROLE=sandbox-production
 restore-from-production: ROLE=production
 restore-from-%:
 	$(eval TEMP_FILE=$(shell mktemp))

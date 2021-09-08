@@ -10,6 +10,13 @@ if heroku auth:whoami &> /dev/null; then
     echo 'Ask for access to the "plutto-staging" Heroku app'
   fi
 
+  if heroku apps:info --app plutto-sandbox-production &> /dev/null; then
+    git remote add sandbox git@heroku.com:plutto-sandbox-production.git || true
+    echo 'You are a collaborator on the "plutto-sandbox" Heroku app'
+  else
+    echo 'Ask for access to the "plutto-sandbox" Heroku app'
+  fi
+
   if heroku apps:info --app plutto-production &> /dev/null; then
     git remote add production git@heroku.com:plutto-production.git || true
     echo 'You are a collaborator on the "plutto-production" Heroku app'
