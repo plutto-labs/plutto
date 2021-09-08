@@ -20,7 +20,7 @@
               @selected="(priceLogicType) => updatePriceLogic('type', priceLogicType)"
             />
             <div
-              class="inline-block w-auto px-4 py-2 mt-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md"
+              class="inline-block w-auto px-4 py-2 mx-2 mt-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md"
               v-else
             >
               {{ $t(`message.priceLogics.types.${priceLogic.type}`) }}
@@ -46,7 +46,7 @@
                 @addElementClicked="showNewMeterModal = true"
               />
               <div
-                class="flex items-center px-4 py-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
+                class="inline-block px-4 py-2 mx-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
                 v-else
               >
                 {{ meters && meters.find(meter => meter.id == priceLogic.meterId).name }}
@@ -71,7 +71,7 @@
                 @selected="(method) => priceLogic.meterCountMethod = method"
               />
               <div
-                class="flex items-center px-4 py-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
+                class="inline-block px-4 py-2 mx-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
                 v-else
               >
                 {{ meterCountMethods.find(method => method.value == priceLogic.meterCountMethod).label }}
