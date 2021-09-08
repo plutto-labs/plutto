@@ -35,11 +35,6 @@ ActiveAdmin.register PlanVersion do
 
     panel I18n.t('activerecord.models.plan_subscription', count: 2) do
       table_for resource.plan_subscriptions do
-        column(:id) do |plan_version|
-          link_to(admin_organization_plan_plan_versions_path(resource.organization,
-                                                             resource,
-                                                             plan_version))
-        end
         column :customer
         column :created_at
       end
