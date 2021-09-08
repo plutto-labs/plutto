@@ -99,7 +99,7 @@ export default {
       this.$router.replace('/login');
     },
     changeEnvironment() {
-      if (this.environment === 'development') return;
+      if (this.environment !== 'app' && this.environment !== 'sandox') return;
 
       window.location.replace(`https://${this.environment === 'app' ? 'sandbox' : 'app'}.getplutto.com`);
     },
