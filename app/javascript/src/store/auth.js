@@ -1,4 +1,4 @@
-import login from '../api/auth';
+import * as authApi from '../api/auth';
 
 const initialState = {
   id: null,
@@ -10,6 +10,7 @@ const initialState = {
 
 export const mutations = {
   setUserData(state, payload) {
+    state.id = payload.id;
     state.token = payload.authenticationToken;
     state.email = payload.email;
   },
@@ -21,12 +22,21 @@ export const mutations = {
 
 export const actions = {
   LOGIN_USER({ commit }, payload) {
-    return login(payload.email, payload.password)
+    return authApi.login(payload.email, payload.password)
       .then((res) => {
         const { user } = res;
         if (user.authenticationToken) {
           commit('setUserData', user);
           commit('setCompanyData', user.organization);
+        }
+      });
+  },
+  UPDATE_USER_DATA({ commit }, payload) {
+    return authApi.getUser(payload)
+      .then((data) => {
+        const { user } = data;
+        if (user.authenticationToken) {
+          commit('setUserData', user);
         }
       });
   },
