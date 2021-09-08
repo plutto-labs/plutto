@@ -13,8 +13,8 @@ describe StartNewBillingPeriod do
   describe '#perform' do
     before do
       allow(BillingPeriod).to receive(:create).and_return(new_billing_period)
-      allow(SetInitialDataToBillingPeriod).to receive(:for)
-        .with(billing_period: new_billing_period)
+      allow(SetDataToBillingPeriod).to receive(:for)
+        .with(billing_period: new_billing_period, count_type: 'initial_count')
         .and_return(true)
       allow(CreateInvoice).to receive(:for).with(
         billing_period: new_billing_period,
@@ -32,10 +32,10 @@ describe StartNewBillingPeriod do
         )
     end
 
-    it 'call StartBillingPeriod command' do
+    it 'call SetDataToBillingPeriod command' do
       perform
-      expect(SetInitialDataToBillingPeriod).to have_received(:for)
-        .with(billing_period: new_billing_period)
+      expect(SetDataToBillingPeriod).to have_received(:for)
+        .with(billing_period: new_billing_period, count_type: 'initial_count')
     end
 
     context 'when plan bills at start' do
