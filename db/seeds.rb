@@ -12,7 +12,11 @@
 unless Rails.env.production?
   plutto_user_mails = ['felipe@getplutto.com', 'antonia@getplutto.com',
                        'sebastian@getplutto.com', 'ignacio@getplutto.com']
-  customers = ['donald@mars.com', 'ham@platan.us', 'teddy@apple.com']
+  customers = [
+    ['donald@mars.com', 'Donald Mars'],
+    ['ham@platan.us', 'Ham the Chimp'],
+    ['teddy@apple.com', 'Teddy Apple']
+  ]
 
   plutto = Organization.find_or_create_by(name: 'Plutto')
 
@@ -30,7 +34,12 @@ unless Rails.env.production?
   meter = Meter.find_or_create_by(name: 'api calls', organization: plutto)
 
   customers.each_with_index do |customer, index|
-    Customer.find_or_create_by(email: customer, organization: plutto, identifier: index)
+    Customer.find_or_create_by(
+      email: customer[0],
+      name: customer[1],
+      organization: plutto,
+      identifier: index
+    )
   end
 
   plan = Plan.find_or_create_by(name: 'Plutto', organization: plutto) do |plan|
