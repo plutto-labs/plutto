@@ -8,7 +8,7 @@
             Plutto
           </p>
           <p
-            v-if="environment !== 'production'"
+            v-if="environment !== 'app'"
             class="text-xs text-primary-700"
           >
             {{ environment }}
@@ -55,10 +55,10 @@
         <span
           class="mr-2 text-xl plutto-icon"
         >
-          {{ environment === 'production' ? 'code' : 'podcasts' }}
+          {{ environment === 'app' ? 'code' : 'podcasts' }}
         </span>
         <p>
-          {{ environment === 'production' ? 'Go to sandbox' : 'Go live' }}
+          {{ environment === 'app' ? 'Go to sandbox' : 'Go live' }}
         </p>
       </div>
     </nav>
@@ -83,7 +83,6 @@ export default {
   computed: {
     ...mapState({
       currentUser: state => state.auth,
-      environment: state => state.ui.environment,
     }),
   },
   mounted() {
@@ -102,7 +101,7 @@ export default {
     changeEnvironment() {
       if (this.environment === 'development') return;
 
-      window.location.replace(`https://${this.environment === 'production' ? 'sandbox' : 'app'}.getplutto.com`);
+      window.location.replace(`https://${this.environment === 'app' ? 'sandbox' : 'app'}.getplutto.com`);
     },
   },
   setup() {

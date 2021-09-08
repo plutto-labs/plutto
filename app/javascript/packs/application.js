@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       App,
     },
   });
+  app.config.globalProperties.environment = window.location.host.split('.')[0];
   app.mixin(FormatterMixin);
   app.use(router);
   app.use(store);
