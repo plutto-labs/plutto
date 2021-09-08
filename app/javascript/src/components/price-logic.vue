@@ -90,6 +90,7 @@
               :measurement-text="priceLogic.type === 'PriceLogic::StairStep' ? 'Tier fee' : 'Per unit' "
               v-model="priceLogic.tiers"
               :edit="edit"
+              :price-logic-index="index"
             />
           </template>
           <template v-else>
@@ -153,6 +154,10 @@ export default {
     allowMetered: {
       type: Boolean,
       default: true,
+    },
+    index: {
+      type: Number,
+      default: 0,
     },
   },
   data() {
