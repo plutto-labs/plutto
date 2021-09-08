@@ -38,7 +38,7 @@
           >
             {{ measurementText }}
           </th>
-          <th class="bg-gray-900" />
+          <th class="bg-gray-700" />
         </tr>
       </thead>
       <tbody class="bg-gray-800">
@@ -125,9 +125,9 @@
               </div>
             </div>
           </td>
-          <td class="bg-gray-900">
+          <td class="bg-gray-800">
             <span
-              class="cursor-pointer plutto-icon text-primary"
+              class="bg-gray-800 cursor-pointer plutto-icon text-primary"
               @click="deleteTier(index)"
               v-if="edit && index !== tiers.length - 1 && index !== 0"
             >
