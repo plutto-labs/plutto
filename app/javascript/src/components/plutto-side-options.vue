@@ -8,12 +8,12 @@
         v-for="(option, index) in options"
         :key="index"
         class="py-2 pl-3 text-xs font-medium cursor-pointer hover:border-primary-600"
-        :class="option === selectedOption ?
+        :class="option.value === selectedOption ?
           'border-primary-600 border-l text-primary-600' :
           'text-gray-300 border-l border-gray-500'"
-        @click="$emit('optionClicked', option)"
+        @click="$emit('optionClicked', option.value)"
       >
-        {{ option }}
+        {{ option.label }}
       </div>
     </div>
   </div>

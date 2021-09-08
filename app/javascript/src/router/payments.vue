@@ -25,7 +25,10 @@ export default {
   components: { PluttoSideOptions, Subscriptions, Transactions },
   data() {
     return {
-      viewOptions: ['Subscriptions', 'Transactions'],
+      viewOptions: [
+        { label: 'Subscriptions', value: 'Subscriptions' },
+        { label: 'Transactions', value: 'Transactions' },
+      ],
       selectedOption: 'Subscriptions',
     };
   },
