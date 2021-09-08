@@ -21,7 +21,7 @@
 
   <body>
     <div id="vue-app">
-      <app></app>
+      <app environment="<%= ENV.fetch('PLUTTO_ENVIRONMENT') %>"></app>
       <%= yield %>
     </div>
   </body>
