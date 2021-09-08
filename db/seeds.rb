@@ -44,6 +44,7 @@ unless Rails.env.production?
 
   plan = Plan.find_or_create_by(name: 'Plutto', organization: plutto) do |plan|
     plan.currency = 'USD'
+    plan.bills_at = 'end'
     plan.billing_period_duration = 1.month
   end
 

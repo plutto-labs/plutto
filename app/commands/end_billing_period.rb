@@ -3,6 +3,8 @@ class EndBillingPeriod < PowerTypes::Command.new(:billing_period, start_next_per
     ActiveRecord::Base.with_advisory_lock("meter-events-#{plan_subscription.id}-lock") do
       ActiveRecord::Base.transaction do
         @billing_period.update(billing_date: Date.current)
+        SetDataToBillingPeriod.for(billing_period: @billing_period, count_type: 'final_count')
+
         create_invoice unless @plan_subscription.bills_at_start?
 
         if @start_next_period

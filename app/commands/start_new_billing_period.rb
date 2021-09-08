@@ -8,7 +8,7 @@ class StartNewBillingPeriod < PowerTypes::Command.new(:plan_subscription, :billi
       plan_subscription: @plan_subscription
     )
 
-    SetInitialDataToBillingPeriod.for(billing_period: new_billing_period)
+    SetDataToBillingPeriod.for(billing_period: new_billing_period, count_type: 'initial_count')
     create_invoice(new_billing_period) if @plan_subscription.bills_at_start?
   end
 

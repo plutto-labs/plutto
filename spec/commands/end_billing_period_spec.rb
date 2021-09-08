@@ -21,11 +21,20 @@ describe EndBillingPeriod do
         billing_period: billing_period,
         customer: billing_period.plan_subscription.customer
       )
+      allow(SetDataToBillingPeriod).to receive(:for)
+        .with(billing_period: billing_period, count_type: 'final_count')
+        .and_return(true)
     end
 
     it 'set the current Date as billing_date' do
       expect { perform }.to change { billing_period.reload.billing_date }
         .from(nil).to(date)
+    end
+
+    it 'call SetDataToBillingPeriod command' do
+      perform
+      expect(SetDataToBillingPeriod).to have_received(:for)
+        .with(billing_period: billing_period, count_type: 'final_count')
     end
 
     context 'when called with start_new_period=true flag' do
