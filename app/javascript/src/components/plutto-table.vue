@@ -42,6 +42,11 @@
                     {{ row[header.title] }}
                   </div>
                 </template>
+                <template v-else-if="header.type === 'copyableLine'">
+                  <div class="py-4 text-sm text-gray-50 whitespace-nowrap">
+                    <PluttoCopyableDiv :value="row[header.title]" />
+                  </div>
+                </template>
                 <template v-else-if="header.type === 'tag'">
                   <div
                     class="inline-flex px-2 text-xs font-semibold leading-5 rounded-full whitespace-nowrap"
@@ -98,9 +103,10 @@
 <script>
 import { TrashIcon } from '@heroicons/vue/outline';
 import PluttoLoader from '@/components/plutto-loader';
+import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 
 export default {
-  components: { PluttoLoader, TrashIcon },
+  components: { PluttoLoader, TrashIcon, PluttoCopyableDiv },
   props: {
     headers: {
       type: Array,

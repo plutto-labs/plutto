@@ -72,7 +72,7 @@ export default {
         type: 'oneLineText',
       }, {
         title: 'id',
-        type: 'oneLineText',
+        type: 'copyableLine',
       }, {
         title: 'planSubscription',
         type: 'component',
