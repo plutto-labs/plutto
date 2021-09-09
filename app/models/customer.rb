@@ -7,6 +7,8 @@ class Customer < ApplicationRecord
   has_one :billing_information, dependent: :destroy, required: true
   belongs_to :organization
 
+  accepts_nested_attributes_for :billing_information, allow_destroy: true
+
   delegate :id, to: :organization, prefix: true
 
   def add_plan_subcription(plan_version_id)
