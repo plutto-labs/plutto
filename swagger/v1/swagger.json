@@ -59,12 +59,16 @@
         "plan_version_id": {
           "type": "string",
           "example": "version_46cf463812d56103d1dfa382",
-          "x-nullable": false
+          "x-nullable": true
+        },
+        "plan_id": {
+          "type": "string",
+          "example": "plan_5b3bebe4704f9588cfa10413",
+          "x-nullable": true
         }
       },
       "required": [
-        "customer_id",
-        "plan_version_id"
+        "customer_id"
       ]
     },
     "plan_subscription_resource": {
@@ -589,7 +593,7 @@
         "tags": [
           "Plan Subscription"
         ],
-        "description": "Creates Plan Subscription",
+        "description": "Creates Plan Subscription with plan version ID or plan ID \n\nMake sure plan_version_id or plan_id is NOT NULL. If both arguments are present, plan_version_id will be utilized",
         "consumes": [
           "application/json"
         ],

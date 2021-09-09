@@ -25,11 +25,11 @@ PLAN_SUBSCRIPTION_CREATE_SCHEMA = {
     customer_id: { type: :string, example: 'customer_5198c6ad60c3363b089a1421',
                    'x-nullable': false },
     plan_version_id: { type: :string, example: 'version_46cf463812d56103d1dfa382',
-                       'x-nullable': false }
+                       'x-nullable': true },
+    plan_id: { type: :string, example: 'plan_5b3bebe4704f9588cfa10413', 'x-nullable': true }
   },
   required: [
-    :customer_id,
-    :plan_version_id
+    :customer_id
   ]
 }
 
