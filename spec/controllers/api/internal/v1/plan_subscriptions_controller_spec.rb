@@ -3,12 +3,12 @@ RSpec.describe Api::Internal::V1::PlanSubscriptionsController, type: :controller
 
   describe 'PUT #create' do
     let(:organization) { create(:organization) }
+    let!(:customer) { create(:customer, organization: organization) }
 
     context 'when signed in' do
       before { sign_in create(:user, organization: organization) }
 
       context 'with valid params' do
-        let!(:customer) { create(:customer, organization: organization) }
         let(:plan) { create(:plan, organization: organization) }
         let!(:plan_version) { create(:plan_version, plan: plan) }
 
@@ -34,6 +34,18 @@ RSpec.describe Api::Internal::V1::PlanSubscriptionsController, type: :controller
         it 'returns http error' do
           put :create, format: :json, params: { customer_id: 0, plan_version_id: 0 }
           expect(response).to have_http_status(:not_found)
+        end
+
+        context 'with plan from other organization' do
+          let(:other_org_plan_version) { create(:plan_version) }
+
+          it 'returns http forbidden for plan_version_id' do
+            put :create, format: :json, params: {
+              customer_id: customer.id, plan_version_id: other_org_plan_version.id
+            }
+
+            expect(response).to have_http_status(:forbidden)
+          end
         end
       end
     end

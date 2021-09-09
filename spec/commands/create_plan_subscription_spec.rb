@@ -1,8 +1,11 @@
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 require 'rails_helper'
 
 describe CreatePlanSubscription do
-  let(:customer) { create(:customer) }
-  let(:plan_version) { create(:plan_version) }
+  let(:organization) { create(:organization) }
+  let(:customer) { create(:customer, organization: organization) }
+  let(:plan) { create(:plan, organization: organization) }
+  let(:plan_version) { create(:plan_version, plan: plan) }
   let(:plan_subscription) do
     create(
       :plan_subscription,
@@ -56,3 +59,4 @@ describe CreatePlanSubscription do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
