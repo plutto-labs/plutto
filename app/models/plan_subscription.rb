@@ -1,13 +1,15 @@
 class PlanSubscription < ApplicationRecord
   include PowerTypes::Observable
 
-  has_many :billing_periods, dependent: :nullify
+  has_many :billing_periods, dependent: :destroy
   belongs_to :plan_version
   belongs_to :customer
 
   delegate :price_logics, to: :plan_version, allow_nil: true, prefix: true
   delegate :bills_at_start?, to: :plan_version
   delegate :billing_period_duration, to: :plan_version
+
+  enum price_type: { tax_inclusive: 0, tax_exclusive: 1 }, _suffix: true
 
   def current_billing_period
     billing_periods.order(created_at: :asc).last
@@ -30,6 +32,8 @@ end
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  active          :boolean          default(FALSE)
+#  auto_collection :boolean          default(TRUE)
+#  price_type      :integer          default("tax_inclusive")
 #
 # Indexes
 #

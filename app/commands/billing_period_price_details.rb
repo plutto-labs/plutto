@@ -13,7 +13,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
       total_price += price_logic_price
     end
 
-    { price: total_price * period_duration_ratio, details: details }
+    { price: total_price * period_duration_ratio, details: details }.with_indifferent_access
   end
 
   private
@@ -51,7 +51,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
 
     if price_logic.class.metered?
       details[:meter] = price_logic.meter.name
-      details[:quantity] = billing_period_meter_data.count(price_logic.meter_count_method)
+      details[:quantity] = billing_period_meter_data.count(price_logic.meter_count_method) || 0
     end
 
     details

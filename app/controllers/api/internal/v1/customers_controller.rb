@@ -6,7 +6,7 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
     respond_with(
       authorize(
         Customer.where(organization_id: current_user.organization_id)
-          .includes([:active_plan_subscription])
+          .includes([:billing_information, { active_plan_subscription: :plan_version }])
       )
     )
   end
@@ -21,7 +21,7 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
       Customer.new(customer_params.merge(organization_id: current_user.organization_id))
     )
     ActiveRecord::Base.transaction do
-      if plan_version_params['plan_version_id']
+      if plan_version_params['plan_version_id']&.present?
         customer.add_plan_subcription(plan_version_params['plan_version_id'])
       end
       customer.save!
@@ -43,9 +43,13 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   private
 
   def customer_params
-    params.require(:customer).permit(
-      :email, :name
+    cust_params = params.require(:customer).permit(
+      :identifier, :email, :name, billing_information: [
+        :country_iso_code, :state, :city, :address, :zip, :activity, :legal_name, :tax_id,
+        :phone, :customer_id
+      ]
     )
+    rename_nested_object_params_for_nested_attributes(cust_params, :billing_information)
   end
 
   def customer

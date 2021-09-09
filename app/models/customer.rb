@@ -4,7 +4,10 @@ class Customer < ApplicationRecord
   has_many :invoices, dependent: :destroy
   has_one :active_plan_subscription, -> { where(active: true) },
           class_name: 'PlanSubscription', inverse_of: :customer
+  has_one :billing_information, dependent: :destroy, required: true
   belongs_to :organization
+
+  accepts_nested_attributes_for :billing_information, allow_destroy: true
 
   delegate :id, to: :organization, prefix: true
 
@@ -25,12 +28,12 @@ end
 # Table name: customers
 #
 #  id              :string           not null, primary key
-#  email           :string           not null
-#  name            :string
 #  organization_id :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  email           :string           not null
 #  identifier      :string
+#  name            :string
 #
 # Indexes
 #
