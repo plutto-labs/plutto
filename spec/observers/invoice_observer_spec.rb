@@ -25,7 +25,8 @@ describe InvoiceObserver do
           details: invoice.details,
           customer_email: get_customer(invoice).email,
           customer_name: get_customer(invoice).name,
-          organization_name: get_customer(invoice).organization.name
+          organization_name: get_customer(invoice).organization.name,
+          billing_information: get_customer(invoice).billing_information.serializable_hash
         } }
     end
 

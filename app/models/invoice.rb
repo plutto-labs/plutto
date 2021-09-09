@@ -47,22 +47,23 @@ end
 #
 # Table name: invoices
 #
-#  id                :string           not null, primary key
-#  subtotal_cents    :bigint(8)        default(0), not null
-#  tax_cents         :bigint(8)        default(0), not null
-#  discount_cents    :bigint(8)        default(0), not null
-#  currency          :string           default("usd")
-#  issue_date        :datetime
-#  details           :jsonb
-#  billing_period_id :string           not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  customer_id       :string           not null
-#  aasm_state        :string           default("new")
-#  payed_at          :datetime
-#  payment_method    :integer
-#  tax_type          :integer
-#  document_id       :integer
+#  id                  :string           not null, primary key
+#  subtotal_cents      :bigint(8)        default(0), not null
+#  tax_cents           :bigint(8)        default(0), not null
+#  discount_cents      :bigint(8)        default(0), not null
+#  currency            :string           default("usd")
+#  issue_date          :datetime
+#  details             :jsonb
+#  billing_period_id   :string           not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  customer_id         :string           not null
+#  aasm_state          :string           default("new")
+#  payed_at            :datetime
+#  payment_method      :integer
+#  tax_type            :integer
+#  document_id         :integer
+#  billing_information :jsonb
 #
 # Indexes
 #

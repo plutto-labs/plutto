@@ -12,7 +12,8 @@ class InvoiceObserver < PowerTypes::Observer
           details: object.details,
           customer_email: customer.email,
           customer_name: customer.name,
-          organization_name: customer.organization.name
+          organization_name: customer.organization.name,
+          billing_information: customer.billing_information.serializable_hash
         }
       )
     end

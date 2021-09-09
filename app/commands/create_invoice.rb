@@ -8,6 +8,7 @@ class CreateInvoice < PowerTypes::Command.new(:billing_period, :customer)
     invoice.discount_cents = 0
     invoice.tax_cents = 0
     invoice.issue_date = DateTime.current
+    invoice.billing_information = @customer.billing_information.to_json
     invoice.save!
     invoice
   end
