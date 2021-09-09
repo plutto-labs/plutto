@@ -32,8 +32,8 @@ end
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  email           :string           not null
-#  identifier      :string
 #  name            :string
+#  identifier      :string
 #
 # Indexes
 #

@@ -56,20 +56,20 @@ unless Rails.env.production?
     end
   end
 
-  customers.each do |customer_email|
-    unless Customer.includes(:billing_information)
-        .find_by(organization: plutto, billing_information: { email: customer_email })
-      customer = Customer.create(organization: plutto)
+  customers.each do |customer_info|
+    Customer.includes(:billing_information).find_or_create_by(
+      email: customer_info[0],name: customer_info[1], organization: plutto
+      ) do |customer|
       BillingInformation.create(
         customer: customer,
         city: 'Santiago',
         country_iso_code: 'CHL',
         state: 'Metropolitana',
-        billing_address: 'Av. Las Condes',
+        address: 'Av. Las Condes',
         zip: '12345',
         tax_id: '73245432-1',
-        company_name: 'Plutto Inc',
-        email: customer_email
+        phone: '9550898',
+        legal_name: 'Plutto Inc',
       )
       PlanSubscription.find_or_create_by(customer: customer, plan_version: plan_version, active: true)
     end
