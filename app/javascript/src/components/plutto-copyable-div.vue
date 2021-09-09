@@ -1,15 +1,16 @@
 <template>
   <div>
     <div
-      class="flex items-center justify-between cursor-pointer"
+      class="flex items-center cursor-pointer"
       @click.prevent.stop="e => copyToClipboard(e, value)"
     >
       <p class="max-w-xs break-words sm:max-w-sm md:max-w-md">
         {{ value }}
       </p>
       <span
-        v-if="value"
-        class="ml-1 cursor-pointer fill-current text-primary plutto-icon"
+        v-if="value && showIcon"
+        class="ml-1 cursor-pointer fill-current plutto-icon"
+        :class="iconClass"
         @click.prevent
       >
         content_copy
@@ -35,6 +36,14 @@ export default {
     value: {
       type: String || Number,
       required: true,
+    },
+    showIcon: {
+      type: Boolean,
+      default: true,
+    },
+    iconClass: {
+      type: String,
+      default: 'text-primary text-base',
     },
   },
   data() {

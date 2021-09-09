@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="relative flex flex-col border border-gray-300 rounded"
-    @click="$router.push({ name: 'plan', params: { id: plan.id } })"
-  >
+  <div class="relative flex flex-col border border-gray-300 rounded">
     <div class="flex-1 px-4 pt-6">
       <div class="text-xl">
         {{ plan.name }}
@@ -10,10 +7,10 @@
           class="absolute top-0 right-0 px-4 ml-4 border-b border-l border-gray-300 rounded-bl text-primary text-2xs"
         >{{ plan.currency }}</span>
       </div>
-      <div class="text-gray-100 text-2xs">
-        {{ plan.defaultVersion && plan.defaultVersion.version }} ·
-        {{ plan.defaultVersion && plan.defaultVersion.id }}
-      </div>
+      <PluttoCopyableDiv
+        class="text-gray-100 text-2xs"
+        :value="plan.id"
+      />
       <div class="pr-2 mt-4 text-sm text-gray-200 md:px-6">
         <div class="flex items-center">
           <span class="mr-4 plutto-icon">date_range</span><span>Bills at <u>{{ plan.billsAt }}</u> of period</span>
@@ -42,7 +39,10 @@
 </template>
 
 <script>
+import PluttoCopyableDiv from '@/components/plutto-copyable-div';
+
 export default {
+  components: { PluttoCopyableDiv },
   props: {
     plan: {
       type: Object,

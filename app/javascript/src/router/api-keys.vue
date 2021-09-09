@@ -27,6 +27,7 @@
           <div v-if="apiKey.token">
             <PluttoCopyableDiv
               class="pt-2 mx-auto text-sm"
+              icon-class="text-xl text-primary"
               :value="apiKey.token"
             />
             <p class="text-xs text-danger-light">
