@@ -4,7 +4,7 @@ class StartNewBillingPeriod < PowerTypes::Command.new(:plan_subscription, :billi
 
     new_billing_period = BillingPeriod.create(
       from: first_day,
-      to: first_day + @plan_subscription.billing_period_duration,
+      to: first_day + @plan_subscription.billing_period_duration - 1.day,
       plan_subscription: @plan_subscription
     )
 

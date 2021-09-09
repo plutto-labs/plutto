@@ -27,7 +27,7 @@ describe StartNewBillingPeriod do
       expect(BillingPeriod).to have_received(:create)
         .with(
           from: date,
-          to: date + plan_subscription.billing_period_duration,
+          to: date + plan_subscription.billing_period_duration - 1.day,
           plan_subscription: plan_subscription
         )
     end
