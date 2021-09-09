@@ -3,35 +3,66 @@ require 'swagger_helper'
 describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
   let(:organization) { create(:organization) }
   let(:customer) { create(:customer, organization: organization) }
-  let(:plan_version)  { create(:plan_version, plan: create(:plan, organization: organization)) }
+  let(:plan) { create(:plan, organization: organization) }
+  let(:plan_version)  { create(:plan_version, plan: plan) }
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
 
   path '/plan_subscriptions' do
     post 'Creates Plan Subscription' do
       tags 'Plan Subscription'
-      description 'Creates Plan Subscription'
+      description "Creates Plan Subscription with plan version ID or plan ID \n\n"\
+       "Make sure plan_version_id or plan_id is NOT NULL. If both arguments are present, "\
+       "plan_version_id will be utilized"
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: []]
       parameter name: :plan_subscription, in: :body,
                 schema: { '$ref': '#/definitions/plan_subscription_create' }
 
-      let(:plan_subscription) do
-        {
-          customer_id: customer.id,
-          plan_version_id: plan_version.id
-        }
+      before do
+        plan.update(default_version: plan_version)
       end
 
-      response '201', 'plan_subscription created' do
-        schema('$ref' => '#/definitions/plan_subscription_resource')
-        let(:Authorization) { "Bearer #{token}" }
+      context 'with plan_version_id' do
+        let(:plan_subscription) do
+          {
+            plan_subscription: {
+              customer_id: customer.id,
+              plan_version_id: plan_version.id
+            }
+          }
+        end
 
-        run_test!
+        response '201', 'plan_subscription created' do
+          schema('$ref' => '#/definitions/plan_subscription_resource')
+          let(:Authorization) { "Bearer #{token}" }
+
+          run_test!
+        end
+
+        it_behaves_like 'unauthorized endpoint'
       end
 
-      it_behaves_like 'unauthorized endpoint'
+      context 'with plan_id' do
+        let(:plan_subscription) do
+          {
+            plan_subscription: {
+              customer_id: customer.id,
+              plan_id: plan.id
+            }
+          }
+        end
+
+        response '201', 'plan_subscription created' do
+          schema('$ref' => '#/definitions/plan_subscription_resource')
+          let(:Authorization) { "Bearer #{token}" }
+
+          run_test!
+        end
+
+        it_behaves_like 'unauthorized endpoint'
+      end
     end
   end
 
