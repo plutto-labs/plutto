@@ -45,7 +45,7 @@
                 <template v-else-if="header.type === 'tag'">
                   <div
                     class="inline-flex px-2 text-xs font-semibold leading-5 rounded-full whitespace-nowrap"
-                    :class="`text-${header.tags[row[header.title]]}-800 bg-${header.tags[row[header.title]]}-200`"
+                    :class="`tag-color--${header.tags[row[header.title]]}`"
                   >
                     {{ $t(`message.table.tags.${row[header.title]}`) }}
                   </div>
