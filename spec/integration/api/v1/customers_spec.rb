@@ -4,6 +4,21 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
   let(:organization) { create(:organization) }
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
+  let(:customer) do
+    { customer: { email: 'donald@getplutto.com',
+                  name: 'Donald',
+                  identifier: 'your-id_12885305',
+                  billing_information: {
+                    city: 'Santiago',
+                    country_iso_code: 'CHL',
+                    state: 'Metropolitana',
+                    address: 'Av. Las Condes',
+                    zip: '12345',
+                    tax_id: '73245432-1',
+                    legal_name: 'Plutto Inc',
+                    phone: '+56992680522'
+                  } } }
+  end
 
   path '/customers' do
     get 'Retrieves Customers' do
@@ -37,21 +52,17 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       security [Bearer: []]
       parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/customer_create' }
 
-      let(:customer) do
-        {
-          email: 'donald@getplutto.com',
-          name: 'Plutto Donald'
-        }
-      end
-
       response '201', 'customer created' do
         schema('$ref' => '#/definitions/customer_resource')
         let(:Authorization) { "Bearer #{token}" }
 
         run_test! do |response|
           customer = JSON.parse(response.body)['customer']
-          expect(customer['name']).to eq('Plutto Donald')
           expect(customer['id']).to be_present
+          expect(customer['billing_information']).to be_present
+          expect(customer['identifier']).to eq('your-id_12885305')
+          expect(customer['billing_information']['legal_name']).to eq('Plutto Inc')
+          expect(customer['billing_information']['country_iso_code']).to eq('CHL')
         end
       end
 
@@ -93,19 +104,20 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: []]
-      parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/meter_event_create' }
-
-      let(:customer) do
-        {
-          email: 'planet@getplutto.com',
-          name: 'Plutto Planet'
-        }
-      end
+      parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/customer_create' }
 
       response '200', 'customer updated' do
+        schema('$ref' => '#/definitions/customer_resource')
         let(:Authorization) { "Bearer #{token}" }
 
-        run_test!
+        run_test! do |response|
+          customer = JSON.parse(response.body)['customer']
+          expect(customer['id']).to be_present
+          expect(customer['billing_information']).to be_present
+          expect(customer['identifier']).to eq('your-id_12885305')
+          expect(customer['billing_information']['legal_name']).to eq('Plutto Inc')
+          expect(customer['billing_information']['country_iso_code']).to eq('CHL')
+        end
       end
 
       it_behaves_like 'unauthorized endpoint'
