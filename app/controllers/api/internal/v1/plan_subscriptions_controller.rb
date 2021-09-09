@@ -14,7 +14,13 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
   end
 
   def plan_version
-    @plan_version ||= PlanVersion.find(params[:plan_version_id])
+    @plan_version ||=
+      (params[:plan_version_id] && PlanVersion.find(params[:plan_version_id])) ||
+      plan&.default_version
+  end
+
+  def plan
+    @plan ||= params[:plan_id] && current_user.organization.plans.find(params[:plan_id])
   end
 
   def customer

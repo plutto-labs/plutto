@@ -14,7 +14,13 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   end
 
   def plan_version
-    PlanVersion.find(create_params[:plan_version_id])
+    @plan_version ||=
+      (create_params[:plan_version_id] && PlanVersion.find(create_params[:plan_version_id])) ||
+      plan&.default_version
+  end
+
+  def plan
+    @plan ||= create_params[:plan_id] && current_bearer.plans.find(create_params[:plan_id])
   end
 
   def customer
@@ -24,7 +30,7 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   end
 
   def create_params
-    params.require(:plan_subscription).permit(:plan_version_id, :customer_id)
+    params.require(:plan_subscription).permit(:plan_version_id, :plan_id, :customer_id)
   end
 
   def update_params
