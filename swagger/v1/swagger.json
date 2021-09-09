@@ -104,16 +104,15 @@
           "example": "customer_d43280e9377673a0b4b07f31",
           "x-nullable": false
         },
-        "name": {
-          "type": "string",
-          "example": "Plutto Donald",
-          "x-nullable": true
-        },
         "email": {
           "type": "string",
           "example": "donald@getplutto.com",
-          "x-nullable": false,
-          "format": "email"
+          "x-nullable": false
+        },
+        "name": {
+          "type": "string",
+          "example": "donald",
+          "x-nullable": true
         },
         "created_at": {
           "type": "string",
@@ -129,38 +128,132 @@
         },
         "identifier": {
           "type": "string",
-          "example": "1",
+          "example": "your-id_12885305",
           "x-nullable": true
+        },
+        "billing_information": {
+          "type": "object",
+          "x-nullable": true,
+          "properties": {
+            "city": {
+              "type": "string",
+              "example": "Santiago",
+              "x-nullable": true
+            },
+            "country_iso_code": {
+              "type": "string",
+              "example": "CHL",
+              "x-nullable": true
+            },
+            "state": {
+              "type": "string",
+              "example": "Metropolitana",
+              "x-nullable": true
+            },
+            "address": {
+              "type": "string",
+              "example": "Av. Las Condes",
+              "x-nullable": true
+            },
+            "zip": {
+              "type": "string",
+              "example": "12345",
+              "x-nullable": true
+            },
+            "tax_id": {
+              "type": "string",
+              "example": "73245432-1",
+              "x-nullable": true
+            },
+            "legal_name": {
+              "type": "string",
+              "example": "Plutto Inc",
+              "x-nullable": true
+            },
+            "phone": {
+              "type": "string",
+              "example": "+56992680522",
+              "x-nullable": true
+            }
+          }
         }
       },
       "required": [
         "id",
-        "email"
+        "email",
+        "billing_information"
       ]
     },
     "customer_create": {
       "type": "object",
       "properties": {
-        "name": {
+        "identifier": {
           "type": "string",
-          "example": "Plutto Donald",
+          "example": "your-id_12885305",
           "x-nullable": true
         },
         "email": {
           "type": "string",
           "example": "donald@getplutto.com",
-          "x-nullable": false,
-          "format": "email"
+          "x-nullable": false
         },
-        "identifier": {
+        "name": {
           "type": "string",
-          "example": "1",
+          "example": "donald",
           "x-nullable": true
-        }
-      },
-      "required": [
-        "email"
-      ]
+        },
+        "billing_information": {
+          "type": "object",
+          "x-nullable": true,
+          "properties": {
+            "city": {
+              "type": "string",
+              "example": "Santiago",
+              "x-nullable": true
+            },
+            "country_iso_code": {
+              "type": "string",
+              "example": "CHL",
+              "x-nullable": true
+            },
+            "state": {
+              "type": "string",
+              "example": "Metropolitana",
+              "x-nullable": true
+            },
+            "billing_address": {
+              "type": "string",
+              "example": "Av. Las Condes",
+              "x-nullable": true
+            },
+            "zip": {
+              "type": "string",
+              "example": "12345",
+              "x-nullable": true
+            },
+            "tax_id": {
+              "type": "string",
+              "example": "73245432-1",
+              "x-nullable": true
+            },
+            "legal_name": {
+              "type": "string",
+              "example": "Plutto Inc",
+              "x-nullable": true
+            },
+            "phone": {
+              "type": "string",
+              "example": "+56992680522",
+              "x-nullable": true
+            }
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "billing_information"
+        ]
+      }
     },
     "customer_resource": {
       "type": "object",
@@ -494,13 +587,16 @@
             "name": "customer",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/meter_event_create"
+              "$ref": "#/definitions/customer_create"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "customer updated"
+            "description": "customer updated",
+            "schema": {
+              "$ref": "#/definitions/customer_resource"
+            }
           },
           "401": {
             "description": "authentication failed",
