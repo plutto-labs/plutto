@@ -33,21 +33,6 @@ unless Rails.env.production?
 
   meter = Meter.find_or_create_by(name: 'api calls', organization: plutto)
 
-  customers.each_with_index do |customer, index|
-    Customer.find_or_create_by(organization: plutto, identifier: index) do |cust|
-      BillingInformation.create(
-        customer: cust
-        city: 'Santiago',
-        country_iso_code: 'Chile',
-        state: 'Metropolitana',
-        street: 'Av. Las Condes',
-        zip: '12345',
-        tax_id: '73245432-1',
-        company_name:  'Plutto Inc',
-      )
-    end
-  end
-
   plan = Plan.find_or_create_by(name: 'Plutto', organization: plutto) do |plan|
     plan.currency = 'USD'
     plan.bills_at = 'end'
@@ -71,9 +56,22 @@ unless Rails.env.production?
     end
   end
 
-  customers.each do |customer|
-    Customer.find_or_create_by(email: customer, organization: plutto) do |cust|
-      PlanSubscription.find_or_create_by(customer: cust, plan_version: plan_version, active: true)
+  customers.each do |customer_email|
+    unless Customer.includes(:billing_information)
+        .find_by(organization: plutto, billing_information: { email: customer_email })
+      customer = Customer.create(organization: plutto)
+      BillingInformation.create(
+        customer: customer,
+        city: 'Santiago',
+        country_iso_code: 'CHL',
+        state: 'Metropolitana',
+        billing_address: 'Av. Las Condes',
+        zip: '12345',
+        tax_id: '73245432-1',
+        company_name: 'Plutto Inc',
+        email: customer_email
+      )
+      PlanSubscription.find_or_create_by(customer: customer, plan_version: plan_version, active: true)
     end
   end
 end
