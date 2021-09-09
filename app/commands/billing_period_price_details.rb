@@ -13,7 +13,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
       total_price += price_logic_price
     end
 
-    { price: total_price * period_duration_ratio, details: details }
+    { price: total_price * period_duration_ratio, details: details }.with_indifferent_access
   end
 
   private
