@@ -34,7 +34,7 @@ export const mutations = {
     }
   },
   addPlanVersion(state, payload) {
-    state.currentPlan.planVersions.push(payload);
+    state.currentPlan.planVersions.unshift(payload);
   },
   removePlanVersion(state, payload) {
     const index = state.currentPlan.planVersions.findIndex(version => version.id === payload.id);
@@ -47,6 +47,9 @@ export const mutations = {
   },
   setPlansLoading(state, payload) {
     state.loading = payload;
+  },
+  setDefaultVersion(state, payload) {
+    state.currentPlan.defaultVersion = payload;
   },
   setError(state, payload) {
     state.error = payload;
@@ -130,7 +133,10 @@ export const actions = {
 
     return planVersionsApi.create(payload.planId, payload.planVersion)
       .then((data) => {
-        if (data.planVersion) commit('addPlanVersion', data.planVersion);
+        if (data.planVersion) {
+          commit('addPlanVersion', data.planVersion);
+          commit('setDefaultVersion', data.planVersion);
+        }
       })
       .catch((err) => {
         commit('setError', err);
