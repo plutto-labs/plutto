@@ -6,6 +6,17 @@
     <div class="h-full">
       <MenuButton
         class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm focus:outline-none text-gray-50 hover:bg-gray-500"
+        v-if="forceSelectedText !== null"
+      >
+        {{ forceSelectedText }}
+        <ChevronDownIcon
+          class="w-5 h-5 ml-2 -mr-1"
+          aria-hidden="true"
+        />
+      </MenuButton>
+      <MenuButton
+        class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm focus:outline-none text-gray-50 hover:bg-gray-500"
+        v-else
       >
         {{ selectedOption[labelKey] || selectedOption || 'Choose...' }}
         <ChevronDownIcon
@@ -82,6 +93,10 @@ export default {
       default: 'name',
     },
     addElementText: {
+      type: String,
+      default: null,
+    },
+    forceSelectedText: {
       type: String,
       default: null,
     },

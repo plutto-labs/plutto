@@ -15,6 +15,7 @@
         <template #component="row">
           <PluttoDropdown
             :selected="row.row.activePlanSubscription && row.row.activePlanSubscription.planVersionId"
+            :force-selected-text="row.row.activePlanSubscription && planVersionName(row.row.activePlanSubscription)"
             :options="planVersionsOptions"
             label-key="name"
             value-key="id"
@@ -106,6 +107,9 @@ export default {
           this.$store.dispatch('UPDATE_CUSTOMER_PLAN_SUBSCRIPTION',
             { id: customerId, planSubscription: response.planSubscription });
         });
+    },
+    planVersionName(planSubscription) {
+      return `${planSubscription.planName} - ${planSubscription.version}`;
     },
   },
 };
