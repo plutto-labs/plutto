@@ -1,7 +1,7 @@
 class PlanSubscription < ApplicationRecord
   include PowerTypes::Observable
 
-  has_many :billing_periods, dependent: :nullify
+  has_many :billing_periods, dependent: :destroy
   belongs_to :plan_version
   belongs_to :customer
 
