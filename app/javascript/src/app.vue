@@ -117,7 +117,7 @@ main {
 }
 
 .plutto-icon {
-  @apply block text-xl leading-none;
+  @apply block leading-none;
   font-family: 'Material Icons';
 }
 

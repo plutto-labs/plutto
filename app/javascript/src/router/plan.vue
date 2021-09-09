@@ -7,22 +7,21 @@
       />
       <div class="px-6 mt-6">
         <div class="text-xl">
-          Plan name: {{ currentPlan.name }}
+          {{ currentPlan.name }} ({{ currentPlan.currency }})
         </div>
-        <div class="mt-4">
-          <span class="plutto-tag plutto-tag--green">{{ currentPlan.currency }}</span>
-        </div>
-        <div class="mt-4">
-          Bills at <span class="underline text-primary-300">{{ currentPlan.billsAt }}</span> of period
-        </div>
-        <div
-          v-if="currentPlan.billingPeriodDuration"
-          class="mt-4"
-        >
-          Bills every <span class="underline text-success-light">{{ humanizedDuration(currentPlan.billingPeriodDuration) }}</span>
+        <div class="mt-4 text-sm text-gray-200 md:px-6">
+          <div class="flex items-center">
+            <span class="mr-4 plutto-icon">date_range</span><span>Bills at <u>{{ currentPlan.billsAt }}</u> of period</span>
+          </div>
+          <div
+            v-if="currentPlan.billingPeriodDuration"
+            class="flex items-center mt-2"
+          >
+            <span class="mr-4 plutto-icon">autorenew</span><span>Bills every <u>{{ humanizedDuration(currentPlan.billingPeriodDuration) }}</u></span>
+          </div>
         </div>
         <div class="flex items-center justify-between my-8">
-          <div class="text-lg text-gray-300">
+          <div class="text-lg text-gray-50">
             Versions:
           </div>
           <button
