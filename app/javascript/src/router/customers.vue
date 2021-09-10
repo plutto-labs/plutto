@@ -10,16 +10,17 @@
         :headers="headers"
         :rows="customers"
         :loading="loading"
+        v-if="plans"
         @delete-clicked="destroyCustomer"
       >
         <template #component="row">
           <PluttoDropdown
             :selected="row.row.activePlanSubscription && row.row.activePlanSubscription.planVersionId"
             :force-selected-text="row.row.activePlanSubscription && planVersionName(row.row.activePlanSubscription)"
-            :options="planVersionsOptions"
+            :options="plans"
             label-key="name"
             value-key="id"
-            @selected="(planVersionId) => changeCustomerPlanVersion(row.row.id, planVersionId)"
+            @selected="(planId) => showConfirmSubscription(row.row, planId)"
             add-element-text="Add Plan"
             @addElementClicked="showNewPlanVersionForm = true"
           />
@@ -32,6 +33,17 @@
     >
       <NewCustomerForm
         @created-customer="customer => showNewCustomerForm = false"
+      />
+    </PluttoModal>
+    <PluttoModal
+      v-if="showSubscribeConfirmation"
+      :showing="showSubscribeConfirmation"
+      @close="showSubscribeConfirmation = false"
+    >
+      <ConfirmPlanSubscription
+        @confirm="createPlanSubscription"
+        @cancel="showSubscribeConfirmation = false"
+        v-bind="confirmData"
       />
     </PluttoModal>
     <PluttoSlideover
@@ -55,10 +67,12 @@ import PluttoModal from '@/components/plutto-modal';
 import NewCustomerForm from '@/components/forms/new-customer-form';
 import PluttoSlideover from '@/components/plutto-slideover';
 import NewPlanVersionForm from '@/components/forms/new-plan-version-form';
+import ConfirmPlanSubscription from '@/components/confirmations/confirm-plan-subscription';
 
 export default {
   components: {
-    PluttoTable, PluttoHeader, PluttoDropdown, PluttoModal, NewCustomerForm, PluttoSlideover, NewPlanVersionForm,
+    PluttoTable, PluttoHeader, PluttoDropdown, PluttoModal,
+    NewCustomerForm, PluttoSlideover, NewPlanVersionForm, ConfirmPlanSubscription,
   },
   data() {
     return {
@@ -83,16 +97,19 @@ export default {
       }],
       showNewCustomerForm: false,
       showNewPlanVersionForm: false,
+      showSubscribeConfirmation: false,
+      confirmData: {
+        customer: null,
+        plan: null,
+      },
     };
   },
   computed: {
     ...mapState({
       loading: state => state.customers.loading,
       customers: state => state.customers.customers,
+      plans: state => state.plans.plans,
     }),
-    planVersionsOptions() {
-      return this.$store.getters.planVersionsOptions;
-    },
   },
   async mounted() {
     await Promise.all([this.$store.dispatch('GET_CUSTOMERS'), this.$store.dispatch('GET_PLANS')]);
@@ -101,9 +118,17 @@ export default {
     destroyCustomer(customer) {
       this.$store.dispatch('DESTROY_CUSTOMER', customer);
     },
-    changeCustomerPlanVersion(customerId, planVersionId) {
-      this.$store.dispatch('CREATE_PLAN_SUBSCRIPTION', { customerId, planVersionId })
+    showConfirmSubscription(customer, planId) {
+      this.confirmData.customer = customer;
+      this.confirmData.plan = this.plans.find((plan) => plan.id === planId);
+      this.showSubscribeConfirmation = true;
+    },
+    createPlanSubscription() {
+      const customerId = this.confirmData.customer.id;
+      const planId = this.confirmData.plan.id;
+      this.$store.dispatch('CREATE_PLAN_SUBSCRIPTION', { customerId, planId })
         .then((response) => {
+          this.showSubscribeConfirmation = false;
           this.$store.dispatch('UPDATE_CUSTOMER_PLAN_SUBSCRIPTION',
             { id: customerId, planSubscription: response.planSubscription });
         });

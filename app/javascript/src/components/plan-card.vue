@@ -19,7 +19,8 @@
           v-if="plan.billingPeriodDuration"
           class="flex items-center mt-2"
         >
-          <span class="mr-4 plutto-icon">autorenew</span><span>Bills every <u>{{ humanizedDuration(plan.billingPeriodDuration) }}</u></span>
+          <span class="mr-4 plutto-icon">autorenew</span>
+          <span>Bills every <u>{{ humanizedDuration(plan.billingPeriodDuration, { removePrefix: true }) }}</u></span>
         </div>
         <div
           v-if="plan.defaultVersion"

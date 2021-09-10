@@ -11,6 +11,7 @@ module.exports = {
         'success-darker': '#004d28',
         'success-darkest': '#001a0d',
 
+        'warning-lighter': '#ffe9cc',
         'warning-light': '#ffd399',
         'warning': '#ff9100',
         'warning-dark': '#995700',
