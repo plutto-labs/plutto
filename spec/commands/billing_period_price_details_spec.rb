@@ -97,7 +97,7 @@ describe BillingPeriodPriceDetails do
       end
 
       context 'when billing period end before the end of period' do
-        let(:billing_date) { Date.current + 15.days }
+        let(:billing_date) { Date.current + 14.days }
 
         it 'returns the correct price' do
           expected_price = price_logic_prices[0] * 0.5 + price_logic_prices[1]
