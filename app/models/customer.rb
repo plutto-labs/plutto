@@ -1,5 +1,5 @@
 class Customer < ApplicationRecord
-  has_many :meter_counts, dependent: :nullify
+  has_many :meter_counts, dependent: :destroy
   has_many :plan_subscriptions, dependent: :destroy
   has_many :invoices, dependent: :destroy
   has_one :active_plan_subscription, -> { where(active: true) },
