@@ -19,12 +19,12 @@ export default {
 
       return moment(String(date)).format('DD/MM/YYYY - HH:mm');
     },
-    humanizedDuration(val) {
+    humanizedDuration(val, options = {}) {
       if (!val) return null;
 
       let humanDuration = moment.duration(val).humanize();
 
-      if (humanDuration.charAt(0) === 'a') humanDuration = humanDuration.substring(2); // eslint-disable-line
+      if (options.removePrefix) humanDuration = humanDuration.substring(2);
 
       return humanDuration;
     },

@@ -17,7 +17,10 @@
             v-if="currentPlan.billingPeriodDuration"
             class="flex items-center mt-2"
           >
-            <span class="mr-4 plutto-icon">autorenew</span><span>Bills every <u>{{ humanizedDuration(currentPlan.billingPeriodDuration) }}</u></span>
+            <span class="mr-4 plutto-icon">autorenew</span>
+            <span>
+              Bills every <u>{{ humanizedDuration(currentPlan.billingPeriodDuration, { removePrefix: true }) }}</u>
+            </span>
           </div>
         </div>
         <div class="flex items-center justify-between my-8">
@@ -76,11 +79,13 @@ export default {
   },
   async beforeMount() {
     await this.$store.dispatch('GET_PLAN', this.$route.params.id);
+    if (!this.meters) await this.$store.dispatch('GET_METERS');
   },
   computed: {
     ...mapState({
       loading: state => state.plans.loading,
       currentPlan: state => state.plans.currentPlan,
+      meters: state => state.meters.meters,
     }),
   },
 };
