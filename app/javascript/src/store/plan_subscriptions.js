@@ -21,7 +21,7 @@ export const actions = {
   CREATE_PLAN_SUBSCRIPTION({ commit }, payload) {
     commit('setPlanSubscriptionsLoading', true);
 
-    return planSubscriptionsApi.create(payload.customerId, payload.planVersionId)
+    return planSubscriptionsApi.create(payload)
       .catch((err) => {
         commit('setError', err);
       })
