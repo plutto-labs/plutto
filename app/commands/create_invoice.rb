@@ -3,7 +3,7 @@ class CreateInvoice < PowerTypes::Command.new(:billing_period, :customer)
     invoice = Invoice.new(billing_period: @billing_period, customer: @customer)
     billing_period_details = get_billing_amount_for_period
     invoice.details = billing_period_details['details']
-    invoice.subtotal = Money.new(billing_period_details['price']['cents'], invoice.currency)
+    invoice.subtotal = Money.new(billing_period_details['price'], invoice.currency)
     # TODO: Add discount and tax logic
     invoice.discount_cents = 0
     invoice.tax_cents = 0

@@ -42,7 +42,7 @@ export default {
         },
         {
           title: 'id',
-          type: 'oneLineText',
+          type: 'copyableLine',
         },
         {
           title: 'none',

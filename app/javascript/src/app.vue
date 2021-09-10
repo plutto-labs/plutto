@@ -121,6 +121,28 @@ main {
   font-family: 'Material Icons';
 }
 
+.tag-color {
+  &--purple {
+    @apply text-purple-800 bg-purple-200;
+  }
+
+  &--blue {
+    @apply text-blue-800 bg-blue-200;
+  }
+
+  &--green {
+    @apply text-green-800 bg-green-200;
+  }
+
+  &--red {
+    @apply text-red-800 bg-red-200;
+  }
+
+  &--yellow {
+    @apply text-yellow-800 bg-yellow-200;
+  }
+}
+
 /* stylelint-disable selector-no-qualifying-type, rule-empty-line-before, property-no-vendor-prefix*/
 
 input[type=number]::-webkit-inner-spin-button,
