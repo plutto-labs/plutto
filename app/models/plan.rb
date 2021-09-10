@@ -8,6 +8,8 @@ class Plan < ApplicationRecord
   enum bills_at: { start: 0, end: 1 }, _prefix: :bills_at
   attribute :billing_period_duration, :duration
 
+  validate :no_metered_for_bills_at_start
+
   def add_plan_version(**params)
     plan_version = plan_versions.build(params.merge({ previous_version: default_version }))
     self.default_version = plan_version
@@ -18,6 +20,12 @@ class Plan < ApplicationRecord
 
   def generate_id
     init_id('plan')
+  end
+
+  def no_metered_for_bills_at_start
+    if bills_at_start? && plan_versions.any? { |version| version.price_logics.any?(&:metered?) }
+      errors.add(:bills_at, 'Cannot bill at start of period if there is use-based price logics')
+    end
   end
 end
 

@@ -5,7 +5,7 @@ class PriceLogic::FlatFee < PriceLogic
     price
   end
 
-  def self.metered?
+  def metered?
     false
   end
 

@@ -13,7 +13,7 @@ class PriceLogic::StairStep < PriceLogic
     tier.price
   end
 
-  def self.metered?
+  def metered?
     true
   end
 

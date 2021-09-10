@@ -8,7 +8,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
       price_logic_price = price_logic.calculate_price(
         billing_period_meter_data&.count(price_logic.meter_count_method) || 0
       )
-      price_logic_price *= period_duration_ratio if price_logic.type == 'PriceLogic::FlatFee'
+      price_logic_price *= period_duration_ratio if !price_logic.metered?
       details[i] = details_from_price_logic(price_logic, billing_period_meter_data,
                                             price_logic_price)
 
@@ -21,7 +21,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
   private
 
   def billing_period_meter_data_for_price_logic(price_logic)
-    return nil unless price_logic.class.metered?
+    return nil unless price_logic.metered?
 
     meter_count = customer.meter_counts.find_by(meter: price_logic.meter)
     @billing_period.billing_period_meter_datas.find_by(meter_count: meter_count)
@@ -55,7 +55,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
     details[:type] = price_logic.class.const_get('NAME')
     details[:total_price_cents] = total_price.cents
 
-    if price_logic.class.metered?
+    if price_logic.metered?
       details[:meter] = price_logic.meter.name
       details[:quantity] = billing_period_meter_data.count(price_logic.meter_count_method) || 0
     end

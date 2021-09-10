@@ -13,7 +13,7 @@ class PriceLogic::Volume < PriceLogic
     units * tier.price
   end
 
-  def self.metered?
+  def metered?
     true
   end
 

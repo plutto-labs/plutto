@@ -12,6 +12,8 @@ RSpec.describe PriceLogic::FlatFee, type: :model do
   end
 
   describe '.metered?' do
-    it { expect(described_class).not_to be_metered }
+    let(:price_logic) { build(:price_logic_flat_fee) }
+
+    it { expect(price_logic.metered?).to be(false) }
   end
 end
