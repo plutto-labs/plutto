@@ -18,18 +18,18 @@
 
 <script>
 import PluttoSideOptions from '@/components/plutto-side-options';
-import Subscriptions from '@/router/subscriptions';
+import Invoices from '@/router/invoices';
 import Transactions from '@/router/transactions';
 
 export default {
-  components: { PluttoSideOptions, Subscriptions, Transactions },
+  components: { PluttoSideOptions, Invoices, Transactions },
   data() {
     return {
       viewOptions: [
-        { label: 'Subscriptions', value: 'Subscriptions' },
+        { label: 'Invoices', value: 'Invoices' },
         { label: 'Transactions', value: 'Transactions' },
       ],
-      selectedOption: 'Subscriptions',
+      selectedOption: 'Invoices',
     };
   },
   methods: {

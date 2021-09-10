@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="mb-4">
-      Subscriptions
+      Invoices
     </h2>
     <div>
       <PluttoTable
