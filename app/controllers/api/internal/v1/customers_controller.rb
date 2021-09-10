@@ -26,7 +26,8 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
       end
       customer.save!
     end
-    respond_with(customer)
+
+    respond_with(customer.reload)
   end
 
   def update
