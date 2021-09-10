@@ -12,7 +12,7 @@ describe CreateInvoice do
   describe '#perform' do
     let(:response) do
       {
-        price: { cents: 100 }, details: {}
+        price: usd(100), details: {}
       }.with_indifferent_access
     end
 
