@@ -10,7 +10,7 @@ class PriceLogic::Tiered < PriceLogic
 
   def calculate_price(n_units = 0)
     remaining_units = n_units
-    total_price = 0
+    total_price = Money.new(0, price_currency)
     tiers.order(index: :asc).each do |tier|
       break if remaining_units <= 0
 

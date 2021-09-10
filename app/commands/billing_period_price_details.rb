@@ -43,7 +43,8 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
     ).to_i
     days_in_period = (
       @billing_period.billing_date.to_datetime - @billing_period.from.to_datetime
-    ).to_i
+    ).to_i + 1
+
     ratio = days_in_period.to_f / total_period_days
 
     ratio > 1 ? 1 : ratio
