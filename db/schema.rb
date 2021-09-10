@@ -93,16 +93,13 @@ ActiveRecord::Schema.define(version: 2021_09_09_201353) do
   end
 
   create_table "customers", id: :string, force: :cascade do |t|
+    t.string "email", null: false
+    t.string "name"
     t.string "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "email", null: false
-    t.string "name"
     t.string "identifier"
     t.index ["organization_id"], name: "index_customers_on_organization_id"
-  end
-
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
   create_table "invoices", id: :string, force: :cascade do |t|
