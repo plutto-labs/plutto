@@ -8,12 +8,14 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
       price_logic_price = price_logic.calculate_price(
         billing_period_meter_data&.count(price_logic.meter_count_method) || 0
       )
+      price_logic_price *= period_duration_ratio if price_logic.type == 'PriceLogic::FlatFee'
       details[i] = details_from_price_logic(price_logic, billing_period_meter_data,
                                             price_logic_price)
+
       total_price += price_logic_price
     end
 
-    { price: total_price * period_duration_ratio, details: details }.with_indifferent_access
+    { price: total_price, details: details }.with_indifferent_access
   end
 
   private
