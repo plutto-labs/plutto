@@ -104,8 +104,8 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('LOGOUT_USER');
       this.$router.replace('/login');
+      this.$store.dispatch('LOGOUT_USER');
     },
     changeEnvironment() {
       if (this.environment !== 'app' && this.environment !== 'sandox') return;

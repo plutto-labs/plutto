@@ -18,6 +18,9 @@ export const mutations = {
     state.organizationId = payload.id;
     state.organizationName = payload.name;
   },
+  resetState(state) {
+    Object.assign(state, initialState);
+  },
 };
 
 export const actions = {
@@ -41,7 +44,7 @@ export const actions = {
       });
   },
   LOGOUT_USER({ commit }) {
-    commit('setUserData', { id: null, token: null, email: null, organizationId: null, organizationName: null });
+    commit('resetState');
   },
 };
 
