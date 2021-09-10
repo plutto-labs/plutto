@@ -60,6 +60,10 @@ main {
     @apply border-danger text-danger;
   }
 
+  &--dismiss {
+    @apply border-gray-300 text-gray-300;
+  }
+
   &--secondary {
     @apply border-secondary text-secondary;
   }
