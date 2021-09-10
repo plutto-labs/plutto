@@ -15,7 +15,7 @@ class PriceLogic < ApplicationRecord
     raise NotImplementedError
   end
 
-  def self.metered?
+  def metered?
     raise NotImplementedError
   end
 

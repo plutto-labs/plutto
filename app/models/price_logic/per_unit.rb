@@ -9,7 +9,7 @@ class PriceLogic::PerUnit < PriceLogic
     price * n_units
   end
 
-  def self.metered?
+  def metered?
     true
   end
 

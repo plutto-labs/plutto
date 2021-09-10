@@ -6,6 +6,6 @@ RSpec.shared_examples 'a metered price logic' do
   end
 
   describe '.metered?' do
-    it { expect(described_class).to be_metered }
+    it { expect(price_logic.metered?).to be(true) }
   end
 end

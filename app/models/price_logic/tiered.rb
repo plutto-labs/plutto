@@ -22,7 +22,7 @@ class PriceLogic::Tiered < PriceLogic
     total_price
   end
 
-  def self.metered?
+  def metered?
     true
   end
 
