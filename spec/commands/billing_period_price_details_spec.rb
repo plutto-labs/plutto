@@ -100,7 +100,7 @@ describe BillingPeriodPriceDetails do
         let(:billing_date) { Date.current + 15.days }
 
         it 'returns the correct price' do
-          expected_price = (price_logic_prices[0] + price_logic_prices[1]) * 0.5
+          expected_price = price_logic_prices[0] * 0.5 + price_logic_prices[1]
           expect(perform[:price]).to eq(expected_price)
         end
       end
