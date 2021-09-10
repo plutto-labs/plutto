@@ -8,7 +8,7 @@
       <PluttoTable
         class="mt-6"
         :headers="headers"
-        :rows="meters"
+        :rows="meters || []"
         :loading="loading"
         @delete-clicked="destroyMeter"
       />
