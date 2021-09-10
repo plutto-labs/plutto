@@ -36,8 +36,12 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
   def period_duration_ratio
     return 1 if plan_subscription.bills_at_start?
 
-    total_period_days = (@billing_period.from - @billing_period.to).to_i
-    days_in_period = (@billing_period.from - @billing_period.billing_date).to_i
+    total_period_days = (
+      @billing_period.to.to_datetime - @billing_period.from.to_datetime
+    ).to_i
+    days_in_period = (
+      @billing_period.billing_date.to_datetime - @billing_period.from.to_datetime
+    ).to_i
     ratio = days_in_period.to_f / total_period_days
 
     ratio > 1 ? 1 : ratio
