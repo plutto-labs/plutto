@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_144415) do
+ActiveRecord::Schema.define(version: 2021_09_10_164329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_144415) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "customer_id", null: false
-    t.string "aasm_state", default: "new"
+    t.string "status", default: "new"
     t.datetime "payed_at"
     t.integer "payment_method"
     t.integer "tax_type"

@@ -8,7 +8,7 @@ class Invoice < ApplicationRecord
   monetize :subtotal_cents, with_model_currency: :currency
   monetize :tax_cents, :discount_cents, allow_nil: true, with_model_currency: :currency
 
-  aasm do
+  aasm(column: :status) do
     state :new, initial: true
     state :posted, :paid, :not_paid, :voided
 
@@ -58,7 +58,7 @@ end
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  customer_id         :string           not null
-#  aasm_state          :string           default("new")
+#  status              :string           default("new")
 #  payed_at            :datetime
 #  payment_method      :integer
 #  tax_type            :integer

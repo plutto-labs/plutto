@@ -72,6 +72,28 @@ unless Rails.env.production?
         legal_name: 'Plutto Inc',
       )
       PlanSubscription.find_or_create_by(customer: customer, plan_version: plan_version, active: true)
+      Invoice.find_or_create_by(
+        currency: 'usd',
+        subtotal_cents: 10000,
+        tax_cents: 190,
+        discount_cents: 0,
+        issue_date: DateTime.new(2021, 8, 7),
+        details: {
+          '0': { type: 'flat_fee',
+              total_price_cents: 100 },
+          '1': { type: 'volume',
+              total_price_cents: 25000,
+              meter: 'Requests',
+              quantity: 250.0 }
+        },
+        billing_period: billing_period,
+        customer: customer,
+        status: 'paid',
+        payed_at: DateTime.new(2021, 9, 7),
+        payment_method: 'bank_transfer',
+        tax_type: 'VAT',
+        billing_information: customer.billing_information.as_json
+      )
     end
   end
 end
