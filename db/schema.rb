@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_09_201353) do
+ActiveRecord::Schema.define(version: 2021_09_13_141230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,9 @@ ActiveRecord::Schema.define(version: 2021_09_09_201353) do
     t.index ["organization_id"], name: "index_customers_on_organization_id"
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "invoices", id: :string, force: :cascade do |t|
     t.bigint "subtotal_cents", default: 0, null: false
     t.bigint "tax_cents", default: 0, null: false
@@ -121,6 +124,75 @@ ActiveRecord::Schema.define(version: 2021_09_09_201353) do
     t.jsonb "billing_information"
     t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
     t.index ["customer_id"], name: "index_invoices_on_customer_id"
+  end
+
+  create_table "ledgerizer_accounts", force: :cascade do |t|
+    t.string "tenant_type"
+    t.bigint "tenant_id"
+    t.string "accountable_type"
+    t.bigint "accountable_id"
+    t.string "name"
+    t.string "currency"
+    t.string "account_type"
+    t.string "mirror_currency"
+    t.bigint "balance_cents", default: 0, null: false
+    t.string "balance_currency", default: "USD", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["accountable_type", "accountable_id", "name", "mirror_currency", "currency", "tenant_id", "tenant_type"], name: "unique_account_index", unique: true
+    t.index ["accountable_type", "accountable_id"], name: "index_ledgerizer_accounts_on_acc_type_and_acc_id"
+    t.index ["tenant_type", "tenant_id"], name: "index_ledgerizer_accounts_on_tenant"
+  end
+
+  create_table "ledgerizer_entries", force: :cascade do |t|
+    t.string "tenant_type"
+    t.bigint "tenant_id"
+    t.string "code"
+    t.string "document_type"
+    t.bigint "document_id"
+    t.datetime "entry_time"
+    t.string "mirror_currency"
+    t.bigint "conversion_amount_cents"
+    t.string "conversion_amount_currency", default: "USD", null: false
+    t.index ["document_type", "document_id"], name: "index_ledgerizer_entries_on_document"
+    t.index ["tenant_id", "tenant_type", "document_id", "document_type", "code", "mirror_currency"], name: "unique_entry_index", unique: true
+    t.index ["tenant_type", "tenant_id"], name: "index_ledgerizer_entries_on_tenant"
+  end
+
+  create_table "ledgerizer_lines", force: :cascade do |t|
+    t.bigint "entry_id"
+    t.datetime "entry_time"
+    t.string "entry_code"
+    t.bigint "account_id"
+    t.string "account_type"
+    t.string "account_name"
+    t.string "account_mirror_currency"
+    t.string "tenant_type"
+    t.bigint "tenant_id"
+    t.string "document_type"
+    t.bigint "document_id"
+    t.string "accountable_type"
+    t.bigint "accountable_id"
+    t.bigint "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "USD", null: false
+    t.bigint "balance_cents", default: 0, null: false
+    t.string "balance_currency", default: "USD", null: false
+    t.index ["account_id"], name: "index_ledgerizer_lines_on_account_id"
+    t.index ["accountable_type", "accountable_id"], name: "index_ledgerizer_lines_on_accountable"
+    t.index ["document_type", "document_id"], name: "index_ledgerizer_lines_on_document"
+    t.index ["entry_id"], name: "index_ledgerizer_lines_on_entry_id"
+    t.index ["tenant_type", "tenant_id"], name: "index_ledgerizer_lines_on_tenant"
+  end
+
+  create_table "ledgerizer_revaluations", force: :cascade do |t|
+    t.string "tenant_type"
+    t.bigint "tenant_id"
+    t.string "currency"
+    t.datetime "revaluation_time"
+    t.bigint "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "USD", null: false
+    t.index ["tenant_id", "tenant_type", "revaluation_time", "currency"], name: "unique_revaluations_index", unique: true
+    t.index ["tenant_type", "tenant_id"], name: "index_ledgerizer_revaluations_on_tenant"
   end
 
   create_table "meter_counts", id: :string, force: :cascade do |t|
@@ -268,6 +340,8 @@ ActiveRecord::Schema.define(version: 2021_09_09_201353) do
   add_foreign_key "customers", "organizations"
   add_foreign_key "invoices", "billing_periods"
   add_foreign_key "invoices", "customers"
+  add_foreign_key "ledgerizer_lines", "ledgerizer_accounts", column: "account_id"
+  add_foreign_key "ledgerizer_lines", "ledgerizer_entries", column: "entry_id"
   add_foreign_key "meter_counts", "customers"
   add_foreign_key "meter_counts", "meters"
   add_foreign_key "meter_events", "billing_periods"
