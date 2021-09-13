@@ -62,7 +62,7 @@ end
 #  payed_at            :datetime
 #  payment_method      :integer
 #  tax_type            :integer
-#  document_id         :integer
+#  document_id         :string
 #  billing_information :jsonb
 #
 # Indexes
