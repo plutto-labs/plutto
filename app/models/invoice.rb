@@ -32,6 +32,10 @@ class Invoice < ApplicationRecord
   enum tax_type: { IVA: 0, VAT: 1 }, _suffix: true
   enum payment_method: { bank_transfer: 0, credit: 1 }, _suffix: true
 
+  def self.ransackable_attributes(_auth_object = nil)
+    ['status']
+  end
+
   private
 
   def set_currency

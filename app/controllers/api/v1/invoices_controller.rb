@@ -1,6 +1,6 @@
 class Api::V1::InvoicesController < Api::V1::BaseController
   def index
-    respond_with(paginate(policy_scope(Invoice).includes(:customer)))
+    respond_with(paginate(filtered_collection(policy_scope(Invoice).includes(:customer))))
   end
 
   def show

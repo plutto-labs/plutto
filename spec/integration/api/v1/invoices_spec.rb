@@ -11,19 +11,34 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
       tags 'Invoices'
       description 'Retrieves all the invoices'
       produces 'application/json'
+      parameter name: :'q[status_eq]', in: :query, type: :string, required: false,
+                description: 'Search query'
       security [Bearer: []]
 
       let(:collection_count) { 5 }
       let(:expected_collection_count) { collection_count }
 
-      before { create_list(:invoice, collection_count, customer: customer) }
+      before { create_list(:invoice, collection_count, customer: customer, status: 'paid') }
 
       response '200', 'Invoices retrieved' do
         schema('$ref' => '#/definitions/invoices_collection')
         let(:Authorization) { "Bearer #{token}" }
 
-        run_test! do |response|
-          expect(JSON.parse(response.body)['invoices'].count).to eq(expected_collection_count)
+        context 'when no filters are sent' do
+          run_test! do |response|
+            expect(JSON.parse(response.body)['invoices'].count).to eq(expected_collection_count)
+          end
+        end
+
+        context 'when filters are sent' do
+          let(:'q[status_eq]') { 'new' }
+
+          before { create(:invoice, customer: customer, status: 'new') }
+
+          run_test! do |response|
+            expect(JSON.parse(response.body)['invoices'].count).to eq(1)
+            expect(JSON.parse(response.body)['invoices'][0]['status']).to eq('new')
+          end
         end
       end
 
