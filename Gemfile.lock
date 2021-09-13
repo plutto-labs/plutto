@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/platanus/ledgerizer
+  revision: 3354c4948a476a91f021dab8d5bc0f54c380a458
+  specs:
+    ledgerizer (0.1.0)
+      enumerize
+      money-rails
+      rails (>= 5.2.0)
+      require_all
+      table_print
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -165,6 +176,8 @@ GEM
       activesupport (>= 5.0)
       request_store (>= 1.0)
     e2mmap (0.1.0)
+    enumerize (2.4.0)
+      activesupport (>= 3.2)
     erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
@@ -518,6 +531,7 @@ GEM
       sprockets (>= 3.0.0)
     strong_migrations (0.7.8)
       activerecord (>= 5)
+    table_print (1.5.7)
     terminal-notifier (2.0.0)
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
@@ -583,6 +597,7 @@ DEPENDENCIES
   guard-rspec
   heroku-stage
   jbuilder (~> 2.7)
+  ledgerizer!
   listen
   marcel (~> 1.0)
   money-rails
