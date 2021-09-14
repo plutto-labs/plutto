@@ -6,7 +6,7 @@ FactoryBot.define do
     tax { usd(0) }
     discount { usd(0) }
     issue_date { Date.current }
-    aasm_state { 'new' }
+    status { 'new' }
     payed_at { Date.current }
     payment_method { 'bank_transfer' }
     tax_type { 'IVA' }

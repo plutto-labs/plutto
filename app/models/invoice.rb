@@ -2,13 +2,15 @@ class Invoice < ApplicationRecord
   include AASM
   include PowerTypes::Observable
 
+  default_scope { order(issue_date: :desc) }
+
   belongs_to :billing_period
   belongs_to :customer
 
   monetize :subtotal_cents, with_model_currency: :currency
   monetize :tax_cents, :discount_cents, allow_nil: true, with_model_currency: :currency
 
-  aasm do
+  aasm(column: :status) do
     state :new, initial: true
     state :posted, :paid, :not_paid, :voided
 
@@ -31,6 +33,10 @@ class Invoice < ApplicationRecord
 
   enum tax_type: { IVA: 0, VAT: 1 }, _suffix: true
   enum payment_method: { bank_transfer: 0, credit: 1 }, _suffix: true
+
+  def self.ransackable_attributes(_auth_object = nil)
+    ['status']
+  end
 
   private
 
@@ -58,11 +64,11 @@ end
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  customer_id         :string           not null
-#  aasm_state          :string           default("new")
+#  status              :string           default("new")
 #  payed_at            :datetime
 #  payment_method      :integer
 #  tax_type            :integer
-#  document_id         :integer
+#  document_id         :string
 #  billing_information :jsonb
 #
 # Indexes

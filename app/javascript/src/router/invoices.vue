@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="mb-4">
-      Subscriptions
+      Invoices
     </h2>
     <div>
       <PluttoTable
@@ -29,7 +29,7 @@ export default {
           smallText: 'customerName',
         },
         {
-          title: 'state',
+          title: 'status',
           type: 'tag',
           tags: {
             new: 'purple',

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     api_version(module: 'Api::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
       resources :customers
       resources :meter_events, only: [:create]
+      resources :invoices, only: [:index, :show]
       resources :plan_subscriptions, only: [:update, :create]
     end
   end

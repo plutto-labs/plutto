@@ -6,6 +6,9 @@ API_V1 = {
   },
   basePath: '/api/v1',
   definitions: {
+    invoice: INVOICE_SCHEMA,
+    invoice_resource: INVOICE_RESOURCE_SCHEMA,
+    invoices_collection: INVOICES_COLLECTION_SCHEMA,
     plan_subscription: PLAN_SUBSCRIPTION_SCHEMA,
     plan_subscription_create: PLAN_SUBSCRIPTION_CREATE_SCHEMA,
     plan_subscription_resource: PLAN_SUBSCRIPTION_RESOURCE_SCHEMA,

@@ -6,8 +6,6 @@ class BillingPeriod < ApplicationRecord
 
   delegate :plan_version_price_logics, to: :plan_subscription
 
-  monetize :billing_amount_cents
-
   private
 
   def generate_id
@@ -19,15 +17,13 @@ end
 #
 # Table name: billing_periods
 #
-#  id                      :string           not null, primary key
-#  from                    :datetime         not null
-#  to                      :datetime         not null
-#  plan_subscription_id    :string           not null
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
-#  billing_date            :datetime
-#  billing_amount_cents    :bigint(8)        default(0), not null
-#  billing_amount_currency :string           default("USD"), not null
+#  id                   :string           not null, primary key
+#  from                 :datetime         not null
+#  to                   :datetime         not null
+#  plan_subscription_id :string           not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  billing_date         :datetime
 #
 # Indexes
 #

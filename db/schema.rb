@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_09_201353) do
+ActiveRecord::Schema.define(version: 2021_09_12_213408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,8 +87,6 @@ ActiveRecord::Schema.define(version: 2021_09_09_201353) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "billing_date"
-    t.bigint "billing_amount_cents", default: 0, null: false
-    t.string "billing_amount_currency", default: "USD", null: false
     t.index ["plan_subscription_id"], name: "index_billing_periods_on_plan_subscription_id"
   end
 
@@ -113,11 +111,11 @@ ActiveRecord::Schema.define(version: 2021_09_09_201353) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "customer_id", null: false
-    t.string "aasm_state", default: "new"
+    t.string "status", default: "new"
     t.datetime "payed_at"
     t.integer "payment_method"
     t.integer "tax_type"
-    t.integer "document_id"
+    t.string "document_id"
     t.jsonb "billing_information"
     t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
     t.index ["customer_id"], name: "index_invoices_on_customer_id"
