@@ -419,7 +419,13 @@
         "action": {
           "type": "string",
           "example": "set",
-          "x-nullable": false
+          "x-nullable": false,
+          "enum": [
+            "set",
+            "increase",
+            "decrease"
+          ],
+          "description": "increase count, decrease count or set to restore count"
         },
         "id": {
           "type": "string",
@@ -522,22 +528,22 @@
         },
         "detail": {
           "type": "string",
-          "example": "1984-06-04 09:00",
+          "example": "",
           "x-nullable": true
         },
         "param": {
           "type": "string",
-          "example": "1984-06-04 09:00",
+          "example": "",
           "x-nullable": true
         },
         "request_id": {
           "type": "string",
-          "example": "12d56103d1dfa382",
+          "example": "",
           "x-nullable": true
         },
         "docs_url": {
           "type": "string",
-          "example": "docs.getplutto.com",
+          "example": "docs.getplutto.com/docs/authorization",
           "x-nullable": false
         }
       },
@@ -553,6 +559,63 @@
       "properties": {
         "error": {
           "$ref": "#/definitions/unauthorized_error"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    },
+    "not_found_error": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "invalid_request_error",
+          "x-nullable": false
+        },
+        "code": {
+          "type": "string",
+          "example": "resource_not_found",
+          "x-nullable": false
+        },
+        "message": {
+          "type": "string",
+          "example": "The requested resource cannot be found. This item does not exist or has been previously removed.",
+          "x-nullable": false
+        },
+        "detail": {
+          "type": "string",
+          "example": "",
+          "x-nullable": true
+        },
+        "param": {
+          "type": "string",
+          "example": "",
+          "x-nullable": true
+        },
+        "request_id": {
+          "type": "string",
+          "example": "",
+          "x-nullable": true
+        },
+        "docs_url": {
+          "type": "string",
+          "example": "docs.getplutto.com",
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "type",
+        "code",
+        "message",
+        "docs_url"
+      ]
+    },
+    "not_found_error_resource": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/not_found_error"
         }
       },
       "required": [
@@ -677,7 +740,10 @@
             }
           },
           "404": {
-            "description": "invalid customer id"
+            "description": "resource not found",
+            "schema": {
+              "$ref": "#/definitions/not_found_error_resource"
+            }
           },
           "401": {
             "description": "authentication failed",
@@ -751,7 +817,10 @@
             "description": "customer deleted"
           },
           "404": {
-            "description": "customer not found"
+            "description": "resource not found",
+            "schema": {
+              "$ref": "#/definitions/not_found_error_resource"
+            }
           },
           "401": {
             "description": "authentication failed",
@@ -836,7 +905,10 @@
             }
           },
           "404": {
-            "description": "invalid invoice id"
+            "description": "resource not found",
+            "schema": {
+              "$ref": "#/definitions/not_found_error_resource"
+            }
           },
           "401": {
             "description": "authentication failed",
@@ -977,6 +1049,12 @@
         "responses": {
           "200": {
             "description": "plan subscription updated"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "$ref": "#/definitions/not_found_error_resource"
+            }
           },
           "401": {
             "description": "authentication failed",

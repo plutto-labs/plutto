@@ -3,7 +3,9 @@ METER_EVENT_SCHEMA = {
   properties: {
     timestamp: { type: :string, example: '2021-06-04 09:00' },
     amount: { type: :number, example: 1000, 'x-nullable': false },
-    action: { type: :string, example: 'set', 'x-nullable': false },
+    action: { type: :string, example: 'set', 'x-nullable': false,
+              enum: ['set', 'increment', 'decrement'],
+              description: 'increment count, decrement count or set to restore count' },
     id: { type: :string, example: 'event_80b199c7744342f3c5df8622', 'x-nullable': false },
     meter_id: { type: :string, example: 10, 'x-nullable': false },
     created_at: { type: :string, example: '2021-06-04 09:00', 'x-nullable': false },
