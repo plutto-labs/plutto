@@ -3,6 +3,6 @@ class Api::Internal::V1::InvoicesController < Api::Internal::V1::BaseController
   include Pundit
 
   def index
-    respond_with(authorize(current_user.organization.invoices))
+    respond_with(authorize(current_user.organization.invoices.order(issue_date: :desc)))
   end
 end
