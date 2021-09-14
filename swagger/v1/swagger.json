@@ -6,6 +6,130 @@
   },
   "basePath": "/api/v1",
   "definitions": {
+    "invoice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "1"
+        },
+        "subtotal_cents": {
+          "type": "integer",
+          "example": 10000,
+          "x-nullable": false
+        },
+        "tax_cents": {
+          "type": "integer",
+          "example": 190,
+          "x-nullable": true
+        },
+        "discount_cents": {
+          "type": "integer",
+          "example": 0,
+          "x-nullable": true
+        },
+        "currency": {
+          "type": "string",
+          "example": "USD",
+          "x-nullable": false
+        },
+        "issue_date": {
+          "type": "string",
+          "example": "2020-01-01T00:00:00.000Z",
+          "x-nullable": true
+        },
+        "details": {
+          "type": "object",
+          "example": "{\n      '0': { type: 'flat_fee',\n          total_price_cents: 100 },\n      '1': { type: 'volume',\n          total_price_cents: 25000,\n          meter: 'Requests',\n          quantity: 250.0 }\n    },",
+          "x-nullable": false
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-01-01T00:00:00.000Z",
+          "x-nullable": true
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-01-01T00:00:00.000Z",
+          "x-nullable": true
+        },
+        "customer_id": {
+          "type": "string",
+          "example": "customer_d43280e9377673a0b4b07f31",
+          "x-nullable": false
+        },
+        "status": {
+          "type": "string",
+          "example": "paid",
+          "x-nullable": false
+        },
+        "payed_at": {
+          "type": "string",
+          "example": "2020-01-01T00:00:00.000Z",
+          "x-nullable": true
+        },
+        "payment_method": {
+          "type": "string",
+          "example": "bank_transfer",
+          "x-nullable": true
+        },
+        "tax_type": {
+          "type": "string",
+          "example": "VAT",
+          "x-nullable": true
+        },
+        "document_id": {
+          "type": "string",
+          "example": "some-id",
+          "x-nullable": true
+        },
+        "billing_information": {
+          "type": "object",
+          "example": "customer: customer,\n      'city': 'Santiago',\n      'country_iso_code': 'CHL',\n      'state': 'Metropolitana',\n      'address': 'Av. Las Condes',\n      'zip': '12345',\n      'tax_id': '73245432-1',\n      'phone': '9550898',\n      'legal_name': 'Plutto Inc'",
+          "x-nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "subtotal_cents",
+        "tax_cents",
+        "discount_cents",
+        "currency",
+        "issue_date",
+        "details",
+        "created_at",
+        "customer_id",
+        "status",
+        "payment_method",
+        "tax_type",
+        "billing_information"
+      ]
+    },
+    "invoice_resource": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/invoice"
+        }
+      },
+      "required": [
+        "invoice"
+      ]
+    },
+    "invoices_collection": {
+      "type": "object",
+      "properties": {
+        "invoices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/invoice"
+          }
+        }
+      },
+      "required": [
+        "invoices"
+      ]
+    },
     "plan_subscription": {
       "type": "object",
       "properties": {
@@ -628,6 +752,91 @@
           },
           "404": {
             "description": "customer not found"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/invoices": {
+      "get": {
+        "summary": "Retrieves Invoices",
+        "tags": [
+          "Invoices"
+        ],
+        "description": "Retrieves all the invoices",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "q[status_eq]",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Search query"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invoices retrieved",
+            "schema": {
+              "$ref": "#/definitions/invoices_collection"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/invoices/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Retrieves Invoice",
+        "tags": [
+          "Invoices"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "invoice retrieved",
+            "schema": {
+              "$ref": "#/definitions/invoice_resource"
+            }
+          },
+          "404": {
+            "description": "invalid invoice id"
           },
           "401": {
             "description": "authentication failed",
