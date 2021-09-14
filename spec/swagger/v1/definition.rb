@@ -21,7 +21,9 @@ API_V1 = {
     meter_event_create: METER_EVENT_CREATE_SCHEMA,
     meter_event_resource: METER_EVENT_RESOURCE_SCHEMA,
     unauthorized_error: UNAUTHORIZED_ERROR_SCHEMA,
-    unauthorized_error_resource: UNAUTHORIZED_ERROR_RESOURCE_SCHEMA
+    unauthorized_error_resource: UNAUTHORIZED_ERROR_RESOURCE_SCHEMA,
+    not_found_error: NOT_FOUND_ERROR_SCHEMA,
+    not_found_error_resource: NOT_FOUND_ERROR_RESOURCE_SCHEMA
   },
   securityDefinitions: {
     Bearer: {

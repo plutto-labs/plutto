@@ -88,13 +88,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
         run_test!
       end
 
-      response '404', 'invalid customer id' do
-        let(:Authorization) { "Bearer #{token}" }
-        let(:id) { 'invalid' }
-
-        run_test!
-      end
-
+      it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
     end
 
@@ -134,13 +128,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
         run_test!
       end
 
-      response '404', 'customer not found' do
-        let(:Authorization) { "Bearer #{token}" }
-        let(:id) { 'invalid' }
-
-        run_test!
-      end
-
+      it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
     end
   end

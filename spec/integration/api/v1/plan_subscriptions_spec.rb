@@ -92,6 +92,7 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
         run_test!
       end
 
+      it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
     end
   end

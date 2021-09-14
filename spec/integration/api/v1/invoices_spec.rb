@@ -64,13 +64,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
         run_test!
       end
 
-      response '404', 'invalid invoice id' do
-        let(:Authorization) { "Bearer #{token}" }
-        let(:id) { 'invalid' }
-
-        run_test!
-      end
-
+      it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
     end
   end
