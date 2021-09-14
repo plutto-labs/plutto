@@ -371,13 +371,12 @@
               "x-nullable": true
             }
           }
-        },
-        "required": [
-          "id",
-          "email",
-          "billing_information"
-        ]
-      }
+        }
+      },
+      "required": [
+        "email",
+        "billing_information"
+      ]
     },
     "customer_resource": {
       "type": "object",

@@ -42,9 +42,9 @@ CUSTOMER_CREATE_SCHEMA = {
         legal_name: { type: :string, example: 'Plutto Inc', 'x-nullable': true },
         phone: { type: :string, example: '+56992680522', 'x-nullable': true }
       }
-    },
-    required: [:id, :email, :billing_information]
-  }
+    }
+  },
+  required: [:email, :billing_information]
 }
 
 CUSTOMERS_COLLECTION_SCHEMA = {
