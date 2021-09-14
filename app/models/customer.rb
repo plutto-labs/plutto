@@ -9,10 +9,11 @@ class Customer < ApplicationRecord
 
   accepts_nested_attributes_for :billing_information, allow_destroy: true
 
-  delegate :id, to: :organization, prefix: true
+  delegate :id, to: :organization, prefix: true, allow_nil: true
 
   validates :email, format: { with: Devise.email_regexp, message: "invalid email" }
-  validates :identifier, uniqueness: { scope: :organization_id }
+
+  before_save :validate_uniqueness_of_identifier_within_organization
 
   def add_plan_subcription(plan_version_id)
     plan_version = PlanVersion.find_by(id: plan_version_id)
@@ -23,6 +24,15 @@ class Customer < ApplicationRecord
 
   def generate_id
     init_id('customer')
+    self.identifier = id unless identifier
+  end
+
+  def validate_uniqueness_of_identifier_within_organization
+    customer = organization.customers.find_by(identifier: identifier)
+    if customer && customer != self
+      errors.add(:identifier, :taken)
+      raise ActiveRecord::RecordInvalid, self
+    end
   end
 end
 
