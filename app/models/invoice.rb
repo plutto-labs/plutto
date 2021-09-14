@@ -2,6 +2,8 @@ class Invoice < ApplicationRecord
   include AASM
   include PowerTypes::Observable
 
+  default_scope { order(issue_date: :desc) }
+
   belongs_to :billing_period
   belongs_to :customer
 
