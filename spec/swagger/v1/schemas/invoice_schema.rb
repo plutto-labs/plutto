@@ -1,7 +1,7 @@
 INVOICE_SCHEMA = {
   type: :object,
   properties: {
-    id: { type: :string, example: '1' },
+    id: { type: :string, example: '1', 'x-nullable': false },
     subtotal_cents: { type: :integer, example: 10000, 'x-nullable': false },
     tax_cents: { type: :integer, example: 190, 'x-nullable': true },
     discount_cents: { type: :integer, example: 0, 'x-nullable': true },
@@ -24,7 +24,7 @@ INVOICE_SCHEMA = {
     payment_method: { type: :string, example: 'bank_transfer', 'x-nullable': true },
     tax_type: { type: :string, example: 'VAT', 'x-nullable': true },
     document_id: { type: :string, example: 'some-id', 'x-nullable': true },
-    billing_information: { type: :object, example: "customer: customer,
+    billing_information: { type: :object, example: "{'customer': customer,
       'city': 'Santiago',
       'country_iso_code': 'CHL',
       'state': 'Metropolitana',
@@ -32,7 +32,7 @@ INVOICE_SCHEMA = {
       'zip': '12345',
       'tax_id': '73245432-1',
       'phone': '9550898',
-      'legal_name': 'Plutto Inc'",
+      'legal_name': 'Plutto Inc'}",
                            'x-nullable': true }
   },
   required: [
@@ -68,7 +68,7 @@ INVOICES_COLLECTION_SCHEMA = {
 INVOICE_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    data: { "$ref" => "#/definitions/invoice" }
+    invoice: { "$ref" => "#/definitions/invoice" }
   },
   required: [
     :invoice
