@@ -20,7 +20,8 @@ Rails.application.routes.draw do
       resources :customers
       resources :meter_events, only: [:create]
       resources :invoices, only: [:index, :show]
-      resources :plan_subscriptions, only: [:update, :create]
+      resources :plan_subscriptions, only: [:create]
+      patch 'plan_subscriptions/:id/end_subscription', to: 'plan_subscriptions#end_subscription'
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
