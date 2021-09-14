@@ -11,6 +11,9 @@ class Customer < ApplicationRecord
 
   delegate :id, to: :organization, prefix: true
 
+  validates :email, format: { with: Devise.email_regexp, message: "invalid email" }
+  validates :identifier, uniqueness: { scope: :organization_id }
+
   def add_plan_subcription(plan_version_id)
     plan_version = PlanVersion.find_by(id: plan_version_id)
     CreatePlanSubscription.for(plan_version: plan_version, customer: self)
@@ -28,16 +31,17 @@ end
 # Table name: customers
 #
 #  id              :string           not null, primary key
+#  email           :string           not null
+#  name            :string
 #  organization_id :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  email           :string           not null
-#  name            :string
 #  identifier      :string
 #
 # Indexes
 #
-#  index_customers_on_organization_id  (organization_id)
+#  index_customers_on_organization_id                 (organization_id)
+#  index_customers_on_organization_id_and_identifier  (organization_id,identifier) UNIQUE
 #
 # Foreign Keys
 #
