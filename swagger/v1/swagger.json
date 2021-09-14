@@ -11,7 +11,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "example": "1"
+          "example": "1",
+          "x-nullable": false
         },
         "subtotal_cents": {
           "type": "integer",
@@ -85,7 +86,7 @@
         },
         "billing_information": {
           "type": "object",
-          "example": "customer: customer,\n      'city': 'Santiago',\n      'country_iso_code': 'CHL',\n      'state': 'Metropolitana',\n      'address': 'Av. Las Condes',\n      'zip': '12345',\n      'tax_id': '73245432-1',\n      'phone': '9550898',\n      'legal_name': 'Plutto Inc'",
+          "example": "{'customer': customer,\n      'city': 'Santiago',\n      'country_iso_code': 'CHL',\n      'state': 'Metropolitana',\n      'address': 'Av. Las Condes',\n      'zip': '12345',\n      'tax_id': '73245432-1',\n      'phone': '9550898',\n      'legal_name': 'Plutto Inc'}",
           "x-nullable": true
         }
       },
@@ -108,7 +109,7 @@
     "invoice_resource": {
       "type": "object",
       "properties": {
-        "data": {
+        "invoice": {
           "$ref": "#/definitions/invoice"
         }
       },
