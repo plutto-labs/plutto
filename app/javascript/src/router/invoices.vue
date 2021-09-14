@@ -29,7 +29,7 @@ export default {
           smallText: 'customerName',
         },
         {
-          title: 'state',
+          title: 'status',
           type: 'tag',
           tags: {
             new: 'purple',

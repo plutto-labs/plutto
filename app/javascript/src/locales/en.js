@@ -12,7 +12,7 @@ export default {
         planSubscription: 'Plan Subscription',
         name: 'Name',
         customer: 'Customer',
-        state: 'State',
+        status: 'Status',
         currency: 'Currency',
         subtotal: 'Amount',
         issueDate: 'Issue Date',
