@@ -678,6 +678,63 @@
       "required": [
         "error"
       ]
+    },
+    "conflict_error": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "invalid_request_error",
+          "x-nullable": false
+        },
+        "code": {
+          "type": "string",
+          "example": "conflict",
+          "x-nullable": false
+        },
+        "message": {
+          "type": "string",
+          "example": "The request conflicts with another request check your idempotency key, or maybe a unique parameter if its a POST request.",
+          "x-nullable": false
+        },
+        "detail": {
+          "type": "string",
+          "example": "",
+          "x-nullable": true
+        },
+        "param": {
+          "type": "string",
+          "example": "",
+          "x-nullable": true
+        },
+        "request_id": {
+          "type": "string",
+          "example": "",
+          "x-nullable": true
+        },
+        "docs_url": {
+          "type": "string",
+          "example": "docs.getplutto.com",
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "type",
+        "code",
+        "message",
+        "docs_url"
+      ]
+    },
+    "conflict_error_resource": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/not_found_error"
+        }
+      },
+      "required": [
+        "error"
+      ]
     }
   },
   "securityDefinitions": {
@@ -754,6 +811,12 @@
             "description": "customer created",
             "schema": {
               "$ref": "#/definitions/customer_resource"
+            }
+          },
+          "409": {
+            "description": "conflict",
+            "schema": {
+              "$ref": "#/definitions/conflict_error_resource"
             }
           },
           "401": {
