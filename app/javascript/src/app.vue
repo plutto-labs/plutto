@@ -94,6 +94,10 @@ main {
     font-family: 'Material Icons';
   }
 
+  &__label {
+    @apply absolute text-gray-300 -mt-6 ;
+  }
+
   &__input {
     @apply h-full bg-transparent w-full pl-10 rounded border border-gray-200;
 
@@ -108,6 +112,10 @@ main {
       &::placeholder {
         @apply border-primary;
       }
+    }
+
+    &--no-icon {
+      @apply pl-4;
     }
   }
 }

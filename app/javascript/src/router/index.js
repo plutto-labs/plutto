@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 
 import Auth from '@/router/auth';
 import Customer from '@/router/customer';
+import NewCreditCard from '@/router/new-credit-card';
 import Customers from '@/router/customers';
 import Payments from '@/router/payments';
 import Plan from '@/router/plan';
@@ -28,6 +29,14 @@ const router = createRouter({
         name: 'customers',
       },
     }, {
+      path: '/customers',
+      name: 'customers',
+      component: Customers,
+      meta: {
+        title: 'Customers | Plutto',
+        authRequired: true,
+      },
+    }, {
       path: '/customer/:id',
       name: 'customer',
       component: Customer,
@@ -36,12 +45,11 @@ const router = createRouter({
         authRequired: true,
       },
     }, {
-      path: '/customers',
-      name: 'customers',
-      component: Customers,
+      path: '/customer/:id/new-credit-card',
+      name: 'new-credit-card',
+      component: NewCreditCard,
       meta: {
-        title: 'Customers | Plutto',
-        authRequired: true,
+        title: 'Add Credit Card | Plutto',
       },
     }, {
       path: '/payments',
