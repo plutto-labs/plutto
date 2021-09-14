@@ -13,6 +13,6 @@ class Api::Internal::V1::InvoiceSerializer < ActiveModel::Serializer
   end
 
   def status
-    camelize(object.status)
+    object.status.camelize(:lower)
   end
 end
