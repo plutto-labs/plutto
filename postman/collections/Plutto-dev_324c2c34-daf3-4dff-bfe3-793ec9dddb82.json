@@ -1,0 +1,1588 @@
+{
+    "info": {
+        "_postman_id": "1609a92b-239a-45e0-a8f8-155f8cb842c1",
+        "name": "Plutto-dev",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Plans",
+            "item": [
+                {
+                    "name": "PlanVersions",
+                    "item": [
+                        {
+                            "name": "Create",
+                            "id": "cd512334-6c33-465c-aa71-42b83621cf1b",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "X-User-Token",
+                                        "value": "{{user_token}}",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "X-User-Email",
+                                        "value": "{{user_email}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"plan_version\": {\n        \"price_logics_attributes\": [\n            {\n                \"price\": 50,\n                \"type\": \"PriceLogic::Tiered\",\n                \"meter_id\": 1,\n                \"tiers_attributes\": [\n                    {\n                        \"index\": 0,\n                        \"lower_limit\": 0,\n                        \"upper_limit\": 10,\n                        \"price\": 1000\n                    }, {\n                        \"index\": 1,\n                        \"lower_limit\": 11,\n                        \"upper_limit\": 49,\n                        \"price\": 850\n                    }\n                ]\n            }\n        ]\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{host}}/api/internal/v1/plans/{{plan_id}}/plan_versions",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "internal",
+                                        "v1",
+                                        "plans",
+                                        "{{plan_id}}",
+                                        "plan_versions"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Edit",
+                            "id": "17a8ee97-5bbf-415c-8f7e-71b2f0fdd15c",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "X-User-Token",
+                                        "type": "text",
+                                        "value": "{{user_token}}"
+                                    },
+                                    {
+                                        "key": "X-User-Email",
+                                        "type": "text",
+                                        "value": "{{user_email}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"plan\": {\n        \"name\": \"Free\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{host}}/api/internal/v1/plans/{{plan_id}}",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "internal",
+                                        "v1",
+                                        "plans",
+                                        "{{plan_id}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Destroy",
+                            "id": "83062d96-0ca0-487c-84a4-c0cf089512de",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "X-User-Token",
+                                        "type": "text",
+                                        "value": "Z_pZko5TGhH4upLuzHyu"
+                                    },
+                                    {
+                                        "key": "X-User-Email",
+                                        "type": "text",
+                                        "value": "ignacio@plutto.cl"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "localhost:3000/api/internal/v1/plans/1",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "3000",
+                                    "path": [
+                                        "api",
+                                        "internal",
+                                        "v1",
+                                        "plans",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "id": "95b79976-7ed8-45a8-a9ce-d6bd4e1753f0"
+                },
+                {
+                    "name": "Index",
+                    "id": "5b0d24b5-5854-4e1e-9f10-7e1b055bc8a3",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "{{user_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "{{user_email}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/plans",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "plans"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show",
+                    "id": "3f0c589f-8c21-4f79-809b-77c841a219e5",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "{{user_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "{{user_email}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/plans/{{plan_id}}",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "plans",
+                                "{{plan_id}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create",
+                    "id": "dc2d32f8-98ba-4b83-aedb-5c32bda8f972",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "{{user_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "{{user_email}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"plan\": {\n        \"name\": \"Enterprise\",\n        \"currency\": \"CLP\"\n    },\n    \"plan_version\": {\n        \"price_logics_attributes\": [\n            {\n                \"price\": 450,\n                \"type\": \"PriceLogic::FlatFee\"\n            }\n        ]\n    }\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/plans",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "plans"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Edit",
+                    "id": "db9cb6ee-acad-4dc8-b536-663df37d213e",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "{{user_token}}"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "{{user_email}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"plan\": {\n        \"name\": \"Free\"\n    }\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/plans/{{plan_id}}",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "plans",
+                                "{{plan_id}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Destroy",
+                    "id": "05d37e10-bef2-47dd-bfc1-64c5856fa0f6",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "{{user_token}}"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "{{user_email}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/plans/{{plan_id}}",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "plans",
+                                "{{plan_id}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "e338acab-6569-4e5b-b9a5-b96111d6971f"
+        },
+        {
+            "name": "Customers",
+            "item": [
+                {
+                    "name": "Create",
+                    "id": "a41b759d-f542-4a35-942e-d3b60ad84f04",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "{{user_token}}"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "{{user_email}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"customer\": {\n        \"identifier\": \"custom-id\",\n        \"name\": \"Phobos\",\n        \"email\": \"phobos@getplutto.com\",\n        \"billing_information\": {\n            \"address\": \"Av. las condes 13240\",\n            \"legal_name\": \"Plutto\",\n            \"city\": \"Santiago\",\n            \"country_iso_code\": \"CHL\",\n            \"state\": \"Metropolitana\",\n            \"tax_id\": \"19246648-2\",\n            \"zip\": \"7591393\",\n            \"phone\": \"+56992680522\"\n\n        }\n    }\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/customers",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "customers"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Index",
+                    "id": "80c83733-a4e6-489a-b04c-10a32e7661e8",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "{{user_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "{{user_email}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/customers",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "customers"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show",
+                    "id": "1e9b05f1-2cef-4f3c-8369-12bc64d54488",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "{{user_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "{{user_email}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/customers/1",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "customers",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Edit",
+                    "id": "906b5e13-afd2-4b40-b94a-f9522611a3bc",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "4icxRg96F4P6HsUHCEzM"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "sebastian@plutto.cl"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"customer\": {\n        \"name\": \"Juuan Perez\"\n    }\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/customers/1",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "customers",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Destroy",
+                    "id": "b92be73d-abae-4798-85cb-893796bbce41",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "4icxRg96F4P6HsUHCEzM"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "sebastian@plutto.cl"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/customers/1",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "customers",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "9e537d90-30cd-4a26-8c7c-ce9d2ec1c243"
+        },
+        {
+            "name": "Subscriptions",
+            "item": [
+                {
+                    "name": "Create",
+                    "id": "63c36a95-6dc9-48f8-90d7-210ae47bedc0",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "{{user_token}}"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "{{user_email}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"customer_id\": {{customer_id}},\n    \"plan_version_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/plan_subscriptions",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "plan_subscriptions"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Index",
+                    "id": "e00ef6ff-0501-4157-80bb-3cd1ef0958ee",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "4icxRg96F4P6HsUHCEzM",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "sebastian@plutto.cl",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/subscriptions",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "subscriptions"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show",
+                    "id": "8d049005-0414-477f-8025-119d56b9ec39",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "4icxRg96F4P6HsUHCEzM",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "sebastian@plutto.cl",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/subscriptions/1",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "subscriptions",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Edit",
+                    "id": "de7451f2-3f3c-4899-aa73-486510508c62",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "4icxRg96F4P6HsUHCEzM"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "sebastian@plutto.cl"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"customer\": {\n        \"name\": \"Juuan Perez\"\n    }\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/subscriptions/1",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "subscriptions",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Destroy",
+                    "id": "46c4825b-6380-486c-a52c-3275e2ded43f",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "{{user_token}}"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "{{user_email}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/plan_subscriptions/4",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "plan_subscriptions",
+                                "4"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "fff5f30b-3c77-4d2d-9be7-4ed29ce5e271"
+        },
+        {
+            "name": "Api Keys",
+            "item": [
+                {
+                    "name": "Create",
+                    "id": "a77d9ba8-4bf7-4d3c-9ffc-fab3deeda416",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "{{user_token}}"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "{{user_email}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"bearer_type\": \"Organization\",\n    \"bearer_id\": 1,\n    \"name\": \"plutto_api_key2\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/api_keys",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "api_keys"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Index",
+                    "id": "de615e67-956b-442c-961e-b451765884b0",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "{{user_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "{{user_email}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"bearer_type\": \"Organization\",\n    \"bearer_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/api_keys",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "api_keys"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Destroy",
+                    "id": "34e19fee-9bed-4b13-9cd3-aa76ff84ca52",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "{{user_token}}"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "{{user_email}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/api/internal/v1/api_keys/1",
+                            "host": [
+                                "{{host}}"
+                            ],
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "api_keys",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "b0b55787-ecc9-4dbc-b0bf-b53632596518"
+        },
+        {
+            "name": "Meters",
+            "item": [
+                {
+                    "name": "Index",
+                    "id": "44ee6c37-d7ab-40c4-a40d-fee4d690a916",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "{{user_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "{{user_email}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/meters",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "meters"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show",
+                    "id": "33c147aa-0e89-4c38-a6f0-bd67659b21c7",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "value": "4icxRg96F4P6HsUHCEzM",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "value": "sebastian@plutto.cl",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/meters/1",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "meters",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Edit",
+                    "id": "d3558c4c-bb38-4a54-ae6b-32d3b39ce358",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "4icxRg96F4P6HsUHCEzM"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "sebastian@plutto.cl"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"meter\": {\n        \"name\": \"edited\"\n    }\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/meters/1",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "meters",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create",
+                    "id": "ddb6c7bc-b6eb-45bd-8b6b-54813f4de4d5",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "4icxRg96F4P6HsUHCEzM"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "sebastian@plutto.cl"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"meter\": {\n        \"name\": \"Links\"\n    }\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/meters",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "meters"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Destroy",
+                    "id": "5de3b048-f705-4ca3-b1bc-2040ea2f6ff0",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "4icxRg96F4P6HsUHCEzM"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "sebastian@plutto.cl"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/meters/1",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "meters",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "7e649496-a1cf-469b-a70d-4dbd45d5aed1"
+        },
+        {
+            "name": "Invoices",
+            "item": [
+                {
+                    "name": "Index",
+                    "id": "0c885bd4-bc30-4258-9f39-8d15bb3229fa",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-User-Token",
+                                "type": "text",
+                                "value": "{{user_token}}"
+                            },
+                            {
+                                "key": "X-User-Email",
+                                "type": "text",
+                                "value": "{{user_email}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "localhost:3000/api/internal/v1/invoices",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "internal",
+                                "v1",
+                                "invoices"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "7d116329-c323-4572-b224-44b5fac729d1"
+        },
+        {
+            "name": "API",
+            "item": [
+                {
+                    "name": "Customers",
+                    "item": [
+                        {
+                            "name": "Create",
+                            "id": "9c987587-1e82-486a-9ffb-a3aab526a1bf",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"customer\": {\n        \"name\": \"Phobos\",\n        \"email\": \"phobos@getplutto.com\",\n        \"billing_information\": {\n            \"address\": \"Av. las condes 13240\",\n            \"legal_name\": \"Plutto\",\n            \"city\": \"Santiago\",\n            \"country_iso_code\": \"CHL\",\n            \"state\": \"Metropolitana\",\n            \"tax_id\": \"19246648-2\",\n            \"zip\": \"7591393\",\n            \"phone\": \"+56992680522\"\n\n        }\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{host}}/api/v1/customers",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "customers"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Index",
+                            "id": "6f564103-f115-4ded-8748-26bd3203753a",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{host}}/api/v1/customers",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "customers"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Show",
+                            "id": "b3052f64-5c95-4254-8ab3-92756f167028",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{host}}/api/v1/customers/customer_7967a705da46f0b85c6c9449",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "customers",
+                                        "customer_7967a705da46f0b85c6c9449"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Edit",
+                            "id": "4601793a-87ef-421b-aa64-5138a8987828",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "PATCH",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"customer\": {\n        \"name\": \"Juuan Perez\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{host}}/api/v1/customers/customer_d43280e9377673a0b4b07f30",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "customers",
+                                        "customer_d43280e9377673a0b4b07f30"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Destroy",
+                            "id": "aa9c6737-3de2-49b5-87e0-92c1002859b3",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "DELETE",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{host}}/api/v1/customers/customer_d43280e9377673a0b4b07f30",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "customers",
+                                        "customer_d43280e9377673a0b4b07f30"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "id": "6effb83a-325e-41fb-a287-3b2b4368eb55"
+                },
+                {
+                    "name": "Invoices",
+                    "item": [
+                        {
+                            "name": "Index",
+                            "id": "4512b6f2-b9d9-4f69-b957-4259221ecc42",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{host}}/api/v1/invoices?q[status_eq]=paid",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "invoices"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "q[status_eq]",
+                                            "value": "paid"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Show",
+                            "id": "2a649432-b5fd-417f-a494-3d866e364ebf",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{host}}/api/v1/invoices/{{invoice_id}}",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "invoices",
+                                        "{{invoice_id}}"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "id": "aa4790f5-8e7f-471e-8f95-abc97e0998f5"
+                },
+                {
+                    "name": "PlanSubscriptions",
+                    "item": [
+                        {
+                            "name": "Create",
+                            "id": "e626486e-a2ca-487a-8f28-f61dac4a30e4",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"plan_subscription\": {\n        \"plan_id\": \"plan_5b3bebe4704f9588cfa10413\",\n        \"customer_id\": \"0\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{host}}/api/v1/plan_subscriptions",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "plan_subscriptions"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "End subscription",
+                            "id": "de7302d0-faa3-42ff-bdc2-313ed1affb66",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "PATCH",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{host}}/api/v1/plan_subscriptions/subscription_0e25ac53641e5452a2a7519b/end_subscription",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "plan_subscriptions",
+                                        "subscription_0e25ac53641e5452a2a7519b",
+                                        "end_subscription"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "id": "1d990810-8559-40f5-8554-b47835f6fd30"
+                },
+                {
+                    "name": "Meter Events",
+                    "item": [
+                        {
+                            "name": "Create",
+                            "id": "900b64e2-b90a-42b7-b119-8c883d3941df",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{api_key}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"meter_event\": {\n        \"timestamp\": \"Mon, 23 Aug 2021 22:54:49.863967000 UTC +00:00\",\n        \"amount\": 1,\n        \"action\": 0,\n        \"meter_id\": \"meter_8c3b9794d4307ac4762b9bcb\",\n        \"customer_id\": \"customer_27bee9f7b14f608f323b4ed9\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{host}}/api/v1/meter_events",
+                                    "host": [
+                                        "{{host}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "meter_events"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "id": "01e3cd2b-3c14-4b42-a4dd-dfdd80ed8055"
+                }
+            ],
+            "id": "44360667-58fc-470d-b2ec-20fbce996cbd"
+        },
+        {
+            "name": "login",
+            "id": "fbd4a80d-7d1f-43e2-9f92-797d8a236fbe",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"auth\": {\n        \"email\": {{user_email}},\n        \"password\": {{user_password}}\n    }\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{host}}/api/internal/v1/auth.json",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "internal",
+                        "v1",
+                        "auth.json"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{api_key}}",
+                "type": "string"
+            }
+        ]
+    },
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "id": "130dcaa9-5dc7-49a5-9062-f6cdd4c94813",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "id": "28fb0e4e-500d-4f70-889b-c89d1444adfa",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ]
+}

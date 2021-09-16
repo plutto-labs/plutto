@@ -1,0 +1,782 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API V1",
+    "version": "v1"
+  },
+  "basePath": "/api/v1",
+  "definitions": {
+    "plan_subscription": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "subscription_80b199c7744342f3c5df8622",
+          "x-nullable": false
+        },
+        "customer_id": {
+          "type": "string",
+          "example": "customer_5198c6ad60c3363b089a1421",
+          "x-nullable": false
+        },
+        "plan_version_id": {
+          "type": "string",
+          "example": "version_46cf463812d56103d1dfa382",
+          "x-nullable": false
+        },
+        "created_at": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": false
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": true
+        },
+        "active": {
+          "type": "boolean",
+          "example": true,
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "customer_id",
+        "plan_version_id",
+        "created_at",
+        "active"
+      ]
+    },
+    "plan_subscription_create": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "example": "customer_5198c6ad60c3363b089a1421",
+          "x-nullable": false
+        },
+        "plan_version_id": {
+          "type": "string",
+          "example": "version_46cf463812d56103d1dfa382",
+          "x-nullable": true
+        },
+        "plan_id": {
+          "type": "string",
+          "example": "plan_5b3bebe4704f9588cfa10413",
+          "x-nullable": true
+        }
+      },
+      "required": [
+        "customer_id"
+      ]
+    },
+    "plan_subscription_resource": {
+      "type": "object",
+      "properties": {
+        "plan_subscription": {
+          "$ref": "#/definitions/plan_subscription"
+        }
+      },
+      "required": [
+        "plan_subscription"
+      ]
+    },
+    "plan_subscriptions_collection": {
+      "type": "object",
+      "properties": {
+        "plan_subscriptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/plan_subscription"
+          }
+        }
+      },
+      "required": [
+        "plan_subscriptions"
+      ]
+    },
+    "customer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "customer_d43280e9377673a0b4b07f31",
+          "x-nullable": false
+        },
+        "email": {
+          "type": "string",
+          "example": "donald@getplutto.com",
+          "x-nullable": false
+        },
+        "name": {
+          "type": "string",
+          "example": "donald",
+          "x-nullable": true
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-01-01T00:00:00.000Z",
+          "x-nullable": true,
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-01-01T00:00:00.000Z",
+          "x-nullable": true,
+          "format": "date-time"
+        },
+        "identifier": {
+          "type": "string",
+          "example": "your-id_12885305",
+          "x-nullable": true
+        },
+        "billing_information": {
+          "type": "object",
+          "x-nullable": true,
+          "properties": {
+            "city": {
+              "type": "string",
+              "example": "Santiago",
+              "x-nullable": true
+            },
+            "country_iso_code": {
+              "type": "string",
+              "example": "CHL",
+              "x-nullable": true
+            },
+            "state": {
+              "type": "string",
+              "example": "Metropolitana",
+              "x-nullable": true
+            },
+            "address": {
+              "type": "string",
+              "example": "Av. Las Condes",
+              "x-nullable": true
+            },
+            "zip": {
+              "type": "string",
+              "example": "12345",
+              "x-nullable": true
+            },
+            "tax_id": {
+              "type": "string",
+              "example": "73245432-1",
+              "x-nullable": true
+            },
+            "legal_name": {
+              "type": "string",
+              "example": "Plutto Inc",
+              "x-nullable": true
+            },
+            "phone": {
+              "type": "string",
+              "example": "+56992680522",
+              "x-nullable": true
+            }
+          }
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "billing_information"
+      ]
+    },
+    "customer_create": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "example": "your-id_12885305",
+          "x-nullable": true
+        },
+        "email": {
+          "type": "string",
+          "example": "donald@getplutto.com",
+          "x-nullable": false
+        },
+        "name": {
+          "type": "string",
+          "example": "donald",
+          "x-nullable": true
+        },
+        "billing_information": {
+          "type": "object",
+          "x-nullable": true,
+          "properties": {
+            "city": {
+              "type": "string",
+              "example": "Santiago",
+              "x-nullable": true
+            },
+            "country_iso_code": {
+              "type": "string",
+              "example": "CHL",
+              "x-nullable": true
+            },
+            "state": {
+              "type": "string",
+              "example": "Metropolitana",
+              "x-nullable": true
+            },
+            "billing_address": {
+              "type": "string",
+              "example": "Av. Las Condes",
+              "x-nullable": true
+            },
+            "zip": {
+              "type": "string",
+              "example": "12345",
+              "x-nullable": true
+            },
+            "tax_id": {
+              "type": "string",
+              "example": "73245432-1",
+              "x-nullable": true
+            },
+            "legal_name": {
+              "type": "string",
+              "example": "Plutto Inc",
+              "x-nullable": true
+            },
+            "phone": {
+              "type": "string",
+              "example": "+56992680522",
+              "x-nullable": true
+            }
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "billing_information"
+        ]
+      }
+    },
+    "customer_resource": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/customer"
+        }
+      },
+      "required": [
+        "customer"
+      ]
+    },
+    "customers_collection": {
+      "type": "object",
+      "properties": {
+        "customers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/customer"
+          }
+        }
+      },
+      "required": [
+        "customers"
+      ]
+    },
+    "meter_event": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "example": "2021-06-04 09:00"
+        },
+        "amount": {
+          "type": "number",
+          "example": 1000,
+          "x-nullable": false
+        },
+        "action": {
+          "type": "string",
+          "example": "set",
+          "x-nullable": false
+        },
+        "id": {
+          "type": "string",
+          "example": "event_80b199c7744342f3c5df8622",
+          "x-nullable": false
+        },
+        "meter_id": {
+          "type": "string",
+          "example": 10,
+          "x-nullable": false
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2021-06-04 09:00",
+          "x-nullable": false
+        },
+        "idempotency_key": {
+          "type": "string",
+          "example": "Some idempotency_key",
+          "x-nullable": true
+        },
+        "customer_id": {
+          "type": "string",
+          "example": "customer_5198c6ad60c3363b089a1421",
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "timestamp",
+        "action",
+        "amount",
+        "meter_id",
+        "customer_id",
+        "created_at"
+      ]
+    },
+    "meter_event_create": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "example": "customer_5198c6ad60c3363b089a1421",
+          "x-nullable": false
+        },
+        "meter_id": {
+          "type": "string",
+          "example": "meter_46cf463812d56103d1dfa382",
+          "x-nullable": false
+        },
+        "amount": {
+          "type": "number",
+          "example": 6.66,
+          "x-nullable": false
+        },
+        "action": {
+          "type": "string",
+          "example": "increment",
+          "x-nullable": false
+        },
+        "timestamp": {
+          "type": "string",
+          "example": "2021-06-04 09:00"
+        }
+      },
+      "required": [
+        "action",
+        "amount",
+        "customer_id",
+        "meter_id"
+      ]
+    },
+    "meter_event_resource": {
+      "type": "object",
+      "properties": {
+        "meter_event": {
+          "$ref": "#/definitions/meter_event"
+        }
+      },
+      "required": [
+        "meter_event"
+      ]
+    },
+    "unauthorized_error": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "authentication_error",
+          "x-nullable": false
+        },
+        "code": {
+          "type": "string",
+          "example": "unauthorized",
+          "x-nullable": false
+        },
+        "message": {
+          "type": "string",
+          "example": "No valid API key provided.",
+          "x-nullable": false
+        },
+        "detail": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": true
+        },
+        "param": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": true
+        },
+        "request_id": {
+          "type": "string",
+          "example": "12d56103d1dfa382",
+          "x-nullable": true
+        },
+        "docs_url": {
+          "type": "string",
+          "example": "docs.getplutto.com",
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "type",
+        "code",
+        "message",
+        "docs_url"
+      ]
+    },
+    "unauthorized_error_resource": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/unauthorized_error"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "description": "ApiKey token",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/customers": {
+      "get": {
+        "summary": "Retrieves Customers",
+        "tags": [
+          "Customers"
+        ],
+        "description": "Retrieves all the customers",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customers retrieved",
+            "schema": {
+              "$ref": "#/definitions/customers_collection"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates Customer",
+        "tags": [
+          "Customers"
+        ],
+        "description": "Creates Customer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/customer_create"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "customer created",
+            "schema": {
+              "$ref": "#/definitions/customer_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Retrieves Customer",
+        "tags": [
+          "Customers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "customer retrieved",
+            "schema": {
+              "$ref": "#/definitions/customer_resource"
+            }
+          },
+          "404": {
+            "description": "invalid customer id"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates Customer",
+        "tags": [
+          "Customers"
+        ],
+        "description": "Updates Customer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/customer_create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "customer updated",
+            "schema": {
+              "$ref": "#/definitions/customer_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes Customer",
+        "tags": [
+          "Customers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "description": "Deletes specific customer",
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "customer deleted"
+          },
+          "404": {
+            "description": "customer not found"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/meter_events": {
+      "post": {
+        "summary": "Creates Meter Event",
+        "tags": [
+          "Meter Event"
+        ],
+        "description": "Creates Meter Event",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "meter_event",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/meter_event_create"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "meter_event created",
+            "schema": {
+              "$ref": "#/definitions/meter_event_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/plan_subscriptions": {
+      "post": {
+        "summary": "Creates Plan Subscription",
+        "tags": [
+          "Plan Subscription"
+        ],
+        "description": "Creates Plan Subscription with plan version ID or plan ID \n\nMake sure plan_version_id or plan_id is NOT NULL. If both arguments are present, plan_version_id will be utilized",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_subscription",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/plan_subscription_create"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "plan_subscription created",
+            "schema": {
+              "$ref": "#/definitions/plan_subscription_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/plan_subscriptions/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "patch": {
+        "summary": "Updates Plan Subscription",
+        "tags": [
+          "Plan Subscription"
+        ],
+        "description": "Updates Plan Subscription status",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "plan_subscription",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/plan_subscription_create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "plan subscription updated"
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    }
+  }
+}
