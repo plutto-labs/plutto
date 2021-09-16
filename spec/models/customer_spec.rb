@@ -44,4 +44,20 @@ RSpec.describe Customer, type: :model do
       end
     end
   end
+
+  describe 'add_plan_subscription' do
+    let(:plan_version) { build(:plan_version) }
+    let(:customer) { build(:customer) }
+
+    before do
+      allow(CreatePlanSubscription).to receive(:for)
+        .with(plan_version: plan_version, customer: customer)
+    end
+
+    it 'calls CreatePlanSubscription' do
+      customer.add_plan_subscription(plan_version)
+      expect(CreatePlanSubscription).to have_received(:for)
+        .with(plan_version: plan_version, customer: customer)
+    end
+  end
 end

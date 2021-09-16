@@ -10,8 +10,8 @@ class Api::V1::CustomersController < Api::V1::BaseController
   def create
     customer = Customer.create!(customer_params.merge(organization_id: organization.id))
     ActiveRecord::Base.transaction do
-      if plan_version_params['plan_version_id']&.present?
-        customer.add_plan_subcription(plan_version_params['plan_version_id'])
+      if plan_version_params['plan_version_id']&.present? && plan_version
+        customer.add_plan_subscription(plan_version)
       end
       customer.save!
     end
@@ -47,5 +47,9 @@ class Api::V1::CustomersController < Api::V1::BaseController
 
   def plan_version_params
     params.require(:customer).permit(:plan_version_id)
+  end
+
+  def plan_version
+    @plan_version ||= policy_scope(PlanVersion).find(plan_version_params[:plan_version_id])
   end
 end
