@@ -4,7 +4,7 @@ class Api::V1::CustomersController < Api::V1::BaseController
   end
 
   def show
-    respond_with(customer)
+    respond_with(customer, include_active_subscription: true)
   end
 
   def create
