@@ -11,6 +11,7 @@
         :rows="meters || []"
         :loading="loading"
         @delete-clicked="destroyMeter"
+        @edit-clicked="editMeter"
       />
     </div>
     <PluttoModal
@@ -18,7 +19,9 @@
       @close="showNewMeterForm = false"
     >
       <NewMeterForm
+        :editing-meter="editingMeter"
         @created-meter="meter => showNewMeterForm = false"
+        @edited-meter="meter => { showNewMeterForm = false; editingMeter = null; }"
       />
     </PluttoModal>
   </main>
@@ -47,10 +50,11 @@ export default {
         {
           title: 'none',
           type: 'action',
-          action: 'delete',
+          action: 'edit',
         },
       ],
       showNewMeterForm: false,
+      editingMeter: null,
     };
   },
   computed: {
@@ -65,6 +69,10 @@ export default {
   methods: {
     destroyMeter(meter) {
       this.$store.dispatch('DESTROY_METER', meter);
+    },
+    editMeter(meter) {
+      this.editingMeter = meter;
+      this.showNewMeterForm = true;
     },
   },
 };

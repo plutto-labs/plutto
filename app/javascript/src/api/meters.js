@@ -17,7 +17,7 @@ export function create(meter) {
 }
 
 export function update(id, meter) {
-  return authedAxios.put(`/api/internal/v1/meters/${id}`, decamelizeKeys(meter))
+  return authedAxios.put(`/api/internal/v1/meters/${id}`, decamelizeKeys({ meter }))
     .then((res) => camelizeKeys(res.data));
 }
 
