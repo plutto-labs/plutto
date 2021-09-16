@@ -1,6 +1,6 @@
 <template>
   <Form
-    @submit="createCustomer"
+    @submit="editingCustomer ? updateCustomer() : createCustomer()"
     :validation-schema="schema"
     v-slot="{ errors }"
     class="max-w-xl p-4 mx-auto space-y-5 overflow-auto bg-gray-800 rounded-lg"
@@ -93,7 +93,10 @@
         >
           Plan
         </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
+        <div
+          v-if="!editingCustomer"
+          class="mt-1 sm:mt-0 sm:col-span-2 plutto-input"
+        >
           <PluttoDropdown
             :selected="newCustomer.planVersionId"
             :options="planVersionsOptions"
@@ -259,7 +262,7 @@
     <div class="pt-5 mt-5">
       <div class="flex justify-end">
         <button class="btn">
-          Create Customer
+          {{ editingCustomer ? 'Edit' : 'Create' }} Customer
         </button>
       </div>
     </div>
@@ -273,6 +276,12 @@ import { ChevronRightIcon, ChevronUpIcon } from '@heroicons/vue/solid';
 
 export default {
   components: { PluttoDropdown, Form, Field, ChevronRightIcon, ChevronUpIcon },
+  props: {
+    editingCustomer: {
+      type: Object,
+      default: null,
+    },
+  },
   data() {
     return {
       showBillingInformation: false,
@@ -298,10 +307,17 @@ export default {
       },
     };
   },
+  beforeMount() {
+    if (this.editingCustomer) this.newCustomer = { ...this.editingCustomer };
+  },
   methods: {
     createCustomer() {
       this.$store.dispatch('CREATE_CUSTOMER', this.newCustomer)
         .then((customer) => this.$emit('created-customer', customer));
+    },
+    updateCustomer() {
+      this.$store.dispatch('UPDATE_CUSTOMER', this.newCustomer)
+        .then((customer) => this.$emit('edited-customer', customer));
     },
     selectPlanVersion(planVersionId) {
       this.newCustomer.planVersionId = planVersionId;

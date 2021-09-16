@@ -12,6 +12,7 @@
         :loading="loading"
         v-if="plans"
         @delete-clicked="destroyCustomer"
+        @edit-clicked="editCustomer"
       >
         <template #component="row">
           <PluttoDropdown
@@ -32,7 +33,9 @@
       @close="showNewCustomerForm = false"
     >
       <NewCustomerForm
+        :editing-customer="editingCustomer"
         @created-customer="customer => showNewCustomerForm = false"
+        @edited-customer="customer => { showNewCustomerForm = false; editingCustomer = null; }"
       />
     </PluttoModal>
     <PluttoModal
@@ -93,11 +96,12 @@ export default {
       }, {
         title: 'none',
         type: 'action',
-        action: 'delete',
+        action: 'edit',
       }],
       showNewCustomerForm: false,
       showNewPlanVersionForm: false,
       showSubscribeConfirmation: false,
+      editingCustomer: null,
       confirmData: {
         customer: null,
         plan: null,
@@ -117,6 +121,10 @@ export default {
   methods: {
     destroyCustomer(customer) {
       this.$store.dispatch('DESTROY_CUSTOMER', customer);
+    },
+    editCustomer(customer) {
+      this.editingCustomer = customer;
+      this.showNewCustomerForm = true;
     },
     showConfirmSubscription(customer, planId) {
       this.confirmData.customer = customer;
