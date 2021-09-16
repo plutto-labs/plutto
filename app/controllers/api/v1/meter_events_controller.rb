@@ -3,6 +3,8 @@ class Api::V1::MeterEventsController < Api::V1::BaseController
   wrap_parameters include: PARAMS
 
   def create
+    authorize(MeterEvent)
+
     meter_event = CreateNewMeterEvent.for(
       timestamp: create_params['timestamp'],
       amount: create_params['amount'],

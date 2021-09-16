@@ -1,10 +1,10 @@
 class Api::V1::PlanSubscriptionPolicy < Api::V1::ApiPolicy
-  def destroy?
-    false
+  def create?
+    true
   end
 
-  def index?
-    false
+  def end_subscription?
+    true
   end
 
   class Scope < Scope

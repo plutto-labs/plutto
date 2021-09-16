@@ -4,6 +4,7 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   end
 
   def end_subscription
+    authorize(plan_subscription)
     end_billing_period
     respond_with(plan_subscription)
   end
