@@ -66,27 +66,32 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
     end
   end
 
-  path '/plan_subscriptions/{id}' do
+  path '/plan_subscriptions/{id}/end_subscription' do
     parameter name: :id, in: :path, type: :string
-
+    let(:active) { true }
     let(:existent_plan_subscription) do
-      create(:plan_subscription, customer: customer, plan_version: plan_version)
+      create(:plan_subscription, customer: customer, plan_version: plan_version, active: active)
+    end
+    let(:current_billing_period) do
+      create(:billing_period, plan_subscription: existent_plan_subscription)
+    end
+
+    before do
+      allow(existent_plan_subscription).to receive(
+        :current_billing_period
+      ).and_return(current_billing_period)
     end
 
     let(:id) { existent_plan_subscription.id }
 
-    patch 'Updates Plan Subscription' do
+    patch 'Ends Plan Subscription' do
       tags 'Plan Subscription'
-      description 'Updates Plan Subscription status'
+      description 'Ends a Plan Subscription'
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: []]
-      parameter name: :plan_subscription, in: :body,
-                schema: { '$ref': '#/definitions/plan_subscription_create' }
 
-      let(:plan_subscription) { { active: 'false' } }
-
-      response '200', 'plan subscription updated' do
+      response '200', 'plan subscription ended' do
         let(:Authorization) { "Bearer #{token}" }
 
         run_test!
@@ -94,6 +99,12 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
 
       it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
+
+      context 'when plan subscription is already ended' do
+        let(:active) { false }
+
+        it_behaves_like 'argument error endpoint'
+      end
     end
   end
 end

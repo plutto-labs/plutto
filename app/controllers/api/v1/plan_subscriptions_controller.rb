@@ -3,8 +3,13 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
     respond_with(CreatePlanSubscription.for(plan_version: plan_version, customer: customer))
   end
 
-  def update
-    respond_with(plan_subscription.tap { |c| c.update!(update_params) })
+  def end_subscription
+    if plan_subscription.active
+      end_billing_period
+      return respond_with(plan_subscription)
+    end
+
+    raise ArgumentError, 'Plan subscription is already with status active:false'
   end
 
   private
@@ -33,7 +38,13 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
     params.require(:plan_subscription).permit(:plan_version_id, :plan_id, :customer_id)
   end
 
-  def update_params
-    params.require(:plan_subscription).permit(:active)
+  def end_billing_period
+    ActiveRecord::Base.transaction do
+      EndBillingPeriod.for(
+        billing_period: plan_subscription.current_billing_period,
+        start_next_period: false
+      )
+      plan_subscription.update!(active: false)
+    end
   end
 end
