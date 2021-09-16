@@ -66,11 +66,16 @@
                   </div>
                 </template>
                 <template v-else-if="header.type === 'action'">
-                  <TrashIcon
+                  <span
                     v-if="header.action === 'delete'"
-                    class="w-6 h-6 ml-auto cursor-pointer text-primary"
+                    class="text-2xl cursor-pointer plutto-icon text-primary"
                     @click="$emit('delete-clicked', row)"
-                  />
+                  >delete_outline</span>
+                  <span
+                    v-if="header.action === 'edit'"
+                    class="text-2xl cursor-pointer plutto-icon text-primary"
+                    @click="$emit('edit-clicked', row)"
+                  >edit</span>
                 </template>
                 <template v-else-if="header.type === 'component'">
                   <slot
@@ -101,12 +106,11 @@
 </template>
 
 <script>
-import { TrashIcon } from '@heroicons/vue/outline';
 import PluttoLoader from '@/components/plutto-loader';
 import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 
 export default {
-  components: { PluttoLoader, TrashIcon, PluttoCopyableDiv },
+  components: { PluttoLoader, PluttoCopyableDiv },
   props: {
     headers: {
       type: Array,
