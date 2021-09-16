@@ -15,6 +15,15 @@ class PlanSubscription < ApplicationRecord
     billing_periods.order(created_at: :asc).last
   end
 
+  def end_subscription!
+    unless active
+      errors.add(:active, 'Subscription already inactive')
+      raise(ActiveRecord::RecordInvalid, self)
+    end
+
+    self.active = false
+  end
+
   private
 
   def generate_id

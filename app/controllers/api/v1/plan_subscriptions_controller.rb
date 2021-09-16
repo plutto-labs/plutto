@@ -4,12 +4,8 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   end
 
   def end_subscription
-    if plan_subscription.active
-      end_billing_period
-      return respond_with(plan_subscription)
-    end
-
-    raise ArgumentError, 'Plan subscription is already with status active:false'
+    end_billing_period
+    respond_with(plan_subscription)
   end
 
   private
@@ -44,7 +40,7 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
         billing_period: plan_subscription.current_billing_period,
         start_next_period: false
       )
-      plan_subscription.update!(active: false)
+      plan_subscription.end_subscription!
     end
   end
 end

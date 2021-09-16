@@ -712,7 +712,7 @@
         "error"
       ]
     },
-    "argument_error": {
+    "unprocessable_entity_error": {
       "type": "object",
       "properties": {
         "type": {
@@ -722,27 +722,27 @@
         },
         "code": {
           "type": "string",
-          "example": "bad_request",
+          "example": "unprocessable",
           "x-nullable": false
         },
         "message": {
           "type": "string",
-          "example": "The request was unacceptable, often due to missing a required parameter.",
+          "example": "Your request was understood, but we were not able toprocess it. Please fix it before repeating",
           "x-nullable": false
         },
         "detail": {
           "type": "string",
-          "example": "1984-06-04 09:00",
+          "example": "",
           "x-nullable": true
         },
         "param": {
           "type": "string",
-          "example": "1984-06-04 09:00",
+          "example": "",
           "x-nullable": true
         },
         "request_id": {
           "type": "string",
-          "example": "12d56103d1dfa382",
+          "example": "",
           "x-nullable": true
         },
         "docs_url": {
@@ -758,11 +758,11 @@
         "docs_url"
       ]
     },
-    "argument_error_resource": {
+    "unprocessable_entity_error_resource": {
       "type": "object",
       "properties": {
         "error": {
-          "$ref": "#/definitions/argument_error"
+          "$ref": "#/definitions/unprocessable_entity_error"
         }
       },
       "required": [
@@ -844,6 +844,12 @@
             "description": "customer created",
             "schema": {
               "$ref": "#/definitions/customer_resource"
+            }
+          },
+          "422": {
+            "description": "unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/unprocessable_entity_error_resource"
             }
           },
           "401": {
@@ -1200,10 +1206,10 @@
               "$ref": "#/definitions/unauthorized_error_resource"
             }
           },
-          "400": {
-            "description": "bad request",
+          "422": {
+            "description": "unprocessable entity",
             "schema": {
-              "$ref": "#/definitions/argument_error_resource"
+              "$ref": "#/definitions/unprocessable_entity_error_resource"
             }
           }
         }

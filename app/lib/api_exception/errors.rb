@@ -12,6 +12,20 @@ module ApiException::Errors
     end
   end
 
+  class UnprocessableEntity < ApiException::BaseException
+    def initialize(**kwargs)
+      super(type: 'invalid_request_error',
+            http_code: '422',
+            code: 'unprocessable entity',
+            message: 'Your request was understood, but we were not able to process it. Please ' \
+             'fix it before repeating',
+            detail: kwargs[:detail],
+            param: kwargs[:param],
+            request_id: kwargs[:request_id],
+            docs_url: 'https://docs.getplutto.com')
+    end
+  end
+
   class Unauthorized < ApiException::BaseException
     def initialize(**kwargs)
       super(type: 'authentication_error',

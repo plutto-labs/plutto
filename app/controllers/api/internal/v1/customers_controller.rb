@@ -18,7 +18,7 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
 
   def create
     customer = authorize(
-      Customer.new(customer_params.merge(organization_id: current_user.organization_id))
+      Customer.create!(customer_params.merge(organization_id: current_user.organization_id))
     )
     ActiveRecord::Base.transaction do
       if plan_version_params['plan_version_id']&.present?

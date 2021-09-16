@@ -20,8 +20,13 @@ module Api::ErrorConcern
       respond_api_error(ApiException::Errors::Forbidden.new(detail: exception.message))
     end
 
-    rescue_from 'ActiveRecord::RecordInvalid' do
-      respond_api_error(ApiException::Errors::BadRequest.new)
+    rescue_from 'ActiveRecord::RecordInvalid' do |exception|
+      respond_api_error(
+        ApiException::Errors::UnprocessableEntity.new(
+          detail: exception.message,
+          param: exception.record.errors.errors[0].attribute
+        )
+      )
     end
 
     rescue_from 'ArgumentError' do |exception|

@@ -24,8 +24,8 @@ API_V1 = {
     unauthorized_error_resource: UNAUTHORIZED_ERROR_RESOURCE_SCHEMA,
     not_found_error: NOT_FOUND_ERROR_SCHEMA,
     not_found_error_resource: NOT_FOUND_ERROR_RESOURCE_SCHEMA,
-    argument_error: ARGUMENT_ERROR_SCHEMA,
-    argument_error_resource: ARGUMENT_ERROR_RESOURCE_SCHEMA
+    unprocessable_entity_error: UNPROCESSABLE_ENTITY_ERROR_SCHEMA,
+    unprocessable_entity_error_resource: UNPROCESSABLE_ENTITY_ERROR_RESOURCE_SCHEMA
   },
   securityDefinitions: {
     Bearer: {

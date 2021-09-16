@@ -66,6 +66,14 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
         end
       end
 
+      context 'when the identifier is duplicated' do
+        before do
+          create(:customer, organization: organization, identifier: 'your-id_12885305')
+        end
+
+        it_behaves_like 'unprocessable entity endpoint'
+      end
+
       it_behaves_like 'unauthorized endpoint'
     end
   end
