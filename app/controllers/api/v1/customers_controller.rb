@@ -1,10 +1,10 @@
 class Api::V1::CustomersController < Api::V1::BaseController
   def index
-    respond_with(policy_scope(Customer.includes([:billing_information])))
+    respond_with(policy_scope(Customer))
   end
 
   def show
-    respond_with(customer, include_active_subscription: true)
+    respond_with(customer, deep_serialize: true)
   end
 
   def create
@@ -16,11 +16,11 @@ class Api::V1::CustomersController < Api::V1::BaseController
       customer.save!
     end
 
-    respond_with(customer)
+    respond_with(customer.reload, deep_serialize: true)
   end
 
   def update
-    respond_with(customer.tap { |c| c.update!(customer_params) })
+    respond_with(customer.tap { |c| c.update!(customer_params) }, deep_serialize: true)
   end
 
   def destroy
