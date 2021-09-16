@@ -7,7 +7,10 @@ class MeterEvent < ApplicationRecord
 
   enum action: { increment: 0, set: 1, decrement: 2 }, _suffix: true
 
-  validates :timestamp, presence: true
+  validates :timestamp, :amount, presence: true
+  validates :amount, numericality: { greater_than_or_equal_to: 0, message:
+    'must be greater than or equal to 0. Use decrement action to ' \
+    'set a negative value' }
 
   delegate :customer, to: :meter_count
 
