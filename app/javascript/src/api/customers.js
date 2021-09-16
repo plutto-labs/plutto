@@ -17,7 +17,7 @@ export function create(customer) {
 }
 
 export function update(id, customer) {
-  return authedAxios.put(`/api/internal/v1/customers/${id}`, decamelizeKeys(customer))
+  return authedAxios.put(`/api/internal/v1/customers/${id}`, decamelizeKeys({ customer }))
     .then((res) => camelizeKeys(res.data));
 }
 

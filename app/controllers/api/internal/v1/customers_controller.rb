@@ -46,8 +46,7 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   def customer_params
     cust_params = params.require(:customer).permit(
       :identifier, :email, :name, billing_information: [
-        :country_iso_code, :state, :city, :address, :zip, :activity, :legal_name, :tax_id,
-        :phone, :customer_id
+        :country_iso_code, :state, :city, :address, :zip, :activity, :legal_name, :tax_id, :phone
       ]
     )
     rename_nested_object_params_for_nested_attributes(cust_params, :billing_information)

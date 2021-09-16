@@ -1,6 +1,6 @@
 <template>
   <Form
-    @submit="createMeter"
+    @submit="editingMeter ? updateMeter() : createMeter()"
     class="max-w-xl p-4 mx-auto space-y-5 bg-gray-800 rounded-lg"
     :validation-schema="schema"
     v-slot="{ errors }"
@@ -37,7 +37,7 @@
     <div class="pt-5 mt-5">
       <div class="flex justify-end">
         <button class="btn">
-          Create Meter
+          {{ editingMeter ? 'Edit' : 'Create' }} Meter
         </button>
       </div>
     </div>
@@ -49,6 +49,12 @@ import { Form, Field } from 'vee-validate';
 
 export default {
   components: { Form, Field },
+  props: {
+    editingMeter: {
+      type: Object,
+      default: null,
+    },
+  },
   data() {
     return {
       newMeter: {},
@@ -57,10 +63,17 @@ export default {
       },
     };
   },
+  beforeMount() {
+    if (this.editingMeter) this.newMeter = { ...this.editingMeter };
+  },
   methods: {
     createMeter() {
       this.$store.dispatch('CREATE_METER', this.newMeter)
         .then((meter) => this.$emit('created-meter', meter));
+    },
+    updateMeter() {
+      this.$store.dispatch('UPDATE_METER', this.newMeter)
+        .then((meter) => this.$emit('edited-meter', meter));
     },
   },
 };
