@@ -622,7 +622,7 @@
         "error"
       ]
     },
-    "argument_error": {
+    "unprocessable_entity_error": {
       "type": "object",
       "properties": {
         "type": {
@@ -632,69 +632,12 @@
         },
         "code": {
           "type": "string",
-          "example": "bad_request",
+          "example": "unprocessable",
           "x-nullable": false
         },
         "message": {
           "type": "string",
-          "example": "The request was unacceptable, often due to missing a required parameter.",
-          "x-nullable": false
-        },
-        "detail": {
-          "type": "string",
-          "example": "1984-06-04 09:00",
-          "x-nullable": true
-        },
-        "param": {
-          "type": "string",
-          "example": "1984-06-04 09:00",
-          "x-nullable": true
-        },
-        "request_id": {
-          "type": "string",
-          "example": "12d56103d1dfa382",
-          "x-nullable": true
-        },
-        "docs_url": {
-          "type": "string",
-          "example": "docs.getplutto.com",
-          "x-nullable": false
-        }
-      },
-      "required": [
-        "type",
-        "code",
-        "message",
-        "docs_url"
-      ]
-    },
-    "argument_error_resource": {
-      "type": "object",
-      "properties": {
-        "error": {
-          "$ref": "#/definitions/argument_error"
-        }
-      },
-      "required": [
-        "error"
-      ]
-    },
-    "conflict_error": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "invalid_request_error",
-          "x-nullable": false
-        },
-        "code": {
-          "type": "string",
-          "example": "conflict",
-          "x-nullable": false
-        },
-        "message": {
-          "type": "string",
-          "example": "The request conflicts with another request check your idempotency key, or maybe a unique parameter if its a POST request.",
+          "example": "Your request was understood, but we were not able toprocess it. Please fix it before repeating",
           "x-nullable": false
         },
         "detail": {
@@ -725,11 +668,11 @@
         "docs_url"
       ]
     },
-    "conflict_error_resource": {
+    "unprocessable_entity_error_resource": {
       "type": "object",
       "properties": {
         "error": {
-          "$ref": "#/definitions/not_found_error"
+          "$ref": "#/definitions/unprocessable_entity_error"
         }
       },
       "required": [
@@ -813,10 +756,10 @@
               "$ref": "#/definitions/customer_resource"
             }
           },
-          "409": {
-            "description": "conflict",
+          "422": {
+            "description": "unprocessable entity",
             "schema": {
-              "$ref": "#/definitions/conflict_error_resource"
+              "$ref": "#/definitions/unprocessable_entity_error_resource"
             }
           },
           "401": {
@@ -1173,10 +1116,10 @@
               "$ref": "#/definitions/unauthorized_error_resource"
             }
           },
-          "400": {
-            "description": "bad request",
+          "422": {
+            "description": "unprocessable entity",
             "schema": {
-              "$ref": "#/definitions/argument_error_resource"
+              "$ref": "#/definitions/unprocessable_entity_error_resource"
             }
           }
         }

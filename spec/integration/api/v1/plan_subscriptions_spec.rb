@@ -20,7 +20,7 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
       parameter name: :plan_subscription, in: :body,
                 schema: { '$ref': '#/definitions/plan_subscription_create' }
 
-      before do
+      before do # rubocop:disable RSpec/ScatteredSetup
         plan.update(default_version: plan_version)
       end
 
@@ -76,7 +76,7 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
       create(:billing_period, plan_subscription: existent_plan_subscription)
     end
 
-    before do
+    before do # rubocop:disable RSpec/ScatteredSetup
       allow(existent_plan_subscription).to receive(
         :current_billing_period
       ).and_return(current_billing_period)
@@ -103,7 +103,7 @@ describe 'API V1 Plan Subscription', swagger_doc: 'v1/swagger.json' do
       context 'when plan subscription is already ended' do
         let(:active) { false }
 
-        it_behaves_like 'argument error endpoint'
+        it_behaves_like 'unprocessable entity endpoint'
       end
     end
   end
