@@ -10,6 +10,8 @@ class Invoice < ApplicationRecord
   monetize :subtotal_cents, with_model_currency: :currency
   monetize :tax_cents, :discount_cents, allow_nil: true, with_model_currency: :currency
 
+  before_validation :set_currency
+
   aasm(column: :status) do
     state :new, initial: true
     state :posted, :paid, :not_paid, :voided
@@ -41,7 +43,7 @@ class Invoice < ApplicationRecord
   private
 
   def set_currency
-    self.currency = billing_period.plan_subscription.plan_version.currency
+    self.currency = billing_period&.plan_subscription&.plan_version&.currency
   end
 
   def generate_id
