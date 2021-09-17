@@ -12,27 +12,30 @@ RSpec.describe Api::Internal::V1::PlanSubscriptionsController, type: :controller
         let(:plan) { create(:plan, organization: organization) }
         let!(:plan_version) { create(:plan_version, plan: plan) }
 
-        it 'returns http success for plan_version_id' do
-          put :create, format: :json, params: {
-            customer_id: customer.id, plan_version_id: plan_version.id
-          }
+        context 'with plan version param' do
+          it 'returns http success' do
+            post :create, format: :json,
+              params: { customer_id: customer.id, plan_version_id: plan_version.id }
 
-          expect(response).to have_http_status(:success)
+            expect(response).to have_http_status(:success)
+          end
         end
 
-        it 'returns http success for plan_id' do
-          plan.update(default_version: plan_version)
-          put :create, format: :json, params: {
-            customer_id: customer.id, plan_id: plan.id
-          }
+        context 'with plan param' do
+          before { plan.update(default_version: plan_version) }
 
-          expect(response).to have_http_status(:success)
+          it 'returns http success' do
+            post :create, format: :json,
+              params: { customer_id: customer.id, plan_id: plan.id }
+
+            expect(response).to have_http_status(:success)
+          end
         end
       end
 
       context 'with invalid params' do
         it 'returns http error' do
-          put :create, format: :json, params: { customer_id: 0, plan_version_id: 0 }
+          post :create, format: :json, params: { customer_id: 0, plan_version_id: 0 }
           expect(response).to have_http_status(:not_found)
         end
 
@@ -40,7 +43,7 @@ RSpec.describe Api::Internal::V1::PlanSubscriptionsController, type: :controller
           let(:other_org_plan_version) { create(:plan_version) }
 
           it 'returns http not_found for plan_version_id' do
-            put :create, format: :json, params: {
+            post :create, format: :json, params: {
               customer_id: customer.id, plan_version_id: other_org_plan_version.id
             }
 
@@ -50,16 +53,6 @@ RSpec.describe Api::Internal::V1::PlanSubscriptionsController, type: :controller
       end
     end
 
-    context 'when signed out' do
-      let!(:customer) { create(:customer) }
-      let!(:plan_version) { create(:plan_version) }
-
-      it 'returns http error' do
-        put :create, format: :json, params: {
-          customer_id: customer.id, plan_version_id: plan_version.id
-        }
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+    it_behaves_like 'unauthorized internal POST endpoint'
   end
 end
