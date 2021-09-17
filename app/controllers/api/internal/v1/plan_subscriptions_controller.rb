@@ -8,10 +8,6 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
 
   private
 
-  def plan_subscription
-    @plan_subscription ||= policy_scope(PlanSubscription).find(params[:id])
-  end
-
   def plan_version
     @plan_version ||=
       (params[:plan_version_id] && policy_scope(PlanVersion).find(params[:plan_version_id])) ||
