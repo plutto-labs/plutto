@@ -51,7 +51,7 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
         :type,
         :meter_id,
         :meter_count_method,
-        { tiers_attributes: [:index, :lower_limit, :upper_limit, :price] }
+        { tiers_attributes: [:index, :upper_limit, :price] }
       ]
     )
   end

@@ -207,7 +207,7 @@ export default {
     changeTierUpperLimit(val, index) {
       const newValue = Number(val);
       this.tiers[index].upperLimit = newValue;
-      if (index < this.tiers.length - 1 && this.tiers[index + 1].upperLimit < newValue - 2) {
+      if (index < this.tiers.length - 1 && this.tiers[index + 1].upperLimit <= newValue) {
         this.changeTierUpperLimit(newValue + 2, index + 1);
       }
     },
