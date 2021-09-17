@@ -1,9 +1,5 @@
 class CreatePlanSubscription < PowerTypes::Command.new(:plan_version, :customer)
   def perform
-    unless can_subscribe?
-      raise ActiveModel::ForbiddenAttributesError, "Customer's organization does not match plan's"
-    end
-
     active_plan_subscription = @customer.active_plan_subscription
     check_if_plan_version_is_active(active_plan_subscription)
 
@@ -26,16 +22,13 @@ class CreatePlanSubscription < PowerTypes::Command.new(:plan_version, :customer)
     PlanSubscription.create!(customer: @customer, plan_version: @plan_version, active: true)
   end
 
-  def can_subscribe?
-    @plan_version.plan.organization_id == @customer.organization_id
-  end
-
   def check_if_plan_version_is_active(active_plan_subscription)
     if active_plan_subscription&.plan_version_id == @plan_version.id
-      raise(
-        ActiveModel::ForbiddenAttributesError,
-        "Plan version is already subscribed by the customer"
+      active_plan_subscription.errors.add(
+        :plan_version,
+        'Customer already subscribed to this plan version'
       )
+      raise(ActiveRecord::RecordInvalid, active_plan_subscription)
     end
   end
 end

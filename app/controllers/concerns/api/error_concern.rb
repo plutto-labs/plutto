@@ -17,10 +17,6 @@ module Api::ErrorConcern
         "Couldn't find #{exception.model} resource"))
     end
 
-    rescue_from 'ActiveModel::ForbiddenAttributesError' do |exception|
-      respond_api_error(ApiException::Errors::Forbidden.new(detail: exception.message))
-    end
-
     rescue_from 'ActiveRecord::RecordInvalid' do |exception|
       respond_api_error(
         ApiException::Errors::UnprocessableEntity.new(
@@ -29,10 +25,6 @@ module Api::ErrorConcern
         )
       )
     end
-  end
-
-  def respond_with_forbidden
-    respond_api_error(ApiException::Errors::Forbidden.new)
   end
 
   def respond_with_unauthorized

@@ -38,20 +38,6 @@ module ApiException::Errors
         docs_url: 'https://docs.getplutto.com')
     end
   end
-
-  class Forbidden < ApiException::BaseException
-    def initialize(**kwargs)
-      super(type: 'authentication_error',
-        http_code: '403',
-        code: 'unauthorized',
-        message: "The API key doesn't have permissions to perform the request.",
-        detail: kwargs[:detail],
-        param: kwargs[:param],
-        request_id: kwargs[:request_id],
-        docs_url: 'https://docs.getplutto.com')
-    end
-  end
-
   class NotFound < ApiException::BaseException
     def initialize(**kwargs)
       super(type: 'invalid_request_error',

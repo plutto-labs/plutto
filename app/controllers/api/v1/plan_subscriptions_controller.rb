@@ -16,13 +16,12 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   end
 
   def plan_version
-    @plan_version ||=
-      (create_params[:plan_version_id] && PlanVersion.find(create_params[:plan_version_id])) ||
-      plan&.default_version
+    @plan_version ||= (create_params[:plan_version_id] &&
+        policy_scope(PlanVersion).find(create_params[:plan_version_id])) || plan&.default_version
   end
 
   def plan
-    @plan ||= create_params[:plan_id] && current_bearer.plans.find(create_params[:plan_id])
+    @plan ||= create_params[:plan_id] && policy_scope(Plan).find(create_params[:plan_id])
   end
 
   def customer

@@ -36,15 +36,15 @@ RSpec.describe Api::Internal::V1::PlanSubscriptionsController, type: :controller
           expect(response).to have_http_status(:not_found)
         end
 
-        context 'with plan from other organization' do
+        context 'with incorrect plan_version_id' do
           let(:other_org_plan_version) { create(:plan_version) }
 
-          it 'returns http forbidden for plan_version_id' do
+          it 'returns http not_found for plan_version_id' do
             put :create, format: :json, params: {
               customer_id: customer.id, plan_version_id: other_org_plan_version.id
             }
 
-            expect(response).to have_http_status(:forbidden)
+            expect(response).to have_http_status(:not_found)
           end
         end
       end
