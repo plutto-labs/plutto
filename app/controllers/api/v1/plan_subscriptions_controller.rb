@@ -1,5 +1,6 @@
 class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   def create
+    authorize(PlanSubscription)
     respond_with(CreatePlanSubscription.for(plan_version: plan_version, customer: customer))
   end
 

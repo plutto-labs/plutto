@@ -64,7 +64,7 @@ describe CreatePlanSubscription do
         it do
           expect do
             perform(previous_plan_version)
-          end.to raise_error(ActiveModel::ForbiddenAttributesError)
+          end.to raise_error(ActiveRecord::RecordInvalid)
         end
       end
     end
