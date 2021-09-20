@@ -21,7 +21,7 @@ class PlanSubscription < ApplicationRecord
       raise(ActiveRecord::RecordInvalid, self)
     end
 
-    self.active = false
+    update!(active: false)
   end
 
   private
