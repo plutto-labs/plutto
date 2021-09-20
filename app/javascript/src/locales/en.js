@@ -16,6 +16,9 @@ export default {
         currency: 'Currency',
         subtotal: 'Amount',
         issueDate: 'Issue Date',
+        plan: 'Plan',
+        previousInvoiceAmount: 'Previous billed amount',
+        currentBillingPeriodEndDate: 'Next billing date',
         none: '',
       },
       tags: {

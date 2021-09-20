@@ -3,7 +3,7 @@
     <PluttoTable
       class="mt-6 rounded-lg"
       :headers="headers"
-      :rows="customers"
+      :rows="customersRows"
       :loading="loading"
     />
   </div>
@@ -30,6 +30,17 @@ export default {
       }, {
         title: 'id',
         type: 'copyableLine',
+      }, {
+        title: 'plan',
+        type: 'oneLineText',
+      }, {
+        title: 'previousInvoiceAmount',
+        type: 'oneLineText',
+      }, {
+        title: 'currentBillingPeriodEndDate',
+        type: 'twoLinesText',
+        bigText: 'currentBillingPeriodEndDate',
+        smallText: 'numberOfDays',
       }],
     };
   },
@@ -38,6 +49,20 @@ export default {
       loading: state => state.customers.loading,
       customers: state => state.customers.customers,
     }),
+    customersRows() {
+      return this.customers.map((customer) => (
+        {
+          email: customer.email,
+          name: customer.name,
+          identifier: customer.identifier,
+          id: customer.id,
+          previousInvoiceAmount: this.formatCurrency(customer.previousInvoiceAmount, customer.previousInvoiceCurrency),
+          currentBillingPeriodEndDate: this.formatDate(customer.currentBillingPeriodEndDate),
+          numberOfDays: this.daysFromDate(customer.currentBillingPeriodEndDate),
+          plan: `${customer.activePlanSubscription?.planName} - ${customer.activePlanSubscription?.version}`,
+        }
+      ));
+    },
   },
   async mounted() {
     await this.$store.dispatch('GET_ACTIVE_CUSTOMERS');
