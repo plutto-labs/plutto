@@ -5,14 +5,14 @@ class PriceLogic::Tier < ApplicationRecord
   validates :upper_limit, numericality: {
     greater_than_or_equal_to: ->(tier) { tier.lower_limit.to_f }
   }
-  validates :lower_limit, numericality: { greater_than_or_equal_to: 0 }
+  validates :lower_limit, numericality: { greater_than_or_equal_to: 1 }
 
   before_validation :set_currency
 
   monetize :price_cents
 
   def units_in_tier
-    upper_limit - lower_limit
+    upper_limit - lower_limit + 1
   end
 
   def units_in_tier_range?(units)

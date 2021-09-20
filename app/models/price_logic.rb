@@ -23,7 +23,7 @@ class PriceLogic < ApplicationRecord
 
   def set_lower_limits
     tiers.each_with_index do |tier, index|
-      tier.lower_limit = index.zero? ? 0 : tiers[index - 1].upper_limit + 1
+      tier.lower_limit = index.zero? ? 1 : tiers[index - 1].upper_limit + 1
     end
   end
 
