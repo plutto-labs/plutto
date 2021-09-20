@@ -11,6 +11,8 @@ export default {
   },
   methods: {
     formatCurrency(val, currency = 'CLP') {
+      if (val === null || currency === null) return null;
+
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency }).format(val);
     },
     formatDateTime(date, utc = false) {
@@ -18,6 +20,12 @@ export default {
       if (utc) return moment(String(date)).utc().format('DD/MM/YYYY - HH:mm');
 
       return moment(String(date)).format('DD/MM/YYYY - HH:mm');
+    },
+    formatDate(date, utc = false) {
+      if (!date) return date;
+      if (utc) return moment(String(date)).utc().format('DD/MM/YYYY');
+
+      return moment(String(date)).format('DD/MM/YYYY');
     },
     humanizedDuration(val, options = {}) {
       if (!val) return null;
@@ -27,6 +35,9 @@ export default {
       if (options.removePrefix) humanDuration = humanDuration.substring(2);
 
       return humanDuration;
+    },
+    daysFromDate(date) {
+      return moment(date).from(new Date());
     },
   },
 };
