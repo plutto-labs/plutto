@@ -19,7 +19,7 @@ RSpec.describe PriceLogic::Tier, type: :model do
     it { expect(tier).to validate_presence_of(:lower_limit) }
     it { expect(tier).to validate_presence_of(:price_cents) }
     it { expect(tier).to validate_presence_of(:index) }
-    it { expect(tier).to validate_numericality_of(:lower_limit).is_greater_than_or_equal_to(0) }
+    it { expect(tier).to validate_numericality_of(:lower_limit).is_greater_than_or_equal_to(1) }
   end
 
   it { is_expected.to monetize(:price_cents) }
@@ -28,7 +28,7 @@ RSpec.describe PriceLogic::Tier, type: :model do
     context 'with upper_limit present' do
       it 'returns the correct number of units' do
         tier = create(:price_logic_tier, lower_limit: 5, upper_limit: 10)
-        expect(tier.units_in_tier).to eq(5)
+        expect(tier.units_in_tier).to eq(6)
       end
     end
 
