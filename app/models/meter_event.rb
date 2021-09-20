@@ -6,6 +6,10 @@ class MeterEvent < ApplicationRecord
   belongs_to :billing_period, optional: true
 
   enum action: { increment: 0, set: 1, decrement: 2 }, _suffix: true
+  validates :action, inclusion: {
+    in: actions.keys,
+    message: "invalid, allowed types are #{actions.keys.join(', ')}"
+  }
 
   validates :timestamp, :amount, presence: true
   validates :amount, numericality: { greater_than_or_equal_to: 0, message:

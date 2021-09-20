@@ -20,7 +20,7 @@ module Api::ErrorConcern
     rescue_from 'ActiveRecord::RecordInvalid' do |exception|
       respond_api_error(
         ApiException::Errors::UnprocessableEntity.new(
-          detail: exception.record.errors.errors[0].type,
+          detail: exception.record.errors.full_messages.join(', '),
           param: exception.record.errors.errors[0].attribute
         )
       )
