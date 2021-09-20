@@ -15,6 +15,10 @@ class Customer < ApplicationRecord
 
   before_save :validate_uniqueness_of_identifier_within_organization
 
+  scope :active, -> do
+    includes(:active_plan_subscription).where.not(active_plan_subscription: { id: nil })
+  end
+
   def add_plan_subscription(plan_version)
     CreatePlanSubscription.for(plan_version: plan_version, customer: self)
   end
