@@ -19,6 +19,14 @@ RSpec.describe PriceLogic::StairStep, type: :model do
         price_currency: 'USD', tiers_params: tiers_params)
     end
 
+    context 'when usage is 0' do
+      let(:units) { 0 }
+
+      it 'returns the correct price' do
+        expect(stair_step_logic.calculate_price(units)).to eq(0)
+      end
+    end
+
     context 'when range is not from last tier' do
       let(:units) { 150 }
 

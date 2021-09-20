@@ -9,6 +9,8 @@ class PriceLogic::StairStep < PriceLogic
   NAME = 'stair_step'
 
   def calculate_price(units)
+    return 0 if units <= 0
+
     tier = tier_for_units(units)
     tier.price
   end
