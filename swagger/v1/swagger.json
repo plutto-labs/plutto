@@ -798,7 +798,7 @@
             "name": "customer",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/customer_create"
+              "$ref": "#/definitions/customer_resource"
             }
           }
         ],

@@ -124,7 +124,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: []]
-      parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/customer_create' }
+      parameter name: :customer, in: :body, schema: { '$ref': '#/definitions/customer_resource' }
 
       response '200', 'customer updated' do
         schema('$ref' => '#/definitions/customer_resource')
