@@ -7,15 +7,15 @@ class Api::V1::ApiPolicy
   end
 
   def index?
-    true
+    false
   end
 
   def show?
-    true
+    false
   end
 
   def create?
-    true
+    false
   end
 
   def new?
@@ -23,7 +23,7 @@ class Api::V1::ApiPolicy
   end
 
   def update?
-    true
+    false
   end
 
   def edit?
@@ -31,7 +31,7 @@ class Api::V1::ApiPolicy
   end
 
   def destroy?
-    true
+    false
   end
 
   class Scope

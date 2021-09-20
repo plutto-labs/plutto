@@ -14,7 +14,7 @@ module ApiException::Errors
 
   class UnprocessableEntity < ApiException::BaseException
     def initialize(**kwargs)
-      super(type: 'invalid_request_error',
+      super(type: 'invalid_request_error', # :nocov:
             http_code: '422',
             code: 'unprocessable entity',
             message: 'Your request was understood, but we were not able to process it. Please ' \
@@ -39,19 +39,6 @@ module ApiException::Errors
     end
   end
 
-  class Forbidden < ApiException::BaseException
-    def initialize(**kwargs)
-      super(type: 'authentication_error',
-        http_code: '403',
-        code: 'unauthorized',
-        message: "The API key doesn't have permissions to perform the request.",
-        detail: kwargs[:detail],
-        param: kwargs[:param],
-        request_id: kwargs[:request_id],
-        docs_url: 'https://docs.getplutto.com')
-    end
-  end
-
   class NotFound < ApiException::BaseException
     def initialize(**kwargs)
       super(type: 'invalid_request_error',
@@ -66,37 +53,9 @@ module ApiException::Errors
     end
   end
 
-  class Conflict < ApiException::BaseException
-    def initialize(**kwargs)
-      super(type: 'invalid_request_error',
-        http_code: '409',
-        code: 'conflict_error',
-        message: 'The request conflicts with another request (perhaps due to using the same' \
-          'idempotent key).',
-        detail: kwargs[:detail],
-        param: kwargs[:param],
-        request_id: kwargs[:request_id],
-        docs_url: 'https://docs.getplutto.com')
-    end
-  end
-
-  class TooManyRequests < ApiException::BaseException
-    def initialize(**kwargs)
-      super(type: 'invalid_request_error',
-        http_code: '429',
-        code: 'too_many_requests',
-        message: 'Too many requests hit the API too quickly. Consider throttling them' \
-          'in your client',
-        detail: kwargs[:detail],
-        param: kwargs[:param],
-        request_id: kwargs[:request_id],
-        docs_url: 'https://docs.getplutto.com')
-    end
-  end
-
   class InternalServerError < ApiException::BaseException
     def initialize(**kwargs)
-      super(type: 'api_error',
+      super(type: 'api_error', # :nocov:
         http_code: '500',
         code: 'internal_server_error',
         message: "Something went wrong by our side. We're probably already looking into it.",

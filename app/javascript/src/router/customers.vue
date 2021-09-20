@@ -30,7 +30,7 @@
     </div>
     <PluttoModal
       :showing="showNewCustomerForm"
-      @close="showNewCustomerForm = false"
+      @close="showNewCustomerForm = false; editingCustomer = null"
     >
       <NewCustomerForm
         :editing-customer="editingCustomer"

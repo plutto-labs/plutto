@@ -47,7 +47,11 @@ class ApplicationPolicy
     end
 
     def resolve
-      scope.all
+      scope.where(organization_id: organization_id)
+    end
+
+    def organization_id
+      @organization_id ||= @user&.organization_id
     end
   end
 end

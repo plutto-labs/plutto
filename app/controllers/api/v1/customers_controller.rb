@@ -1,26 +1,26 @@
 class Api::V1::CustomersController < Api::V1::BaseController
   def index
-    respond_with(policy_scope(Customer.includes([:billing_information])))
+    respond_with(policy_scope(Customer))
   end
 
   def show
-    respond_with(customer, include_active_subscription: true)
+    respond_with(customer, deep_serialize: true)
   end
 
   def create
     customer = Customer.create!(customer_params.merge(organization_id: organization.id))
     ActiveRecord::Base.transaction do
-      if plan_version_params['plan_version_id']&.present?
-        customer.add_plan_subcription(plan_version_params['plan_version_id'])
+      if plan_version_params['plan_version_id']&.present? && plan_version
+        customer.add_plan_subscription(plan_version)
       end
       customer.save!
     end
 
-    respond_with(customer)
+    respond_with(customer.reload, deep_serialize: true)
   end
 
   def update
-    respond_with(customer.tap { |c| c.update!(customer_params) })
+    respond_with(customer.tap { |c| c.update!(customer_params) }, deep_serialize: true)
   end
 
   def destroy
@@ -47,5 +47,9 @@ class Api::V1::CustomersController < Api::V1::BaseController
 
   def plan_version_params
     params.require(:customer).permit(:plan_version_id)
+  end
+
+  def plan_version
+    @plan_version ||= policy_scope(PlanVersion).find(plan_version_params[:plan_version_id])
   end
 end

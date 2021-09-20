@@ -26,6 +26,6 @@ class OrganizationRelatedPolicy < ApplicationPolicy
   end
 
   def organization_id
-    raise NotImplementedError
+    raise NotImplementedError # :nocov:
   end
 end

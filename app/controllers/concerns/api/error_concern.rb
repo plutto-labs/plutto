@@ -13,34 +13,18 @@ module Api::ErrorConcern
     end
 
     rescue_from 'ActiveRecord::RecordNotFound' do |exception|
-      respond_api_error(ApiException::Errors::NotFound.new(detail: exception.message))
-    end
-
-    rescue_from 'ActiveModel::ForbiddenAttributesError' do |exception|
-      respond_api_error(ApiException::Errors::Forbidden.new(detail: exception.message))
+      respond_api_error(ApiException::Errors::NotFound.new(detail:
+        "Couldn't find #{exception.model} resource"))
     end
 
     rescue_from 'ActiveRecord::RecordInvalid' do |exception|
       respond_api_error(
         ApiException::Errors::UnprocessableEntity.new(
-          detail: exception.message,
+          detail: exception.record.errors.full_messages.join(', '),
           param: exception.record.errors.errors[0].attribute
         )
       )
     end
-
-    rescue_from 'ArgumentError' do |exception|
-      respond_api_error(
-        ApiException::Errors::BadRequest.new(
-          detail: exception.message,
-          param: exception.message.split(' ')[-1]
-        )
-      )
-    end
-  end
-
-  def respond_with_forbidden
-    respond_api_error(ApiException::Errors::Forbidden.new)
   end
 
   def respond_with_unauthorized
