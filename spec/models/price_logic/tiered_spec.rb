@@ -37,7 +37,7 @@ RSpec.describe PriceLogic::Tiered, type: :model do
 
       before do
         create(:price_logic_tier, tierable: tiered_logic, price: tier_prices[0],
-                                  lower_limit: 0, upper_limit: 100)
+                                  lower_limit: 1, upper_limit: 100)
         create(:price_logic_tier, tierable: tiered_logic, price: tier_prices[1],
                                   lower_limit: 101, upper_limit: 200)
         create(:price_logic_tier, tierable: tiered_logic, price: tier_prices[2],
@@ -57,7 +57,7 @@ RSpec.describe PriceLogic::Tiered, type: :model do
         let(:units) { 300 }
 
         it 'returns the correct price' do
-          expected_price = tier_prices[0] * 100 + tier_prices[1] * 99 + tier_prices[2] * 99
+          expected_price = tier_prices[0] * 100 + tier_prices[1] * 100 + tier_prices[2] * 100
           expect(tiered_logic.calculate_price(units)).to eq(expected_price)
         end
       end
@@ -67,7 +67,7 @@ RSpec.describe PriceLogic::Tiered, type: :model do
         let(:units) { 500 }
 
         it 'returns the correct price' do
-          expected_price = tier_prices[0] * 100 + tier_prices[1] * 99 + tier_prices[2] * 301
+          expected_price = tier_prices[0] * 100 + tier_prices[1] * 100 + tier_prices[2] * 300
           expect(tiered_logic.calculate_price(units)).to eq(expected_price)
         end
       end

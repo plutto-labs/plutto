@@ -11,12 +11,15 @@ class PriceLogic::Tiered < PriceLogic
   def calculate_price(n_units = 0)
     remaining_units = n_units
     total_price = Money.new(0, price_currency)
-    tiers.order(index: :asc).each do |tier|
+    tiers.order(index: :asc).each_with_index do |tier, index|
       break if remaining_units <= 0
 
-      total_price +=
-        (n_units >= tier.upper_limit ? tier.units_in_tier : remaining_units) * tier.price
-      remaining_units -= tier.units_in_tier
+      if index == tiers.count - 1
+        total_price += remaining_units * tier.price
+      else
+        total_price += [remaining_units, tier.units_in_tier].min * tier.price
+        remaining_units -= tier.units_in_tier
+      end
     end
 
     total_price
