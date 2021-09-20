@@ -16,7 +16,7 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
       authorize(
         Customer.where(organization_id: current_user.organization_id).active
           .includes([:billing_information, { active_plan_subscription: :plan_version }])
-      )
+      ),  active: true
     )
   end
 

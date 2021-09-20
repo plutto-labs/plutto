@@ -23,6 +23,15 @@ class Customer < ApplicationRecord
     CreatePlanSubscription.for(plan_version: plan_version, customer: self)
   end
 
+  def current_billing_period
+    active_plan_subscription.current_billing_period
+  end
+
+  def previous_billing_period
+    active_plan_subscription&.billing_periods&.second_to_last ||
+      plan_subscriptions.second_to_last&.billing_periods&.last
+  end
+
   private
 
   def generate_id
