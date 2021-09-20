@@ -65,7 +65,7 @@
               <Field
                 :as="edit ? 'input' : 'div'"
                 :name="`${priceLogicIndex}-tier-${index}`"
-                :rules="`required|minValue:${tierLowerLimit(index) + 1}`"
+                :rules="`required|minValue:${tierLowerLimit(index)}`"
                 type="number"
                 class="flex items-center px-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
                 @input="changeTierUpperLimit($event.target.value, index)"
@@ -212,7 +212,7 @@ export default {
       }
     },
     tierLowerLimit(index) {
-      return index === 0 ? 0 : this.tiers[index - 1].upperLimit + 1;
+      return index === 0 ? 1 : this.tiers[index - 1].upperLimit + 1;
     },
   },
 };
