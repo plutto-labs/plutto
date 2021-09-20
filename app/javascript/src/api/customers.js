@@ -6,6 +6,11 @@ export function getCustomers() {
     .then((res) => camelizeKeys(res.data));
 }
 
+export function getActiveCustomers() {
+  return authedAxios.get('/api/internal/v1/active_customers')
+    .then((res) => camelizeKeys(res.data));
+}
+
 export function getCustomer(id) {
   return authedAxios.get(`/api/internal/v1/customers/${id}`)
     .then((res) => camelizeKeys(res.data));

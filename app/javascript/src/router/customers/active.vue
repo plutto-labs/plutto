@@ -1,6 +1,11 @@
 <template>
   <div>
-    Active users
+    <PluttoTable
+      class="mt-6 rounded-lg"
+      :headers="headers"
+      :rows="customers"
+      :loading="loading"
+    />
   </div>
 </template>
 
@@ -17,23 +22,25 @@ export default {
       headers: [{
         title: 'info',
         type: 'twoLinesText',
-        bigText: 'name',
-        smallText: 'email',
+        bigText: 'email',
+        smallText: 'name',
       }, {
         title: 'identifier',
         type: 'oneLineText',
       }, {
         title: 'id',
         type: 'copyableLine',
-      }, {
-        title: 'planSubscription',
-        type: 'component',
-      }, {
-        title: 'none',
-        type: 'action',
-        action: 'edit',
       }],
     };
+  },
+  computed: {
+    ...mapState({
+      loading: state => state.customers.loading,
+      customers: state => state.customers.customers,
+    }),
+  },
+  async mounted() {
+    await this.$store.dispatch('GET_ACTIVE_CUSTOMERS');
   },
 };
 </script>
