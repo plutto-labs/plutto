@@ -25,7 +25,7 @@
               :key="index"
             >
               <td
-                class="px-6 py-4 whitespace-nowrap"
+                class="px-6 whitespace-nowrap"
                 v-for="header in headers"
                 :key="header.title"
               >

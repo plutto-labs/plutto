@@ -60,4 +60,46 @@ RSpec.describe Customer, type: :model do
         .with(plan_version: plan_version, customer: customer)
     end
   end
+
+  describe 'previous_billing_period' do
+    let(:customer) { create(:customer) }
+
+    context 'when previous billing period is from the active subscription' do
+      let(:subscription) { create(:plan_subscription, customer: customer, active: true) }
+      let!(:previous_billing_period) do
+        create(:billing_period, created_at: Time.current - 1.month, plan_subscription: subscription)
+      end
+      let!(:current_billing_period) do
+        create(:billing_period, created_at: Time.current, plan_subscription: subscription)
+      end
+
+      it { expect(customer.previous_billing_period).to eq(previous_billing_period) }
+    end
+
+    context 'when previous billing period is from previous subscription' do
+      let(:previous_subscription) do
+        create(
+          :plan_subscription,
+          customer: customer,
+          active: false,
+          created_at: Time.current - 1.month
+        )
+      end
+      let(:subscription) do
+        create(:plan_subscription, customer: customer, active: true, created_at: Time.current)
+      end
+      let!(:previous_billing_period) do
+        create(
+          :billing_period,
+          created_at: Time.current - 1.month,
+          plan_subscription: previous_subscription
+        )
+      end
+      let!(:current_billing_period) do
+        create(:billing_period, created_at: Time.current, plan_subscription: subscription)
+      end
+
+      it { expect(customer.previous_billing_period).to eq(previous_billing_period) }
+    end
+  end
 end

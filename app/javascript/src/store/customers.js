@@ -61,6 +61,20 @@ export const actions = {
         commit('setCustomersLoading', false);
       });
   },
+  GET_ACTIVE_CUSTOMERS({ commit }) {
+    commit('setCustomersLoading', true);
+
+    return customersApi.getActiveCustomers()
+      .then((data) => {
+        if (data.customers) commit('setCustomers', data.customers);
+      })
+      .catch((err) => {
+        commit('setError', err);
+      })
+      .finally(() => {
+        commit('setCustomersLoading', false);
+      });
+  },
   GET_CUSTOMER({ commit }, payload) {
     commit('setCustomersLoading', true);
 

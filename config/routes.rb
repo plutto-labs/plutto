@@ -13,6 +13,8 @@ Rails.application.routes.draw do
         resources :plan_versions, only: [:create, :update, :destroy]
       end
       resources :users, only: [:show]
+
+      get 'active_customers', to: 'customers#active'
     end
   end
   scope path: '/api' do
