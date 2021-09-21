@@ -55,6 +55,44 @@
           </span>
         </ul>
       </template>
+      <div
+        v-if="!subscribedToSameVersion"
+        class="flex items-center justify-between mt-8"
+      >
+        <div class="">
+          <p class="mr-4">
+            Trial until:
+          </p>
+          <p class="text-xs text-gray-300">
+            (optional)
+          </p>
+        </div>
+        <div>
+          <DatePicker
+            v-model="trialDate"
+            :model-config="modelConfig"
+            :attributes="attrs"
+            :min-date="new Date()"
+            class="w-96"
+          >
+            <template #default="{ inputValue, inputEvents }">
+              <div class="plutto-input">
+                <input
+                  class="bg-gray-700 border-gray-500 plutto-input__input"
+                  :value="inputValue"
+                  v-on="inputEvents"
+                >
+              </div>
+            </template>
+          </DatePicker>
+          <p
+            v-if="trialDate"
+            class="absolute text-xs text-gray-300"
+          >
+            {{ `subscription will start charging ${daysFromDate(trialDate)}` }}
+          </p>
+        </div>
+      </div>
     </div>
     <div class="flex justify-center my-8">
       <button
@@ -65,7 +103,7 @@
       </button>
       <button
         class="mx-4 btn btn--big"
-        @click="$emit('confirm')"
+        @click="$emit('confirm', trialDate)"
         v-if="!subscribedToSameVersion"
       >
         Confirm
@@ -75,7 +113,10 @@
 </template>
 
 <script>
+import { DatePicker } from 'v-calendar';
+
 export default {
+  components: { DatePicker },
   props: {
     customer: {
       type: Object,
@@ -85,6 +126,25 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      trialDate: null,
+      modelConfig: {
+        type: 'string',
+        mask: 'YYYY-MM-DD',
+      },
+      attrs: [
+        {
+          key: 'today',
+          highlight: {
+            color: 'purple',
+            fillMode: 'outline',
+          },
+          dates: new Date(),
+        },
+      ],
+    };
   },
   computed: {
     subscribedToSameVersion() {
