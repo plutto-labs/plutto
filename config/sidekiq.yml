@@ -4,5 +4,5 @@ production:
   - default
 :schedule:
   end_billing_periods:
-    cron: '5 0 * * * *'
+    cron: '5 0 * * * UTC'
     class: EndBillingPeriodsJob
