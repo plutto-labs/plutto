@@ -16,7 +16,7 @@
     "activeadmin_addons": "^1.0.0",
     "arctic_admin": "^4.0.1",
     "autoprefixer": "^9",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "humps": "^2.0.1",
     "moment": "^2.29.1",
     "postcss": "^7",
