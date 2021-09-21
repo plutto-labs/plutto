@@ -1,5 +1,7 @@
 class EndBillingPeriod < PowerTypes::Command.new(:billing_period, start_next_period: true)
   def perform
+    return if @billing_period.nil?
+
     ActiveRecord::Base.with_advisory_lock("meter-events-#{plan_subscription.id}-lock") do
       ActiveRecord::Base.transaction do
         @billing_period.update(billing_date: Date.current)
