@@ -22,7 +22,7 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
 
   def show
     authorize customer
-    respond_with(customer)
+    respond_with(customer, active: true, current_period_details: true)
   end
 
   def create
