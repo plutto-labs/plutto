@@ -283,6 +283,11 @@
               "example": "Plutto Inc",
               "x-nullable": true
             },
+            "activity": {
+              "type": "string",
+              "example": "Software Development",
+              "x-nullable": true
+            },
             "phone": {
               "type": "string",
               "example": "+56992680522",

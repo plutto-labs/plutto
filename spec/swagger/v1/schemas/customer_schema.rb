@@ -33,6 +33,7 @@ CUSTOMER_SCHEMA = {
         zip: { type: :string, example: '12345', 'x-nullable': true },
         tax_id: { type: :string, example: '73245432-1', 'x-nullable': true },
         legal_name: { type: :string, example: 'Plutto Inc', 'x-nullable': true },
+        activity: { type: :string, example: 'Software Development', 'x-nullable': true },
         phone: { type: :string, example: '+56992680522', 'x-nullable': true }
       }
     }
