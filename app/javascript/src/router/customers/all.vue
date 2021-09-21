@@ -6,7 +6,7 @@
       :rows="customers"
       :loading="loading"
       v-if="plans"
-      @edit-clicked="(customer) => $emit('edit-customer', customer)"
+      @show-clicked="(customer) => $router.push({ name: 'customer', params: { id: customer.id } })"
     >
       <template #component="row">
         <PluttoDropdown
@@ -82,7 +82,7 @@ export default {
       }, {
         title: 'none',
         type: 'action',
-        action: 'edit',
+        action: 'show',
       }],
       showNewPlanVersionForm: false,
       showSubscribeConfirmation: false,
