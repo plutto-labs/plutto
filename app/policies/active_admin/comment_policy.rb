@@ -1,2 +1,2 @@
-class ActiveAdmin::CommentPolicy < ApplicationPolicy
+class ActiveAdmin::CommentPolicy < ActiveAdmin::AdminPolicy
 end
