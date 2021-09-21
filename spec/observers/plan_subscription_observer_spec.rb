@@ -34,7 +34,7 @@ describe PlanSubscriptionObserver do
         allow(plan_subscription).to receive(:in_trial?).and_return(true)
       end
 
-      it 'calls correct command' do
+      it 'dont do anything' do
         trigger :after, :create
         expect(StartNewBillingPeriod).not_to have_received(:for).with(
           plan_subscription: plan_subscription,
