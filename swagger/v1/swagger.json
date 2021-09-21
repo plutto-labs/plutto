@@ -5,6 +5,7 @@
     "version": "v1"
   },
   "basePath": "/api/v1",
+  "host": "app.getplutto.com",
   "definitions": {
     "invoice": {
       "type": "object",

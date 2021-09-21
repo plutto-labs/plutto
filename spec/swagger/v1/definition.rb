@@ -5,6 +5,7 @@ API_V1 = {
     version: 'v1'
   },
   basePath: '/api/v1',
+  host: 'app.getplutto.com',
   definitions: {
     invoice: INVOICE_SCHEMA,
     invoice_resource: INVOICE_RESOURCE_SCHEMA,
