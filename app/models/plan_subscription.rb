@@ -43,6 +43,7 @@ end
 #  active          :boolean          default(FALSE)
 #  auto_collection :boolean          default(TRUE)
 #  price_type      :integer          default("tax_inclusive")
+#  trial_date      :datetime
 #
 # Indexes
 #
