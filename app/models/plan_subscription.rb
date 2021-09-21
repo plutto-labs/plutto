@@ -24,6 +24,12 @@ class PlanSubscription < ApplicationRecord
     update!(active: false)
   end
 
+  def in_trial?
+    return false if trial_date.nil?
+
+    trial_date >= Date.current
+  end
+
   private
 
   def generate_id

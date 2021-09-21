@@ -1,4 +1,4 @@
-class CreatePlanSubscription < PowerTypes::Command.new(:plan_version, :customer)
+class CreatePlanSubscription < PowerTypes::Command.new(:plan_version, :customer, trial_date: nil)
   def perform
     active_plan_subscription = @customer.active_plan_subscription
     check_if_plan_version_is_active(active_plan_subscription)
@@ -19,7 +19,12 @@ class CreatePlanSubscription < PowerTypes::Command.new(:plan_version, :customer)
   private
 
   def create_plan_subscription!
-    PlanSubscription.create!(customer: @customer, plan_version: @plan_version, active: true)
+    PlanSubscription.create!(
+      customer: @customer,
+      plan_version: @plan_version,
+      active: true,
+      trial_date: @trial_date
+    )
   end
 
   def check_if_plan_version_is_active(active_plan_subscription)

@@ -108,10 +108,10 @@ export default {
       this.confirmData.plan = this.plans.find((plan) => plan.id === planId);
       this.showSubscribeConfirmation = true;
     },
-    createPlanSubscription() {
+    createPlanSubscription(trialDate) {
       const customerId = this.confirmData.customer.id;
       const planId = this.confirmData.plan.id;
-      this.$store.dispatch('CREATE_PLAN_SUBSCRIPTION', { customerId, planId })
+      this.$store.dispatch('CREATE_PLAN_SUBSCRIPTION', { customerId, planId, trialDate })
         .then((response) => {
           this.showSubscribeConfirmation = false;
           this.$store.dispatch('UPDATE_CUSTOMER_PLAN_SUBSCRIPTION',

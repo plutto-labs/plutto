@@ -3,7 +3,13 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
   include Pundit
 
   def create
-    respond_with(CreatePlanSubscription.for(plan_version: plan_version, customer: customer))
+    respond_with(
+      CreatePlanSubscription.for(
+        plan_version: plan_version,
+        customer: customer,
+        trial_date: params['trial_date']
+      )
+    )
   end
 
   private
