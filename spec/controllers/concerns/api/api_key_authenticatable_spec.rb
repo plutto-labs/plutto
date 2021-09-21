@@ -9,12 +9,13 @@ describe Api::ApiKeyAuthenticatable do
 
   let(:controller) { controller_class.new }
   let(:api_key) { create(:api_key) }
-  let(:headers) { { 'Authorization': 'Bearer sk_123' } }
+  let(:authorzation) { 'Bearer sk_123' }
+  let(:headers) { { 'Authorization': authorzation } }
 
   describe '#authenticate_with_api_key!' do
     before do
       allow(controller).to receive(:request).and_return instance_double(
-        'ActionDispatch::Request', authorization: 'Bearer sk_123'
+        'ActionDispatch::Request', authorization: authorzation
       )
     end
 
@@ -29,6 +30,20 @@ describe Api::ApiKeyAuthenticatable do
     end
 
     context 'when api_key is invalid' do
+      before do
+        allow(controller).to receive(:respond_with_unauthorized).and_return nil
+      end
+
+      it 'respond with unauthorized api error' do
+        controller.authenticate_with_api_key!
+
+        expect(controller).to have_received(:respond_with_unauthorized)
+      end
+    end
+
+    context 'when authorization is not present' do
+      let(:authorzation) { nil }
+
       before do
         allow(controller).to receive(:respond_with_unauthorized).and_return nil
       end
