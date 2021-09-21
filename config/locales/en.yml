@@ -34,6 +34,7 @@ en:
       organization:
         new_plan: New Plan
         new_customer: New Costumer
+        new_user: New User
       plan:
         new_plan_version: New Version
       plan_version:

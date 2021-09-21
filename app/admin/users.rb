@@ -1,8 +1,8 @@
 ActiveAdmin.register User do
   permit_params :email, :password, :organization_id
+  belongs_to :organization, optional: true
 
   index do
-    selectable_column
     id_column
     column :email
     column :created_at
@@ -11,6 +11,7 @@ ActiveAdmin.register User do
 
   filter :email
   filter :created_at
+  filter :organization
 
   show do
     attributes_table do
