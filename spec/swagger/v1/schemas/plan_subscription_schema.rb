@@ -33,19 +33,6 @@ PLAN_SUBSCRIPTION_CREATE_SCHEMA = {
   ]
 }
 
-PLAN_SUBSCRIPTIONS_COLLECTION_SCHEMA = {
-  type: "object",
-  properties: {
-    plan_subscriptions: {
-      type: "array",
-      items: { "$ref" => "#/definitions/plan_subscription" }
-    }
-  },
-  required: [
-    :plan_subscriptions
-  ]
-}
-
 PLAN_SUBSCRIPTION_RESOURCE_SCHEMA = {
   type: "object",
   properties: {

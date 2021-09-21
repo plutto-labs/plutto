@@ -207,20 +207,6 @@
         "plan_subscription"
       ]
     },
-    "plan_subscriptions_collection": {
-      "type": "object",
-      "properties": {
-        "plan_subscriptions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/plan_subscription"
-          }
-        }
-      },
-      "required": [
-        "plan_subscriptions"
-      ]
-    },
     "customer": {
       "type": "object",
       "properties": {
@@ -595,7 +581,7 @@
         },
         "message": {
           "type": "string",
-          "example": "Your request was understood, but we were not able toprocess it. Please fix it before repeating",
+          "example": "Your request was understood, but we were not able to process it. Please fix it before repeating",
           "x-nullable": false
         },
         "detail": {
