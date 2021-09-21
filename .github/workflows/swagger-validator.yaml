@@ -1,8 +1,8 @@
-name: Validate Swagger Schema
-on: [push]
+name: Swagger
+on: [pull_request]
 
 jobs:
-  test_swagger_editor_validator_remote:
+  validate_definition:
     runs-on: ubuntu-latest
 
     steps:
