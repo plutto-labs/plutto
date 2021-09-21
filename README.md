@@ -1,5 +1,8 @@
 # Plutto [![Circle CI](https://circleci.com/gh/plutto-labs/plutto.svg?style=svg)](https://circleci.com/gh/platanus/plutto)
-[![codecov](https://codecov.io/gh/plutto-labs/plutto/branch/master/graph/badge.svg?token=ZPX4DUNAKI)](https://codecov.io/gh/plutto-labs/plutto)
+[![codecov](https://codecov.io/gh/plutto-labs/plutto/branch/master/graph/badge.svg?token=ZPX4DUNAKI)](https://codecov.io/gh/plutto-labs/plutto) 
+<img 
+  style="height: 20px;" 
+  src="https://validator.swagger.io/validator?url=https://app.getplutto.com/api-docs/v1/swagger.json">
 
 This is a Rails application, initially generated using [Potassium](https://github.com/platanus/potassium) by Platanus.
 
