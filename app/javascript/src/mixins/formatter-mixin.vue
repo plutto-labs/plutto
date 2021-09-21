@@ -23,9 +23,9 @@ export default {
     },
     formatDate(date, utc = false) {
       if (!date) return date;
-      if (utc) return moment(String(date)).utc().format('DD/MM/YYYY');
+      if (utc) return moment(String(date), 'YYYY-MM-DD').utc().format('DD/MM/YYYY');
 
-      return moment(String(date)).format('DD/MM/YYYY');
+      return moment(String(date), 'YYYY-MM-DD').format('DD/MM/YYYY');
     },
     humanizedDuration(val, options = {}) {
       if (!val) return null;
@@ -37,7 +37,9 @@ export default {
       return humanDuration;
     },
     daysFromDate(date) {
-      return moment(date).from(new Date());
+      const newDate = moment(date, 'YYYY-MM-DD');
+
+      return moment(newDate.add(1, 'days')).from(new Date());
     },
   },
 };
