@@ -1,7 +1,13 @@
 class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   def create
     authorize(PlanSubscription)
-    respond_with(CreatePlanSubscription.for(plan_version: plan_version, customer: customer))
+    respond_with(
+      CreatePlanSubscription.for(
+        plan_version: plan_version,
+        customer: customer,
+        trial_finishes_at: create_params[:trial_finishes_at]
+      )
+    )
   end
 
   def end_subscription
@@ -32,7 +38,9 @@ class Api::V1::PlanSubscriptionsController < Api::V1::BaseController
   end
 
   def create_params
-    params.require(:plan_subscription).permit(:plan_version_id, :plan_id, :customer_id)
+    params.require(:plan_subscription).permit(
+      :plan_version_id, :plan_id, :customer_id, :trial_finishes_at
+    )
   end
 
   def end_billing_period

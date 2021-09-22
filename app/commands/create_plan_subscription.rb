@@ -34,7 +34,7 @@ class CreatePlanSubscription < PowerTypes::Command.new(
     if active_plan_subscription&.plan_version_id == @plan_version.id
       active_plan_subscription.errors.add(
         :plan_version,
-        'Customer already subscribed to this plan version'
+        'already subscribed to this customer'
       )
       raise(ActiveRecord::RecordInvalid, active_plan_subscription)
     end
