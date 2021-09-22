@@ -25,9 +25,9 @@ class PlanSubscription < ApplicationRecord
   end
 
   def in_trial?
-    return false if trial_date.nil?
+    return false if trial_finishes_at.nil?
 
-    trial_date >= Date.current
+    trial_finishes_at >= Date.current
   end
 
   private
@@ -41,15 +41,15 @@ end
 #
 # Table name: plan_subscriptions
 #
-#  id              :string           not null, primary key
-#  customer_id     :string           not null
-#  plan_version_id :string           not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  active          :boolean          default(FALSE)
-#  auto_collection :boolean          default(TRUE)
-#  price_type      :integer          default("tax_inclusive")
-#  trial_date      :datetime
+#  id                :string           not null, primary key
+#  customer_id       :string           not null
+#  plan_version_id   :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  active            :boolean          default(FALSE)
+#  auto_collection   :boolean          default(TRUE)
+#  price_type        :integer          default("tax_inclusive")
+#  trial_finishes_at :datetime
 #
 # Indexes
 #

@@ -7,7 +7,7 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
       CreatePlanSubscription.for(
         plan_version: plan_version,
         customer: customer,
-        trial_date: params['trial_date']
+        trial_finishes_at: params['trial_finishes_at']
       )
     )
   end
