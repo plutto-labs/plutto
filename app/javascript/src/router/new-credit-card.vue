@@ -2,7 +2,8 @@
   <main>
     <div class="px-6 mt-6">
       <form
-        class="relative w-full px-6 py-10 bg-white border rounded-lg md:max-w-xl"
+        class="relative w-full px-6 py-10 m-auto border rounded-lg md:max-w-xl"
+        v-if="!cardCreated"
         @submit.prevent="registerCard"
       >
         <div class="mt-8 plutto-input">
@@ -15,7 +16,7 @@
             v-model="card.number"
             type="text"
             name="number"
-            class="text-gray-900 plutto-input__input plutto-input__input--no-icon"
+            class="plutto-input__input plutto-input__input--no-icon"
           >
         </div>
         <div class="mt-8 plutto-input">
@@ -28,7 +29,7 @@
             v-model="card.name"
             type="text"
             name="name"
-            class="text-gray-900 plutto-input__input plutto-input__input--no-icon"
+            class="plutto-input__input plutto-input__input--no-icon"
           >
         </div>
         <div class="flex w-full mt-8">
@@ -42,10 +43,10 @@
               v-model="card.expiryMonth"
               type="text"
               name="expiryMonth"
-              class="text-gray-900 plutto-input__input plutto-input__input--no-icon"
+              class="plutto-input__input plutto-input__input--no-icon"
             >
           </div>
-          <div class="plutto-input">
+          <div class="ml-2 plutto-input">
             <label
               class="plutto-input__label"
               for="expiryYear"
@@ -55,7 +56,7 @@
               v-model="card.expiryYear"
               type="text"
               name="expiryYear"
-              class="text-gray-900 plutto-input__input plutto-input__input--no-icon"
+              class="plutto-input__input plutto-input__input--no-icon"
             >
           </div>
           <div class="ml-8 plutto-input">
@@ -68,14 +69,39 @@
               v-model.number="card.cvc"
               type="text"
               name="cvc"
-              class="text-gray-900 plutto-input__input plutto-input__input--no-icon"
+              class="plutto-input__input plutto-input__input--no-icon"
             >
           </div>
         </div>
-        <button class="h-12 mt-8 btn btn--full btn--big btn--filled bg-primary">
+        <button
+          v-if="!loading"
+          class="h-12 mt-8 btn btn--full btn--big btn--filled bg-primary"
+        >
           Add credit card
         </button>
+        <PluttoLoader
+          class="mt-8"
+          v-else
+        />
+        <div
+          v-if="error"
+          class="mt-4 text-danger"
+        >
+          {{ error }}
+        </div>
       </form>
+      <div
+        class="relative flex flex-col items-center w-full px-6 py-10 m-auto md:max-w-xl"
+        v-else
+      >
+        <div>¡Card Added Successfully!</div>
+        <button
+          class="mt-8 btn"
+          @click="$router.go(-1)"
+        >
+          OK
+        </button>
+      </div>
     </div>
   </main>
 </template>
@@ -83,7 +109,11 @@
 <script>
 /* eslint-disable no-undef */
 
+import * as paymentMethodsApi from '@/api/payment_methods';
+import PluttoLoader from '../components/plutto-loader';
+
 export default {
+  components: { PluttoLoader },
   data() {
     return {
       card: {
@@ -93,35 +123,44 @@ export default {
         expiryMonth: '01',
         expiryYear: '25',
       },
-      kushki: new Kushki({
+      kushki: null,
+      error: null,
+      loading: false,
+      cardCreated: false,
+    };
+  },
+  mounted() {
+    const kushkiScript = document.createElement('script');
+    kushkiScript.setAttribute('src', 'https://cdn.kushkipagos.com/kushki.min.js');
+    document.body.appendChild(kushkiScript);
+    const listener = kushkiScript.addEventListener('load', () => {
+      this.kushki = new Kushki({
         merchantId: process.env.KUSHKI_PUBLIC_MERCHANT_ID,
         inTestEnvironment: true,
         regional: false,
-      }),
-    };
-  },
-  beforeMount() {
-    console.log(process.env.KUSHKI_PUBLIC_MERCHANT_ID);
-    this.loadKushkiScript();
+      });
+      kushkiScript.removeEventListener('load', listener);
+    });
   },
   methods: {
     registerCard() {
+      this.error = null;
+      this.loading = true;
       this.kushki.requestSubscriptionToken({
         currency: 'USD',
         card: this.card,
       }, (response) => {
         if (response.code) {
-          console.log(response);
-          // Submit your code to your back-end
-        } else {
-          console.error('Error: ', response.error, 'Code: ', response.code, 'Message: ', response.message);
-        }
+          this.error = response.message;
+          this.loading = false;
+        } else this.submitToken(response.token);
       });
     },
-    loadKushkiScript() {
-      const kushkiScript = document.createElement('script');
-      kushkiScript.setAttribute('src', 'https://cdn.kushkipagos.com/kushki.min.js');
-      document.head.appendChild(kushkiScript);
+    submitToken(token) {
+      paymentMethodsApi.create(this.$route.params.id, { gateway: 'kushki', token })
+        .then(() => (this.cardCreated = true))
+        .catch(err => (this.error = err.response))
+        .finally(() => (this.loading = false));
     },
   },
 };
