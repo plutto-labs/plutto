@@ -29,9 +29,6 @@ export default {
         title: 'identifier',
         type: 'oneLineText',
       }, {
-        title: 'id',
-        type: 'copyableLine',
-      }, {
         title: 'plan',
         type: 'oneLineText',
       }, {
