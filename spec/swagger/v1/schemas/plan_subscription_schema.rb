@@ -8,7 +8,9 @@ PLAN_SUBSCRIPTION_SCHEMA = {
                        'x-nullable': false },
     created_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': false },
     updated_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': true },
-    active: { type: :boolean, example: true, 'x-nullable': false }
+    active: { type: :boolean, example: true, 'x-nullable': false },
+    trial_finishes_at: { type: :string, example: '1984-06-04 09:00',
+                         'x-nullable': true, format: 'date' }
   },
   required: [
     :id,
@@ -26,7 +28,9 @@ PLAN_SUBSCRIPTION_CREATE_SCHEMA = {
                    'x-nullable': false },
     plan_version_id: { type: :string, example: 'version_46cf463812d56103d1dfa382',
                        'x-nullable': true },
-    plan_id: { type: :string, example: 'plan_5b3bebe4704f9588cfa10413', 'x-nullable': true }
+    plan_id: { type: :string, example: 'plan_5b3bebe4704f9588cfa10413', 'x-nullable': true },
+    trial_finishes_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': true,
+                         format: 'date' }
   },
   required: [
     :customer_id

@@ -164,6 +164,12 @@
           "type": "boolean",
           "example": true,
           "x-nullable": false
+        },
+        "trial_finishes_at": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": true,
+          "format": "date"
         }
       },
       "required": [
@@ -191,6 +197,12 @@
           "type": "string",
           "example": "plan_5b3bebe4704f9588cfa10413",
           "x-nullable": true
+        },
+        "trial_finishes_at": {
+          "type": "string",
+          "example": "1984-06-04 09:00",
+          "x-nullable": true,
+          "format": "date"
         }
       },
       "required": [
