@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       resources :api_keys, only: [:create, :index, :destroy]
       resources :auth, only: [:create]
       resources :customers, only: [:index, :show, :create, :update, :destroy]
+      get 'active_customers', to: 'customers#active'
+      get 'trial_customers', to: 'customers#trial'
       resources :invoices, only: [:index]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
       resources :plan_subscriptions, only: [:create]
@@ -13,8 +15,6 @@ Rails.application.routes.draw do
         resources :plan_versions, only: [:create, :update, :destroy]
       end
       resources :users, only: [:show]
-
-      get 'active_customers', to: 'customers#active'
     end
   end
   scope path: '/api' do

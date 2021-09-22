@@ -19,6 +19,7 @@ export default {
         plan: 'Plan',
         previousInvoiceAmount: 'Previous billed amount',
         currentBillingPeriodEndDate: 'Next billing date',
+        trialFinishesAt: 'Trial finishes at',
         none: '',
       },
       tags: {

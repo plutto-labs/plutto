@@ -20,6 +20,15 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
     )
   end
 
+  def trial
+    respond_with(
+      authorize(
+        Customer.where(organization_id: current_user.organization_id).trial
+          .includes([:billing_information, { active_plan_subscription: :plan_version }])
+      ),  trial: true
+    )
+  end
+
   def show
     authorize customer
     respond_with(customer, active: true, current_period_details: true)

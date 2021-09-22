@@ -33,18 +33,19 @@ import PluttoModal from '@/components/plutto-modal';
 import NewCustomerForm from '@/components/forms/new-customer-form';
 import All from '@/router/customers/all';
 import Active from '@/router/customers/active';
+import Trial from '@/router/customers/trial';
 import PluttoTabs from '@/components/plutto-tabs';
 
 export default {
   components: {
-    PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, All, Active,
+    PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, All, Active, Trial,
   },
   data() {
     return {
       showNewCustomerForm: false,
       editingCustomer: null,
       selectedTab: 'All',
-      tabs: [{ label: 'All', value: 'All' }, { label: 'Active', value: 'Active' }],
+      tabs: [{ label: 'All', value: 'All' }, { label: 'Active', value: 'Active' }, { label: 'Trial', value: 'Trial' }],
     };
   },
   methods: {
