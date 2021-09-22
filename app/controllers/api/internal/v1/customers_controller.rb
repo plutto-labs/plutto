@@ -3,30 +3,15 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   include Pundit
 
   def index
-    respond_with(
-      authorize(
-        Customer.where(organization_id: current_user.organization_id)
-          .includes([:billing_information, { active_plan_subscription: :plan_version }])
-      )
-    )
+    respond_with(authorize(customers))
   end
 
   def active
-    respond_with(
-      authorize(
-        Customer.where(organization_id: current_user.organization_id).active
-          .includes([:billing_information, { active_plan_subscription: :plan_version }])
-      ),  active: true
-    )
+    respond_with(authorize(customers.active),  active: true)
   end
 
   def trial
-    respond_with(
-      authorize(
-        Customer.where(organization_id: current_user.organization_id).trial
-          .includes([:billing_information, { active_plan_subscription: :plan_version }])
-      ),  trial: true
-    )
+    respond_with(authorize(customers.trial),  trial: true)
   end
 
   def show
@@ -73,6 +58,12 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   def customer
     @customer ||= policy_scope(Customer).find_by!(
       'id = ? OR identifier = ?', params[:id], params[:id]
+    )
+  end
+
+  def customers
+    @customers ||= policy_scope(Customer).includes(
+      [:billing_information, :invoices, { active_plan_subscription: { plan_version: :plan } }]
     )
   end
 
