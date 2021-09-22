@@ -2,6 +2,7 @@ class Customer < ApplicationRecord
   has_many :meter_counts, dependent: :destroy
   has_many :plan_subscriptions, dependent: :destroy
   has_many :invoices, dependent: :destroy
+  has_many :payment_methods, dependent: :destroy
   has_one :active_plan_subscription, -> { where(active: true) },
           class_name: 'PlanSubscription', inverse_of: :customer
   has_one :billing_information, dependent: :destroy, required: true
