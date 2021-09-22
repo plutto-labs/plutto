@@ -5,6 +5,31 @@ RSpec.describe PlanSubscription, type: :model do
     it { is_expected.to belong_to(:customer) }
   end
 
+  describe 'Validations' do
+    describe '#trial_finishes_at_is_valid_datetime' do
+      let(:trial_finishes_at) { 'not_date' }
+      let(:plan_subscription) { build(:plan_subscription, trial_finishes_at: trial_finishes_at) }
+
+      context 'when trial_finishes_at is not a valid date' do
+        it do
+          expect { plan_subscription.save! }.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+
+      context 'when trial_finishes_at is a valid date' do
+        let(:trial_finishes_at) { Date.current }
+
+        before do
+          plan_subscription.save!
+        end
+
+        it do
+          expect(plan_subscription).to be_valid
+        end
+      end
+    end
+  end
+
   describe '#end_subscription!' do
     let(:plan_subscription) { create(:plan_subscription, active: true) }
 
