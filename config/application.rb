@@ -21,5 +21,7 @@ module Plutto
     config.active_job.queue_adapter = :sidekiq
     config.assets.paths << Rails.root.join('node_modules')
     config.load_defaults 6.1
+    config.time_zone = 'UTC'
+    config.active_record.default_timezone = :utc
   end
 end

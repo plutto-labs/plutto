@@ -24,6 +24,12 @@ class PlanSubscription < ApplicationRecord
     update!(active: false)
   end
 
+  def in_trial?
+    return false if trial_finishes_at.nil?
+
+    trial_finishes_at >= Date.current
+  end
+
   private
 
   def generate_id
@@ -35,14 +41,15 @@ end
 #
 # Table name: plan_subscriptions
 #
-#  id              :string           not null, primary key
-#  customer_id     :string           not null
-#  plan_version_id :string           not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  active          :boolean          default(FALSE)
-#  auto_collection :boolean          default(TRUE)
-#  price_type      :integer          default("tax_inclusive")
+#  id                :string           not null, primary key
+#  customer_id       :string           not null
+#  plan_version_id   :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  active            :boolean          default(FALSE)
+#  auto_collection   :boolean          default(TRUE)
+#  price_type        :integer          default("tax_inclusive")
+#  trial_finishes_at :datetime
 #
 # Indexes
 #

@@ -22,4 +22,33 @@ RSpec.describe PlanSubscription, type: :model do
       end
     end
   end
+
+  describe '#in_trial?' do
+    let(:trial_finishes_at) { nil }
+    let(:plan_subscription) do
+      create(:plan_subscription, active: true, trial_finishes_at: trial_finishes_at)
+    end
+
+    context 'when trial_finishes_at is nil' do
+      it { expect(plan_subscription.in_trial?).to eq(false) }
+    end
+
+    context 'when trial_finishes_at is a previous date' do
+      let(:trial_finishes_at) { Date.current - 1.day }
+
+      it { expect(plan_subscription.in_trial?).to eq(false) }
+    end
+
+    context 'when trial_finishes_at is today' do
+      let(:trial_finishes_at) { Date.current }
+
+      it { expect(plan_subscription.in_trial?).to eq(true) }
+    end
+
+    context 'when trial_finishes_at is a future date' do
+      let(:trial_finishes_at) { Date.current + 1.day }
+
+      it { expect(plan_subscription.in_trial?).to eq(true) }
+    end
+  end
 end

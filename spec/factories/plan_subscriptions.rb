@@ -4,5 +4,6 @@ FactoryBot.define do
     plan_version
     auto_collection { true }
     price_type { 'tax_inclusive' }
+    trial_finishes_at { nil }
   end
 end

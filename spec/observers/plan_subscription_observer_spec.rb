@@ -15,12 +15,32 @@ describe PlanSubscriptionObserver do
       )
     end
 
-    it 'calls correct command' do
-      trigger :after, :create
-      expect(StartNewBillingPeriod).to have_received(:for).with(
-        plan_subscription: plan_subscription,
-        billing_period: nil
-      )
+    context 'when subscription is not in trial' do
+      before do
+        allow(plan_subscription).to receive(:in_trial?).and_return(false)
+      end
+
+      it 'calls correct command' do
+        trigger :after, :create
+        expect(StartNewBillingPeriod).to have_received(:for).with(
+          plan_subscription: plan_subscription,
+          billing_period: nil
+        )
+      end
+    end
+
+    context 'when subscription is in trial' do
+      before do
+        allow(plan_subscription).to receive(:in_trial?).and_return(true)
+      end
+
+      it 'dont do anything' do
+        trigger :after, :create
+        expect(StartNewBillingPeriod).not_to have_received(:for).with(
+          plan_subscription: plan_subscription,
+          billing_period: nil
+        )
+      end
     end
   end
 end

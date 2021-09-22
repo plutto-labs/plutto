@@ -101,7 +101,7 @@ unless Rails.env.production?
           },
           billing_period: billing_period,
           customer: customer,
-          state: 'paid',
+          status: 'paid',
           payed_at: DateTime.new(2021, 9, 7),
           payment_method: 'bank_transfer',
           tax_type: 'VAT',
