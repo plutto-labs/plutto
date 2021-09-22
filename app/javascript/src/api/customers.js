@@ -11,6 +11,11 @@ export function getActiveCustomers() {
     .then((res) => camelizeKeys(res.data));
 }
 
+export function getTrialCustomers() {
+  return authedAxios.get('/api/internal/v1/trial_customers')
+    .then((res) => camelizeKeys(res.data));
+}
+
 export function getCustomer(id) {
   return authedAxios.get(`/api/internal/v1/customers/${id}`)
     .then((res) => camelizeKeys(res.data));
