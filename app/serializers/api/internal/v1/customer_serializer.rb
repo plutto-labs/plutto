@@ -41,6 +41,6 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
   private
 
   def previous_invoice
-    @previous_invoice ||= object.previous_billing_period&.invoice
+    @previous_invoice ||= object&.invoices&.last
   end
 end

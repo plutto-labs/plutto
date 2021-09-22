@@ -74,9 +74,6 @@ export default {
         title: 'identifier',
         type: 'oneLineText',
       }, {
-        title: 'id',
-        type: 'copyableLine',
-      }, {
         title: 'planSubscription',
         type: 'component',
       }, {

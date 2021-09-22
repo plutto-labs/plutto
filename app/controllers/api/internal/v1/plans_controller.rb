@@ -3,7 +3,7 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
   include Pundit
 
   def index
-    respond_with(authorize(Plan.where(organization_id: current_user.organization_id)))
+    respond_with(authorize(plans))
   end
 
   def show
@@ -58,5 +58,9 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
 
   def plan
     @plan ||= Plan.find(params[:id])
+  end
+
+  def plans
+    @plans ||= policy_scope(Plan).includes([:default_version, { plan_versions: :price_logics }])
   end
 end
