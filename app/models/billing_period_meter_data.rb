@@ -8,9 +8,9 @@ class BillingPeriodMeterData < ApplicationRecord
   def count(type)
     case type
     when 'period_sum'
-      final_count - initial_count
+      (final_count || meter_count.count) - initial_count
     when 'history_sum'
-      final_count
+      final_count || meter_count.count
     end
   end
 

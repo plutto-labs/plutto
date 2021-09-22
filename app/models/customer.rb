@@ -24,12 +24,18 @@ class Customer < ApplicationRecord
   end
 
   def current_billing_period
-    active_plan_subscription.current_billing_period
+    active_plan_subscription&.current_billing_period
   end
 
   def previous_billing_period
     active_plan_subscription&.billing_periods&.second_to_last ||
       plan_subscriptions.second_to_last&.billing_periods&.last
+  end
+
+  def current_period_details
+    if current_billing_period
+      BillingPeriodPriceDetails.for(billing_period: current_billing_period)
+    end
   end
 
   private

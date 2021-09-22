@@ -76,6 +76,11 @@
                     class="text-2xl cursor-pointer plutto-icon text-primary"
                     @click="$emit('edit-clicked', row)"
                   >edit</span>
+                  <span
+                    v-if="header.action === 'show'"
+                    class="text-2xl cursor-pointer plutto-icon text-primary"
+                    @click="$emit('show-clicked', row)"
+                  >chevron_right</span>
                 </template>
                 <template v-else-if="header.type === 'component'">
                   <slot

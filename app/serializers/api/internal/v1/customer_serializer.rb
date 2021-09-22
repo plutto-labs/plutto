@@ -1,9 +1,10 @@
 class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
-  attributes :id, :identifier, :email, :name
+  attributes :id, :identifier, :email, :name, :created_at
 
   attribute :current_billing_period_end_date, if: :active?
   attribute :previous_invoice_amount, if: :active?
   attribute :previous_invoice_currency, if: :active?
+  attribute :current_period_details, if: :current_period_details?
 
   has_one :active_plan_subscription, serializer: Api::Internal::V1::PlanSubscriptionSerializer
   has_one :billing_information
@@ -22,6 +23,10 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
 
   def active?
     instance_options.present? && instance_options[:active]
+  end
+
+  def current_period_details?
+    instance_options.present? && instance_options[:current_period_details]
   end
 
   private

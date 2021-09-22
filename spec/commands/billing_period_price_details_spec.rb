@@ -96,15 +96,6 @@ describe BillingPeriodPriceDetails do
         expect(details[1][:type]).to eq('volume')
       end
 
-      context 'when billing period end before the end of period' do
-        let(:billing_date) { Date.current + 14.days }
-
-        it 'returns the correct price' do
-          expected_price = price_logic_prices[0] * 0.5 + price_logic_prices[1]
-          expect(perform[:price]).to eq(expected_price)
-        end
-      end
-
       context 'when billing period bills at start' do
         let(:billing_date) { nil }
 

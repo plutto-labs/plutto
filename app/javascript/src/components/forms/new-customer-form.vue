@@ -173,6 +173,23 @@
         </div>
         <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
           <label
+            for="activity"
+            class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
+          >
+            Activity
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
+            <Field
+              class="block bg-gray-700 border-gray-500 plutto-input__input text-gray-50 sm:max-w-xs sm:text-sm"
+              type="text"
+              name="activity"
+              autocomplete="activity"
+              v-model="newCustomer.billingInformation.activity"
+            />
+          </div>
+        </div>
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
+          <label
             for="city"
             class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
           >
@@ -292,6 +309,7 @@ export default {
         name: null,
         billingInformation: {
           legalName: null,
+          activity: null,
           address: null,
           city: null,
           state: null,

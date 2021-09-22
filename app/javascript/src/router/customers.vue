@@ -19,12 +19,10 @@
     />
     <PluttoModal
       :showing="showNewCustomerForm"
-      @close="closeCustomerForm"
+      @close="showNewCustomerForm = false"
     >
       <NewCustomerForm
-        :editing-customer="editingCustomer"
         @created-customer="customer => showNewCustomerForm = false"
-        @edited-customer="customer => { showNewCustomerForm = false; editingCustomer = null; }"
       />
     </PluttoModal>
   </main>
@@ -56,10 +54,6 @@ export default {
     },
     changeTab(tab) {
       this.selectedTab = tab;
-    },
-    closeCustomerForm() {
-      this.showNewCustomerForm = false;
-      this.editingCustomer = null;
     },
   },
 };

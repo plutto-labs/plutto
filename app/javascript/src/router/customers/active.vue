@@ -5,6 +5,7 @@
       :headers="headers"
       :rows="customersRows"
       :loading="loading"
+      @show-clicked="(customer) => $router.push({ name: 'customer', params: { id: customer.id } })"
     />
   </div>
 </template>
@@ -41,6 +42,10 @@ export default {
         type: 'twoLinesText',
         bigText: 'currentBillingPeriodEndDate',
         smallText: 'numberOfDays',
+      }, {
+        title: 'none',
+        type: 'action',
+        action: 'show',
       }],
     };
   },

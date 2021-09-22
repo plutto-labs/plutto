@@ -77,8 +77,9 @@ export const actions = {
   },
   GET_CUSTOMER({ commit }, payload) {
     commit('setCustomersLoading', true);
+    commit('setCurrentCustomer', null);
 
-    return customersApi.getCustomer(payload.id)
+    return customersApi.getCustomer(payload)
       .then((data) => {
         if (data.customer) commit('setCurrentCustomer', data.customer);
       })
