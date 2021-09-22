@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     api_version(module: 'Api::Internal::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
       resources :api_keys, only: [:create, :index, :destroy]
       resources :auth, only: [:create]
-      resources :customers, only: [:index, :show, :create, :update, :destroy]
+      resources :customers, only: [:index, :show, :create, :update, :destroy] do
+        resources :payment_methods, only: [:create]
+      end
       get 'active_customers', to: 'customers#active'
       get 'trial_customers', to: 'customers#trial'
       resources :invoices, only: [:index]

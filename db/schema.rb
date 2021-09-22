@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_21_154005) do
+ActiveRecord::Schema.define(version: 2021_09_22_150621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,9 +101,6 @@ ActiveRecord::Schema.define(version: 2021_09_21_154005) do
     t.index ["organization_id"], name: "index_customers_on_organization_id"
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
-  end
-
   create_table "invoices", id: :string, force: :cascade do |t|
     t.bigint "subtotal_cents", default: 0, null: false
     t.bigint "tax_cents", default: 0, null: false
@@ -165,6 +162,16 @@ ActiveRecord::Schema.define(version: 2021_09_21_154005) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "payment_methods", id: :string, force: :cascade do |t|
+    t.string "customer_id", null: false
+    t.integer "gateway", null: false
+    t.integer "category", null: false
+    t.jsonb "gateway_info"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_payment_methods_on_customer_id"
   end
 
   create_table "plan_subscriptions", id: :string, force: :cascade do |t|
@@ -277,6 +284,7 @@ ActiveRecord::Schema.define(version: 2021_09_21_154005) do
   add_foreign_key "meter_events", "meter_counts"
   add_foreign_key "meter_events", "meters"
   add_foreign_key "meters", "organizations"
+  add_foreign_key "payment_methods", "customers"
   add_foreign_key "plan_subscriptions", "customers"
   add_foreign_key "plan_subscriptions", "plan_versions"
   add_foreign_key "plan_versions", "plan_versions", column: "previous_version_id"
