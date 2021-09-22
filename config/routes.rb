@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       end
       get 'active_customers', to: 'customers#active'
       get 'trial_customers', to: 'customers#trial'
-      resources :invoices, only: [:index]
+      resources :invoices, only: [:index, :show]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
       resources :plan_subscriptions, only: [:create] do
         patch 'edit_trial', to: 'plan_subscriptions#edit_trial'
