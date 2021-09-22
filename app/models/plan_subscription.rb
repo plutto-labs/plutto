@@ -9,6 +9,8 @@ class PlanSubscription < ApplicationRecord
   delegate :bills_at_start?, to: :plan_version
   delegate :billing_period_duration, to: :plan_version
 
+  validate :trial_finishes_at_is_valid_datetime
+
   enum price_type: { tax_inclusive: 0, tax_exclusive: 1 }, _suffix: true
 
   def current_billing_period
@@ -34,6 +36,14 @@ class PlanSubscription < ApplicationRecord
 
   def generate_id
     init_id('subscription')
+  end
+
+  def trial_finishes_at_is_valid_datetime
+    if !attributes_before_type_cast['trial_finishes_at'].nil?
+      DateTime.parse(attributes_before_type_cast['trial_finishes_at'].to_s)
+    end
+  rescue Date::Error
+    errors.add(:trial_finishes_at, 'must be a valid date')
   end
 end
 
