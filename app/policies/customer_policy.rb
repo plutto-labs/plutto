@@ -3,6 +3,10 @@ class CustomerPolicy < OrganizationRelatedPolicy
     index?
   end
 
+  def trial?
+    index?
+  end
+
   private
 
   def organization_id

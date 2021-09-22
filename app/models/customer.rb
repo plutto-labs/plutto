@@ -16,7 +16,15 @@ class Customer < ApplicationRecord
   before_save :validate_uniqueness_of_identifier_within_organization
 
   scope :active, -> do
-    includes(:active_plan_subscription).where.not(active_plan_subscription: { id: nil })
+    includes(:active_plan_subscription).where.not(
+      active_plan_subscription: { id: nil }
+    ).where(active_plan_subscription: { trial_finishes_at: nil })
+  end
+
+  scope :trial, -> do
+    includes(:active_plan_subscription).where.not(
+      active_plan_subscription: { trial_finishes_at: nil }
+    )
   end
 
   def add_plan_subscription(plan_version)

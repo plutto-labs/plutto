@@ -50,6 +50,34 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
     it_behaves_like 'unauthorized internal INDEX endpoint'
   end
 
+  describe 'GET #trial' do
+    let(:organization) { create(:organization) }
+
+    before do
+      customer1 = create(:customer, organization: organization)
+      customer2 = create(:customer, organization: organization)
+      create(:customer, organization: organization)
+      create(:plan_subscription, customer: customer1, active: true, trial_finishes_at: Date.current)
+      create(:plan_subscription, customer: customer2, active: true, trial_finishes_at: Date.current)
+    end
+
+    context 'when signed in' do
+      before { sign_in create(:user, organization: organization) }
+
+      it 'returns a success response' do
+        get :trial, format: :json
+        expect(response).to be_successful
+      end
+
+      it 'returns only customers with active trial' do
+        get :trial, format: :json
+        expect(JSON.parse(response.body)['customers'].count).to eq(2)
+      end
+    end
+
+    it_behaves_like 'unauthorized internal INDEX endpoint'
+  end
+
   describe 'GET #show' do
     let(:organization) { create(:organization) }
     let!(:customer) { create(:customer, organization: organization) }
