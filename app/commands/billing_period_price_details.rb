@@ -42,7 +42,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
 
     if price_logic.metered?
       details[:meter] = price_logic.meter.name
-      details[:quantity] = billing_period_meter_data.count(price_logic.meter_count_method) || 0
+      details[:quantity] = billing_period_meter_data&.count(price_logic.meter_count_method) || 0
     end
 
     details
