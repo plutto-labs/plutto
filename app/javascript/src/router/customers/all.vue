@@ -37,7 +37,7 @@
       @close="showSubscribeConfirmation = false"
     >
       <ConfirmPlanSubscription
-        @confirm="createPlanSubscription"
+        @confirm="trialFinishesAt => createPlanSubscription(trialFinishesAt)"
         @cancel="showSubscribeConfirmation = false"
         v-bind="confirmData"
       />
