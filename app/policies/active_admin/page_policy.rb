@@ -1,5 +1,2 @@
-class ActiveAdmin::PagePolicy < ApplicationPolicy
-  def show?
-    true
-  end
+class ActiveAdmin::PagePolicy < ActiveAdmin::AdminPolicy
 end

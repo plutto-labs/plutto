@@ -1,9 +1,8 @@
 ActiveAdmin.register Customer do
   permit_params :name, :email, :plan_subscription_id
-  belongs_to :organization
+  belongs_to :organization, optional: true
 
   index do
-    selectable_column
     id_column
     column :name
     column :created_at
@@ -12,6 +11,7 @@ ActiveAdmin.register Customer do
 
   filter :name
   filter :created_at
+  filter :organization
 
   form do |f|
     f.inputs do

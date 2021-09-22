@@ -17,6 +17,7 @@ ActiveAdmin.register Plan do
 
   filter :name
   filter :created_at
+  filter :organization
 
   form do |f|
     f.inputs do

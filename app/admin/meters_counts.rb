@@ -1,5 +1,6 @@
 ActiveAdmin.register MeterCount do
-  belongs_to :billing_period
+  belongs_to :billing_period, optional: true
+  includes :customer, :meter, meter: :organization
 
   show do
     attributes_table do

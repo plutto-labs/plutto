@@ -1,4 +1,13 @@
-class ActiveAdmin::AdminPolicy < ApplicationPolicy
+class ActiveAdmin::AdminPolicy
+  attr_reader :user, :record
+
+  def initialize(user, record)
+    raise Pundit::NotAuthorizedError, 'must be logged in' unless user
+
+    @user = user
+    @record = record
+  end
+
   def index?
     true
   end
@@ -25,5 +34,20 @@ class ActiveAdmin::AdminPolicy < ApplicationPolicy
 
   def destroy?
     true
+  end
+
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      raise Pundit::NotAuthorizedError, 'must be logged in' unless user
+
+      @user = user
+      @scope = scope
+    end
+
+    def resolve
+      scope.all
+    end
   end
 end

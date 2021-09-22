@@ -11,8 +11,12 @@ ActiveAdmin.register Organization do
             new_admin_organization_customer_path(resource))
   end
 
+  action_item :create_user, only: :show do
+    link_to(I18n.t('active_admin.resources.organization.new_user'),
+            new_admin_organization_user_path(resource))
+  end
+
   index do
-    selectable_column
     id_column
     column :name
     column :created_at
