@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_23_135356) do
+ActiveRecord::Schema.define(version: 2021_09_23_214805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(version: 2021_09_23_135356) do
 
   create_table "billing_informations", id: :string, force: :cascade do |t|
     t.string "legal_name"
-    t.string "country_iso_code", null: false
     t.string "state"
     t.string "city"
     t.string "address"
@@ -65,6 +64,7 @@ ActiveRecord::Schema.define(version: 2021_09_23_135356) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "customer_id", null: false
+    t.integer "country_iso_code"
     t.index ["customer_id"], name: "index_billing_informations_on_customer_id"
   end
 
@@ -99,6 +99,9 @@ ActiveRecord::Schema.define(version: 2021_09_23_135356) do
     t.string "identifier"
     t.index ["organization_id", "identifier"], name: "index_customers_on_organization_id_and_identifier", unique: true
     t.index ["organization_id"], name: "index_customers_on_organization_id"
+  end
+
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
   create_table "invoices", id: :string, force: :cascade do |t|
