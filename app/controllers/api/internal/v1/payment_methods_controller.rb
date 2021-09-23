@@ -1,7 +1,4 @@
 class Api::Internal::V1::PaymentMethodsController < Api::Internal::V1::BaseController
-  acts_as_token_authentication_handler_for User
-  include Pundit
-
   def create
     res = service.enroll(customer, payment_method_params)
     render json: res, status: res.code
@@ -20,6 +17,6 @@ class Api::Internal::V1::PaymentMethodsController < Api::Internal::V1::BaseContr
   end
 
   def customer
-    policy_scope(Customer).find(params[:customer_id])
+    Customer.find(params[:customer_id])
   end
 end
