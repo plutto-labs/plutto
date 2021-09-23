@@ -71,19 +71,13 @@
           Country
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
-          <Field
-            class="block bg-gray-700 border-gray-500 plutto-input__input text-gray-50 sm:max-w-xs sm:text-sm"
-            type="text"
-            name="countryIsoCode"
-            autocomplete="country-iso-code"
-            v-model="newCustomer.billingInformation.countryIsoCode"
+          <PluttoDropdown
+            :selected="newCustomer.billingInformation.countryIsoCode"
+            :options="countryOptions"
+            label-key="label"
+            value-key="value"
+            @selected="(country) => { newCustomer.billingInformation.countryIsoCode = country }"
           />
-          <span
-            class="absolute text-sm text-danger-light"
-            v-if="errors.countryIsoCode"
-          >
-            Required
-          </span>
         </div>
       </div>
       <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
@@ -321,7 +315,6 @@ export default {
       },
       schema: {
         email: 'required|email',
-        countryIsoCode: 'required',
       },
     };
   },
@@ -352,6 +345,11 @@ export default {
       if (!this.newCustomer.planVersionId) return 'Choose';
 
       return this.planOptions.find(plan => plan.value === this.newCustomer.planVersionId).label;
+    },
+    countryOptions() {
+      return this.COUNTRIES_KEYS.map((key) => (
+        { value: key, label: this.COUNTRIES[key].name }
+      ));
     },
   },
 };
