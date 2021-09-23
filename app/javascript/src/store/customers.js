@@ -29,6 +29,9 @@ export const mutations = {
       customer.activePlanSubscription = payload.planSubscription;
     }
   },
+  setCurrentCustomerPlanSubscription(state, payload) {
+    state.currentCustomer.activePlanSubscription = payload;
+  },
   removeCustomer(state, payload) {
     const index = state.customers.findIndex(customer => customer.id === payload.id);
     if (index !== -1) {

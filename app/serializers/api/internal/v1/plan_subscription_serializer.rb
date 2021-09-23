@@ -1,5 +1,6 @@
 class Api::Internal::V1::PlanSubscriptionSerializer < ActiveModel::Serializer
-  attributes :id, :customer_id, :plan_version_id, :plan_name, :plan_id, :created_at, :version
+  attributes :id, :customer_id, :plan_version_id, :plan_name,
+             :plan_id, :created_at, :version, :trial_finishes_at
 
   def plan_name
     object.plan_version.plan.name

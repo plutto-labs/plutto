@@ -56,7 +56,8 @@
           v-if="currentCustomer.activePlanSubscription"
         >
           <div class="mb-2 text-lg text-gray-50">
-            Current Subscription
+            {{ currentCustomer.activePlanSubscription.trialFinishesAt === null ?
+              'Current Subscription' : 'Trial information' }}
             <div class="text-xs text-gray-300">
               {{ currentCustomer.activePlanSubscription.id }}
             </div>
@@ -68,23 +69,33 @@
                 {{ currentCustomer.activePlanSubscription.version }} -
                 {{ currentCustomer.activePlanSubscription.planVersionId }}
               </div>
-              <div>
-                Subscribed since: <span>{{ formatDateTime(currentCustomer.activePlanSubscription.createdAt) }}</span>
+              <div v-if="currentCustomer.activePlanSubscription.trialFinishesAt !== null">
+                <div>
+                  End trial date: <span class="text-gray-300">{{ `${formatDate(currentCustomer.activePlanSubscription.trialFinishesAt)} (${daysFromDate(currentCustomer.activePlanSubscription.trialFinishesAt)})` }}</span>
+                </div>
               </div>
-              <div>
-                Next billing date:
-                <span>
-                  {{ formatDate(currentCustomer.currentBillingPeriodEndDate) }}
-                  ({{ daysFromDate(currentCustomer.currentBillingPeriodEndDate) }})
-                </span>
+              <div v-else>
+                <div>
+                  Subscribed since: <span>{{ formatDateTime(currentCustomer.activePlanSubscription.createdAt) }}</span>
+                </div>
+                <div v-if="currentCustomer.currentBillingPeriodEndDate">
+                  Next billing date:
+                  <span>
+                    {{ formatDate(currentCustomer.currentBillingPeriodEndDate) }}
+                    ({{ daysFromDate(currentCustomer.currentBillingPeriodEndDate) }})
+                  </span>
+                </div>
               </div>
             </div>
-            <div>
-              <div class="mt-2 text-gray-50 md:mt-0">
-                Last Invoice Amount
-              </div>
-              <span class="text-2xl">
-                {{ formatCurrency(currentCustomer.previousInvoiceAmount, currentCustomer.previousInvoiceCurrency) }}
+            <div
+              v-if="currentCustomer.activePlanSubscription.trialFinishesAt !== null"
+              class="mt-auto"
+            >
+              <span
+                class="h-full text-2xl cursor-pointer plutto-icon"
+                @click="showEditTrialForm = true"
+              >
+                edit_calendar
               </span>
             </div>
           </div>
@@ -139,6 +150,15 @@
         @edited-customer="customer => { showNewCustomerForm = false }"
       />
     </PluttoModal>
+    <PluttoModal
+      :showing="showEditTrialForm"
+      @close="showEditTrialForm = false"
+    >
+      <EditTrialForm
+        :plan-subscription="currentCustomer.activePlanSubscription"
+        @edited-trial="showEditTrialForm = false;"
+      />
+    </PluttoModal>
   </main>
 </template>
 
@@ -146,13 +166,15 @@
 import { mapState } from 'vuex';
 import PluttoHeader from '@/components/plutto-header';
 import NewCustomerForm from '@/components/forms/new-customer-form';
+import EditTrialForm from '@/components/forms/edit-trial-form';
 import PluttoModal from '@/components/plutto-modal';
 
 export default {
-  components: { PluttoHeader, PluttoModal, NewCustomerForm },
+  components: { PluttoHeader, PluttoModal, NewCustomerForm, EditTrialForm },
   data() {
     return {
       showNewCustomerForm: false,
+      showEditTrialForm: false,
       editingCustomer: null,
     };
   },
@@ -185,7 +207,7 @@ export default {
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-areas: 'info info billing billing'
-    'subscription subscription subscription usage'
+    'subscription subscription usage cards'
     'invoices invoices meters meters';
   grid-gap: 24px;
 
