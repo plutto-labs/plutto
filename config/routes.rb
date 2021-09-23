@@ -12,7 +12,9 @@ Rails.application.routes.draw do
       get 'trial_customers', to: 'customers#trial'
       resources :invoices, only: [:index]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
-      resources :plan_subscriptions, only: [:create]
+      resources :plan_subscriptions, only: [:create] do
+        patch 'edit_trial', to: 'plan_subscriptions#edit_trial'
+      end
       resources :plans, only: [:index, :show, :create, :update, :destroy] do
         resources :plan_versions, only: [:create, :update, :destroy]
       end

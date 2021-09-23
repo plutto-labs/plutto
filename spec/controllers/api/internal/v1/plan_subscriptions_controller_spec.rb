@@ -55,4 +55,54 @@ RSpec.describe Api::Internal::V1::PlanSubscriptionsController, type: :controller
 
     it_behaves_like 'unauthorized internal POST endpoint'
   end
+
+  describe 'PATCH #edit_trial' do
+    let!(:plan_subscription) do
+      create(:plan_subscription, customer: customer, trial_finishes_at: Date.current)
+    end
+    let(:organization) { create(:organization) }
+    let!(:customer) { create(:customer, organization: organization) }
+
+    context 'when signed in' do
+      before { sign_in create(:user, organization: organization) }
+
+      context 'with start subscription param' do
+        before do
+          allow(StartNewBillingPeriod).to receive(:for).with(
+            plan_subscription: plan_subscription,
+            billing_period: nil
+          )
+        end
+
+        it 'returns http success' do
+          patch :edit_trial, format: :json,
+            params: { plan_subscription_id: plan_subscription.id, start_subscription: true }
+
+          expect(response).to have_http_status(:success)
+          expect(StartNewBillingPeriod).to have_received(:for).with(
+            plan_subscription: plan_subscription,
+            billing_period: nil
+          )
+          expect(plan_subscription.reload.trial_finishes_at).to eq(nil)
+        end
+      end
+
+      context 'with trial_finishes_at param' do
+        let(:new_trial_date) { Date.current + 1.day }
+
+        it 'returns http success' do
+          patch :edit_trial, format: :json,
+            params: {
+              plan_subscription_id: plan_subscription.id,
+              trial_finishes_at: new_trial_date
+            }
+
+          expect(response).to have_http_status(:success)
+          expect(plan_subscription.reload.trial_finishes_at).to eq(new_trial_date)
+        end
+      end
+    end
+
+    it_behaves_like 'unauthorized internal POST endpoint'
+  end
 end

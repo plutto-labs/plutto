@@ -30,6 +30,18 @@ export const actions = {
       });
   },
 
+  EDIT_PLAN_SUBSCRIPTION_TRIAL({ commit }, payload) {
+    commit('setPlanSubscriptionsLoading', true);
+
+    return planSubscriptionsApi.editTrial(payload.id, payload)
+      .catch((err) => {
+        commit('setError', err);
+      })
+      .finally(() => {
+        commit('setPlanSubscriptionsLoading', false);
+      });
+  },
+
   reset({ commit }) {
     commit('resetState');
   },

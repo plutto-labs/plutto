@@ -12,6 +12,19 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
     )
   end
 
+  def edit_trial
+    if edit_trial_params[:start_subscription]
+      ActiveRecord::Base.transaction do
+        StartNewBillingPeriod.for(plan_subscription: plan_subscription, billing_period: nil)
+        plan_subscription.update!(trial_finishes_at: nil)
+      end
+    elsif edit_trial_params[:trial_finishes_at]
+      plan_subscription.update!(trial_finishes_at: edit_trial_params[:trial_finishes_at])
+    end
+
+    respond_with(plan_subscription)
+  end
+
   private
 
   def plan_version
@@ -28,5 +41,13 @@ class Api::Internal::V1::PlanSubscriptionsController < Api::Internal::V1::BaseCo
     policy_scope(Customer).find_by!(
       'id = ? OR identifier = ?', params[:customer_id], params[:customer_id]
     )
+  end
+
+  def plan_subscription
+    @plan_subscription ||= policy_scope(PlanSubscription).find(params[:plan_subscription_id])
+  end
+
+  def edit_trial_params
+    params.permit(:trial_finishes_at, :start_subscription)
   end
 end
