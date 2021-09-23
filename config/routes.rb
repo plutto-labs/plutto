@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       end
       get 'active_customers', to: 'customers#active'
       get 'trial_customers', to: 'customers#trial'
+      patch 'invoices/:id/change_status', to: 'invoices#change_status'
       resources :invoices, only: [:index, :show]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
       resources :plan_subscriptions, only: [:create] do

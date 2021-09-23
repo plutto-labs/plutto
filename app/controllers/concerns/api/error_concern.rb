@@ -25,6 +25,10 @@ module Api::ErrorConcern
         )
       )
     end
+
+    rescue_from 'AASM::InvalidTransition' do |exception|
+      respond_api_error(ApiException::Errors::BadRequest.new(detail: exception.to_s))
+    end
   end
 
   def respond_with_unauthorized

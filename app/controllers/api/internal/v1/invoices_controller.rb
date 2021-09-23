@@ -7,7 +7,13 @@ class Api::Internal::V1::InvoicesController < Api::Internal::V1::BaseController
   end
 
   def show
-    respond_with(authorize(invoice))
+    respond_with(authorize(invoice), show: true)
+  end
+
+  def change_status
+    authorize(invoice)
+    invoice.change_status(event_param)
+    respond_with(invoice, show: true)
   end
 
   private
@@ -18,5 +24,9 @@ class Api::Internal::V1::InvoicesController < Api::Internal::V1::BaseController
 
   def invoices
     policy_scope(Invoice).includes(:customer)
+  end
+
+  def event_param
+    params.require(:event)
   end
 end

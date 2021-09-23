@@ -40,6 +40,10 @@ class Invoice < ApplicationRecord
     ['status']
   end
 
+  def change_status(event)
+    aasm.fire!(event.to_sym)
+  end
+
   private
 
   def set_currency
