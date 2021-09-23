@@ -1,26 +1,44 @@
 <template>
   <div>
-    <h2 class="mb-4">
-      Invoices
-    </h2>
-    <div>
-      <PluttoTable
-        :headers="headers"
-        :rows="invoices"
-        :loading="loading"
+    <template v-if="!showInvoice">
+      <div>
+        <h2 class="mb-4">
+          Invoices
+        </h2>
+        <div>
+          <PluttoTable
+            :headers="headers"
+            :rows="invoices"
+            :loading="loading"
+            @show-clicked="(invoice) => openInvoiceSlideover(invoice.id)"
+          />
+        </div>
+      </div>
+    </template>
+    <PluttoSlideover
+      :showing="showInvoice"
+      @close="showInvoice = false"
+    >
+      <Invoice
+        :invoice-id="invoiceId"
+        class="pb-8 mx-auto"
       />
-    </div>
+    </PluttoSlideover>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import PluttoTable from '@/components/plutto-table';
+import PluttoSlideover from '@/components/plutto-slideover';
+import Invoice from '@/components/invoice';
 
 export default {
-  components: { PluttoTable },
+  components: { PluttoTable, PluttoSlideover, Invoice },
   data() {
     return {
+      showInvoice: false,
+      invoiceId: null,
       headers: [
         {
           title: 'customer',
@@ -51,6 +69,11 @@ export default {
           title: 'issueDate',
           type: 'date',
         },
+        {
+          title: 'none',
+          type: 'action',
+          action: 'show',
+        },
       ],
     };
   },
@@ -62,6 +85,12 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('GET_INVOICES');
+  },
+  methods: {
+    openInvoiceSlideover(invoiceId) {
+      this.showInvoice = true;
+      this.invoiceId = invoiceId;
+    },
   },
 };
 </script>
