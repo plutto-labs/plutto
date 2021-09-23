@@ -1,8 +1,10 @@
 class PaymentMethod < ApplicationRecord
   belongs_to :customer
 
+  enum currency: Currencies.keys
   enum gateway: { kushki: 0 }
   enum category: { credit_card: 0 }
+  enum card_brand: { mastercard: 0, visa: 1 }
 
   private
 
@@ -15,13 +17,16 @@ end
 #
 # Table name: payment_methods
 #
-#  id           :string           not null, primary key
-#  customer_id  :string           not null
-#  gateway      :integer          not null
-#  category     :integer          not null
-#  gateway_info :jsonb
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id            :string           not null, primary key
+#  customer_id   :string           not null
+#  gateway       :integer          not null
+#  category      :integer          not null
+#  gateway_info  :jsonb
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  currency      :integer
+#  last_4_digits :string
+#  card_brand    :integer
 #
 # Indexes
 #
