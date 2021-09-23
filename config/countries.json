@@ -1,0 +1,26 @@
+{
+  "CL": {
+    "nombre": "Chile",
+    "name": "Chile",
+    "iso2": "CL",
+    "iso3": "CHL",
+    "phone_code": 56,
+    "flag": "🇨🇱"
+  },
+  "MX": {
+    "nombre": "México",
+    "name": "Mexico",
+    "iso2": "MX",
+    "iso3": "MEX",
+    "phone_code": 52,
+    "flag": "🇲🇽"
+  },
+  "US": {
+    "nombre": "Estados Unidos",
+    "name": "United States",
+    "iso2": "US",
+    "iso3": "USA",
+    "phone_code": 1,
+    "flag": "🇺🇸"
+  }
+}
