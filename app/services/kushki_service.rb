@@ -28,6 +28,10 @@ class KushkiService
     end
   end
 
+  def enroll_link_for(customer)
+    "https://#{ENV.fetch('APPLICATION_HOST')}/#/add-credit-card?customerId=#{customer.id}"
+  end
+
   private
 
   def create_payment_method(token, subscription_id, customer)
