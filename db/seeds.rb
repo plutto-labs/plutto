@@ -93,9 +93,9 @@ unless Rails.env.production?
           issue_date: DateTime.new(2021, 8, 7),
           details: {
             '0': { type: 'flat_fee',
-                total_price_cents: 100 },
+                total_price: 100 },
             '1': { type: 'volume',
-                total_price_cents: 25000,
+                total_price: 25000,
                 meter: 'Requests',
                 quantity: 250.0 }
           },

@@ -38,7 +38,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
     details = {}
 
     details[:type] = price_logic.class.const_get('NAME')
-    details[:total_price_cents] = total_price.cents
+    details[:total_price] = total_price.amount
 
     if price_logic.metered?
       details[:meter] = price_logic.meter.name
