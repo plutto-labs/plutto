@@ -72,7 +72,7 @@ export default {
         smallText: 'email',
       }, {
         title: 'identifier',
-        type: 'oneLineText',
+        type: 'copyableLine',
       }, {
         title: 'planSubscription',
         type: 'component',

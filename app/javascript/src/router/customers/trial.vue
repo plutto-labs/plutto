@@ -27,7 +27,7 @@ export default {
         smallText: 'name',
       }, {
         title: 'identifier',
-        type: 'oneLineText',
+        type: 'copyableLine',
       }, {
         title: 'plan',
         type: 'oneLineText',
