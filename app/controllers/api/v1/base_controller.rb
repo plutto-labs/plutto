@@ -10,7 +10,7 @@ class Api::V1::BaseController < Api::BaseController
 
   after_action do
     Analytics.track(
-      user_id: "org_#{organization.id}",
+      user_id: organization.id,
       event: "external #{action_name} #{controller_name}"
     )
   end
