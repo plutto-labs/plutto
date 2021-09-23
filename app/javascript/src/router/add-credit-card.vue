@@ -1,9 +1,12 @@
 <template>
   <main>
     <div class="px-6 mt-6">
+      <h1 class="my-8 text-4xl text-center">
+        Plutto
+      </h1>
       <form
         class="relative w-full px-6 py-10 m-auto border rounded-lg md:max-w-xl"
-        v-if="!cardCreated"
+        v-if="!cardCreated && !invalidUrl"
         @submit.prevent="registerCard"
       >
         <div class="mt-8 plutto-input">
@@ -31,6 +34,7 @@
             placeholder="Card Number"
             v-model="card.number"
             type="text"
+            inputmode="decimal"
             name="number"
             class="plutto-input__input"
           >
@@ -59,6 +63,7 @@
               v-model="card.expiryMonth"
               type="text"
               name="expiryMonth"
+              inputmode="decimal"
               class="plutto-input__input plutto-input__input--no-icon"
             >
           </div>
@@ -72,10 +77,11 @@
               v-model="card.expiryYear"
               type="text"
               name="expiryYear"
+              inputmode="decimal"
               class="plutto-input__input plutto-input__input--no-icon"
             >
           </div>
-          <div class="ml-8 plutto-input">
+          <div class="ml-2 md:ml-8 plutto-input">
             <label
               class="plutto-input__label"
               for="cvc"
@@ -86,6 +92,7 @@
               v-model="card.cvc"
               type="text"
               name="cvc"
+              inputmode="decimal"
               class="plutto-input__input plutto-input__input--no-icon"
             >
           </div>
@@ -109,15 +116,21 @@
       </form>
       <div
         class="relative flex flex-col items-center w-full px-6 py-10 m-auto md:max-w-xl"
-        v-else
+        v-else-if="!invalidUrl"
       >
         <div>¡Card Added Successfully!</div>
         <button
           class="mt-8 btn"
-          @click="$router.go(-1)"
+          @click="$router.replace('https://getplutto.com')"
         >
           OK
         </button>
+      </div>
+      <div
+        class="relative flex flex-col items-center w-full px-6 py-10 m-auto text-center md:max-w-xl"
+        v-else
+      >
+        Ups! This url does not seem valid or has already expired. <br>Please try again.
       </div>
     </div>
   </main>
@@ -149,7 +162,11 @@ export default {
       loading: false,
       cardCreated: false,
       symbolImage: null,
+      invalidUrl: false,
     };
+  },
+  beforeMount() {
+    if (!this.$route.query.customerId) this.invalidUrl = true;
   },
   mounted() {
     const kushkiScript = document.createElement('script');
@@ -179,7 +196,7 @@ export default {
       });
     },
     submitToken(token) {
-      paymentMethodsApi.create(this.$route.params.id, { gateway: 'kushki', token })
+      paymentMethodsApi.create(this.$route.query.customerId, { gateway: 'kushki', token })
         .then(() => (this.cardCreated = true))
         .catch(err => (this.error = err.response))
         .finally(() => (this.loading = false));

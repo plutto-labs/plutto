@@ -95,7 +95,7 @@ main {
   }
 
   &__label {
-    @apply absolute text-gray-300 -mt-6 ;
+    @apply absolute text-gray-300 md:-mt-6 -mt-4 text-xs md:text-base;
   }
 
   &__input {
