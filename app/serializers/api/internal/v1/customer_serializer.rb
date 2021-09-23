@@ -9,6 +9,7 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
 
   has_one :active_plan_subscription, serializer: Api::Internal::V1::PlanSubscriptionSerializer
   has_one :billing_information
+  has_many :payment_methods, if: :show?
 
   def previous_invoice_amount
     previous_invoice&.subtotal&.amount
@@ -36,6 +37,10 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
 
   def current_period_details?
     instance_options.present? && instance_options[:current_period_details]
+  end
+
+  def show?
+    instance_options.present? && instance_options[:show]
   end
 
   private

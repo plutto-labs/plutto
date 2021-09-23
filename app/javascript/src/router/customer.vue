@@ -139,6 +139,49 @@
             N/A
           </div>
         </div>
+        <div
+          class="relative p-2 overflow-y-hidden text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__payments md:p-4 max-h-52"
+          v-if="currentCustomer.paymentMethods"
+        >
+          <div class="mb-2 text-lg text-gray-50">
+            Payment Methods
+          </div>
+          <div class="h-full overflow-y-scroll">
+            <div
+              v-for="(method, index) in currentCustomer.paymentMethods"
+              :key="index"
+              class="flex items-center justify-between px-3 py-2 my-2 text-xs bg-gray-900 border border-gray-600 rounded-lg"
+            >
+              <div class="flex">
+                <div class="relative w-6 h-4">
+                  <img
+                    v-if="method.cardBrand === 'mastercard'"
+                    class="absolute"
+                    src="../../img/master-card.svg"
+                  >
+                  <img
+                    v-if="method.cardBrand === 'visa'"
+                    class="absolute -mt-1"
+                    src="../../img/visa.png"
+                  >
+                </div>
+                <span class="ml-2">{{ method.currency }}</span>
+              </div>
+              <span class="font-mono">
+                <span class="hidden xl:inline">
+                  &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226;
+                </span>
+                <span class="inline md:hidden">
+                  &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226;
+                </span>
+                {{ method.last4Digits }}
+              </span>
+            </div>
+            <div v-if="currentCustomer.paymentMethods.length === 0">
+              No method availabe, yet
+            </div>
+          </div>
+        </div>
       </div>
     </template>
     <PluttoModal
@@ -207,12 +250,12 @@ export default {
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-areas: 'info info billing billing'
-    'subscription subscription usage cards'
+    'subscription subscription usage payments'
     'invoices invoices meters meters';
   grid-gap: 24px;
 
   @media screen and (max-width: '768px') {
-    grid-template-areas: 'info' 'billing' 'subscription' ' usage' 'invoices' 'meters';
+    grid-template-areas: 'info' 'billing' 'subscription' ' usage' 'payments' 'invoices' 'meters';
     grid-template-columns: 1fr;
   }
 
@@ -230,6 +273,10 @@ export default {
 
   &__usage {
     grid-area: usage;
+  }
+
+  &__payments {
+    grid-area: payments;
   }
 
   &__invoices {
