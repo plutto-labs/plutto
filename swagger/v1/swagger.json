@@ -296,8 +296,7 @@
         }
       },
       "required": [
-        "email",
-        "billing_information"
+        "email"
       ]
     },
     "customer_index": {
