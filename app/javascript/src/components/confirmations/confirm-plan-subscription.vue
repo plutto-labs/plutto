@@ -59,7 +59,7 @@
         v-if="!subscribedToSameVersion"
         class="flex items-center justify-between mt-8"
       >
-        <div class="">
+        <div>
           <p class="mr-4">
             Trial until:
           </p>
@@ -73,6 +73,8 @@
             :model-config="modelConfig"
             :attributes="attrs"
             :min-date="new Date()"
+            :popover="{ visibility: 'focus' }"
+            :transition="'none'"
             class="w-96"
           >
             <template #default="{ inputValue, inputEvents }">
