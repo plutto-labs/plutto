@@ -62,7 +62,7 @@
                 </template>
                 <template v-else-if="header.type === 'date'">
                   <div class="py-4 text-sm text-gray-50 whitespace-nowrap">
-                    {{ formatDateTime(row[header.title]) }}
+                    {{ formatDate(row[header.title]) }}
                   </div>
                 </template>
                 <template v-else-if="header.type === 'action'">
