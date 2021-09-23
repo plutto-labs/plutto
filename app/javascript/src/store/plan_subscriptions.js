@@ -34,6 +34,9 @@ export const actions = {
     commit('setPlanSubscriptionsLoading', true);
 
     return planSubscriptionsApi.editTrial(payload.id, payload)
+      .then((data) => {
+        if (data.planSubscription) commit('setCurrentCustomerPlanSubscription', data.planSubscription);
+      })
       .catch((err) => {
         commit('setError', err);
       })

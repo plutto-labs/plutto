@@ -78,7 +78,7 @@
                 <div>
                   Subscribed since: <span>{{ formatDateTime(currentCustomer.activePlanSubscription.createdAt) }}</span>
                 </div>
-                <div>
+                <div v-if="currentCustomer.currentBillingPeriodEndDate">
                   Next billing date:
                   <span>
                     {{ formatDate(currentCustomer.currentBillingPeriodEndDate) }}
@@ -156,6 +156,7 @@
     >
       <EditTrialForm
         :plan-subscription="currentCustomer.activePlanSubscription"
+        @edited-trial="showEditTrialForm = false;"
       />
     </PluttoModal>
   </main>

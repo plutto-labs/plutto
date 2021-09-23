@@ -39,22 +39,39 @@
         </div>
       </div>
       <div class="flex justify-center gap-4 my-8">
-        <button class="btn btn--cancel">
+        <button
+          class="btn btn--cancel"
+          @click="showConfirmEndTrial = true"
+        >
           Start subscription
         </button>
-        <button class="btn">
+        <button
+          class="btn"
+          @click="editTrial({ trialFinishesAt: newDate })"
+        >
           Save new date
         </button>
       </div>
     </div>
+    <PluttoModal
+      :showing="showConfirmEndTrial"
+      @close="showConfirmEndTrial = false"
+    >
+      <ConfirmEndTrial
+        @confirm="showConfirmEndTrial = false; editTrial({ startSubscription: true })"
+        @cancel="showConfirmEndTrial = false"
+      />
+    </PluttoModal>
   </div>
 </template>
 
 <script>
 import { DatePicker } from 'v-calendar';
+import PluttoModal from '@/components/plutto-modal';
+import ConfirmEndTrial from '@/components/confirmations/confirm-end-trial';
 
 export default {
-  components: { DatePicker },
+  components: { DatePicker, PluttoModal, ConfirmEndTrial },
   props: {
     planSubscription: {
       type: Object,
@@ -63,6 +80,7 @@ export default {
   },
   data() {
     return {
+      showConfirmEndTrial: false,
       newDate: null,
       modelConfig: {
         type: 'string',
@@ -79,6 +97,12 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    editTrial(body) {
+      this.$store.dispatch('EDIT_PLAN_SUBSCRIPTION_TRIAL', { id: this.planSubscription.id, ...body })
+        .then(this.$emit('edited-trial'));
+    },
   },
 };
 </script>
