@@ -1,0 +1,2 @@
+class PaymentMethodPolicy < PublicEndpointPolicy
+end

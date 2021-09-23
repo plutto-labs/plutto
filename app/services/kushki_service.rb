@@ -15,13 +15,31 @@ class KushkiService
     response
   end
 
+  def update_payment_method_data(payment_method)
+    res = client.get(
+      "/subscriptions/v1/card/search/#{payment_method.gateway_info['subscription_id']}"
+    )
+    if res.code == 200
+      payment_method.update(
+        last_4_digits: res['lastFourDigits'],
+        card_brand: res['paymentBrand'].downcase,
+        currency: res['amount']['currency']
+      )
+    end
+  end
+
+  def enroll_link_for(customer)
+    "https://#{ENV.fetch('APPLICATION_HOST')}/#/add-credit-card?customerId=#{customer.id}"
+  end
+
   private
 
   def create_payment_method(token, subscription_id, customer)
-    customer.payment_methods.create!(
+    payment_method = customer.payment_methods.create!(
       gateway: 'kushki', category: 'credit_card',
       gateway_info: { token: token, subscription_id: subscription_id }
     )
+    update_payment_method_data(payment_method)
   end
 
   def client
