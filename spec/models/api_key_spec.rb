@@ -5,6 +5,9 @@ RSpec.describe ApiKey, type: :model do
     allow(ENV).to receive(:fetch).with('API_KEY_HMAC_SECRET_KEY').and_return(
       'API_KEY_HMAC_SECRET_KEY'
     )
+    allow(ENV).to receive(:fetch).with('REPORT_ANALYTICS', false).and_return(
+      'true'
+    )
   end
 
   describe 'Validations' do

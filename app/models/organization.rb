@@ -21,7 +21,7 @@ class Organization < ApplicationRecord
 
   def identify_organization
     Analytics.identify(
-      user_id:  "org_#{id}",
+      user_id:  id,
       traits: { name: name, created_at: created_at }
     )
   end

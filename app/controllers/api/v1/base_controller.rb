@@ -11,6 +11,10 @@ class Api::V1::BaseController < Api::BaseController
   after_action do
     Analytics.track(
       user_id: organization.id,
+      event: "external API request"
+    )
+    Analytics.track(
+      user_id: organization.id,
       event: "external #{action_name} #{controller_name}"
     )
   end
