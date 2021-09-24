@@ -100,7 +100,7 @@
                     Total
                   </dt>
                   <dd class="font-medium text-indigo-300">
-                    {{ formatCurrency(totalAmount(), currentInvoice.currency) }}
+                    {{ formatCurrency(currentInvoice.total, currentInvoice.currency) }}
                   </dd>
                 </div>
               </div>

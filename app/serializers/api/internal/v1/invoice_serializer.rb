@@ -1,7 +1,7 @@
 class Api::Internal::V1::InvoiceSerializer < ActiveModel::Serializer
   include MoneyConcern
 
-  attributes :id, :subtotal, :tax, :discount, :currency,
+  attributes :id, :subtotal, :tax, :discount, :currency, :total,
              :issue_date, :details, :status, :customer_name, :customer_email
   attribute :billing_information, if: :show?
   attribute :permitted_events, if: :show?

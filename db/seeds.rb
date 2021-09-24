@@ -88,6 +88,7 @@ unless Rails.env.production?
         Invoice.find_or_create_by(
           currency: 'usd',
           subtotal_cents: 10000,
+          total_cents: 10190,
           tax_cents: 190,
           discount_cents: 0,
           issue_date: DateTime.new(2021, 8, 7),

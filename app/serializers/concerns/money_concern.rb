@@ -16,4 +16,8 @@ module MoneyConcern
   def discount
     object.discount.amount
   end
+
+  def total
+    object.total.amount
+  end
 end
