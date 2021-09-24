@@ -1,0 +1,25 @@
+module Countries
+  def self.find_by(attribute, value)
+    all.find { |country| country[attribute] == value }
+  end
+
+  def self.names
+    @names ||= all.map { |c| c['nombre'] }.freeze
+  end
+
+  def self.codes
+    @codes ||= all.map { |c| c['iso2'] }.freeze
+  end
+
+  def self.all
+    @all ||= country_data.values
+  end
+
+  def self.country_data
+    @country_data ||= JSON.parse(data_file)
+  end
+
+  def self.data_file
+    @data_file ||= File.read(File.expand_path('../../config/countries.json', __dir__))
+  end
+end

@@ -1,6 +1,8 @@
 class BillingInformation < ApplicationRecord
   belongs_to :customer
 
+  enum country_iso_code: Countries.codes
+
   private
 
   def generate_id
@@ -14,7 +16,6 @@ end
 #
 #  id               :string           not null, primary key
 #  legal_name       :string
-#  country_iso_code :string           not null
 #  state            :string
 #  city             :string
 #  address          :string
@@ -25,6 +26,7 @@ end
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  customer_id      :string           not null
+#  country_iso_code :integer
 #
 # Indexes
 #

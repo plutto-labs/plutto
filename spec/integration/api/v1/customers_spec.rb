@@ -13,7 +13,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
                   plan_version_id: plan_version_id,
                   billing_information: {
                     city: 'Santiago',
-                    country_iso_code: 'CHL',
+                    country_iso_code: 'CL',
                     state: 'Metropolitana',
                     address: 'Av. Las Condes',
                     zip: '12345',
@@ -66,7 +66,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
           expect(customer['identifier']).to eq('your-id_12885305')
           expect(customer['active_plan_subscription_id']).to be_present
           expect(customer['billing_information']['legal_name']).to eq('Plutto Inc')
-          expect(customer['billing_information']['country_iso_code']).to eq('CHL')
+          expect(customer['billing_information']['country_iso_code']).to eq('CL')
         end
       end
 
@@ -136,7 +136,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
           expect(customer['billing_information']).to be_present
           expect(customer['identifier']).to eq('your-id_12885305')
           expect(customer['billing_information']['legal_name']).to eq('Plutto Inc')
-          expect(customer['billing_information']['country_iso_code']).to eq('CHL')
+          expect(customer['billing_information']['country_iso_code']).to eq('CL')
         end
       end
 

@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :billing_information do
     customer
     city { 'San Francisco' }
-    country_iso_code { 'USA' }
+    country_iso_code { 0 }
     state { 'California' }
     zip { '112256' }
     legal_name { 'Plutto Inc' }

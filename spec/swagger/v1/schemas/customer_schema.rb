@@ -38,7 +38,7 @@ CUSTOMER_SCHEMA = {
       }
     }
   },
-  required: [:email, :billing_information]
+  required: [:email]
 }
 
 CUSTOMERS_COLLECTION_SCHEMA = {

@@ -1,12 +1,15 @@
 <script>
 import moment from 'moment';
 import currencies from '../../../../config/currencies.json';
+import countries from '../../../../config/countries.json';
 
 export default {
   data() {
     return {
       CURRENCIES: currencies,
       CURRENCY_KEYS: Object.keys(currencies),
+      COUNTRIES: countries,
+      COUNTRIES_KEYS: Object.keys(countries),
     };
   },
   methods: {
