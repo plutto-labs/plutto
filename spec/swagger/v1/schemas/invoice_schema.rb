@@ -7,14 +7,20 @@ INVOICE_SCHEMA = {
     discount_cents: { type: :integer, example: 0, 'x-nullable': true },
     currency: { type: :string, example: 'USD', 'x-nullable': false },
     issue_date: { type: :string, example: '2020-01-01T00:00:00.000Z', 'x-nullable': true },
-    details: { type: :object, example: "{
-      '0': { type: 'flat_fee',
-          total_price_cents: 100 },
-      '1': { type: 'volume',
-          total_price_cents: 25000,
-          meter: 'Requests',
-          quantity: 250.0 }
-    },", 'x-nullable': false },
+    details: {
+      type: :array,
+      items: {
+        properties: {
+          type: { type: :string, 'x-nullable': true },
+          total_price_cents: { type: :integer, 'x-nullable': true },
+          meter: { type: :string, 'x-nullable': true },
+          quantity: { type: :integer, 'x-nullable': true }
+        }
+      },
+      example: "[{ type: 'flat_fee', total_price_cents: 100 },
+      { type: 'volume', total_price_cents: 25000, meter: 'Requests', quantity: 250.0 }]",
+      'x-nullable': false
+    },
     created_at: { type: :string, example: '2020-01-01T00:00:00.000Z', 'x-nullable': true },
     updated_at: { type: :string, example: '2020-01-01T00:00:00.000Z', 'x-nullable': true },
     customer_id: { type: :string, example: 'customer_d43280e9377673a0b4b07f31',
