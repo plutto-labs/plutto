@@ -6,12 +6,15 @@ class BillingPeriodMeterData < ApplicationRecord
   validates :meter_count_id, uniqueness: { scope: :billing_period_id }
 
   def count(type)
+    normalized_count = 0
     case type
     when 'period_sum'
-      (final_count || meter_count.count) - initial_count
+      normalized_count = (final_count || meter_count.count) - initial_count
     when 'history_sum'
-      final_count || meter_count.count
+      normalized_count = final_count || meter_count.count
     end
+
+    normalized_count.positive? ? normalized_count : 0
   end
 
   private

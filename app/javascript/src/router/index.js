@@ -91,7 +91,7 @@ router.beforeEach((to, from, next) => {
   const user = store.state.auth;
   if (to.meta.authRequired && !user.token) {
     next(`/login?redirect_to=${to.fullPath}`);
-    document.title = 'Ingresar | Milla';
+    document.title = 'Ingresar | Plutto';
   } else {
     if (analytics) {
       analytics.page(to.name, {

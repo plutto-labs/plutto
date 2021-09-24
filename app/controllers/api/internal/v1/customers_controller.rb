@@ -7,11 +7,11 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   end
 
   def active
-    respond_with(authorize(customers.active),  active: true)
+    respond_with(authorize(customers.active), active: true)
   end
 
   def trial
-    respond_with(authorize(customers.trial),  trial: true)
+    respond_with(authorize(customers.trial), trial: true)
   end
 
   def show

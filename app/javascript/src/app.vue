@@ -44,7 +44,8 @@ main {
 
 .btn {
   @apply inline-flex text-sm px-6 py-0 font-medium bg-transparent border border-primary text-primary
-    tracking-wide no-underline justify-center items-center cursor-pointer rounded-md;
+    tracking-wide no-underline justify-center items-center cursor-pointer rounded-md hover:bg-gray-600
+    focus:bg-gray-600;
   min-height: 32px;
 
   &--big {
@@ -53,7 +54,7 @@ main {
   }
 
   &--filled {
-    @apply border-0 bg-primary-600 text-gray-900;
+    @apply border-0 bg-primary-600 text-gray-900 hover:bg-primary-400 focus:bg-primary-400;
   }
 
   &--cancel {

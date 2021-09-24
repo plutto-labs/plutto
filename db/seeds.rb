@@ -88,14 +88,15 @@ unless Rails.env.production?
         Invoice.find_or_create_by(
           currency: 'usd',
           subtotal_cents: 10000,
+          total_cents: 10190,
           tax_cents: 190,
           discount_cents: 0,
           issue_date: DateTime.new(2021, 8, 7),
           details: {
             '0': { type: 'flat_fee',
-                total_price_cents: 100 },
+                total_price: 100 },
             '1': { type: 'volume',
-                total_price_cents: 25000,
+                total_price: 25000,
                 meter: 'Requests',
                 quantity: 250.0 }
           },

@@ -53,5 +53,20 @@ export default {
         'PriceLogic::Volume': 'Charge a fixed amount per event based on the corresponding tier',
       },
     },
+    invoices: {
+      status: {
+        new: 'New',
+        posted: 'Posted',
+        paid: 'Paid',
+        notPaid: 'Not Paid',
+        voided: 'Voided',
+      },
+      events: {
+        post: 'Post',
+        charge: 'Charge',
+        fail: 'Fail',
+        void: 'Void',
+      },
+    },
   },
 };

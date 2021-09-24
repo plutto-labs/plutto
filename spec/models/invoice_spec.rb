@@ -11,4 +11,15 @@ RSpec.describe Invoice, type: :model do
   it { is_expected.to monetize(:subtotal_cents).with_model_currency(:currency) }
   it { is_expected.to monetize(:tax_cents).with_model_currency(:currency) }
   it { is_expected.to monetize(:discount_cents).with_model_currency(:currency) }
+
+  describe '#change_status' do
+    let(:invoice) { create(:invoice) }
+
+    before { allow(invoice.aasm).to receive(:fire!) }
+
+    it 'calls fire! method from aasm' do
+      invoice.change_status('paid')
+      expect(invoice.aasm).to have_received(:fire!)
+    end
+  end
 end

@@ -8,7 +8,8 @@ class Invoice < ApplicationRecord
   belongs_to :customer
 
   monetize :subtotal_cents, with_model_currency: :currency
-  monetize :tax_cents, :discount_cents, allow_nil: true, with_model_currency: :currency
+  monetize :tax_cents, :discount_cents, :total_cents, allow_nil: true,
+    with_model_currency: :currency
 
   before_validation :set_currency
 
@@ -38,6 +39,10 @@ class Invoice < ApplicationRecord
 
   def self.ransackable_attributes(_auth_object = nil)
     ['status']
+  end
+
+  def change_status(event)
+    aasm.fire!(event.to_sym)
   end
 
   private
@@ -72,6 +77,7 @@ end
 #  tax_type            :integer
 #  document_id         :string
 #  billing_information :jsonb
+#  total_cents         :bigint(8)
 #
 # Indexes
 #

@@ -10,8 +10,6 @@ class Customer < ApplicationRecord
 
   accepts_nested_attributes_for :billing_information, allow_destroy: true
 
-  delegate :id, to: :organization, prefix: true, allow_nil: true
-
   validates :email, format: { with: Devise.email_regexp, message: "invalid email" }
 
   before_save :validate_uniqueness_of_identifier_within_organization

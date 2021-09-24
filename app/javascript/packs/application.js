@@ -4,10 +4,11 @@ import { createI18n } from 'vue-i18n';
 import App from '@/app.vue';
 import router from '@/router';
 import store from '@/store';
-import Segment from '@/mixins/segment';
 
 import Locales from '@/locales/locales.js';
 import FormatterMixin from '@/mixins/formatter-mixin';
+import Segment from '@/mixins/segment';
+import Tags from '@/mixins/tags';
 
 import '@/helpers/validation-rules.js';
 import '../css/application.css';
@@ -24,10 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   });
   app.config.globalProperties.environment = window.location.host.split('.')[0];
-  app.mixin(FormatterMixin);
   app.use(router);
   app.use(store);
   app.use(i18n);
+  app.mixin(FormatterMixin);
   app.mixin(Segment);
+  app.mixin(Tags);
   app.mount('#vue-app');
 });

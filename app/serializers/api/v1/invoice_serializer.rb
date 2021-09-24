@@ -2,7 +2,7 @@ class Api::V1::InvoiceSerializer < Api::BaseSerializer
   attributes :id, :subtotal_cents, :tax_cents, :discount_cents, :currency, :issue_date,
              :created_at, :updated_at, :customer_id, :status, :payed_at,
              :payment_method, :tax_type, :document_id, :customer_name,
-             :customer_email, :details, :billing_information
+             :customer_email, :details, :billing_information, :total
 
   def billing_information
     return unless object.billing_information

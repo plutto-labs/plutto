@@ -25,10 +25,11 @@ RSpec.shared_examples 'unauthorized internal POST endpoint' do
   end
 end
 
-RSpec.shared_examples 'unauthorized internal PATCH endpoint' do
+RSpec.shared_examples 'unauthorized internal PATCH endpoint' do |action|
   context 'when not signed in' do
     it 'returns a 401' do
-      put :update, format: :json, params: { id: resource_id }
+      action = action || :update
+      put action, format: :json, params: { id: resource_id }
       expect(response).to have_http_status(:unauthorized)
     end
   end
