@@ -5,6 +5,8 @@ class Api::V1::InvoiceSerializer < Api::BaseSerializer
              :customer_email, :details, :billing_information
 
   def billing_information
+    return unless object.billing_information
+
     billing_information_model = BillingInformation.new(object.billing_information)
 
     options = { serializer: Api::V1::BillingInformationSerializer }
