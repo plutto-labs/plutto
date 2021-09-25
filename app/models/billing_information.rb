@@ -1,7 +1,7 @@
 class BillingInformation < ApplicationRecord
   belongs_to :customer
 
-  enum country_iso_code: Countries.codes
+  enum country_iso_code: Countries.enum
 
   private
 
