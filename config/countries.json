@@ -5,7 +5,9 @@
     "iso2": "CL",
     "iso3": "CHL",
     "phone_code": 56,
-    "flag": "🇨🇱"
+    "flag": "🇨🇱",
+    "tax_rate": 0.19,
+    "enum_key": 0
   },
   "MX": {
     "nombre": "México",
@@ -13,7 +15,9 @@
     "iso2": "MX",
     "iso3": "MEX",
     "phone_code": 52,
-    "flag": "🇲🇽"
+    "flag": "🇲🇽",
+    "tax_rate": 0.16,
+    "enum_key": 1
   },
   "US": {
     "nombre": "Estados Unidos",
@@ -21,6 +25,18 @@
     "iso2": "US",
     "iso3": "USA",
     "phone_code": 1,
-    "flag": "🇺🇸"
+    "flag": "🇺🇸",
+    "tax_rate": 0,
+    "enum_key": 2
+  },
+  "CO": {
+    "nombre": "Colombia",
+    "name": "Colombia",
+    "iso2": "CO",
+    "iso3": "COL",
+    "phone_code": 57,
+    "flag": "🇨🇴",
+    "tax_rate": 0.0,
+    "enum_key": 3
   }
 }
