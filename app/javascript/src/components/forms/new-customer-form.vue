@@ -71,12 +71,9 @@
           Country
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
-          <PluttoDropdown
+          <CountrySelector
             :selected="newCustomer.billingInformation.countryIsoCode"
-            :options="countryOptions"
-            label-key="label"
-            value-key="value"
-            @selected="(country) => { newCustomer.billingInformation.countryIsoCode = country }"
+            @countrySelected="(country) => {newCustomer.billingInformation.countryIsoCode = country }"
           />
         </div>
       </div>
@@ -282,11 +279,12 @@
 
 <script>
 import PluttoDropdown from '@/components/plutto-dropdown';
+import CountrySelector from '@/components/country-selector';
 import { Form, Field } from 'vee-validate';
 import { ChevronRightIcon, ChevronUpIcon } from '@heroicons/vue/solid';
 
 export default {
-  components: { PluttoDropdown, Form, Field, ChevronRightIcon, ChevronUpIcon },
+  components: { PluttoDropdown, Form, Field, ChevronRightIcon, ChevronUpIcon, CountrySelector },
   props: {
     editingCustomer: {
       type: Object,
@@ -345,11 +343,6 @@ export default {
       if (!this.newCustomer.planVersionId) return 'Choose';
 
       return this.planOptions.find(plan => plan.value === this.newCustomer.planVersionId).label;
-    },
-    countryOptions() {
-      return this.COUNTRIES_KEYS.map((key) => (
-        { value: key, label: this.COUNTRIES[key].name }
-      ));
     },
   },
 };

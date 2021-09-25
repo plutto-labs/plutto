@@ -2,6 +2,7 @@ export default {
   message: {
     global: {
       name: 'Name',
+      country: 'Country',
       currency: 'Currency',
     },
     table: {
