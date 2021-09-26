@@ -8,10 +8,10 @@ class Invoice < ApplicationRecord
   belongs_to :customer
 
   monetize :subtotal_cents, with_model_currency: :currency
-  monetize :tax_cents, :discount_cents, :total_cents, allow_nil: true,
+  monetize :tax_cents, :discount_cents, :total_cents, :net_cents, allow_nil: true,
     with_model_currency: :currency
 
-  before_validation :set_currency
+  before_validation :set_currency, :set_invoice_data
 
   aasm(column: :status) do
     state :new, initial: true
@@ -51,6 +51,16 @@ class Invoice < ApplicationRecord
     self.currency = billing_period&.plan_subscription&.plan_version&.currency
   end
 
+  def set_invoice_data
+    self.net = subtotal - discount
+    self.tax = net * tax_rate
+    self.total = net + tax
+  end
+
+  def tax_rate
+    billing_period&.plan_subscription&.plan_version&.plan&.tax_rate || 0
+  end
+
   def generate_id
     init_id('invoice')
   end
@@ -78,6 +88,7 @@ end
 #  document_id         :string
 #  billing_information :jsonb
 #  total_cents         :bigint(8)
+#  net_cents           :bigint(8)        default(0), not null
 #
 # Indexes
 #

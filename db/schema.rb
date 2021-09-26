@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_153442) do
     t.string "document_id"
     t.jsonb "billing_information"
     t.bigint "total_cents"
+    t.bigint "net_cents", default: 0, null: false
     t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
     t.index ["customer_id"], name: "index_invoices_on_customer_id"
   end
