@@ -22,7 +22,7 @@ export default {
   methods: {
     countryOptions() {
       return this.COUNTRIES_KEYS.map((key) => (
-        { value: key, label: `${this.COUNTRIES[key].flag} ${this.COUNTRIES[key].name}` }
+        { value: key, label: this.formatCountry(key, { withFlag: true }) }
       ));
     },
   },
