@@ -44,6 +44,19 @@
               @selected="(currency) => newPlan.currency = currency"
             />
           </div>
+          <div class="w-32 mr-8">
+            <label
+              for="country"
+              class="block text-sm font-medium text-gray-100"
+            >
+              {{ $t('message.global.country') }}
+              <CountrySelector
+                class="mt-2 plutto-input"
+                :selected="newPlan.countryIsoCode"
+                @countrySelected="(country) => { newPlan.countryIsoCode = country }"
+              />
+            </label>
+          </div>
           <div class="mr-8 w-50">
             <label
               for="bills_at"
@@ -102,11 +115,12 @@
 import { mapState } from 'vuex';
 import PriceLogics from '@/components/price-logics';
 import PluttoDropdown from '@/components/plutto-dropdown';
+import CountrySelector from '@/components/country-selector';
 import PluttoRadioInput from '@/components/plutto-radio-input';
 import { Form } from 'vee-validate';
 
 export default {
-  components: { PriceLogics, Form, PluttoDropdown, PluttoRadioInput },
+  components: { PriceLogics, Form, PluttoDropdown, PluttoRadioInput, CountrySelector },
   props: {
     createPlan: {
       type: Boolean,
@@ -116,7 +130,8 @@ export default {
   data() {
     return {
       newPlan: {
-        currency: 'USD',
+        countryIsoCode: 'CL',
+        currency: 'CLP',
         billsAt: 'end',
       },
       priceLogics: [],

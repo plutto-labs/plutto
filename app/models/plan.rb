@@ -5,7 +5,9 @@ class Plan < ApplicationRecord
     foreign_key: 'default_plan_version_id', inverse_of: :determinant_plan
 
   enum currency: Currencies.keys
+  enum country_iso_code: Countries.enum
   enum bills_at: { start: 0, end: 1 }, _prefix: :bills_at
+
   attribute :billing_period_duration, :duration
 
   validate :no_metered_for_bills_at_start
@@ -14,6 +16,10 @@ class Plan < ApplicationRecord
     plan_version = plan_versions.build(params.merge({ previous_version: default_version }))
     self.default_version = plan_version
     plan_version
+  end
+
+  def tax_rate
+    Countries.find_by(country_iso_code, 'tax_rate')
   end
 
   private
@@ -42,6 +48,7 @@ end
 #  currency                :integer          default("USD"), not null
 #  bills_at                :integer          default("start")
 #  billing_period_duration :string
+#  country_iso_code        :integer
 #
 # Indexes
 #

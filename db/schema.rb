@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_24_153442) do
+ActiveRecord::Schema.define(version: 2021_09_24_214600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,6 +215,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_153442) do
     t.integer "currency", default: 0, null: false
     t.integer "bills_at", default: 0
     t.string "billing_period_duration"
+    t.integer "country_iso_code"
     t.index ["default_plan_version_id"], name: "index_plans_on_default_plan_version_id"
     t.index ["organization_id"], name: "index_plans_on_organization_id"
   end
