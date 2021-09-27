@@ -37,4 +37,15 @@ RSpec.describe Plan, type: :model do
       end
     end
   end
+
+  describe '#tax_rate' do
+    let(:plan) { create(:plan, country_iso_code: 'US') }
+    let(:tax_rate) { 0.0 }
+
+    before { allow(Countries).to receive(:find_by).with('US', 'tax_rate').and_return(tax_rate) }
+
+    it 'returns the tax rate' do
+      expect(plan.tax_rate).to eq(tax_rate)
+    end
+  end
 end

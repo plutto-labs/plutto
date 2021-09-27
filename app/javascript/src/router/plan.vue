@@ -8,6 +8,7 @@
       <div class="px-6 mt-6">
         <div class="text-xl">
           {{ currentPlan.name }} ({{ currentPlan.currency }})
+          {{ currentPlan.countryIsoCode ? ` - ${formatCountry(currentPlan.countryIsoCode, { withFlag: true })}` : '' }}
         </div>
         <div class="mt-4 text-sm text-gray-200 md:px-6">
           <div class="flex items-center">

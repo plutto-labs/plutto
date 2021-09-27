@@ -2,7 +2,7 @@
   <div class="relative flex flex-col border border-gray-300 rounded">
     <div class="flex-1 px-4 pt-6">
       <div class="text-xl">
-        {{ plan.name }}
+        {{ plan.name }} {{ plan.countryIsoCode ? formatCountry(plan.countryIsoCode, { onlyFlag: true }) : '' }}
         <span
           class="absolute top-0 right-0 px-4 ml-4 border-b border-l border-gray-300 rounded-bl text-primary text-2xs"
         >{{ plan.currency }}</span>

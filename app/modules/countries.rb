@@ -11,6 +11,10 @@ module Countries
     @codes ||= all.map { |c| c['iso2'] }.freeze
   end
 
+  def self.enum
+    @enum ||= all.map { |c| [c['iso2'], c['enum_key']] }.to_h.freeze
+  end
+
   def self.all
     @all ||= country_data.values
   end

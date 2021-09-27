@@ -39,6 +39,7 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
     params.require(:plan).permit(
       :name,
       :currency,
+      :country_iso_code,
       :bills_at,
       :billing_period_duration
     )

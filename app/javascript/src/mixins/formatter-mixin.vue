@@ -44,6 +44,13 @@ export default {
 
       return moment(newDate.add(1, 'days')).from(new Date());
     },
+    formatCountry(val, options = { withFlag: false, onlyFlag: false }) {
+      if (!val) return null;
+      if (options.onlyFlag) return this.COUNTRIES[val].flag;
+      if (options.withFlag) return `${this.COUNTRIES[val].flag} ${this.COUNTRIES[val].name}`;
+
+      return this.COUNTRIES[val].name;
+    },
   },
 };
 </script>
