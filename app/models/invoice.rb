@@ -18,6 +18,10 @@ class Invoice < ApplicationRecord
     state :posted, :paid, :not_paid, :voided
 
     event :post do
+      after do
+        send_to_customer
+      end
+
       transitions from: :new, to: :posted
     end
 
@@ -45,6 +49,10 @@ class Invoice < ApplicationRecord
     aasm.fire!(event.to_sym)
   end
 
+  def send_to_customer
+    invoice_service.send_to_customer(self)
+  end
+
   private
 
   def set_currency
@@ -63,6 +71,10 @@ class Invoice < ApplicationRecord
 
   def generate_id
     init_id('invoice')
+  end
+
+  def invoice_service
+    @invoice_service ||= InvoiceService.new
   end
 end
 
