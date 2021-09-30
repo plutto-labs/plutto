@@ -1,8 +1,14 @@
-ActiveAdmin.register Customer do
-  permit_params :name, :email, :subscription_id
-  belongs_to :organization, optional: true
+ActiveAdmin.register Pricing do
+  permit_params :name
+  belongs_to :organization
+
+  action_item :new_pricing, only: :show do
+    link_to I18n.t('active_admin.resources.pricing.new_pricing'),
+            new_admin_pricing_path(resource)
+  end
 
   index do
+    selectable_column
     id_column
     column :name
     column :created_at
@@ -16,17 +22,15 @@ ActiveAdmin.register Customer do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :email
     end
+
     f.actions
   end
 
   show do
     attributes_table do
       row :id
-      row :subscription
       row :name
-      row :email
       row :created_at
       row :updated_at
     end

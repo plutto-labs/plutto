@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 describe StartNewBillingPeriod do
-  let(:plan_subscription) { create(:plan_subscription) }
-  let(:billing_period) { create(:billing_period, plan_subscription: plan_subscription) }
+  let(:subscription) { create(:subscription) }
+  let(:billing_period) { create(:billing_period, subscription: subscription) }
   let(:new_billing_period) { instance_double(BillingPeriod) }
   let(:date) { billing_period.to + 1.day }
 
   def perform
-    described_class.for(plan_subscription: plan_subscription, billing_period: billing_period)
+    described_class.for(subscription: subscription, billing_period: billing_period)
   end
 
   describe '#perform' do
@@ -18,7 +18,7 @@ describe StartNewBillingPeriod do
         .and_return(true)
       allow(CreateInvoice).to receive(:for).with(
         billing_period: new_billing_period,
-        customer: billing_period.plan_subscription.customer
+        customer: billing_period.subscription.customer
       )
     end
 
@@ -27,8 +27,8 @@ describe StartNewBillingPeriod do
       expect(BillingPeriod).to have_received(:create)
         .with(
           from: date,
-          to: date + plan_subscription.billing_period_duration - 1.day,
-          plan_subscription: plan_subscription
+          to: date + subscription.billing_period_duration - 1.day,
+          subscription: subscription
         )
     end
 
@@ -38,23 +38,23 @@ describe StartNewBillingPeriod do
         .with(billing_period: new_billing_period, count_type: 'initial_count')
     end
 
-    context 'when plan bills at start' do
+    context 'when subscription bills at start' do
       before do
-        allow(plan_subscription).to receive(:bills_at_start?).and_return(true)
+        allow(subscription).to receive(:bills_at_start?).and_return(true)
       end
 
       it 'calls CreateInvoice command' do
         perform
         expect(CreateInvoice).to have_received(:for).with(
           billing_period: new_billing_period,
-          customer: billing_period.plan_subscription.customer
+          customer: billing_period.subscription.customer
         )
       end
     end
 
-    context 'when plan does not bill at start' do
+    context 'when subscription does not bill at start' do
       before do
-        allow(plan_subscription).to receive(:bills_at_start?).and_return(false)
+        allow(subscription).to receive(:bills_at_start?).and_return(false)
       end
 
       it 'does not call CreateInvoice command' do

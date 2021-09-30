@@ -1,6 +1,6 @@
-ActiveAdmin.register PlanSubscription do
+ActiveAdmin.register Subscription do
   permit_params :name
-  belongs_to :plan_version
+  belongs_to :pricing
 
   index do
     selectable_column

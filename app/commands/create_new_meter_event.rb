@@ -38,12 +38,12 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
     @meter_count ||= customer.meter_counts.find_or_create_by(meter_id: meter.id)
   end
 
-  def plan_subscription
-    @plan_subscription ||= customer.active_plan_subscription
+  def subscription
+    @subscription ||= customer.active_subscription
   end
 
   def billing_period
-    @billing_period ||= plan_subscription&.current_billing_period
+    @billing_period ||= subscription&.current_billing_period
   end
 
   def exist_meter_event?(idempotency_key)
@@ -52,6 +52,6 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
   end
 
   def lock_id
-    plan_subscription&.id || customer.id
+    subscription&.id || customer.id
   end
 end

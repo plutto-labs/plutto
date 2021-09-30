@@ -1,9 +1,10 @@
 FactoryBot.define do
-  factory :plan_subscription do
+  factory :subscription do
     customer
-    plan_version
     auto_collection { true }
     price_type { 'tax_inclusive' }
     trial_finishes_at { nil }
+    billing_period_duration { 1.month }
+    bills_at { 'end' }
   end
 end

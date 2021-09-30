@@ -2,16 +2,16 @@ class EndBillingPeriod < PowerTypes::Command.new(:billing_period, start_next_per
   def perform
     return if @billing_period.nil?
 
-    ActiveRecord::Base.with_advisory_lock("meter-events-#{plan_subscription.id}-lock") do
+    ActiveRecord::Base.with_advisory_lock("meter-events-#{subscription.id}-lock") do
       ActiveRecord::Base.transaction do
         @billing_period.update(billing_date: Date.current)
         SetDataToBillingPeriod.for(billing_period: @billing_period, count_type: 'final_count')
 
-        create_invoice unless @plan_subscription.bills_at_start?
+        create_invoice unless @subscription.bills_at_start?
 
         if @start_next_period
           StartNewBillingPeriod.for(
-            plan_subscription: plan_subscription,
+            subscription: subscription,
             billing_period: @billing_period
           )
         end
@@ -21,14 +21,14 @@ class EndBillingPeriod < PowerTypes::Command.new(:billing_period, start_next_per
 
   private
 
-  def plan_subscription
-    @plan_subscription ||= @billing_period.plan_subscription
+  def subscription
+    @subscription ||= @billing_period.subscription
   end
 
   def create_invoice
     CreateInvoice.for(
       billing_period: @billing_period,
-      customer: plan_subscription.customer
+      customer: subscription.customer
     )
   end
 end

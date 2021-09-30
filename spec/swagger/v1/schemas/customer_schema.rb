@@ -19,9 +19,11 @@ CUSTOMER_SCHEMA = {
     identifier: { type: :string, example: 'your-id_12885305', 'x-nullable': true },
     email: { type: :string, example: 'donald@getplutto.com', 'x-nullable': false },
     name: { type: :string, example: 'donald', 'x-nullable': true },
-    active_plan_subscription_id: {
-      type: :string,
-      example: 'subscription_d43280e9377673a0b4b07f31',
+    subscription: {
+      type: :object,
+      properties: {
+        customer: { "$ref" => "#/definitions/subscription" }
+      },
       'x-nullable': true
     },
     billing_information: {

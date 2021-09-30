@@ -24,9 +24,11 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
       Customer.create!(customer_params.merge(organization_id: current_user.organization_id))
     )
     ActiveRecord::Base.transaction do
-      if plan_version_params['plan_version_id']&.present? && plan_version
-        customer.add_plan_subscription(plan_version)
+      if pricings_params[:pricing_ids]&.present? &&
+          !pricings_params[:pricing_ids].empty? && pricings
+        customer.add_subscription(pricings)
       end
+
       customer.save!
     end
 
@@ -63,15 +65,23 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
 
   def customers
     @customers ||= policy_scope(Customer).includes(
-      [:billing_information, :invoices, { active_plan_subscription: { plan_version: :plan } }]
+      [:billing_information, :invoices, { active_subscription: :pricings }]
     )
   end
 
-  def plan_version_params
-    params.require(:customer).permit(:plan_version_id)
+  def pricings_params
+    params.require(:customer).permit(pricing_ids: [])
   end
 
-  def plan_version
-    @plan_version ||= policy_scope(PlanVersion).find(plan_version_params[:plan_version_id])
+  def pricings
+    return if pricings_params[:pricing_ids].blank?
+
+    @pricings = []
+    pricings_params[:pricing_ids].each do |pricing_id|
+      pricing = policy_scope(Pricing).find(pricing_id)
+      @pricings << pricing if pricing
+    end
+
+    @pricings
   end
 end

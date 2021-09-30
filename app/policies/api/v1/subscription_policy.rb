@@ -1,4 +1,4 @@
-class Api::V1::PlanSubscriptionPolicy < Api::V1::ApiPolicy
+class Api::V1::SubscriptionPolicy < Api::V1::ApiPolicy
   def create?
     true
   end

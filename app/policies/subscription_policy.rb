@@ -1,4 +1,4 @@
-class PlanSubscriptionPolicy < OrganizationRelatedPolicy
+class SubscriptionPolicy < OrganizationRelatedPolicy
   def edit_trial?
     from_company?
   end

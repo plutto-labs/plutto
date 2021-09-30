@@ -1,7 +1,7 @@
 class PriceLogic < ApplicationRecord
   NAME = 'not_defined'
 
-  belongs_to :plan_version
+  belongs_to :pricing
 
   validates :type, presence: true
   before_validation :set_lower_limits, on: :create, if: -> { respond_to?(:tiers) }
@@ -19,6 +19,12 @@ class PriceLogic < ApplicationRecord
     raise NotImplementedError
   end
 
+  def meter
+    return unless metered?
+
+    pricing.meter
+  end
+
   private
 
   def set_lower_limits
@@ -28,7 +34,7 @@ class PriceLogic < ApplicationRecord
   end
 
   def set_currency
-    self.price_currency = plan_version.currency
+    self.price_currency = pricing.currency
   end
 end
 
@@ -38,21 +44,21 @@ end
 #
 #  id                 :string           not null, primary key
 #  type               :string           not null
-#  plan_version_id    :string           not null
 #  price_cents        :bigint(8)        default(0), not null
 #  price_currency     :string           default("USD"), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  meter_id           :string
 #  meter_count_method :integer
+#  pricing_id         :string           not null
 #
 # Indexes
 #
-#  index_price_logics_on_meter_id         (meter_id)
-#  index_price_logics_on_plan_version_id  (plan_version_id)
+#  index_price_logics_on_meter_id    (meter_id)
+#  index_price_logics_on_pricing_id  (pricing_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (meter_id => meters.id)
-#  fk_rails_...  (plan_version_id => plan_versions.id)
+#  fk_rails_...  (pricing_id => pricings.id)
 #

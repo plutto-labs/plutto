@@ -1,9 +1,9 @@
 describe InvoiceService do
   let(:kushki) { double }
-  let(:plan_subscription) { build(:plan_subscription) }
-  let(:billing_period) { build(:billing_period, plan_subscription: plan_subscription) }
+  let(:subscription) { build(:subscription) }
+  let(:billing_period) { build(:billing_period, subscription: subscription) }
   let(:invoice) do
-    build(:invoice, billing_period: billing_period, customer: plan_subscription.customer)
+    build(:invoice, billing_period: billing_period, customer: subscription.customer)
   end
 
   describe '#send_to_customer' do
