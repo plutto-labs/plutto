@@ -19,6 +19,11 @@ CUSTOMER_SCHEMA = {
     identifier: { type: :string, example: 'your-id_12885305', 'x-nullable': true },
     email: { type: :string, example: 'donald@getplutto.com', 'x-nullable': false },
     name: { type: :string, example: 'donald', 'x-nullable': true },
+    pricings: {
+      type: :array,
+      example: '[price_d43280e9377673a0b4b07f31, price_d43280e9377673a123407f31]',
+      'x-nullable': true
+    },
     subscription: {
       type: :object,
       properties: {
