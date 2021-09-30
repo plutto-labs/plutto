@@ -3,19 +3,21 @@
     <div class="relative flex items-center justify-between pr-10">
       <div>
         <div class="flex items-center">
-          {{ planVersion.version }}
+          <span>
+            {{ pricing.name }}
+          </span>
           <PluttoCopyableDiv
             class="ml-2 text-xs text-gray-100"
-            :value="planVersion.id"
+            :value="pricing.id"
           />
           <span class="flex items-center text-gray-100">
             <span class="ml-6 mr-2 plutto-icon">group</span>
-            <span>{{ planVersion.subscribedUsers }}</span>
+            <span>{{ pricing.subscribedUsers }}</span>
           </span>
         </div>
         <div
           class="text-sm text-gray-300"
-          v-for="priceLogic in planVersion.priceLogics"
+          v-for="priceLogic in pricing.priceLogics"
           :key="priceLogic.id"
         >
           <span>{{ $t(`message.priceLogics.types.${priceLogic.type}`) }}</span>
@@ -31,10 +33,6 @@
         </div>
       </div>
       <span
-        v-if="isDefaultVersion"
-        class="ml-4 plutto-tag"
-      >Default version</span>
-      <span
         class="absolute top-0 right-0 flex items-center h-full text-xl cursor-pointer plutto-icon"
         :class="{ 'transform rotate-180': expanded }"
         @click="expanded = !expanded"
@@ -48,7 +46,7 @@
           Price Logics
         </div>
         <PriceLogics
-          :model-value="planVersion.priceLogics"
+          :model-value="pricing.priceLogics"
           :edit="false"
         />
       </div>
@@ -64,13 +62,9 @@ import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 export default {
   components: { PriceLogics, PluttoCopyableDiv },
   props: {
-    planVersion: {
+    pricing: {
       type: Object,
       required: true,
-    },
-    isDefaultVersion: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
