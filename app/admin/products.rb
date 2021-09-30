@@ -35,7 +35,7 @@ ActiveAdmin.register Product do
         column(:id) do |pricing|
           link_to(pricing.id,
                   admin_organization_pricings_path(organization_id: resource.id,
-                                                         pricing_id: pricing.id))
+                                                   pricing_id: pricing.id))
         end
         column :name
         column :created_at

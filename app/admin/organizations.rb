@@ -55,7 +55,8 @@ ActiveAdmin.register Organization do
       table_for resource.products do
         column(:id) do |product|
           link_to(product.id,
-                  admin_organization_products_path(organization_id: resource.id, product_id: product.id))
+                  admin_organization_products_path(organization_id: resource.id,
+                                                   product_id: product.id))
         end
         column :name
         column :created_at

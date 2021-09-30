@@ -48,7 +48,8 @@ describe SetDataToBillingPeriod do
 
         context 'when it has meter counts created' do
           before do
-            create(:meter_count, customer: subscription.customer, meter: subscription.pricings[0].meter)
+            create(:meter_count, customer: subscription.customer,
+                                 meter: subscription.pricings[0].meter)
           end
 
           it 'only creates necessary meter counts' do
