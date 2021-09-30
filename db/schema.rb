@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_24_214600) do
+ActiveRecord::Schema.define(version: 2021_09_29_184738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,11 +83,11 @@ ActiveRecord::Schema.define(version: 2021_09_24_214600) do
   create_table "billing_periods", id: :string, force: :cascade do |t|
     t.datetime "from", null: false
     t.datetime "to", null: false
-    t.string "plan_subscription_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "billing_date"
-    t.index ["plan_subscription_id"], name: "index_billing_periods_on_plan_subscription_id"
+    t.string "subscription_id", null: false
+    t.index ["subscription_id"], name: "index_billing_periods_on_subscription_id"
   end
 
   create_table "customers", id: :string, force: :cascade do |t|
@@ -182,44 +182,6 @@ ActiveRecord::Schema.define(version: 2021_09_24_214600) do
     t.index ["customer_id"], name: "index_payment_methods_on_customer_id"
   end
 
-  create_table "plan_subscriptions", id: :string, force: :cascade do |t|
-    t.string "customer_id", null: false
-    t.string "plan_version_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.boolean "active", default: false
-    t.boolean "auto_collection", default: true
-    t.integer "price_type", default: 0
-    t.datetime "trial_finishes_at"
-    t.index ["customer_id"], name: "index_plan_subscriptions_on_customer_id"
-    t.index ["plan_version_id"], name: "index_plan_subscriptions_on_plan_version_id"
-  end
-
-  create_table "plan_versions", id: :string, force: :cascade do |t|
-    t.string "plan_id", null: false
-    t.string "previous_version_id"
-    t.boolean "deployed", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "version", limit: 2
-    t.index ["plan_id"], name: "index_plan_versions_on_plan_id"
-    t.index ["previous_version_id"], name: "index_plan_versions_on_previous_version_id"
-  end
-
-  create_table "plans", id: :string, force: :cascade do |t|
-    t.string "name"
-    t.string "organization_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "default_plan_version_id"
-    t.integer "currency", default: 0, null: false
-    t.integer "bills_at", default: 0
-    t.string "billing_period_duration"
-    t.integer "country_iso_code"
-    t.index ["default_plan_version_id"], name: "index_plans_on_default_plan_version_id"
-    t.index ["organization_id"], name: "index_plans_on_organization_id"
-  end
-
   create_table "price_logic_tiers", id: :string, force: :cascade do |t|
     t.float "upper_limit", null: false
     t.float "lower_limit", null: false
@@ -235,15 +197,43 @@ ActiveRecord::Schema.define(version: 2021_09_24_214600) do
 
   create_table "price_logics", id: :string, force: :cascade do |t|
     t.string "type", null: false
-    t.string "plan_version_id", null: false
     t.bigint "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "meter_id"
     t.integer "meter_count_method"
+    t.string "pricing_id", null: false
     t.index ["meter_id"], name: "index_price_logics_on_meter_id"
-    t.index ["plan_version_id"], name: "index_price_logics_on_plan_version_id"
+    t.index ["pricing_id"], name: "index_price_logics_on_pricing_id"
+  end
+
+  create_table "pricing_subscriptions", id: :string, force: :cascade do |t|
+    t.string "pricing_id", null: false
+    t.string "subscription_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["pricing_id"], name: "index_pricing_subscriptions_on_pricing_id"
+    t.index ["subscription_id"], name: "index_pricing_subscriptions_on_subscription_id"
+  end
+
+  create_table "pricings", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "product_id"
+    t.integer "currency", default: 0
+    t.index ["product_id"], name: "index_pricings_on_product_id"
+  end
+
+  create_table "products", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.string "meter_id"
+    t.string "organization_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["meter_id"], name: "index_products_on_meter_id"
+    t.index ["organization_id"], name: "index_products_on_organization_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -254,6 +244,21 @@ ActiveRecord::Schema.define(version: 2021_09_24_214600) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+  end
+
+  create_table "subscriptions", id: :string, force: :cascade do |t|
+    t.string "customer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "active", default: false
+    t.boolean "auto_collection", default: true
+    t.integer "price_type", default: 0
+    t.datetime "trial_finishes_at"
+    t.integer "bills_at", default: 0
+    t.string "billing_period_duration"
+    t.integer "currency", default: 0, null: false
+    t.integer "country_iso_code", default: 0, null: false
+    t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
   end
 
   create_table "users", id: :string, force: :cascade do |t|
@@ -283,7 +288,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_214600) do
   add_foreign_key "billing_informations", "customers"
   add_foreign_key "billing_period_meter_data", "billing_periods"
   add_foreign_key "billing_period_meter_data", "meter_counts"
-  add_foreign_key "billing_periods", "plan_subscriptions"
+  add_foreign_key "billing_periods", "subscriptions"
   add_foreign_key "customers", "organizations"
   add_foreign_key "invoices", "billing_periods"
   add_foreign_key "invoices", "customers"
@@ -294,13 +299,13 @@ ActiveRecord::Schema.define(version: 2021_09_24_214600) do
   add_foreign_key "meter_events", "meters"
   add_foreign_key "meters", "organizations"
   add_foreign_key "payment_methods", "customers"
-  add_foreign_key "plan_subscriptions", "customers"
-  add_foreign_key "plan_subscriptions", "plan_versions"
-  add_foreign_key "plan_versions", "plan_versions", column: "previous_version_id"
-  add_foreign_key "plan_versions", "plans"
-  add_foreign_key "plans", "organizations"
-  add_foreign_key "plans", "plan_versions", column: "default_plan_version_id"
   add_foreign_key "price_logics", "meters"
-  add_foreign_key "price_logics", "plan_versions"
+  add_foreign_key "price_logics", "pricings"
+  add_foreign_key "pricing_subscriptions", "pricings"
+  add_foreign_key "pricing_subscriptions", "subscriptions"
+  add_foreign_key "pricings", "products"
+  add_foreign_key "products", "meters"
+  add_foreign_key "products", "organizations"
+  add_foreign_key "subscriptions", "customers"
   add_foreign_key "users", "organizations"
 end

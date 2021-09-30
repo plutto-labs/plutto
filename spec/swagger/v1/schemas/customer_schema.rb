@@ -19,15 +19,17 @@ CUSTOMER_SCHEMA = {
     identifier: { type: :string, example: 'your-id_12885305', 'x-nullable': true },
     email: { type: :string, example: 'donald@getplutto.com', 'x-nullable': false },
     name: { type: :string, example: 'donald', 'x-nullable': true },
-    active_plan_subscription_id: {
-      type: :string,
-      example: 'subscription_d43280e9377673a0b4b07f31',
+    subscription: {
+      type: :object,
+      properties: {
+        customer: { "$ref" => "#/definitions/subscription" }
+      },
       'x-nullable': true
     },
     billing_information: {
       type: :object, 'x-nullable': true, properties: {
         city: { type: :string, example: 'Santiago', 'x-nullable': true },
-        country_iso_code: { type: :string, example: 'CHL', 'x-nullable': true },
+        country_iso_code: { type: :string, example: 'CHL', 'x-nullable': false },
         state: { type: :string, example: 'Metropolitana', 'x-nullable': true },
         billing_address: { type: :string, example: 'Av. Las Condes', 'x-nullable': true },
         zip: { type: :string, example: '12345', 'x-nullable': true },
@@ -38,7 +40,7 @@ CUSTOMER_SCHEMA = {
       }
     }
   },
-  required: [:email]
+  required: [:email, :billing_information]
 }
 
 CUSTOMERS_COLLECTION_SCHEMA = {

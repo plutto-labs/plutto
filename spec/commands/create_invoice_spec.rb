@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe CreateInvoice do
   let(:customer) { create(:customer) }
-  let(:plan_subscription) { create(:plan_subscription, customer: customer) }
-  let(:billing_period) { create(:billing_period, plan_subscription: plan_subscription) }
+  let(:subscription) { create(:subscription, customer: customer) }
+  let(:billing_period) { create(:billing_period, subscription: subscription) }
 
   def perform
     described_class.for(billing_period: billing_period, customer: customer)

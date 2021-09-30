@@ -47,6 +47,7 @@ commands:
       - run:
           name: Install yarn dependencies
           command: |
+            sudo apt-get update && sudo apt-get install ca-certificates
             curl -sL https://deb.nodesource.com/setup_$(cat .node-version).x | sudo -E bash -
             sudo apt-get install -y nodejs
             curl -o- -sL https://yarnpkg.com/install.sh | bash

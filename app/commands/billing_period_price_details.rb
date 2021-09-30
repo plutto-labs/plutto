@@ -3,7 +3,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
     total_price = 0
     details = []
 
-    plan_subscription.plan_version_price_logics.each do |price_logic|
+    subscription.price_logics.each do |price_logic|
       billing_period_meter_data = billing_period_meter_data_for_price_logic(price_logic)
       price_logic_price = price_logic.calculate_price(
         billing_period_meter_data&.count(price_logic.meter_count_method) || 0
@@ -27,11 +27,11 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
   end
 
   def customer
-    @customer = plan_subscription.customer
+    @customer = subscription.customer
   end
 
-  def plan_subscription
-    @plan_subscription = @billing_period.plan_subscription
+  def subscription
+    @subscription = @billing_period.subscription
   end
 
   def details_from_price_logic(price_logic, billing_period_meter_data, total_price)

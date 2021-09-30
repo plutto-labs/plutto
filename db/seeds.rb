@@ -36,38 +36,28 @@ unless Rails.env.production?
     end
 
     meter = Meter.find_or_create_by(name: 'api calls', organization: org)
+    product = Product.find_or_create_by(name: 'Plutto Billings', organization: org, meter: meter)
+    pricing = Pricing.find_or_create_by(name: 'Enterprise', product: product)
 
-    plan = Plan.find_or_create_by(name: 'Enterprise', organization: org) do |plan|
-      plan.currency = 'USD'
-      plan.bills_at = 'end'
-      plan.billing_period_duration = 1.month
-    end
-
-    plan_version = PlanVersion.find_or_create_by(plan: plan) do |plan_version|
-      plan_version.deployed = true
-      plan.default_version = plan_version
-    end
-
-    if plan_version
-      PriceLogic::FlatFee.find_or_create_by(plan_version: plan_version) do |flat_fee|
-        flat_fee.price = Money.new(100, plan.currency)
+    if pricing
+      PriceLogic::FlatFee.find_or_create_by(pricing: pricing) do |flat_fee|
+        flat_fee.price = Money.new(100, pricing.currency)
         flat_fee.meter_count_method = 'period_sum'
       end
 
-      PriceLogic::PerUnit.find_or_create_by(plan_version: plan_version, meter: meter) do |per_unit|
-        per_unit.price = Money.new(5, plan.currency)
+      PriceLogic::PerUnit.find_or_create_by(pricing: pricing) do |per_unit|
+        per_unit.price = Money.new(5, pricing.currency)
         per_unit.meter_count_method = 'period_sum'
       end
     end
 
     customers.each do |customer_info|
       Customer.includes(:billing_information).find_or_create_by(
-        email: customer_info[0],name: customer_info[1], organization: org
-        ) do |customer|
+        email: customer_info[0],name: customer_info[1], organization: org) do |customer|
         BillingInformation.create(
           customer: customer,
           city: 'Santiago',
-          country_iso_code: 'CHL',
+          country_iso_code: 'CL',
           state: 'Metropolitana',
           address: 'Av. Las Condes',
           zip: '12345',
@@ -75,11 +65,9 @@ unless Rails.env.production?
           phone: '9550898',
           legal_name: 'Plutto Inc',
         )
-        plan_subscription = PlanSubscription.find_or_create_by(customer: customer,
-          plan_version: plan_version, active: true)
 
         billing_period = BillingPeriod.find_or_create_by(
-          plan_subscription: plan_subscription,
+          subscription: subscription,
           from: DateTime.new(2021, 7, 7),
           to: DateTime.new(2021, 8, 7),
           billing_date: DateTime.new(2021, 8, 8)

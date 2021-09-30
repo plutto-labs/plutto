@@ -1,10 +1,10 @@
 class Customer < ApplicationRecord
   has_many :meter_counts, dependent: :destroy
-  has_many :plan_subscriptions, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_many :invoices, dependent: :destroy
   has_many :payment_methods, dependent: :destroy
-  has_one :active_plan_subscription, -> { where(active: true) },
-          class_name: 'PlanSubscription', inverse_of: :customer
+  has_one :active_subscription, -> { where(active: true) },
+          class_name: 'Subscription', inverse_of: :customer
   has_one :billing_information, dependent: :destroy, required: true
   belongs_to :organization
 
@@ -12,31 +12,33 @@ class Customer < ApplicationRecord
 
   validates :email, format: { with: Devise.email_regexp, message: "invalid email" }
 
+  delegate :country_iso_code, to: :billing_information, allow_nil: true
+
   before_save :validate_uniqueness_of_identifier_within_organization
 
   scope :active, -> do
-    includes(:active_plan_subscription).where.not(
-      active_plan_subscription: { id: nil }
-    ).where(active_plan_subscription: { trial_finishes_at: nil })
+    includes(:active_subscription).where.not(
+      active_subscription: { id: nil }
+    ).where(active_subscription: { trial_finishes_at: nil })
   end
 
   scope :trial, -> do
-    includes(:active_plan_subscription).where.not(
-      active_plan_subscription: { trial_finishes_at: nil }
+    includes(:active_subscription).where.not(
+      active_subscription: { trial_finishes_at: nil }
     )
   end
 
-  def add_plan_subscription(plan_version)
-    CreatePlanSubscription.for(plan_version: plan_version, customer: self)
+  def add_subscription(pricings)
+    CreateSubscription.for(pricings: pricings, customer: self)
   end
 
   def current_billing_period
-    active_plan_subscription&.current_billing_period
+    active_subscription&.current_billing_period
   end
 
   def previous_billing_period
-    active_plan_subscription&.billing_periods&.second_to_last ||
-      plan_subscriptions.second_to_last&.billing_periods&.last
+    active_subscription&.billing_periods&.second_to_last ||
+      subscriptions.second_to_last&.billing_periods&.last
   end
 
   def current_period_details

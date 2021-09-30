@@ -18,7 +18,11 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
       let(:collection_count) { 5 }
       let(:expected_collection_count) { collection_count }
 
-      before { create_list(:invoice, collection_count, customer: customer, status: 'paid') }
+      before do
+        create_list(:invoice, collection_count, customer: customer,
+                              billing_information: customer.billing_information.as_json,
+                              status: 'paid')
+      end
 
       response '200', 'Invoices retrieved' do
         schema('$ref' => '#/definitions/invoices_collection')

@@ -1,5 +1,5 @@
 ActiveAdmin.register Customer do
-  permit_params :name, :email, :plan_subscription_id
+  permit_params :name, :email, :subscription_id
   belongs_to :organization, optional: true
 
   index do
@@ -24,7 +24,7 @@ ActiveAdmin.register Customer do
   show do
     attributes_table do
       row :id
-      row :plan_subscription
+      row :subscription
       row :name
       row :email
       row :created_at

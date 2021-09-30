@@ -1,10 +1,10 @@
 ActiveAdmin.register BillingPeriod do
-  belongs_to :plan_subscription
+  belongs_to :subscription
 
   show do
     attributes_table do
       row :id
-      row :plan_subscription
+      row :subscription
       row :to
       row :from
       row :created_at

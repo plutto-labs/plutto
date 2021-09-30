@@ -7,7 +7,7 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
   attribute :current_period_details, if: :current_period_details?
   attribute :trial_finishes_at, if: :trial?
 
-  has_one :active_plan_subscription, serializer: Api::Internal::V1::PlanSubscriptionSerializer
+  has_one :active_subscription, serializer: Api::Internal::V1::SubscriptionSerializer
   has_one :billing_information
   has_many :payment_methods, if: :show?
 
@@ -24,7 +24,7 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
   end
 
   def trial_finishes_at
-    object.active_plan_subscription&.trial_finishes_at
+    object.active_subscription&.trial_finishes_at
   end
 
   def active?

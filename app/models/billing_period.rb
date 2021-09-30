@@ -2,9 +2,9 @@ class BillingPeriod < ApplicationRecord
   has_many :meter_events, dependent: :destroy
   has_many :billing_period_meter_datas, dependent: :destroy
   has_one :invoice, dependent: :destroy
-  belongs_to :plan_subscription
+  belongs_to :subscription
 
-  delegate :plan_version_price_logics, to: :plan_subscription
+  delegate :price_logics, to: :subscription
 
   private
 
@@ -17,19 +17,19 @@ end
 #
 # Table name: billing_periods
 #
-#  id                   :string           not null, primary key
-#  from                 :datetime         not null
-#  to                   :datetime         not null
-#  plan_subscription_id :string           not null
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  billing_date         :datetime
+#  id              :string           not null, primary key
+#  from            :datetime         not null
+#  to              :datetime         not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  billing_date    :datetime
+#  subscription_id :string           not null
 #
 # Indexes
 #
-#  index_billing_periods_on_plan_subscription_id  (plan_subscription_id)
+#  index_billing_periods_on_subscription_id  (subscription_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (plan_subscription_id => plan_subscriptions.id)
+#  fk_rails_...  (subscription_id => subscriptions.id)
 #

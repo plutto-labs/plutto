@@ -21,9 +21,9 @@ describe CreateNewMeterEvent do
 
   describe '#perform' do
     before do
-      plan_subscription = create(:plan_subscription, customer: customer)
+      subscription = create(:subscription, customer: customer)
       meter_count = create(:meter_count, customer: customer, meter: meter)
-      create(:billing_period, plan_subscription: plan_subscription)
+      create(:billing_period, subscription: subscription)
       create(:meter_event, idempotency_key: idempotency_key, meter_count: meter_count)
     end
 

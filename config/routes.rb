@@ -13,11 +13,11 @@ Rails.application.routes.draw do
       patch 'invoices/:id/change_status', to: 'invoices#change_status'
       resources :invoices, only: [:index, :show]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
-      resources :plan_subscriptions, only: [:create] do
-        patch 'edit_trial', to: 'plan_subscriptions#edit_trial'
+      resources :subscriptions, only: [:create] do
+        patch 'edit_trial', to: 'subscriptions#edit_trial'
       end
-      resources :plans, only: [:index, :show, :create, :update, :destroy] do
-        resources :plan_versions, only: [:create, :update, :destroy]
+      resources :products, only: [:index, :show, :create, :update, :destroy] do
+        resources :pricings, only: [:create, :update, :destroy]
       end
       resources :users, only: [:show]
     end
@@ -27,8 +27,8 @@ Rails.application.routes.draw do
       resources :customers
       resources :meter_events, only: [:create]
       resources :invoices, only: [:index, :show]
-      resources :plan_subscriptions, only: [:create]
-      patch 'plan_subscriptions/:id/end_subscription', to: 'plan_subscriptions#end_subscription'
+      resources :subscriptions, only: [:create]
+      patch 'subscriptions/:id/end_subscription', to: 'subscriptions#end_subscription'
     end
   end
   mount Rswag::Api::Engine => '/api-docs'

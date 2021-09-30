@@ -29,8 +29,8 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
       customer1 = create(:customer, organization: organization)
       customer2 = create(:customer, organization: organization)
       create(:customer, organization: organization)
-      create(:plan_subscription, customer: customer1, active: true)
-      create(:plan_subscription, customer: customer2, active: true)
+      create(:subscription, customer: customer1, active: true)
+      create(:subscription, customer: customer2, active: true)
     end
 
     context 'when signed in' do
@@ -57,8 +57,8 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
       customer1 = create(:customer, organization: organization)
       customer2 = create(:customer, organization: organization)
       create(:customer, organization: organization)
-      create(:plan_subscription, customer: customer1, active: true, trial_finishes_at: Date.current)
-      create(:plan_subscription, customer: customer2, active: true, trial_finishes_at: Date.current)
+      create(:subscription, customer: customer1, active: true, trial_finishes_at: Date.current)
+      create(:subscription, customer: customer2, active: true, trial_finishes_at: Date.current)
     end
 
     context 'when signed in' do
@@ -98,12 +98,11 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
 
   describe 'POST #create' do
     let(:organization) { create(:organization) }
-    let(:plan_version_id) { nil }
+    let(:pricing_ids) { nil }
     let(:customer_params) do
       { customer: {
         email: 'donald@getplutto.com',
         name: 'Donald',
-        plan_version_id: plan_version_id,
         identifier: 'your-id_12885305',
         billing_information: {
           city: 'Santiago',
@@ -122,19 +121,11 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
       before { sign_in create(:user, organization: organization) }
 
       context 'with valid params' do
-        let(:plan) { create(:plan, organization: organization) }
-        let!(:plan_version_id) { create(:plan_version, plan: plan).id }
+        let(:product) { create(:product, organization: organization) }
+        let!(:pricing_ids) { [create(:pricing, product: product).id] }
 
         it 'returns http success' do
           post :create, format: :json, params: customer_params
-          expect(response).to have_http_status(:success)
-        end
-      end
-
-      context 'without plan version params' do
-        it 'returns only customer' do
-          post :create, format: :json, params: customer_params
-
           expect(response).to have_http_status(:success)
         end
       end

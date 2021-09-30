@@ -1,13 +1,13 @@
 en:
   activerecord:
     models:
-      plan:
-        one: Plan
-        other: Plans
-      plan_version:
-        one: Version
-        other: Versions
-      plan_subscription:
+      product:
+        one: Product
+        other: Products
+      pricing:
+        one: Product Price
+        other: Product Prices
+      subscription:
         one: Suscription
         other: Suscriptions
       customer:
@@ -32,10 +32,6 @@ en:
   active_admin:
     resources:
       organization:
-        new_plan: New Plan
+        new_product: New Product
         new_customer: New Costumer
         new_user: New User
-      plan:
-        new_plan_version: New Version
-      plan_version:
-        new_plan_subscription: Crear nueva subscripción

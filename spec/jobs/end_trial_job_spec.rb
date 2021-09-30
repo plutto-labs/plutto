@@ -2,16 +2,16 @@ require 'rails_helper'
 
 RSpec.describe EndTrialJob, type: :job do
   let(:trial_finishes_at) { Date.current - 1.day }
-  let!(:plan_subscription) do
+  let!(:subscription) do
     create(
-      :plan_subscription,
+      :subscription,
       trial_finishes_at: trial_finishes_at
     )
   end
 
   before do
     allow(StartNewBillingPeriod).to receive(:for).with(
-      plan_subscription: plan_subscription,
+      subscription: subscription,
       billing_period: nil
     )
   end
@@ -24,18 +24,18 @@ RSpec.describe EndTrialJob, type: :job do
 
   describe '#perform_now' do
     it 'calls end_billing_period_job' do
-      described_class.perform_now(plan_subscription)
+      described_class.perform_now(subscription)
       expect(StartNewBillingPeriod).to have_received(:for)
         .with(
-          plan_subscription: plan_subscription,
+          subscription: subscription,
           billing_period: nil
         ).once
     end
 
     it 'change trial_finishes_at' do
       expect do
-        described_class.perform_now(plan_subscription)
-      end.to change { plan_subscription.trial_finishes_at }.from(trial_finishes_at).to(nil)
+        described_class.perform_now(subscription)
+      end.to change { subscription.trial_finishes_at }.from(trial_finishes_at).to(nil)
     end
   end
 end

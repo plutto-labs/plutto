@@ -23,12 +23,6 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
     customer = authorize(
       Customer.create!(customer_params.merge(organization_id: current_user.organization_id))
     )
-    ActiveRecord::Base.transaction do
-      if plan_version_params['plan_version_id']&.present? && plan_version
-        customer.add_plan_subscription(plan_version)
-      end
-      customer.save!
-    end
 
     respond_with(customer.reload)
   end
@@ -63,15 +57,7 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
 
   def customers
     @customers ||= policy_scope(Customer).includes(
-      [:billing_information, :invoices, { active_plan_subscription: { plan_version: :plan } }]
+      [:billing_information, :invoices, { active_subscription: :pricings }]
     )
-  end
-
-  def plan_version_params
-    params.require(:customer).permit(:plan_version_id)
-  end
-
-  def plan_version
-    @plan_version ||= policy_scope(PlanVersion).find(plan_version_params[:plan_version_id])
   end
 end

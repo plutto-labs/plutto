@@ -56,7 +56,7 @@ class Invoice < ApplicationRecord
   private
 
   def set_currency
-    self.currency = billing_period&.plan_subscription&.plan_version&.currency
+    self.currency = billing_period&.subscription&.currency
   end
 
   def set_invoice_data
@@ -66,7 +66,7 @@ class Invoice < ApplicationRecord
   end
 
   def tax_rate
-    billing_period&.plan_subscription&.plan_version&.plan&.tax_rate || 0
+    billing_period&.subscription&.tax_rate || 0
   end
 
   def generate_id

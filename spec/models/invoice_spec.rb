@@ -18,11 +18,10 @@ RSpec.describe Invoice, type: :model do
       let(:invoice) { create(:invoice, billing_period: billing_period) }
 
       before do
-        allow(billing_period.plan_subscription.plan_version)
-          .to receive(:currency).and_return('CLP')
+        allow(billing_period.subscription).to receive(:currency).and_return('CLP')
       end
 
-      it 'sets the currency from plans currency' do
+      it 'sets the currency from subscription currency' do
         invoice.save
         expect(invoice.currency).to eq('CLP')
       end
@@ -36,8 +35,7 @@ RSpec.describe Invoice, type: :model do
       end
 
       before do
-        allow(billing_period.plan_subscription.plan_version.plan)
-          .to receive(:tax_rate).and_return(0.19)
+        allow(billing_period.subscription).to receive(:tax_rate).and_return(0.19)
       end
 
       it 'sets the invoice data' do
