@@ -6,7 +6,7 @@ describe CreateSubscription do
   let(:pricings) { create_list(:pricing, 2) }
 
   def perform(pricings)
-    described_class.for(customer: customer, pricings: pricings)
+    described_class.for(customer: customer, pricings: pricings, billing_period_duration: 'P1M')
   end
 
   describe '#perform' do

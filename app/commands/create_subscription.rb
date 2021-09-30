@@ -1,5 +1,5 @@
 class CreateSubscription < PowerTypes::Command.new(
-  :pricings, :customer, trial_finishes_at: nil
+  :pricings, :customer, :billing_period_duration, trial_finishes_at: nil
 )
   def perform
     active_subscription = @customer.active_subscription
@@ -21,12 +21,15 @@ class CreateSubscription < PowerTypes::Command.new(
   private
 
   def create_subscription!
-    Subscription.create!(
+    subscription = Subscription.create!(
       customer: @customer,
-      pricings: @pricings,
       active: true,
+      billing_period_duration: @billing_period_duration,
       trial_finishes_at: @trial_finishes_at
     )
+
+    subscription.create_pricing_subscriptions(@pricings) if @pricings.present?
+    subscription
   end
 
   def check_if_pricing_is_active(active_subscription)

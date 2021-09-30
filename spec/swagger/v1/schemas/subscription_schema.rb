@@ -6,14 +6,17 @@ SUBSCRIPTION_SCHEMA = {
                    'x-nullable': false },
     pricing_ids: {
       type: :array,
-      example: '[price_d43280e9377673a0b4b07f31, price_d43280e9377673a123407f31]',
-      'x-nullable': true
+      items: { type: :string, example: 'pricing_5198c6ad60c3363b089a1422' }, 'x-nullable': false
     },
     created_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': false },
     updated_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': true },
     active: { type: :boolean, example: true, 'x-nullable': false },
     trial_finishes_at: { type: :string, example: '1984-06-04 09:00',
-                         'x-nullable': true, format: 'date' }
+                         'x-nullable': true, format: 'date' },
+    billing_period_duration: {
+      type: :string, example: 'P0Y1M0DT0H0M0S', 'x-nullable': false,
+      description: 'ISO 8601 duration for a billing period'
+    }
   },
   required: [
     :id,
@@ -29,13 +32,20 @@ SUBSCRIPTION_CREATE_SCHEMA = {
   properties: {
     customer_id: { type: :string, example: 'customer_5198c6ad60c3363b089a1421',
                    'x-nullable': false },
-    pricing_ids: { type: :string, example: 'price_46cf463812d56103d1dfa382',
-                   'x-nullable': true },
+    pricing_ids: {
+      type: :array,
+      items: { type: :string, example: 'pricing_5198c6ad60c3363b089a1422' },
+      'x-nullable': false
+    },
     trial_finishes_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': true,
-                         format: 'date' }
+                         format: 'date' },
+    billing_period_duration: {
+      type: :string, example: 'P0Y1M0DT0H0M0S', 'x-nullable': false,
+      description: 'ISO 8601 duration for a billing period'
+    }
   },
   required: [
-    :customer_id
+    :customer_id, :pricing_ids, :trial_finishes_at, :billing_period_duration
   ]
 }
 

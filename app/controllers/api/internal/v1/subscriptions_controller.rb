@@ -7,6 +7,7 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
       CreateSubscription.for(
         pricings: pricings,
         customer: customer,
+        billing_period_duration: params['billing_period_duration'],
         trial_finishes_at: params['trial_finishes_at']
       )
     )

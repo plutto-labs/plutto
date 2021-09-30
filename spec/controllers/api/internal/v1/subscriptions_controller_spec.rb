@@ -15,7 +15,8 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
         context 'with pricing param' do
           it 'returns http success' do
             post :create, format: :json,
-              params: { customer_id: customer.id, pricing_ids: [pricing.id] }
+              params: { customer_id: customer.id, pricing_ids: [pricing.id],
+                        billing_period_duration: 'P1M' }
 
             expect(response).to have_http_status(:success)
           end
@@ -33,7 +34,8 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
 
           it 'returns http not_found for pricing_id' do
             post :create, format: :json, params: {
-              customer_id: customer.id, pricing_ids: [other_org_pricing.id]
+              customer_id: customer.id, pricing_ids: [other_org_pricing.id],
+              billing_period_duration: 'P1M'
             }
 
             expect(response).to have_http_status(:not_found)

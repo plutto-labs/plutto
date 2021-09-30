@@ -7,7 +7,7 @@ class Subscription < ApplicationRecord
   has_many :price_logics, through: :pricings
   belongs_to :customer
 
-  delegate :country_iso_code, to: :customer
+  delegate :country_iso_code, to: :customer, allow_nil: true
 
   enum currency: Currencies.keys
   enum bills_at: { start: 0, end: 1 }, _prefix: :bills_at
@@ -43,6 +43,15 @@ class Subscription < ApplicationRecord
 
   def has_pricing?(pricings)
     pricings.any? { |pricing| self.pricings.include?(pricing) }
+  end
+
+  def create_pricing_subscriptions(pricings)
+    pricings.each do |pricing|
+      PricingSubscription.create!(
+        subscription: self,
+        pricing: pricing
+      )
+    end
   end
 
   private
