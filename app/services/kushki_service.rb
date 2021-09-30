@@ -4,15 +4,33 @@ class KushkiService
       token: params[:token],
       planName: 'Plutto',
       periodicity: 'custom',
-      contactDetails: contact_deatils(customer),
+      contactDetails: contact_details(customer),
       amount: { subtotalIva: 0, subtotalIva0: 0, ice: 0, iva: 0, currency: 'CLP' },
       startDate: (Date.current + 1.day).to_s
     }
-    response = client.post('/subscriptions/v1/card', body)
-    if response.code == 201
-      create_payment_method(params[:token], response['subscriptionId'], customer)
+    res = client.post('/subscriptions/v1/card', body)
+    if res.code == 201
+      create_payment_method(params[:token], res['subscriptionId'], customer)
     end
-    response
+    res
+  end
+
+  def charge(payment_method, invoice)
+    subscription_id = payment_method.gateway_info['subscription_id']
+    body = { amount: charge_amount(invoice),
+             contactDetails: contact_details(payment_method.customer),
+             orderDetails: order_details(invoice),
+             productDetails: product_details(invoice),
+             fullResponse: true }
+    res = client.post("/subscriptions/v1/card/#{subscription_id}", body)
+    if res.code == 201
+      return Payment.create!(
+        payment_method: payment_method, invoice: invoice, gateway: 'kushki',
+        id_in_gateway: res['ticketNumber'], payment_data: res['details']
+      )
+    end
+
+    raise "Kushki Error: #{res['details']['response_text']}"
   end
 
   def update_payment_method_data(payment_method)
@@ -46,7 +64,7 @@ class KushkiService
     @client ||= KushkiClient.new
   end
 
-  def contact_deatils(customer)
+  def contact_details(customer)
     {
       # documentType: 'CC',
       # documentNumber: customer.billing_information&.tax_id,
@@ -54,6 +72,34 @@ class KushkiService
       firstName: customer.name || customer.billing_information&.legal_name,
       lastName: 'DeLonghi',
       phoneNumber: customer.billing_information&.phone
+    }
+  end
+
+  def charge_amount(invoice)
+    { ice: 0, iva: 0, subtotalIva: 0, subtotalIva0: invoice.total.amount.to_f, currency: 'USD' }
+  end
+
+  def product_details(invoice)
+    {
+      product: invoice.details.map do |p|
+        { id: p['id'], title: p['description'], price: p['total_price'], quantity: 1 }
+      end
+    }
+  end
+
+  def order_details(invoice)
+    billing_information = invoice.billing_information
+    {
+      siteDomain: 'getplutto.com',
+      billingDetails: {
+        name: billing_information['legal_name'],
+        phone: billing_information['phone'],
+        address: billing_information['address'],
+        city: billing_information['city'],
+        region: billing_information['state'],
+        country: billing_information['country_iso_code'],
+        zipCode: billing_information['zip']
+      }
     }
   end
 end
