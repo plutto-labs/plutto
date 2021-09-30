@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_29_184738) do
+ActiveRecord::Schema.define(version: 2021_09_30_183858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,18 @@ ActiveRecord::Schema.define(version: 2021_09_29_184738) do
     t.index ["customer_id"], name: "index_payment_methods_on_customer_id"
   end
 
+  create_table "payments", id: :string, force: :cascade do |t|
+    t.string "payment_method_id", null: false
+    t.string "invoice_id", null: false
+    t.string "id_in_gateway"
+    t.integer "gateway"
+    t.jsonb "payment_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["invoice_id"], name: "index_payments_on_invoice_id"
+    t.index ["payment_method_id"], name: "index_payments_on_payment_method_id"
+  end
+
   create_table "price_logic_tiers", id: :string, force: :cascade do |t|
     t.float "upper_limit", null: false
     t.float "lower_limit", null: false
@@ -299,6 +311,8 @@ ActiveRecord::Schema.define(version: 2021_09_29_184738) do
   add_foreign_key "meter_events", "meters"
   add_foreign_key "meters", "organizations"
   add_foreign_key "payment_methods", "customers"
+  add_foreign_key "payments", "invoices"
+  add_foreign_key "payments", "payment_methods"
   add_foreign_key "price_logics", "meters"
   add_foreign_key "price_logics", "pricings"
   add_foreign_key "pricing_subscriptions", "pricings"
