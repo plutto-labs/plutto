@@ -23,14 +23,6 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
     customer = authorize(
       Customer.create!(customer_params.merge(organization_id: current_user.organization_id))
     )
-    ActiveRecord::Base.transaction do
-      if pricings_params[:pricing_ids]&.present? &&
-          !pricings_params[:pricing_ids].empty? && pricings
-        customer.add_subscription(pricings)
-      end
-
-      customer.save!
-    end
 
     respond_with(customer.reload)
   end
@@ -67,21 +59,5 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
     @customers ||= policy_scope(Customer).includes(
       [:billing_information, :invoices, { active_subscription: :pricings }]
     )
-  end
-
-  def pricings_params
-    params.require(:customer).permit(pricing_ids: [])
-  end
-
-  def pricings
-    return if pricings_params[:pricing_ids].blank?
-
-    @pricings = []
-    pricings_params[:pricing_ids].each do |pricing_id|
-      pricing = policy_scope(Pricing).find(pricing_id)
-      @pricings << pricing if pricing
-    end
-
-    @pricings
   end
 end

@@ -4,13 +4,10 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
   let(:organization) { create(:organization) }
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
-  let(:product) { create(:product, organization: organization) }
-  let(:pricing_ids) { [create(:pricing, product: product).id] }
   let(:customer) do
     { customer: { email: 'donald@getplutto.com',
                   name: 'Donald',
                   identifier: 'your-id_12885305',
-                  pricing_ids: pricing_ids,
                   billing_information: {
                     city: 'Santiago',
                     country_iso_code: 'CL',
@@ -66,21 +63,6 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
           expect(customer['billing_information']).to be_present
           expect(customer['billing_information']['legal_name']).to eq('Plutto Inc')
           expect(customer['billing_information']['country_iso_code']).to eq('CL')
-          expect(customer['active_subscription']).to be_present
-        end
-      end
-
-      context 'when pricing_ids is not present' do
-        let(:pricing_ids) { [] }
-
-        response '201', 'customer created' do
-          schema('$ref' => '#/definitions/customer_resource')
-          let(:Authorization) { "Bearer #{token}" }
-
-          run_test! do |response|
-            customer = JSON.parse(response.body)['customer']
-            expect(customer['active_subscription']).not_to be_present
-          end
         end
       end
 

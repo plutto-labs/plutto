@@ -103,7 +103,6 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
       { customer: {
         email: 'donald@getplutto.com',
         name: 'Donald',
-        pricing_ids: pricing_ids,
         identifier: 'your-id_12885305',
         billing_information: {
           city: 'Santiago',
@@ -127,14 +126,6 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
 
         it 'returns http success' do
           post :create, format: :json, params: customer_params
-          expect(response).to have_http_status(:success)
-        end
-      end
-
-      context 'without pricing params' do
-        it 'returns only customer' do
-          post :create, format: :json, params: customer_params
-
           expect(response).to have_http_status(:success)
         end
       end

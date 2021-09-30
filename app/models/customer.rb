@@ -12,7 +12,7 @@ class Customer < ApplicationRecord
 
   validates :email, format: { with: Devise.email_regexp, message: "invalid email" }
 
-  delegate :country_iso_code, to: :billing_information
+  delegate :country_iso_code, to: :billing_information, allow_nil: true
 
   before_save :validate_uniqueness_of_identifier_within_organization
 
