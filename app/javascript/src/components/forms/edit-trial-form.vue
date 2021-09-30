@@ -73,7 +73,7 @@ import ConfirmEndTrial from '@/components/confirmations/confirm-end-trial';
 export default {
   components: { DatePicker, PluttoModal, ConfirmEndTrial },
   props: {
-    planSubscription: {
+    subscription: {
       type: Object,
       required: true,
     },
@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     editTrial(body) {
-      this.$store.dispatch('EDIT_PLAN_SUBSCRIPTION_TRIAL', { id: this.planSubscription.id, ...body })
+      this.$store.dispatch('EDIT_SUBSCRIPTION_TRIAL', { id: this.subscription.id, ...body })
         .then(this.$emit('edited-trial'));
     },
   },
