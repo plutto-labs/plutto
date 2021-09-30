@@ -1,9 +1,9 @@
 ActiveAdmin.register Organization do
   permit_params :name
 
-  action_item :create_plan, only: :show do
-    link_to(I18n.t('active_admin.resources.organization.new_plan'),
-            new_admin_organization_plan_path(resource))
+  action_item :create_product, only: :show do
+    link_to(I18n.t('active_admin.resources.organization.new_product'),
+            new_admin_organization_product_path(resource))
   end
 
   action_item :create_customer, only: :show do
@@ -51,11 +51,11 @@ ActiveAdmin.register Organization do
       end
     end
 
-    panel I18n.t('activerecord.models.plan', count: 2) do
-      table_for resource.plans do
-        column(:id) do |plan|
-          link_to(plan.id,
-                  admin_organization_plans_path(organization_id: resource.id, plan_id: plan.id))
+    panel I18n.t('activerecord.models.product', count: 2) do
+      table_for resource.products do
+        column(:id) do |product|
+          link_to(product.id,
+                  admin_organization_products_path(organization_id: resource.id, product_id: product.id))
         end
         column :name
         column :created_at

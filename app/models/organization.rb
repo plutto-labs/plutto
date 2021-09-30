@@ -1,6 +1,6 @@
 class Organization < ApplicationRecord
   has_many :users, dependent: :destroy
-  has_many :plans, dependent: :destroy
+  has_many :products, dependent: :destroy
   has_many :customers, dependent: :destroy
   has_many :meters, dependent: :destroy
   has_many :invoices, through: :customers
