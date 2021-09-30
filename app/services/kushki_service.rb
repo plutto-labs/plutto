@@ -22,8 +22,15 @@ class KushkiService
              orderDetails: order_details(invoice),
              productDetails: product_details(invoice),
              fullResponse: true }
-    client.post("/subscriptions/v1/card/#{subscription_id}", body)
-    # TODO: save payment information
+    res = client.post("/subscriptions/v1/card/#{subscription_id}", body)
+    if res.code == 201
+      return Payment.create!(
+        payment_method: payment_method, invoice: invoice, gateway: 'kushki',
+        id_in_gateway: res['ticketNumber'], payment_data: res['details']
+      )
+    end
+
+    raise "Kushki Error: #{res['details']['response_text']}"
   end
 
   def update_payment_method_data(payment_method)
