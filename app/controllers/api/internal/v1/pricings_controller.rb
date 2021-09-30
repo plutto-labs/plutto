@@ -1,4 +1,4 @@
-class Api::Internal::V1::PricingController < Api::Internal::V1::BaseController
+class Api::Internal::V1::PricingsController < Api::Internal::V1::BaseController
   acts_as_token_authentication_handler_for User
   include Pundit
 
@@ -37,6 +37,6 @@ class Api::Internal::V1::PricingController < Api::Internal::V1::BaseController
   end
 
   def product
-    @product ||= Product.find(params[:product_id])
+    @product ||= policy_scope(Product).find(params[:product_id])
   end
 end

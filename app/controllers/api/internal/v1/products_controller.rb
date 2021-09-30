@@ -8,7 +8,7 @@ class Api::Internal::V1::ProductsController < Api::Internal::V1::BaseController
 
   def show
     authorize product
-    respond_with(product, include_prices: true)
+    respond_with(product, show: true)
   end
 
   def create
@@ -58,6 +58,6 @@ class Api::Internal::V1::ProductsController < Api::Internal::V1::BaseController
   end
 
   def products
-    @products ||= policy_scope(Product).includes([:default_price, { pricings: :price_logics }])
+    @products ||= policy_scope(Product)
   end
 end
