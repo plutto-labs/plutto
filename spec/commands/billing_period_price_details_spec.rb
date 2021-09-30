@@ -5,14 +5,10 @@ describe BillingPeriodPriceDetails do
     Timecop.freeze
   end
 
-  let(:meter) { create(:meter) }
-  let(:product) { create(:product, meter: meter) }
   let(:customer) { create(:customer) }
-  let(:billing_date) { Date.current + 30.days }
   let(:subscription) { create(:subscription, customer: customer) }
-  let(:pricings) { create_list(:pricing, 2, product: product) }
   let!(:pricing_subscription) do
-    create(:pricing_subscription, subscription: subscription, pricing: pricings[0])
+    create(:pricing_subscription, subscription: subscription)
   end
   let(:billing_period) do
     create(
@@ -20,32 +16,27 @@ describe BillingPeriodPriceDetails do
       from: Date.current,
       to: Date.current + 30.days,
       subscription: subscription,
-      billing_date: billing_date
+      billing_date: Date.current + 30.days
     )
   end
 
   def mock_metered_price_logic
-    meter_count = create(:meter_count, meter: meter, count: 250, customer: customer)
+    meter_count = create(:meter_count, meter: pricing_subscription.pricing.product.meter,
+                                       count: 250, customer: customer)
     create(:billing_period_meter_data, initial_count: 10, final_count: 260,
            billing_period: billing_period, meter_count: meter_count)
     tiers_params = [{ price: usd(300), limit: 100 }, { price: usd(200), limit: 200 },
                     { price: usd(100), limit: 300 }]
-
     price_logic = create(:price_logic_volume, :with_tiers,
                          price: usd(100), tiers_params: tiers_params,
-                         pricing: pricings[1])
-
-    create(:pricing_subscription, subscription: subscription, pricing: pricings[1])
-
-    subscription.reload
+                         pricing: pricing_subscription.pricing)
     allow(price_logic).to receive(:calculate_price).with(250).and_return(usd(100))
   end
 
   def mock_non_metered_price_logic
     price_logic = create(:price_logic_flat_fee,
                          price: usd(100),
-                         pricing: pricings[0])
-    subscription.reload
+                         pricing: pricing_subscription.pricing)
     allow(price_logic).to receive(:calculate_price).with(250).and_return(usd(100))
   end
 
@@ -108,14 +99,12 @@ describe BillingPeriodPriceDetails do
       end
 
       context 'when billing period bills at start' do
-        let(:billing_date) { nil }
-
         before do
           allow(subscription).to receive(:bills_at_start?).and_return(true)
         end
 
         it 'returns the correct price' do
-          expected_price = (usd(100) * 250 + usd(100)) * 1
+          expected_price = (price_logic_prices[0] + price_logic_prices[1]) * 1
           expect(perform[:price]).to eq(expected_price)
         end
       end
