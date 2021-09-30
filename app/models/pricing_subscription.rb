@@ -2,6 +2,8 @@ class PricingSubscription < ApplicationRecord
   belongs_to :pricing
   belongs_to :subscription
 
+  validate :no_metered_for_bills_at_start
+
   def price_logics
     pricing.price_logics
   end
@@ -9,7 +11,13 @@ class PricingSubscription < ApplicationRecord
   private
 
   def generate_id
-    init_id('price_subscription')
+    init_id('pricing_subscription')
+  end
+
+  def no_metered_for_bills_at_start
+    if subscription&.bills_at_start? && pricing.price_logics.any?(&:metered?)
+      errors.add(:pricing, 'Cannot bill at start of period if there is use-based price logics')
+    end
   end
 end
 
