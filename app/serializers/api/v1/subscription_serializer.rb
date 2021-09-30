@@ -2,6 +2,8 @@ class Api::V1::SubscriptionSerializer < Api::BaseSerializer
   attributes  :id, :customer_id, :created_at, :updated_at, :active, :trial_finishes_at, :bills_at,
               :billing_period_duration
 
+  has_many :pricings, serializer: Api::V1::PricingSerializer
+
   def billing_period_duration
     object.billing_period_duration.iso8601
   end

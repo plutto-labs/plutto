@@ -80,7 +80,7 @@ end
 #  auto_collection         :boolean          default(TRUE)
 #  price_type              :integer          default("tax_inclusive")
 #  trial_finishes_at       :datetime
-#  bills_at                :integer          default("start")
+#  bills_at                :integer          default("end")
 #  billing_period_duration :string
 #  currency                :integer          default("USD"), not null
 #  country_iso_code        :integer          default(0), not null
