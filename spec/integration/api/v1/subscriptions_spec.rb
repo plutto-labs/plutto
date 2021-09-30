@@ -19,26 +19,36 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
       parameter name: :subscription, in: :body,
                 schema: { '$ref': '#/definitions/subscription_create' }
 
-      context 'with pricing_ids' do
-        let(:subscription) do
-          {
-            subscription: {
-              customer_id: customer.id,
-              pricing_ids: [pricing.id],
-              billing_period_duration: 'P0Y1M0DT0H0M0S',
-              trial_finishes_at: 15.days.from_now.iso8601
-            }
+      let(:bills_at) { 'end' }
+      let!(:subscription) do
+        {
+          subscription: {
+            customer_id: customer.id,
+            pricing_ids: [pricing.id],
+            billing_period_duration: 'P0Y1M0DT0H0M0S',
+            trial_finishes_at: 15.days.from_now.iso8601,
+            bills_at: bills_at
           }
+        }
+      end
+
+      response '201', 'subscription created' do
+        schema('$ref' => '#/definitions/subscription_resource')
+        let(:Authorization) { "Bearer #{token}" }
+
+        run_test!
+      end
+
+      it_behaves_like 'unauthorized endpoint'
+
+      context 'when bills at start and has metered logics' do
+        let(:bills_at) { 'start' }
+
+        before do
+          create(:price_logic_per_unit, pricing: pricing)
         end
 
-        response '201', 'subscription created' do
-          schema('$ref' => '#/definitions/subscription_resource')
-          let(:Authorization) { "Bearer #{token}" }
-
-          run_test!
-        end
-
-        it_behaves_like 'unauthorized endpoint'
+        it_behaves_like 'unprocessable entity endpoint'
       end
     end
   end

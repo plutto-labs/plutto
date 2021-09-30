@@ -28,42 +28,6 @@ RSpec.describe Subscription, type: :model do
         end
       end
     end
-
-    describe '#no_metered_for_bills_at_start' do
-      let(:bills_at) { 'start' }
-      let(:product) { build(:product) }
-      let(:pricing) { create(:pricing, product: product) }
-      let(:subscription) { build(:subscription, bills_at: bills_at) }
-      let!(:pricing_subscription) do
-        create(:pricing_subscription, pricing: pricing, subscription: subscription)
-      end
-
-      context 'when it bills at start' do
-        it 'is not valid for metered price_logic' do
-          pricing.price_logics << create(:price_logic_stair_step)
-          expect(subscription.reload).not_to be_valid
-        end
-
-        it 'is valid for not metered price_logic' do
-          pricing.price_logics << create(:price_logic_flat_fee)
-          expect(subscription.reload).to be_valid
-        end
-      end
-
-      context 'when it bills at end' do
-        let(:bills_at) { 'end' }
-
-        it 'is valid for metered price_logic' do
-          pricing.price_logics << create(:price_logic_stair_step)
-          expect(subscription.reload).to be_valid
-        end
-
-        it 'is valid for not metered price_logic' do
-          pricing.price_logics << create(:price_logic_flat_fee)
-          expect(subscription.reload).to be_valid
-        end
-      end
-    end
   end
 
   describe '#end_subscription!' do
@@ -123,6 +87,17 @@ RSpec.describe Subscription, type: :model do
 
     it 'returns the tax rate' do
       expect(subscription.tax_rate).to eq(tax_rate)
+    end
+  end
+
+  describe '#create_pricing_subscriptions' do
+    let(:subscription) { create(:subscription) }
+    let(:pricings) { create_list(:pricing, 2) }
+
+    it 'creates pricing_subscriptions' do
+      subscription.create_pricing_subscriptions(pricings)
+      subscription.save!
+      expect(subscription.pricing_subscriptions.count).to eq(2)
     end
   end
 end
