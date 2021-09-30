@@ -1,4 +1,4 @@
-import * as planSubscriptionsApi from '../api/plan_subscriptions';
+import * as subscriptionsApi from '../api/subscriptions';
 
 const initialState = {
   loading: null,
@@ -9,7 +9,7 @@ export const mutations = {
   resetState(state) {
     Object.assign(state, initialState);
   },
-  setPlanSubscriptionsLoading(state, payload) {
+  setSubscriptionsLoading(state, payload) {
     state.loading = payload;
   },
   setError(state, payload) {
@@ -18,30 +18,30 @@ export const mutations = {
 };
 
 export const actions = {
-  CREATE_PLAN_SUBSCRIPTION({ commit }, payload) {
-    commit('setPlanSubscriptionsLoading', true);
+  CREATE_SUBSCRIPTION({ commit }, payload) {
+    commit('setSubscriptionsLoading', true);
 
-    return planSubscriptionsApi.create(payload)
+    return subscriptionsApi.create(payload)
       .catch((err) => {
         commit('setError', err);
       })
       .finally(() => {
-        commit('setPlanSubscriptionsLoading', false);
+        commit('setSubscriptionsLoading', false);
       });
   },
 
-  EDIT_PLAN_SUBSCRIPTION_TRIAL({ commit }, payload) {
-    commit('setPlanSubscriptionsLoading', true);
+  EDIT_SUBSCRIPTION_TRIAL({ commit }, payload) {
+    commit('setSubscriptionsLoading', true);
 
-    return planSubscriptionsApi.editTrial(payload.id, payload)
+    return subscriptionsApi.editTrial(payload.id, payload)
       .then((data) => {
-        if (data.planSubscription) commit('setCurrentCustomerPlanSubscription', data.planSubscription);
+        if (data.subscription) commit('setCurrentCustomerSubscription', data.subscription);
       })
       .catch((err) => {
         commit('setError', err);
       })
       .finally(() => {
-        commit('setPlanSubscriptionsLoading', false);
+        commit('setSubscriptionsLoading', false);
       });
   },
 
