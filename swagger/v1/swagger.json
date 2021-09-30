@@ -193,6 +193,22 @@
           "example": "1984-06-04 09:00",
           "x-nullable": true,
           "format": "date"
+        },
+        "bills_at": {
+          "type": "string",
+          "example": "end",
+          "x-nullable": false,
+          "enum": [
+            "start",
+            "end"
+          ],
+          "description": "choose wether the subscription should be billed at the start or end of the period. Note that usage based subscriptions are can only be billed at the end of the period."
+        },
+        "billing_period_duration": {
+          "type": "string",
+          "example": "P0Y1M0DT0H0M0S",
+          "x-nullable": false,
+          "description": "ISO 8601 duration for a billing period"
         }
       },
       "required": [
@@ -224,10 +240,29 @@
           "example": "1984-06-04 09:00",
           "x-nullable": true,
           "format": "date"
+        },
+        "bills_at": {
+          "type": "string",
+          "example": "end",
+          "x-nullable": false,
+          "enum": [
+            "start",
+            "end"
+          ],
+          "description": "choose wether the subscription should be billed at the start or end of the period. \\\n      Note that usage based subscriptions are can only be billed at the end of the period."
+        },
+        "billing_period_duration": {
+          "type": "string",
+          "example": "P0Y1M0DT0H0M0S",
+          "x-nullable": false,
+          "description": "ISO 8601 duration for a billing period"
         }
       },
       "required": [
-        "customer_id"
+        "customer_id",
+        "pricing_ids",
+        "trial_finishes_at",
+        "billing_period_duration"
       ]
     },
     "subscription_resource": {

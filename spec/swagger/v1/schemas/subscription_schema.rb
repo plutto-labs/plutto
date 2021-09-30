@@ -13,6 +13,10 @@ SUBSCRIPTION_SCHEMA = {
     active: { type: :boolean, example: true, 'x-nullable': false },
     trial_finishes_at: { type: :string, example: '1984-06-04 09:00',
                          'x-nullable': true, format: 'date' },
+    bills_at: { type: :string, example: 'end', 'x-nullable': false, enum: ['start', 'end'],
+                description: 'choose wether the subscription should be billed at the start ' \
+                'or end of the period. Note that usage based subscriptions are can only be ' \
+                'billed at the end of the period.' },
     billing_period_duration: {
       type: :string, example: 'P0Y1M0DT0H0M0S', 'x-nullable': false,
       description: 'ISO 8601 duration for a billing period'
@@ -23,7 +27,9 @@ SUBSCRIPTION_SCHEMA = {
     :customer_id,
     :pricing_ids,
     :created_at,
-    :active
+    :active,
+    :bills_at,
+    :billing_period_duration
   ]
 }
 
@@ -39,13 +45,17 @@ SUBSCRIPTION_CREATE_SCHEMA = {
     },
     trial_finishes_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': true,
                          format: 'date' },
+    bills_at: { type: :string, example: 'end', 'x-nullable': false, enum: ['start', 'end'],
+                description: 'choose wether the subscription should be billed at the start or ' \
+                'end of the period. Note that usage based subscriptions are can only be billed ' \
+                'at the end of the period.' },
     billing_period_duration: {
       type: :string, example: 'P0Y1M0DT0H0M0S', 'x-nullable': false,
       description: 'ISO 8601 duration for a billing period'
     }
   },
   required: [
-    :customer_id, :pricing_ids, :trial_finishes_at, :billing_period_duration
+    :customer_id, :pricing_ids, :billing_period_duration, :bills_at
   ]
 }
 

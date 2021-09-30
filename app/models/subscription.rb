@@ -10,7 +10,7 @@ class Subscription < ApplicationRecord
   delegate :country_iso_code, to: :customer, allow_nil: true
 
   enum currency: Currencies.keys
-  enum bills_at: { start: 0, end: 1 }, _prefix: :bills_at
+  enum bills_at: { start: 0, end: 1 }, _prefix: :bills_at, _default: :end
   enum price_type: { tax_inclusive: 0, tax_exclusive: 1 }, _suffix: true
 
   attribute :billing_period_duration, :duration

@@ -6,7 +6,8 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
         pricings: pricings,
         customer: customer,
         billing_period_duration: create_params[:billing_period_duration],
-        trial_finishes_at: create_params[:trial_finishes_at]
+        trial_finishes_at: create_params[:trial_finishes_at],
+        bills_at: create_params[:bills_at]
       )
     )
   end
@@ -42,7 +43,8 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   end
 
   def create_params
-    params.require(:subscription).permit(:customer_id, :trial_finishes_at, :billing_period_duration)
+    params.require(:subscription).permit(:customer_id, :trial_finishes_at,
+                                         :billing_period_duration, :bills_at)
   end
 
   def pricings_params

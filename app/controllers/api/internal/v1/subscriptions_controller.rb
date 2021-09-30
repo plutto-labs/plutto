@@ -8,7 +8,8 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
         pricings: pricings,
         customer: customer,
         billing_period_duration: params['billing_period_duration'],
-        trial_finishes_at: params['trial_finishes_at']
+        trial_finishes_at: params['trial_finishes_at'],
+        bills_at: params['bills_at']
       )
     )
   end
@@ -51,7 +52,7 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
   end
 
   def edit_trial_params
-    params.permit(:trial_finishes_at, :start_subscription)
+    params.permit(:trial_finishes_at, :start_subscription, :bills_at)
   end
 
   def pricings_params
