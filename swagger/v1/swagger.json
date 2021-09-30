@@ -167,8 +167,11 @@
         },
         "pricing_ids": {
           "type": "array",
-          "example": "[price_d43280e9377673a0b4b07f31, price_d43280e9377673a123407f31]",
-          "x-nullable": true
+          "items": {
+            "type": "string",
+            "example": "pricing_5198c6ad60c3363b089a1422"
+          },
+          "x-nullable": false
         },
         "created_at": {
           "type": "string",
@@ -209,9 +212,12 @@
           "x-nullable": false
         },
         "pricing_ids": {
-          "type": "string",
-          "example": "price_46cf463812d56103d1dfa382",
-          "x-nullable": true
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "pricing_5198c6ad60c3363b089a1422"
+          },
+          "x-nullable": false
         },
         "trial_finishes_at": {
           "type": "string",
@@ -253,11 +259,6 @@
           "example": "donald",
           "x-nullable": true
         },
-        "pricings": {
-          "type": "array",
-          "example": "[price_d43280e9377673a0b4b07f31, price_d43280e9377673a123407f31]",
-          "x-nullable": true
-        },
         "subscription": {
           "type": "object",
           "properties": {
@@ -279,7 +280,7 @@
             "country_iso_code": {
               "type": "string",
               "example": "CHL",
-              "x-nullable": true
+              "x-nullable": false
             },
             "state": {
               "type": "string",
@@ -320,7 +321,8 @@
         }
       },
       "required": [
-        "email"
+        "email",
+        "billing_information"
       ]
     },
     "customer_index": {
