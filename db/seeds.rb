@@ -37,25 +37,16 @@ unless Rails.env.production?
 
     meter = Meter.find_or_create_by(name: 'api calls', organization: org)
 
-    plan = Plan.find_or_create_by(name: 'Enterprise', organization: org) do |plan|
-      plan.currency = 'USD'
-      plan.bills_at = 'end'
-      plan.billing_period_duration = 1.month
-    end
+    pricing = Pricing.find_or_create_by(name: 'Enterprise', organization: org)
 
-    plan_version = PlanVersion.find_or_create_by(plan: plan) do |plan_version|
-      plan_version.deployed = true
-      plan.default_version = plan_version
-    end
-
-    if plan_version
-      PriceLogic::FlatFee.find_or_create_by(plan_version: plan_version) do |flat_fee|
-        flat_fee.price = Money.new(100, plan.currency)
+    if pricing
+      PriceLogic::FlatFee.find_or_create_by(pricing: pricing) do |flat_fee|
+        flat_fee.price = Money.new(100, pricing.currency)
         flat_fee.meter_count_method = 'period_sum'
       end
 
-      PriceLogic::PerUnit.find_or_create_by(plan_version: plan_version, meter: meter) do |per_unit|
-        per_unit.price = Money.new(5, plan.currency)
+      PriceLogic::PerUnit.find_or_create_by(pricing: pricing, meter: meter) do |per_unit|
+        per_unit.price = Money.new(5, pricing.currency)
         per_unit.meter_count_method = 'period_sum'
       end
     end
@@ -75,11 +66,18 @@ unless Rails.env.production?
           phone: '9550898',
           legal_name: 'Plutto Inc',
         )
-        plan_subscription = PlanSubscription.find_or_create_by(customer: customer,
-          plan_version: plan_version, active: true)
+
+        # TODO: fix this
+        subscription = Subscription.find_or_create_by(
+          customer: customer,
+          pricings: [pricing], active: true,
+          currency: 'USD',
+          bills_at: 'end',
+          billing_period_duration: 1.month
+        )
 
         billing_period = BillingPeriod.find_or_create_by(
-          plan_subscription: plan_subscription,
+          subscription: subscription,
           from: DateTime.new(2021, 7, 7),
           to: DateTime.new(2021, 8, 7),
           billing_date: DateTime.new(2021, 8, 8)
