@@ -21,7 +21,7 @@ class CreateSubscription < PowerTypes::Command.new(
   private
 
   def create_subscription!
-    subscription = Subscription.create!(
+    subscription = Subscription.new(
       customer: @customer,
       active: true,
       billing_period_duration: @billing_period_duration,
@@ -30,6 +30,7 @@ class CreateSubscription < PowerTypes::Command.new(
     )
 
     subscription.create_pricing_subscriptions(@pricings) if @pricings.present?
+    subscription.save!
     subscription
   end
 
