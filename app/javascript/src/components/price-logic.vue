@@ -32,33 +32,6 @@
                 for="meter-type"
                 class="text-sm font-medium text-gray-100"
               >
-                metered with
-              </label>
-              <PluttoDropdown
-                class="mx-2 mt-2"
-                v-if="edit"
-                :selected="priceLogic.meterId"
-                :options="meters"
-                label-key="name"
-                value-key="id"
-                @selected="(meterId) => updatePriceLogic('meterId', meterId)"
-                add-element-text="Add Meter"
-                @addElementClicked="showNewMeterModal = true"
-              />
-              <div
-                class="inline-block px-4 py-2 mx-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
-                v-else
-              >
-                {{ meters && meters.find(meter => meter.id == priceLogic.meterId).name }}
-              </div>
-            </div>
-          </template>
-          <template v-if="priceLogic.metered">
-            <div class="inline-block sm:col-span-3">
-              <label
-                for="meter-type"
-                class="text-sm font-medium text-gray-100"
-              >
                 using
               </label>
               <PluttoDropdown
@@ -120,14 +93,6 @@
       <slot name="delete" />
     </div>
     <slot name="separator" />
-    <PluttoModal
-      :showing="showNewMeterModal"
-      @close="showNewMeterModal = false"
-    >
-      <NewMeterForm
-        @created-meter="meter => assignNewMeter(meter)"
-      />
-    </PluttoModal>
   </div>
 </template>
 
@@ -137,11 +102,8 @@ import { mapState } from 'vuex';
 import PriceLogicTiers from '@/components/price-logic-tiers';
 import PluttoDropdown from '@/components/plutto-dropdown';
 
-import PluttoModal from '@/components/plutto-modal';
-import NewMeterForm from '@/components/forms/new-meter-form';
-
 export default {
-  components: { PriceLogicTiers, PluttoDropdown, PluttoModal, NewMeterForm },
+  components: { PriceLogicTiers, PluttoDropdown },
   props: {
     modelValue: {
       type: Object,
@@ -169,7 +131,6 @@ export default {
         'PriceLogic::Tiered': { tierable: true, metered: true },
         'PriceLogic::Volume': { tierable: true, metered: true },
       },
-      showNewMeterModal: false,
       meterCountMethods: [
         { value: 'period_sum', label: 'the last period information' },
         { value: 'history_sum', label: 'the historic information' },
@@ -185,10 +146,6 @@ export default {
     updatePriceLogic(key, val) {
       if (key === 'type') this.priceLogic = Object.assign(this.priceLogic, this.allowedPriceLogicOptions[val]);
       this.priceLogic = { ...this.priceLogic, ...{ [key]: val } };
-    },
-    assignNewMeter(newMeter) {
-      this.showNewMeterModal = false;
-      this.updatePriceLogic('meterId', newMeter.id);
     },
   },
   computed: {
