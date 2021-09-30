@@ -12,13 +12,13 @@ es-CL:
       user:
         one: 'Usuario'
         other: 'Usuarios'
-      plan:
-        one: Plan
-        other: Planes
-      plan_version:
-        one: Version
-        other: Versiones
-      plan_subscription:
+      product:
+        one: Producto
+        other: Productos
+      pricing:
+        one: Precio de producto
+        other: Precios de producto
+      subscription:
         one: Suscripción
         other: Suscripciones
       customer:
@@ -39,9 +39,5 @@ es-CL:
   active_admin:
     resources:
       organization:
-        new_plan: Crear nuevo plan
+        new_product: Crear nuevo producto
         new_costumer: New Costumer
-      plan:
-        new_plan_version: Crear nueva version
-      plan_version:
-        new_plan_subscription: Crear nueva subscripción
