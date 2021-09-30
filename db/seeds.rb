@@ -36,8 +36,8 @@ unless Rails.env.production?
     end
 
     meter = Meter.find_or_create_by(name: 'api calls', organization: org)
-
-    pricing = Pricing.find_or_create_by(name: 'Enterprise', organization: org)
+    product = Product.find_or_create_by(name: 'Plutto Billings', organization: org, meter: meter)
+    pricing = Pricing.find_or_create_by(name: 'Enterprise', product: product)
 
     if pricing
       PriceLogic::FlatFee.find_or_create_by(pricing: pricing) do |flat_fee|
@@ -45,7 +45,7 @@ unless Rails.env.production?
         flat_fee.meter_count_method = 'period_sum'
       end
 
-      PriceLogic::PerUnit.find_or_create_by(pricing: pricing, meter: meter) do |per_unit|
+      PriceLogic::PerUnit.find_or_create_by(pricing: pricing) do |per_unit|
         per_unit.price = Money.new(5, pricing.currency)
         per_unit.meter_count_method = 'period_sum'
       end
@@ -53,27 +53,17 @@ unless Rails.env.production?
 
     customers.each do |customer_info|
       Customer.includes(:billing_information).find_or_create_by(
-        email: customer_info[0],name: customer_info[1], organization: org
-        ) do |customer|
+        email: customer_info[0],name: customer_info[1], organization: org) do |customer|
         BillingInformation.create(
           customer: customer,
           city: 'Santiago',
-          country_iso_code: 'CHL',
+          country_iso_code: 'CL',
           state: 'Metropolitana',
           address: 'Av. Las Condes',
           zip: '12345',
           tax_id: '73245432-1',
           phone: '9550898',
           legal_name: 'Plutto Inc',
-        )
-
-        # TODO: fix this
-        subscription = Subscription.find_or_create_by(
-          customer: customer,
-          pricings: [pricing], active: true,
-          currency: 'USD',
-          bills_at: 'end',
-          billing_period_duration: 1.month
         )
 
         billing_period = BillingPeriod.find_or_create_by(
