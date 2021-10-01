@@ -2,16 +2,13 @@ class CreateSubscription < PowerTypes::Command.new(
   :pricings, :customer, :billing_period_duration, bills_at: 'end', trial_finishes_at: nil
 )
   def perform
+    ensure_at_leat_one_pricing!
     active_subscription = @customer.active_subscription
     check_if_pricing_is_active(active_subscription)
 
     ActiveRecord::Base.transaction do
       if active_subscription.present?
-        EndBillingPeriod.for(
-          billing_period: active_subscription.current_billing_period,
-          start_next_period: false
-        )
-        active_subscription.update(active: false)
+        end_billing_period(active_subscription)
       end
 
       subscription = create_subscription!
@@ -34,6 +31,14 @@ class CreateSubscription < PowerTypes::Command.new(
     )
   end
 
+  def end_billing_period(subscription)
+    EndBillingPeriod.for(
+      billing_period: subscription.current_billing_period,
+      start_next_period: false
+    )
+    subscription.update(active: false)
+  end
+
   def check_if_pricing_is_active(active_subscription)
     if active_subscription&.has_pricing?(@pricings)
       active_subscription.errors.add(
@@ -41,6 +46,13 @@ class CreateSubscription < PowerTypes::Command.new(
         'already subscribed to this customer'
       )
       raise(ActiveRecord::RecordInvalid, active_subscription)
+    end
+  end
+
+  def ensure_at_leat_one_pricing!
+    if @pricings.empty?
+      raise(ApiException::Errors::UnprocessableEntity.new(detail:
+        "Can't create subscription with no valid pricings"))
     end
   end
 end
