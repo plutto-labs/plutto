@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :meters, only: [:index, :show, :update, :create, :destroy]
       resources :subscriptions, only: [:create] do
         patch 'edit_trial', to: 'subscriptions#edit_trial'
+        post 'add_pricings', to: 'subscriptions#add_pricings'
       end
       resources :products, only: [:index, :show, :create, :update, :destroy] do
         resources :pricings, only: [:create, :update, :destroy]
@@ -27,8 +28,12 @@ Rails.application.routes.draw do
       resources :customers
       resources :meter_events, only: [:create]
       resources :invoices, only: [:index, :show]
+      resources :subscriptions, only: [:create] do
+        post 'add_pricings', to: 'subscriptions#add_pricings'
       resources :subscriptions, only: [:create]
       patch 'subscriptions/:id/end_subscription', to: 'subscriptions#end_subscription'
+        patch 'end_subscription', to: 'subscriptions#end_subscription'
+      end
     end
   end
   mount Rswag::Api::Engine => '/api-docs'

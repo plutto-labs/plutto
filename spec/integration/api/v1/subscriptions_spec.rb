@@ -4,7 +4,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
   let(:organization) { create(:organization) }
   let(:customer) { create(:customer, organization: organization) }
   let(:product) { create(:product, organization: organization) }
-  let!(:pricing)  { create(:pricing, product: product) }
+  let!(:pricing)  { create(:pricing, product: product, currency: 'USD') }
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
 
@@ -92,6 +92,66 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
 
         it_behaves_like 'unprocessable entity endpoint'
       end
+    end
+  end
+
+  path '/subscriptions/{id}/add_pricings' do
+    parameter name: :id, in: :path, type: :string
+    let(:existent_subscription) { create(:subscription, customer: customer, active: true) }
+    let(:id) { existent_subscription.id }
+
+    post 'Add Pricings' do
+      tags 'Subscription'
+      description 'Add pricings to a Subscription'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: []]
+      parameter name: :pricing_ids, in: :body,
+                schema: { '$ref': '#/definitions/subscription_add_pricings' }
+
+      let(:pricing_ids) { { pricing_ids: [pricing.id] } }
+
+      context 'when subscription is active' do
+        response '201', 'pricings added' do
+          schema('$ref' => '#/definitions/subscription_resource')
+          let(:Authorization) { "Bearer #{token}" }
+
+          run_test! do |response|
+            data = JSON.parse(response.body)
+            expect(data['subscription']['pricings'].count).to eq(1)
+          end
+        end
+      end
+
+      context 'when subscription is ended' do
+        let(:existent_subscription) { create(:subscription, customer: customer, active: false) }
+
+        it_behaves_like 'unprocessable entity endpoint'
+      end
+
+      context 'when subscription already subscribed to product' do
+        before do
+          create(:pricing_subscription, subscription: existent_subscription, pricing: pricing)
+        end
+
+        it_behaves_like 'unprocessable entity endpoint'
+      end
+
+      context 'when pricings have different currencies' do
+        let(:eur_pricing) { create(:pricing, product: product, currency: 'EUR') }
+        let(:pricing_ids) { { pricing_ids: [pricing.id, eur_pricing.id] } }
+
+        it_behaves_like 'unprocessable entity endpoint'
+      end
+
+      context 'when pricings have repeated products' do
+        let(:pricing_ids) { { pricing_ids: [pricing.id, pricing.id] } }
+
+        it_behaves_like 'unprocessable entity endpoint'
+      end
+
+      it_behaves_like 'not_found endpoint'
+      it_behaves_like 'unauthorized endpoint'
     end
   end
 end

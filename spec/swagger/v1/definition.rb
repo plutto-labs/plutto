@@ -13,6 +13,7 @@ API_V1 = {
     subscription: SUBSCRIPTION_SCHEMA,
     subscription_create: SUBSCRIPTION_CREATE_SCHEMA,
     subscription_resource: SUBSCRIPTION_RESOURCE_SCHEMA,
+    subscription_add_pricings: SUBSCRIPTION_ADD_PRICINGS_SCHEMA,
     customer: CUSTOMER_SCHEMA,
     customer_index: CUSTOMER_INDEX_SCHEMA,
     customer_resource: CUSTOMER_RESOURCE_SCHEMA,
