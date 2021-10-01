@@ -15,7 +15,8 @@ class PricingSubscription < ApplicationRecord
   end
 
   def no_metered_for_bills_at_start
-    if subscription&.bills_at_start? && pricing.price_logics.any?(&:metered?)
+    if subscription&.bills_at_start? && pricing.price_logics &&
+        pricing.price_logics.any?(&:metered?)
       errors.add(:pricing, 'Cannot bill at start of period if there is use-based price logics')
     end
   end
