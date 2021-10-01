@@ -91,11 +91,11 @@ describe BillingPeriodPriceDetails do
 
       it 'saves the details for each price logic' do
         details = perform[:details]
-        expect(details.size).to eq(2)
-        expect(details[0][:total_price]).to eq(price_logic_prices[0].amount)
-        expect(details[0][:type]).to eq('flat_fee')
-        expect(details[1][:total_price]).to eq(price_logic_prices[1].amount)
-        expect(details[1][:type]).to eq('volume')
+        types = details.map { |d| d[:type] }
+        total_prices = details.map { |d| d[:total_price] }
+
+        expect(types).to match_array(['flat_fee', 'volume'])
+        expect(total_prices).to match_array(price_logic_prices.map(&:amount))
       end
 
       context 'when billing period bills at start' do

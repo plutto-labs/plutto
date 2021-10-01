@@ -59,5 +59,11 @@ describe CreateSubscription do
         end
       end
     end
+
+    context 'when no pricings given' do
+      it 'raises an error' do
+        expect { perform([]) }.to raise_error(ApiException::Errors::UnprocessableEntity)
+      end
+    end
   end
 end

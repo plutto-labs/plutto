@@ -38,8 +38,7 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
               billing_period_duration: 'P1M'
             }
 
-            expect(response).to have_http_status(:success)
-            expect(JSON.parse(response.body)['subscription']['pricings'].count).to eq(0)
+            expect(response).to have_http_status(:unprocessable_entity)
           end
         end
       end
