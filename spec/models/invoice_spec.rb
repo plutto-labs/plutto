@@ -13,20 +13,6 @@ RSpec.describe Invoice, type: :model do
   it { is_expected.to monetize(:discount_cents).with_model_currency(:currency) }
 
   describe 'Callbacks' do
-    describe '#set_currency' do
-      let(:billing_period) { create(:billing_period) }
-      let(:invoice) { create(:invoice, billing_period: billing_period) }
-
-      before do
-        allow(billing_period.subscription).to receive(:currency).and_return('CLP')
-      end
-
-      it 'sets the currency from subscription currency' do
-        invoice.save
-        expect(invoice.currency).to eq('CLP')
-      end
-    end
-
     describe '#set_invoice_data' do
       let(:billing_period) { create(:billing_period) }
       let(:invoice) do

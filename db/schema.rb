@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_01_133245) do
+ActiveRecord::Schema.define(version: 2021_10_01_153214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,7 +108,6 @@ ActiveRecord::Schema.define(version: 2021_10_01_133245) do
     t.bigint "subtotal_cents", default: 0, null: false
     t.bigint "tax_cents", default: 0, null: false
     t.bigint "discount_cents", default: 0, null: false
-    t.string "currency", default: "usd"
     t.datetime "issue_date"
     t.jsonb "details", default: []
     t.string "billing_period_id", null: false
@@ -123,6 +122,7 @@ ActiveRecord::Schema.define(version: 2021_10_01_133245) do
     t.jsonb "billing_information"
     t.bigint "total_cents"
     t.bigint "net_cents", default: 0, null: false
+    t.integer "currency"
     t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
     t.index ["customer_id"], name: "index_invoices_on_customer_id"
   end
@@ -232,7 +232,7 @@ ActiveRecord::Schema.define(version: 2021_10_01_133245) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "product_id"
-    t.integer "currency", default: 0
+    t.integer "currency"
     t.index ["product_id"], name: "index_pricings_on_product_id"
   end
 
@@ -266,8 +266,8 @@ ActiveRecord::Schema.define(version: 2021_10_01_133245) do
     t.datetime "trial_finishes_at"
     t.integer "bills_at", default: 0
     t.string "billing_period_duration"
-    t.integer "currency", default: 0, null: false
     t.integer "country_iso_code", default: 0, null: false
+    t.integer "currency"
     t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
   end
 

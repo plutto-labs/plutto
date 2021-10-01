@@ -6,5 +6,6 @@ FactoryBot.define do
     trial_finishes_at { nil }
     billing_period_duration { 1.month }
     bills_at { 'end' }
+    currency { 'USD' }
   end
 end

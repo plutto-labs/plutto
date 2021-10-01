@@ -1,6 +1,5 @@
 class Invoice < ApplicationRecord
   include AASM
-  include PowerTypes::Observable
 
   default_scope { order(issue_date: :desc) }
 
@@ -11,7 +10,9 @@ class Invoice < ApplicationRecord
   monetize :tax_cents, :discount_cents, :total_cents, :net_cents, allow_nil: true,
     with_model_currency: :currency
 
-  before_validation :set_currency, :set_invoice_data
+  enum currency: Currencies.keys
+
+  before_validation :set_invoice_data
 
   aasm(column: :status) do
     state :new, initial: true
@@ -55,10 +56,6 @@ class Invoice < ApplicationRecord
 
   private
 
-  def set_currency
-    self.currency = billing_period&.subscription&.currency
-  end
-
   def set_invoice_data
     self.net = subtotal - discount
     self.tax = net * tax_rate
@@ -86,7 +83,6 @@ end
 #  subtotal_cents      :bigint(8)        default(0), not null
 #  tax_cents           :bigint(8)        default(0), not null
 #  discount_cents      :bigint(8)        default(0), not null
-#  currency            :string           default("usd")
 #  issue_date          :datetime
 #  details             :jsonb
 #  billing_period_id   :string           not null
@@ -101,6 +97,7 @@ end
 #  billing_information :jsonb
 #  total_cents         :bigint(8)
 #  net_cents           :bigint(8)        default(0), not null
+#  currency            :integer
 #
 # Indexes
 #
