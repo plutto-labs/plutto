@@ -14,24 +14,23 @@ class CreateSubscription < PowerTypes::Command.new(
         active_subscription.update(active: false)
       end
 
-      create_subscription!
+      subscription = create_subscription!
+      EditSubscriptionPricings::AddPricings.for(subscription: subscription, pricings: @pricings)
+      subscription.save!
+      subscription.reload
     end
   end
 
   private
 
   def create_subscription!
-    subscription = Subscription.new(
+    Subscription.create!(
       customer: @customer,
       active: true,
       billing_period_duration: @billing_period_duration,
       trial_finishes_at: @trial_finishes_at,
       bills_at: @bills_at
     )
-
-    EditSubscriptionPricings::AddPricings.for(subscription: subscription, pricings: @pricings)
-    subscription.save!
-    subscription
   end
 
   def check_if_pricing_is_active(active_subscription)
