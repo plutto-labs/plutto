@@ -12,7 +12,7 @@
           />
           <span class="flex items-center text-gray-100">
             <span class="ml-6 mr-2 plutto-icon">group</span>
-            <span>{{ pricing.subscribedUsers }}</span>
+            <span>{{ pricing.subscribedCustomers }}</span>
           </span>
         </div>
         <div
@@ -28,8 +28,8 @@
               :key="tier.id"
             > ${{ tier.price }} \</span>
           </template>
-          <span v-if="priceLogic.meterId"> @ {{ meterName(priceLogic.meterId) || priceLogic.meterId }}</span>
-          <span v-if="priceLogic.meterId && priceLogic.meterCountMethod"> | {{ priceLogic.meterCountMethod }}</span>
+          <span v-if="priceLogic.metered && meter"> @ {{ meter.name }}</span>
+          <span v-if="priceLogic.metered && priceLogic.meterCountMethod"> | {{ priceLogic.meterCountMethod }}</span>
         </div>
       </div>
       <span
@@ -66,21 +66,19 @@ export default {
       type: Object,
       required: true,
     },
+    meter: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
       expanded: false,
     };
   },
-  methods: {
-    meterName(meterId) {
-      return this.meters && this.meters.find((meter) => meter.id === meterId).name;
-    },
-  },
   computed: {
     ...mapState({
       loading: state => state.meters.loading,
-      meters: state => state.meters.meters,
     }),
   },
 };
