@@ -81,7 +81,7 @@
         </div>
         <PriceLogics
           v-model="priceLogics"
-          :allow-metered="newProduct.meterId"
+          :allow-metered="!!newProduct.meterId"
         />
       </div>
     </div>
