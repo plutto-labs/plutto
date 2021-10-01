@@ -131,14 +131,6 @@ export default {
       newPricing: { name: null, currency: null },
       priceLogics: [],
       showNewMeterModal: false,
-      // billingPeriodDurations: [
-      //   { label: 'day', value: 'P1D' },
-      //   { label: 'week', value: 'P1W' },
-      //   { label: 'month', value: 'P1M' },
-      //   { label: '3 months', value: 'P3M' },
-      //   { label: '6 months', value: 'P6M' },
-      //   { label: 'year', value: 'P1Y' },
-      // ],
     };
   },
   async beforeMount() {

@@ -22,6 +22,9 @@ export const actions = {
     commit('setSubscriptionsLoading', true);
 
     return subscriptionsApi.create(payload)
+      .then((data) => {
+        if (data.subscription) commit('setCurrentCustomerSubscription', data.subscription);
+      })
       .catch((err) => {
         commit('setError', err);
       })

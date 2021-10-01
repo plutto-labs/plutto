@@ -1,12 +1,21 @@
 <template>
   <main>
     <template v-if="currentCustomer">
-      <PluttoHeader
-        :show-back-button="true"
-        :title="currentCustomer.name"
-        button-text="Edit Customer"
-        @button-clicked="showNewCustomerForm = true"
-      />
+      <div class="flex">
+        <PluttoHeader
+          class="w-full"
+          :show-back-button="true"
+          :title="currentCustomer.name"
+          button-text="Edit Customer"
+          @button-clicked="showNewCustomerForm = true"
+        />
+        <button
+          class="w-48 mr-6 btn btn--filled"
+          @click="showSubscriptionForm = true"
+        >
+          {{ currentCustomer.activeSubscription ? 'Edit subscription' : 'Add subscription' }}
+        </button>
+      </div>
       <div class="px-6 mt-6 customer-grid">
         <div class="p-2 text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__info md:p-4">
           <div class="mb-2 text-lg text-gray-50">
@@ -212,6 +221,16 @@
         @edited-trial="showEditTrialForm = false;"
       />
     </PluttoModal>
+    <PluttoModal
+      :showing="showSubscriptionForm"
+      @close="showSubscriptionForm = false"
+    >
+      <SubscriptionForm
+        class="relative"
+        :subscription="currentCustomer.activeSubscription"
+        @created-subscription="showSubscriptionForm = false;"
+      />
+    </PluttoModal>
   </main>
 </template>
 
@@ -220,14 +239,18 @@ import { mapState } from 'vuex';
 import PluttoHeader from '@/components/plutto-header';
 import NewCustomerForm from '@/components/forms/new-customer-form';
 import EditTrialForm from '@/components/forms/edit-trial-form';
+import SubscriptionForm from '@/components/forms/subscription-form';
 import PluttoModal from '@/components/plutto-modal';
 import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 
 export default {
-  components: { PluttoHeader, PluttoModal, NewCustomerForm, EditTrialForm, PluttoCopyableDiv },
+  components: {
+    PluttoHeader, PluttoModal, NewCustomerForm, EditTrialForm, PluttoCopyableDiv, SubscriptionForm,
+  },
   data() {
     return {
       showNewCustomerForm: false,
+      showSubscriptionForm: false,
       showEditTrialForm: false,
       editingCustomer: null,
     };
@@ -248,7 +271,6 @@ export default {
   },
   computed: {
     ...mapState({
-      loading: state => state.plans.loading,
       currentCustomer: state => state.customers.currentCustomer,
     }),
   },

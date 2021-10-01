@@ -29,7 +29,7 @@ export default {
         title: 'identifier',
         type: 'copyableLine',
       }, {
-        title: 'plan',
+        title: 'product',
         type: 'oneLineText',
       }, {
         title: 'trialFinishesAt',
@@ -57,7 +57,7 @@ export default {
           id: customer.id,
           trialFinishesAt: this.formatDate(customer.trialFinishesAt),
           numberOfDays: this.daysFromDate(customer.trialFinishesAt),
-          plan: `${customer.activePlanSubscription?.planName} - ${customer.activePlanSubscription?.version}`,
+          product: 'coming soon',
         }
       ));
     },
