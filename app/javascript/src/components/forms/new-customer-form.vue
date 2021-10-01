@@ -3,7 +3,7 @@
     @submit="editingCustomer ? updateCustomer() : createCustomer()"
     :validation-schema="schema"
     v-slot="{ errors }"
-    class="max-w-xl p-4 mx-auto space-y-5 overflow-auto bg-gray-800 rounded-lg"
+    class="max-w-xl max-h-full p-4 mx-auto space-y-5 overflow-auto bg-gray-800 rounded-lg"
   >
     <div class="space-y-6 sm:space-y-5">
       <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">

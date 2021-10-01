@@ -13,7 +13,7 @@
         >
           <span class="w-6 h-6 text-gray-500 fill-current material-icons hover:text-gray-600">close</span>
         </button>
-        <div class="w-full max-h-screen overflow-auto">
+        <div class="w-full max-h-screen">
           <slot />
         </div>
       </div>
