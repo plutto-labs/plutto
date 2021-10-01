@@ -61,7 +61,7 @@ export default {
           previousInvoiceAmount: this.formatCurrency(customer.previousInvoiceAmount, customer.previousInvoiceCurrency),
           currentBillingPeriodEndDate: this.formatDate(customer.currentBillingPeriodEndDate),
           numberOfDays: this.daysFromDate(customer.currentBillingPeriodEndDate),
-          product: 'coming soon',
+          product: this.productsString(customer.activeSubscription?.pricings),
         }
       ));
     },
