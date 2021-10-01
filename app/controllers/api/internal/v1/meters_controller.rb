@@ -3,7 +3,7 @@ class Api::Internal::V1::MetersController < Api::Internal::V1::BaseController
   include Pundit
 
   def index
-    respond_with(authorize(Meter.where(organization_id: current_user.organization_id)))
+    respond_with(authorize(meters))
   end
 
   def show
@@ -36,6 +36,10 @@ class Api::Internal::V1::MetersController < Api::Internal::V1::BaseController
   end
 
   def meter
-    @meter ||= Meter.find(params[:id])
+    @meter ||= policy_scope(Meter).find(params[:id])
+  end
+
+  def meters
+    @meters ||= policy_scope(Meter).reverse_order
   end
 end
