@@ -59,7 +59,7 @@ SUBSCRIPTION_CREATE_SCHEMA = {
   ]
 }
 
-SUBSCRIPTION_ADD_PRICINGS_SCHEMA = {
+SUBSCRIPTION_EDIT_PRICINGS_SCHEMA = {
   type: :object,
   properties: {
     pricings_ids: {
