@@ -1,6 +1,6 @@
 class Api::V1::CustomersController < Api::V1::BaseController
   def index
-    respond_with(policy_scope(Customer))
+    respond_with(paginate(customers))
   end
 
   def show
@@ -26,6 +26,10 @@ class Api::V1::CustomersController < Api::V1::BaseController
     @customer ||= policy_scope(Customer).find_by!(
       'id = ? OR identifier = ?', params[:id], params[:id]
     )
+  end
+
+  def customers
+    @customers ||= policy_scope(Customer).reverse_order
   end
 
   def customer_params

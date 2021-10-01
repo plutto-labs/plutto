@@ -26,6 +26,18 @@ module Api::ErrorConcern
       )
     end
 
+    rescue_from 'ActionDispatch::Http::Parameters::ParseError' do |exception|
+      respond_api_error(
+        ApiException::Errors::BadRequest.new(
+          detail: exception.to_s.partition(': ').last
+        )
+      )
+    end
+
+    rescue_from 'ApiException::BaseException' do |exception|
+      respond_api_error(exception)
+    end
+
     rescue_from 'AASM::InvalidTransition' do |exception|
       respond_api_error(ApiException::Errors::BadRequest.new(detail: exception.to_s))
     end

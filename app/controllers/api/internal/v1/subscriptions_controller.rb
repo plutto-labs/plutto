@@ -27,18 +27,28 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
     respond_with(subscription)
   end
 
+  def add_pricings
+    EditSubscriptionPricings::AddPricings.for(
+      subscription: subscription,
+      pricings: pricings([:product, :price_logics])
+    )
+    respond_with(subscription)
+  end
+
+  def remove_pricings
+    EditSubscriptionPricings::RemovePricings.for(
+      subscription: subscription,
+      pricings: pricings
+    )
+    respond_with(subscription)
+  end
+
   private
 
-  def pricings
+  def pricings(includes = [])
     return if pricings_params[:pricing_ids].blank?
 
-    @pricings = []
-    pricings_params[:pricing_ids].each do |pricing_id|
-      pricing = policy_scope(Pricing).find(pricing_id)
-      @pricings << pricing if pricing
-    end
-
-    @pricings
+    policy_scope(Pricing).includes(includes).where(id: pricings_params[:pricing_ids]).uniq
   end
 
   def customer

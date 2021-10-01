@@ -38,7 +38,8 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
               billing_period_duration: 'P1M'
             }
 
-            expect(response).to have_http_status(:not_found)
+            expect(response).to have_http_status(:success)
+            expect(JSON.parse(response.body)['subscription']['pricings'].count).to eq(0)
           end
         end
       end
@@ -91,6 +92,73 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
           expect(response).to have_http_status(:success)
           expect(subscription.reload.trial_finishes_at).to eq(new_trial_date)
         end
+      end
+    end
+
+    it_behaves_like 'unauthorized internal POST endpoint'
+  end
+
+  describe 'PATCH #add_pricings' do
+    let!(:subscription) { create(:subscription, customer: customer) }
+    let(:organization) { create(:organization) }
+    let(:products) { create_list(:product, 2, organization: organization) }
+    let!(:customer) { create(:customer, organization: organization) }
+    let!(:pricings) do
+      [
+        create(:pricing, currency: subscription.currency, product: products[0]),
+        create(:pricing, currency: subscription.currency, product: products[1])
+      ]
+    end
+
+    context 'when signed in' do
+      before do
+        sign_in(create(:user, organization: organization))
+        allow(EditSubscriptionPricings::AddPricings).to receive(:for).with(
+          subscription: subscription,
+          pricings: pricings
+        )
+      end
+
+      it 'returns http success' do
+        patch :add_pricings, format: :json,
+          params: { subscription_id: subscription.id, pricing_ids: pricings.map(&:id) }
+
+        expect(response).to have_http_status(:success)
+        expect(EditSubscriptionPricings::AddPricings).to have_received(:for).with(
+          subscription: subscription,
+          pricings: pricings
+        )
+      end
+    end
+
+    it_behaves_like 'unauthorized internal POST endpoint'
+  end
+
+  describe 'PATCH #remove_pricings' do
+    let(:organization) { create(:organization) }
+    let!(:subscription) { create(:subscription, customer: customer) }
+    let(:products) { create_list(:product, 2, organization: organization) }
+    let!(:customer) { create(:customer, organization: organization) }
+    let!(:pricings) { [create(:pricing, currency: subscription.currency, product: products[1])] }
+
+    context 'when signed in' do
+      before do
+        sign_in(create(:user, organization: organization))
+        allow(EditSubscriptionPricings::RemovePricings).to receive(:for).with(
+          subscription: subscription,
+          pricings: pricings
+        )
+      end
+
+      it 'returns http success' do
+        patch :remove_pricings, format: :json,
+          params: { subscription_id: subscription.id, pricing_ids: pricings.map(&:id) }
+
+        expect(response).to have_http_status(:success)
+        expect(EditSubscriptionPricings::RemovePricings).to have_received(:for).with(
+          subscription: subscription,
+          pricings: pricings
+        )
       end
     end
 

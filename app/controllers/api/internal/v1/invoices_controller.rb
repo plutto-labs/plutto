@@ -23,7 +23,7 @@ class Api::Internal::V1::InvoicesController < Api::Internal::V1::BaseController
   end
 
   def invoices
-    policy_scope(Invoice).includes(:customer)
+    policy_scope(Invoice).reverse_order.includes(:customer)
   end
 
   def event_param

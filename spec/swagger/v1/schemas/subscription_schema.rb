@@ -38,7 +38,7 @@ SUBSCRIPTION_CREATE_SCHEMA = {
   properties: {
     customer_id: { type: :string, example: 'customer_5198c6ad60c3363b089a1421',
                    'x-nullable': false },
-    pricings: {
+    pricings_ids: {
       type: :array,
       items: { type: :string, example: 'pricing_5198c6ad60c3363b089a1422' },
       'x-nullable': false
@@ -57,6 +57,17 @@ SUBSCRIPTION_CREATE_SCHEMA = {
   required: [
     :customer_id, :pricing_ids, :billing_period_duration, :bills_at
   ]
+}
+
+SUBSCRIPTION_EDIT_PRICINGS_SCHEMA = {
+  type: :object,
+  properties: {
+    pricings_ids: {
+      type: :array,
+      items: { type: :string, example: 'pricing_5198c6ad60c3363b089a1422', 'x-nullable': false }
+    }
+  },
+  required: [:pricings_ids]
 }
 
 SUBSCRIPTION_RESOURCE_SCHEMA = {

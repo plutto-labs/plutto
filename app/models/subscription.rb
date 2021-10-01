@@ -4,6 +4,7 @@ class Subscription < ApplicationRecord
   has_many :billing_periods, dependent: :destroy
   has_many :pricing_subscriptions, dependent: :destroy
   has_many :pricings, through: :pricing_subscriptions
+  has_many :products, through: :pricings
   has_many :price_logics, through: :pricings
   belongs_to :customer
 
@@ -42,15 +43,6 @@ class Subscription < ApplicationRecord
 
   def has_pricing?(pricings)
     pricings.any? { |pricing| self.pricings.include?(pricing) }
-  end
-
-  def create_pricing_subscriptions(pricings)
-    pricings.each do |pricing|
-      pricing_subscriptions.build(
-        subscription: self,
-        pricing: pricing
-      )
-    end
   end
 
   private

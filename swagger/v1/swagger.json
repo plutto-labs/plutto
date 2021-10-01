@@ -227,7 +227,7 @@
           "example": "customer_5198c6ad60c3363b089a1421",
           "x-nullable": false
         },
-        "pricings": {
+        "pricings_ids": {
           "type": "array",
           "items": {
             "type": "string",
@@ -274,6 +274,22 @@
       },
       "required": [
         "subscription"
+      ]
+    },
+    "subscription_edit_pricings": {
+      "type": "object",
+      "properties": {
+        "pricings_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "pricing_5198c6ad60c3363b089a1422",
+            "x-nullable": false
+          }
+        }
+      },
+      "required": [
+        "pricings_ids"
       ]
     },
     "customer": {
@@ -1202,6 +1218,12 @@
             "schema": {
               "$ref": "#/definitions/unauthorized_error_resource"
             }
+          },
+          "422": {
+            "description": "unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/unprocessable_entity_error_resource"
+            }
           }
         }
       }
@@ -1254,6 +1276,130 @@
             "description": "unprocessable entity",
             "schema": {
               "$ref": "#/definitions/unprocessable_entity_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}/add_pricings": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "patch": {
+        "summary": "Add Pricings",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "Add pricings to a Subscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pricing_ids",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/subscription_edit_pricings"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "pricings added",
+            "schema": {
+              "$ref": "#/definitions/subscription_resource"
+            }
+          },
+          "422": {
+            "description": "unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/unprocessable_entity_error_resource"
+            }
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "$ref": "#/definitions/not_found_error_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}/remove_pricings": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "patch": {
+        "summary": "Remove Pricings",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "Remove pricings to a Subscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pricing_ids",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/subscription_edit_pricings"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "pricings removed",
+            "schema": {
+              "$ref": "#/definitions/subscription_resource"
+            }
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "$ref": "#/definitions/not_found_error_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
             }
           }
         }
