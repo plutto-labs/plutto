@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_30_183858) do
+ActiveRecord::Schema.define(version: 2021_10_01_133245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -213,10 +213,8 @@ ActiveRecord::Schema.define(version: 2021_09_30_183858) do
     t.string "price_currency", default: "USD", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "meter_id"
     t.integer "meter_count_method"
     t.string "pricing_id", null: false
-    t.index ["meter_id"], name: "index_price_logics_on_meter_id"
     t.index ["pricing_id"], name: "index_price_logics_on_pricing_id"
   end
 
@@ -313,7 +311,6 @@ ActiveRecord::Schema.define(version: 2021_09_30_183858) do
   add_foreign_key "payment_methods", "customers"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "payment_methods"
-  add_foreign_key "price_logics", "meters"
   add_foreign_key "price_logics", "pricings"
   add_foreign_key "pricing_subscriptions", "pricings"
   add_foreign_key "pricing_subscriptions", "subscriptions"
