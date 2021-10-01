@@ -136,13 +136,13 @@
           >
             <span><span v-if="detail.meter">{{ detail.quantity }}x </span>{{ detail.meter || detail.type }}:</span>
             <span>
-              {{ formatCurrency(detail.totalPrice, currentCustomer.currentPeriodDetails.price.currencyIso) }}
+              {{ formatCurrency(detail.totalPrice, currentCustomer.activeSubscription.currency) }}
             </span>
           </div>
           <div class="flex justify-between mt-2 text-xl">
             <span>Total:</span>
-            {{ formatCurrency(currentCustomer.currentPeriodDetails.price.cents,
-                              currentCustomer.currentPeriodDetails.price.currencyIso) }}
+            {{ formatCurrency(currentCustomer.currentPeriodDetails.price,
+                              currentCustomer.activeSubscription.currency) }}
           </div>
         </div>
         <div

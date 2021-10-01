@@ -24,6 +24,7 @@
           v-for="pricing in currentProduct.pricings"
           :key="pricing.id"
           :pricing="pricing"
+          :meter="currentProduct.meter"
           class="p-4 my-4 border border-gray-200 rounded"
         />
       </div>
@@ -64,13 +65,11 @@ export default {
   },
   async beforeMount() {
     await this.$store.dispatch('GET_PRODUCT', this.$route.params.id);
-    if (!this.meters) await this.$store.dispatch('GET_METERS');
   },
   computed: {
     ...mapState({
       loading: state => state.products.loading,
       currentProduct: state => state.products.currentProduct,
-      meters: state => state.meters.meters,
     }),
   },
 };

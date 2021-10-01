@@ -8,6 +8,8 @@ class Pricing < ApplicationRecord
   delegate :meter, to: :product
   delegate :organization, to: :product
 
+  validates :currency, presence: true
+
   enum currency: Currencies.keys
 
   private
@@ -26,7 +28,7 @@ end
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  product_id :string
-#  currency   :integer          default("USD")
+#  currency   :integer
 #
 # Indexes
 #
