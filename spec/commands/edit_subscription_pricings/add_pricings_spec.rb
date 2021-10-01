@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe AddPricingsToSubscription do
-  let(:poduct) { create(:product) }
-  let(:pricing) { create(:pricing, product: poduct) }
+describe EditSubscriptionPricings::AddPricings do
+  let(:product) { create(:product) }
+  let(:pricing) { create(:pricing, product: product) }
   let(:pricings) { [pricing, create(:pricing)] }
   let(:subscription) { create(:subscription, active: true) }
 
@@ -11,33 +11,12 @@ describe AddPricingsToSubscription do
   end
 
   describe '#perform' do
-    context 'when no pricings are given' do
-      it 'does not add any pricings' do
-        expect { perform([]) }.not_to (change { subscription.pricings.count })
-      end
-    end
-
-    context 'when subscription is inactive' do
-      let(:subscription) { create(:subscription, active: false) }
-
-      it 'raises an error' do
-        expect { perform(pricings) }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
-
-    context 'when pricings have repeated products' do
-      let(:repeated_pricing) { create(:pricing, product: poduct) }
-      let(:pricings) { [pricing, repeated_pricing] }
-
-      it 'raise a bad request error' do
-        expect { perform(pricings) }.to raise_error(ApiException::Errors::UnprocessableEntity)
-      end
-    end
-
     context 'when pricings have unique products' do
       context 'when subscription has already one of this products' do
         before do
-          create(:pricing_subscription, subscription: subscription, pricing: pricing)
+          create(:pricing_subscription,
+                 subscription: subscription,
+                 pricing: create(:pricing, product: product))
         end
 
         it 'raise a bad request error' do
@@ -52,6 +31,15 @@ describe AddPricingsToSubscription do
       end
     end
 
+    context 'when pricings have repeated products' do
+      let(:repeated_pricing) { create(:pricing, product: product) }
+      let(:pricings) { [pricing, repeated_pricing] }
+
+      it 'adds only product once for first pricing' do
+        expect { perform(pricings) }.to raise_error(ApiException::Errors::UnprocessableEntity)
+      end
+    end
+
     context 'when pricings have different currencies' do
       let(:pricings) { [create(:pricing, currency: 'CLP'), create(:pricing, currency: 'USD')] }
 
@@ -59,5 +47,7 @@ describe AddPricingsToSubscription do
         expect { perform(pricings) }.to raise_error(ApiException::Errors::UnprocessableEntity)
       end
     end
+
+    it_behaves_like 'edit subscription command'
   end
 end

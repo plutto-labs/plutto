@@ -29,7 +29,7 @@ class CreateSubscription < PowerTypes::Command.new(
       bills_at: @bills_at
     )
 
-    AddPricingsToSubscription.for(subscription: subscription, pricings: @pricings)
+    EditSubscriptionPricings::AddPricings.for(subscription: subscription, pricings: @pricings)
     subscription.save!
     subscription
   end
