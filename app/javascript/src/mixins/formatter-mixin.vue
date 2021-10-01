@@ -51,6 +51,11 @@ export default {
 
       return this.COUNTRIES[val].name;
     },
+    productsString(pricings) {
+      if (!pricings) return '';
+
+      return pricings.map(pricing => pricing.productName).join(' - ');
+    },
   },
 };
 </script>

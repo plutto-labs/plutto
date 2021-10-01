@@ -80,12 +80,7 @@
               Products:
               <div class="text-xs">
                 <div>
-                  <span
-                    v-for="(pricing, index) in currentCustomer.activeSubscription.pricings"
-                    :key="index"
-                  >
-                    {{ `- ${pricing.productName} ` }}
-                  </span>
+                  {{ productsString(currentCustomer.activeSubscription.pricings) }}
                 </div>
               </div>
               <div v-if="currentCustomer.activeSubscription.trialFinishesAt !== null">

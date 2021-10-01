@@ -17,7 +17,7 @@ export default {
         currency: 'Currency',
         subtotal: 'Amount',
         issueDate: 'Issue Date',
-        product: 'Product',
+        product: 'Products',
         previousInvoiceAmount: 'Previous billed amount',
         currentBillingPeriodEndDate: 'Next billing date',
         trialFinishesAt: 'Trial finishes at',

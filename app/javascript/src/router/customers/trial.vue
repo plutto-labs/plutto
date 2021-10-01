@@ -57,7 +57,7 @@ export default {
           id: customer.id,
           trialFinishesAt: this.formatDate(customer.trialFinishesAt),
           numberOfDays: this.daysFromDate(customer.trialFinishesAt),
-          product: 'coming soon',
+          product: this.productsString(customer.activeSubscription?.pricings),
         }
       ));
     },
