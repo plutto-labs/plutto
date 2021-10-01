@@ -14,7 +14,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
       total_price += price_logic_price
     end
 
-    { price: total_price, details: details }.with_indifferent_access
+    { price: total_price.zero? ? 0 : total_price.amount, details: details }.with_indifferent_access
   end
 
   private

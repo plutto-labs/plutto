@@ -52,7 +52,7 @@ describe BillingPeriodPriceDetails do
         end
 
         it 'returns the correct price' do
-          expect(perform[:price]).to eq(usd(100))
+          expect(perform[:price]).to eq(usd(100).amount)
         end
 
         it 'saves the details for that price logic' do
@@ -86,7 +86,7 @@ describe BillingPeriodPriceDetails do
       end
 
       it 'returns the correct price' do
-        expect(perform[:price]).to eq(price_logic_prices[0] + price_logic_prices[1])
+        expect(perform[:price]).to eq((price_logic_prices[0] + price_logic_prices[1]).amount)
       end
 
       it 'saves the details for each price logic' do
@@ -105,7 +105,7 @@ describe BillingPeriodPriceDetails do
 
         it 'returns the correct price' do
           expected_price = (price_logic_prices[0] + price_logic_prices[1]) * 1
-          expect(perform[:price]).to eq(expected_price)
+          expect(perform[:price]).to eq(expected_price.amount)
         end
       end
     end
