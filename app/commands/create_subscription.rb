@@ -26,7 +26,8 @@ class CreateSubscription < PowerTypes::Command.new(
       active: true,
       billing_period_duration: @billing_period_duration,
       trial_finishes_at: @trial_finishes_at,
-      bills_at: @bills_at
+      bills_at: @bills_at,
+      currency: @pricings.first.currency
     )
 
     subscription.create_pricing_subscriptions(@pricings) if @pricings.present?

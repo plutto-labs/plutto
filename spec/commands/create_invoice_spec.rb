@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe CreateInvoice do
   let(:customer) { create(:customer) }
-  let(:subscription) { create(:subscription, customer: customer) }
+  let(:subscription) { create(:subscription, customer: customer, currency: 'CLP') }
   let(:billing_period) { create(:billing_period, subscription: subscription) }
 
   def perform
@@ -12,7 +12,7 @@ describe CreateInvoice do
   describe '#perform' do
     let(:response) do
       {
-        price: usd(100), details: {}
+        price: 100, details: {}
       }.with_indifferent_access
     end
 
@@ -31,9 +31,14 @@ describe CreateInvoice do
       expect(BillingPeriodPriceDetails).to have_received(:for)
     end
 
+    it 'saves the currency correctly' do
+      invoice = perform
+      expect(invoice.currency).to eq('CLP')
+    end
+
     it 'saves the subtotal amount' do
       invoice = perform
-      expect(invoice.subtotal).to eq(usd(100))
+      expect(invoice.subtotal).to eq(clp(100))
     end
 
     it 'saves the taxes amount'
