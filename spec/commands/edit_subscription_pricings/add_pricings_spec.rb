@@ -41,6 +41,7 @@ describe EditSubscriptionPricings::AddPricings do
     end
 
     context 'when pricings have different currencies' do
+      let(:subscription) { create(:subscription, active: true, currency: 'USD') }
       let(:pricings) { [create(:pricing, currency: 'CLP'), create(:pricing, currency: 'USD')] }
 
       it 'raise a bad request error' do

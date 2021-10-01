@@ -157,8 +157,11 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
       end
 
       context 'when pricings have different currencies' do
-        let(:eur_pricing) { create(:pricing, product: products[1], currency: 'EUR') }
         let(:pricing_ids) { { pricing_ids: [pricings[0].id, eur_pricing.id] } }
+        let(:eur_pricing) { create(:pricing, product: products[1], currency: 'EUR') }
+        let(:existent_subscription) do
+          create(:subscription, customer: customer, active: true, currency: 'USD')
+        end
 
         it_behaves_like 'unprocessable entity endpoint'
       end

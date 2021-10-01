@@ -3,7 +3,7 @@ class EditSubscriptionPricings::Base < PowerTypes::Command.new(:pricings, :subsc
     return if @pricings.blank?
 
     check_if_subscription_is_active!
-    ensure_same_pricing_currencies!
+    ensure_correct_pricing_currencies!
 
     ActiveRecord::Base.transaction do
       action
@@ -27,9 +27,10 @@ class EditSubscriptionPricings::Base < PowerTypes::Command.new(:pricings, :subsc
     end
   end
 
-  def ensure_same_pricing_currencies!
-    currencies = @pricings.map(&:currency)
-    raise_unprocessable_entity('Pricing currencies must be the same') if currencies.uniq.size > 1
+  def ensure_correct_pricing_currencies!
+    if @pricings.pluck(:currency).uniq - [@subscription.currency] != []
+      raise_unprocessable_entity('Pricing currencies must be the same')
+    end
   end
 
   def raise_unprocessable_entity(detail)
