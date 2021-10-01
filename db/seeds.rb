@@ -37,17 +37,19 @@ unless Rails.env.production?
 
     meter = Meter.find_or_create_by(name: 'api calls', organization: org)
     product = Product.find_or_create_by(name: 'Plutto Billings', organization: org, meter: meter)
-    pricing = Pricing.find_or_create_by(name: 'Enterprise', product: product)
+    pricing = Pricing.find_or_create_by(name: 'Enterprise', product: product, currency: 'USD')
 
     if pricing
-      PriceLogic::FlatFee.find_or_create_by(pricing: pricing) do |flat_fee|
+      PriceLogic::FlatFee.find_or_create_by(pricing: pricing, price_currency: pricing.currency) do |flat_fee|
         flat_fee.price = Money.new(100, pricing.currency)
         flat_fee.meter_count_method = 'period_sum'
+        flat_fee.price_currency = pricing.currency
       end
 
-      PriceLogic::PerUnit.find_or_create_by(pricing: pricing) do |per_unit|
+      PriceLogic::PerUnit.find_or_create_by(pricing: pricing, price_currency: pricing.currency) do |per_unit|
         per_unit.price = Money.new(5, pricing.currency)
         per_unit.meter_count_method = 'period_sum'
+        per_unit.price_currency = pricing.currency
       end
     end
 
@@ -66,35 +68,25 @@ unless Rails.env.production?
           legal_name: 'Plutto Inc',
         )
 
-        billing_period = BillingPeriod.find_or_create_by(
-          subscription: subscription,
-          from: DateTime.new(2021, 7, 7),
-          to: DateTime.new(2021, 8, 7),
-          billing_date: DateTime.new(2021, 8, 8)
+        subscription = Subscription.create!(
+          customer: customer,
+          active: true,
+          billing_period_duration: 'P1M',
+          trial_finishes_at: Time.now + 1.month,
+          bills_at: 'end',
+          currency: pricing.currency
         )
 
-        Invoice.find_or_create_by(
-          currency: 'usd',
-          subtotal_cents: 10000,
-          total_cents: 10190,
-          tax_cents: 190,
-          discount_cents: 0,
-          issue_date: DateTime.new(2021, 8, 7),
-          details: {
-            '0': { type: 'flat_fee',
-                total_price: 100 },
-            '1': { type: 'volume',
-                total_price: 25000,
-                meter: 'Requests',
-                quantity: 250.0 }
-          },
-          billing_period: billing_period,
-          customer: customer,
-          status: 'paid',
-          payed_at: DateTime.new(2021, 9, 7),
-          payment_method: 'bank_transfer',
-          tax_type: 'VAT',
-          billing_information: customer.billing_information.as_json
+        PricingSubscription.create(
+          subscription: subscription,
+          pricing: pricing
+        )
+
+        billing_period = BillingPeriod.find_or_create_by(
+          subscription: subscription,
+          from: DateTime.current - 1.month,
+          to: DateTime.current,
+          billing_date: DateTime.current,
         )
       end
     end
