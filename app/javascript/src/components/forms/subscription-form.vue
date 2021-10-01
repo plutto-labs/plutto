@@ -74,8 +74,14 @@
       <div
         v-for="(productId) in selectedProducts"
         :key="productId"
-        class="p-4 border border-gray-400 rounded"
+        class="relative p-4 border border-gray-400 rounded group"
       >
+        <div
+          class="absolute top-0 right-0 -mt-3 -mr-2 text-xl opacity-0 cursor-pointer plutto-icon group-hover:opacity-100"
+          @click="removeProduct(productId)"
+        >
+          cancel
+        </div>
         <div class="flex flex-col w-32">
           <div>
             {{ findProduct(productId).name }}
@@ -171,6 +177,12 @@ export default {
     createSubscription() {
       this.$store.dispatch('CREATE_SUBSCRIPTION', { ...this.subscription, customerId: this.currentCustomer.id })
         .then(this.$emit('created-subscription'));
+    },
+    removeProduct(productId) {
+      this.selectedProducts.splice(this.selectedProducts.indexOf(productId), 1);
+      this.findProduct(productId).pricings.forEach(
+        pricing => (this.subscription.pricingIds.splice(this.subscription.pricingIds.indexOf(pricing.id), 1)),
+      );
     },
   },
 };
