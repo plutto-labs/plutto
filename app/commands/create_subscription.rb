@@ -29,7 +29,7 @@ class CreateSubscription < PowerTypes::Command.new(
       bills_at: @bills_at
     )
 
-    subscription.create_pricing_subscriptions(@pricings) if @pricings.present?
+    AddPricingsToSubscription.for(subscription: subscription, pricings: @pricings)
     subscription.save!
     subscription
   end

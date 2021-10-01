@@ -89,15 +89,4 @@ RSpec.describe Subscription, type: :model do
       expect(subscription.tax_rate).to eq(tax_rate)
     end
   end
-
-  describe '#create_pricing_subscriptions' do
-    let(:subscription) { create(:subscription) }
-    let(:pricings) { create_list(:pricing, 2) }
-
-    it 'creates pricing_subscriptions' do
-      subscription.create_pricing_subscriptions(pricings)
-      subscription.save!
-      expect(subscription.pricing_subscriptions.count).to eq(2)
-    end
-  end
 end
