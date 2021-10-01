@@ -37,16 +37,16 @@ class Api::Internal::V1::ProductsController < Api::Internal::V1::BaseController
 
   def product_params
     params.require(:product).permit(
-      :name
+      :name, :meter_id
     )
   end
 
   def pricing_params
     params.require(:pricing).permit(
+      :currency, :name,
       price_logics_attributes: [
         :price,
         :type,
-        :meter_id,
         :meter_count_method,
         { tiers_attributes: [:index, :upper_limit, :price] }
       ]

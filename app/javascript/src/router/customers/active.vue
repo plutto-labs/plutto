@@ -29,7 +29,7 @@ export default {
         title: 'identifier',
         type: 'copyableLine',
       }, {
-        title: 'plan',
+        title: 'product',
         type: 'oneLineText',
       }, {
         title: 'previousInvoiceAmount',
@@ -61,7 +61,7 @@ export default {
           previousInvoiceAmount: this.formatCurrency(customer.previousInvoiceAmount, customer.previousInvoiceCurrency),
           currentBillingPeriodEndDate: this.formatDate(customer.currentBillingPeriodEndDate),
           numberOfDays: this.daysFromDate(customer.currentBillingPeriodEndDate),
-          plan: `${customer.activePlanSubscription?.planName} - ${customer.activePlanSubscription?.version}`,
+          product: 'coming soon',
         }
       ));
     },

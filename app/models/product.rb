@@ -1,7 +1,11 @@
 class Product < ApplicationRecord
-  belongs_to :meter
+  belongs_to :meter, optional: true
   belongs_to :organization
   has_many :pricings, dependent: :destroy
+
+  def add_pricing(**params)
+    pricings.build(params)
+  end
 
   private
 

@@ -77,26 +77,6 @@
           />
         </div>
       </div>
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
-        <label
-          for="plan"
-          class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
-        >
-          Plan
-        </label>
-        <div
-          v-if="!editingCustomer"
-          class="mt-1 sm:mt-0 sm:col-span-2 plutto-input"
-        >
-          <PluttoDropdown
-            :selected="newCustomer.planVersionId"
-            :options="planVersionsOptions"
-            label-key="name"
-            value-key="id"
-            @selected="selectPlanVersion"
-          />
-        </div>
-      </div>
       <button
         @click="toggleShow"
         @click.prevent
@@ -278,13 +258,12 @@
 </template>
 
 <script>
-import PluttoDropdown from '@/components/plutto-dropdown';
 import CountrySelector from '@/components/country-selector';
 import { Form, Field } from 'vee-validate';
 import { ChevronRightIcon, ChevronUpIcon } from '@heroicons/vue/solid';
 
 export default {
-  components: { PluttoDropdown, Form, Field, ChevronRightIcon, ChevronUpIcon, CountrySelector },
+  components: { Form, Field, ChevronRightIcon, ChevronUpIcon, CountrySelector },
   props: {
     editingCustomer: {
       type: Object,
@@ -295,7 +274,6 @@ export default {
     return {
       showBillingInformation: false,
       newCustomer: {
-        planVersionId: null,
         identifier: null,
         email: null,
         name: null,
@@ -328,21 +306,8 @@ export default {
       this.$store.dispatch('UPDATE_CUSTOMER', this.newCustomer)
         .then((customer) => this.$emit('edited-customer', customer));
     },
-    selectPlanVersion(planVersionId) {
-      this.newCustomer.planVersionId = planVersionId;
-    },
     toggleShow() {
       this.showBillingInformation = !this.showBillingInformation;
-    },
-  },
-  computed: {
-    planVersionsOptions() {
-      return this.$store.getters.planVersionsOptions;
-    },
-    displaySelectedPlan() {
-      if (!this.newCustomer.planVersionId) return 'Choose';
-
-      return this.planOptions.find(plan => plan.value === this.newCustomer.planVersionId).label;
     },
   },
 };

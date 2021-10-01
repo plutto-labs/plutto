@@ -4,9 +4,9 @@ SUBSCRIPTION_SCHEMA = {
     id: { type: :string, example: 'subscription_80b199c7744342f3c5df8622', 'x-nullable': false },
     customer_id: { type: :string, example: 'customer_5198c6ad60c3363b089a1421',
                    'x-nullable': false },
-    pricing_ids: {
+    pricings: {
       type: :array,
-      items: { type: :string, example: 'pricing_5198c6ad60c3363b089a1422' }, 'x-nullable': false
+      items: { "$ref" => "#/definitions/pricing" }
     },
     created_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': false },
     updated_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': true },
@@ -25,7 +25,7 @@ SUBSCRIPTION_SCHEMA = {
   required: [
     :id,
     :customer_id,
-    :pricing_ids,
+    :pricings,
     :created_at,
     :active,
     :bills_at,
@@ -38,7 +38,7 @@ SUBSCRIPTION_CREATE_SCHEMA = {
   properties: {
     customer_id: { type: :string, example: 'customer_5198c6ad60c3363b089a1421',
                    'x-nullable': false },
-    pricing_ids: {
+    pricings: {
       type: :array,
       items: { type: :string, example: 'pricing_5198c6ad60c3363b089a1422' },
       'x-nullable': false

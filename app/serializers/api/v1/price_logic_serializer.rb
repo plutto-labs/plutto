@@ -8,4 +8,8 @@ class Api::V1::PriceLogicSerializer < Api::BaseSerializer
   def tiers
     object.tiers if object.respond_to?(:tiers)
   end
+
+  def type
+    object.type.split('::')[1]
+  end
 end

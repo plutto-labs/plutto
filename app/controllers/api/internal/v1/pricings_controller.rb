@@ -23,6 +23,7 @@ class Api::Internal::V1::PricingsController < Api::Internal::V1::BaseController
 
   def pricing_params
     params.require(:pricing).permit(
+      :currency, :name,
       price_logics_attributes: [
         :price,
         :type,

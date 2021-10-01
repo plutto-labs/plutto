@@ -1,12 +1,21 @@
 <template>
   <main>
     <template v-if="currentCustomer">
-      <PluttoHeader
-        :show-back-button="true"
-        :title="currentCustomer.name"
-        button-text="Edit Customer"
-        @button-clicked="showNewCustomerForm = true"
-      />
+      <div class="flex">
+        <PluttoHeader
+          class="w-full"
+          :show-back-button="true"
+          :title="currentCustomer.name"
+          button-text="Edit Customer"
+          @button-clicked="showNewCustomerForm = true"
+        />
+        <button
+          class="w-48 mr-6 btn btn--filled"
+          @click="showSubscriptionForm = true"
+        >
+          {{ currentCustomer.activeSubscription ? 'Edit subscription' : 'Add subscription' }}
+        </button>
+      </div>
       <div class="px-6 mt-6 customer-grid">
         <div class="p-2 text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__info md:p-4">
           <div class="mb-2 text-lg text-gray-50">
@@ -18,8 +27,12 @@
           <div>
             Email: <span class="text-gray-300">{{ currentCustomer.email }}</span>
           </div>
-          <div>
-            Identifier: <span class="text-gray-300">{{ currentCustomer.identifier }}</span>
+          <div class="flex items-center">
+            Identifier:
+            <PluttoCopyableDiv
+              class="ml-1"
+              :value="currentCustomer.identifier"
+            />
           </div>
           <div>
             Created: <span class="text-gray-300">{{ formatDate(currentCustomer.createdAt) }}</span>
@@ -53,30 +66,36 @@
         </div>
         <div
           class="p-2 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg customer-grid__subscription md:p-4"
-          v-if="currentCustomer.activePlanSubscription"
+          v-if="currentCustomer.activeSubscription"
         >
           <div class="mb-2 text-lg text-gray-50">
-            {{ currentCustomer.activePlanSubscription.trialFinishesAt === null ?
+            {{ currentCustomer.activeSubscription.trialFinishesAt === null ?
               'Current Subscription' : 'Trial information' }}
             <div class="text-xs text-gray-300">
-              {{ currentCustomer.activePlanSubscription.id }}
+              <PluttoCopyableDiv :value="currentCustomer.activeSubscription.id" />
             </div>
           </div>
           <div class="justify-between md:flex">
             <div>
-              Plan Name: <span>{{ currentCustomer.activePlanSubscription.planName }}</span>
+              Products:
               <div class="text-xs">
-                {{ currentCustomer.activePlanSubscription.version }} -
-                {{ currentCustomer.activePlanSubscription.planVersionId }}
-              </div>
-              <div v-if="currentCustomer.activePlanSubscription.trialFinishesAt !== null">
                 <div>
-                  End trial date: <span class="text-gray-300">{{ `${formatDate(currentCustomer.activePlanSubscription.trialFinishesAt)} (${daysFromDate(currentCustomer.activePlanSubscription.trialFinishesAt)})` }}</span>
+                  <span
+                    v-for="(pricing, index) in currentCustomer.activeSubscription.pricings"
+                    :key="index"
+                  >
+                    {{ `- ${pricing.productName} ` }}
+                  </span>
+                </div>
+              </div>
+              <div v-if="currentCustomer.activeSubscription.trialFinishesAt !== null">
+                <div>
+                  End trial date: <span class="text-gray-300">{{ `${formatDate(currentCustomer.activeSubscription.trialFinishesAt)} (${daysFromDate(currentCustomer.activeSubscription.trialFinishesAt)})` }}</span>
                 </div>
               </div>
               <div v-else>
                 <div>
-                  Subscribed since: <span>{{ formatDateTime(currentCustomer.activePlanSubscription.createdAt) }}</span>
+                  Subscribed since: <span>{{ formatDateTime(currentCustomer.activeSubscription.createdAt) }}</span>
                 </div>
                 <div v-if="currentCustomer.currentBillingPeriodEndDate">
                   Next billing date:
@@ -88,7 +107,7 @@
               </div>
             </div>
             <div
-              v-if="currentCustomer.activePlanSubscription.trialFinishesAt !== null"
+              v-if="currentCustomer.activeSubscription.trialFinishesAt !== null"
               class="mt-auto"
             >
               <span
@@ -198,8 +217,18 @@
       @close="showEditTrialForm = false"
     >
       <EditTrialForm
-        :plan-subscription="currentCustomer.activePlanSubscription"
+        :subscription="currentCustomer.activeSubscription"
         @edited-trial="showEditTrialForm = false;"
+      />
+    </PluttoModal>
+    <PluttoModal
+      :showing="showSubscriptionForm"
+      @close="showSubscriptionForm = false"
+    >
+      <SubscriptionForm
+        class="relative"
+        :subscription="currentCustomer.activeSubscription"
+        @created-subscription="showSubscriptionForm = false;"
       />
     </PluttoModal>
   </main>
@@ -210,13 +239,18 @@ import { mapState } from 'vuex';
 import PluttoHeader from '@/components/plutto-header';
 import NewCustomerForm from '@/components/forms/new-customer-form';
 import EditTrialForm from '@/components/forms/edit-trial-form';
+import SubscriptionForm from '@/components/forms/subscription-form';
 import PluttoModal from '@/components/plutto-modal';
+import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 
 export default {
-  components: { PluttoHeader, PluttoModal, NewCustomerForm, EditTrialForm },
+  components: {
+    PluttoHeader, PluttoModal, NewCustomerForm, EditTrialForm, PluttoCopyableDiv, SubscriptionForm,
+  },
   data() {
     return {
       showNewCustomerForm: false,
+      showSubscriptionForm: false,
       showEditTrialForm: false,
       editingCustomer: null,
     };
@@ -237,7 +271,6 @@ export default {
   },
   computed: {
     ...mapState({
-      loading: state => state.plans.loading,
       currentCustomer: state => state.customers.currentCustomer,
     }),
   },

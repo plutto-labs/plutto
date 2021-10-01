@@ -23,14 +23,14 @@ export const mutations = {
       state.customers.splice(index, 1, payload);
     }
   },
-  setCustomersPlanSubscription(state, payload) {
+  setCustomerActiveSubscription(state, payload) {
     const customer = state.customers.find(object => object.id === payload.id);
     if (customer) {
-      customer.activePlanSubscription = payload.planSubscription;
+      customer.activeSubscription = payload.Subscription;
     }
   },
-  setCurrentCustomerPlanSubscription(state, payload) {
-    state.currentCustomer.activePlanSubscription = payload;
+  setCurrentCustomerSubscription(state, payload) {
+    state.currentCustomer.activeSubscription = payload;
   },
   removeCustomer(state, payload) {
     const index = state.customers.findIndex(customer => customer.id === payload.id);
@@ -135,8 +135,8 @@ export const actions = {
         commit('setCustomersLoading', false);
       });
   },
-  UPDATE_CUSTOMER_PLAN_SUBSCRIPTION({ commit }, payload) {
-    commit('setCustomersPlanSubscription', payload);
+  UPDATE_CUSTOMER_SUBSCRIPTION({ commit }, payload) {
+    commit('setCustomerActiveSubscription', payload);
   },
   DESTROY_CUSTOMER({ commit }, payload) {
     commit('setCustomersLoading', true);

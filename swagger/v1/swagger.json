@@ -165,13 +165,11 @@
           "example": "customer_5198c6ad60c3363b089a1421",
           "x-nullable": false
         },
-        "pricing_ids": {
+        "pricings": {
           "type": "array",
           "items": {
-            "type": "string",
-            "example": "pricing_5198c6ad60c3363b089a1422"
-          },
-          "x-nullable": false
+            "$ref": "#/definitions/pricing"
+          }
         },
         "created_at": {
           "type": "string",
@@ -214,9 +212,11 @@
       "required": [
         "id",
         "customer_id",
-        "pricing_ids",
+        "pricings",
         "created_at",
-        "active"
+        "active",
+        "bills_at",
+        "billing_period_duration"
       ]
     },
     "subscription_create": {
@@ -227,7 +227,7 @@
           "example": "customer_5198c6ad60c3363b089a1421",
           "x-nullable": false
         },
-        "pricing_ids": {
+        "pricings": {
           "type": "array",
           "items": {
             "type": "string",
@@ -249,7 +249,7 @@
             "start",
             "end"
           ],
-          "description": "choose wether the subscription should be billed at the start or end of the period. \\\n      Note that usage based subscriptions are can only be billed at the end of the period."
+          "description": "choose wether the subscription should be billed at the start or end of the period. Note that usage based subscriptions are can only be billed at the end of the period."
         },
         "billing_period_duration": {
           "type": "string",
@@ -261,8 +261,8 @@
       "required": [
         "customer_id",
         "pricing_ids",
-        "trial_finishes_at",
-        "billing_period_duration"
+        "billing_period_duration",
+        "bills_at"
       ]
     },
     "subscription_resource": {
@@ -528,6 +528,118 @@
       },
       "required": [
         "meter_event"
+      ]
+    },
+    "pricing": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "pricing_d4328039347671a0b4b07f3f",
+          "x-nullable": false
+        },
+        "name": {
+          "type": "string",
+          "example": "Basic",
+          "x-nullable": false
+        },
+        "currency": {
+          "type": "string",
+          "example": "USD",
+          "x-nullable": false
+        },
+        "product_id": {
+          "type": "string",
+          "example": "product_ff3s803su47n71a0b4b07f3f",
+          "x-nullable": false
+        },
+        "price_logics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/price_logic"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "currency",
+        "product_id"
+      ]
+    },
+    "pricing_resource": {
+      "type": "object",
+      "properties": {
+        "pricing": {
+          "$ref": "#/definitions/pricing"
+        }
+      },
+      "required": [
+        "pricing"
+      ]
+    },
+    "price_logic": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "price-logic_fkto44788dfglk82wz",
+          "x-nullable": false
+        },
+        "type": {
+          "type": "string",
+          "example": "FlatFee",
+          "x-nullable": false,
+          "enum": [
+            "FaltFee",
+            "PerUnit",
+            "Volume",
+            "StairStep",
+            "Tiered"
+          ]
+        },
+        "price": {
+          "type": "string",
+          "example": "USD",
+          "x-nullable": false
+        },
+        "price_currency": {
+          "type": "string",
+          "example": "Plutto Invoices",
+          "x-nullable": false
+        },
+        "meter_count_method": {
+          "type": "string",
+          "example": "period_sum",
+          "enum": [
+            "period_sum",
+            "history_sum"
+          ],
+          "x-nullable": true,
+          "description": "choose if meters are from historic count or just this billing period count"
+        },
+        "price_logics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/price_logic"
+          }
+        }
+      },
+      "required": [
+        "type",
+        "price",
+        "meter_count_method"
+      ]
+    },
+    "price_logic_resource": {
+      "type": "object",
+      "properties": {
+        "price_logic": {
+          "$ref": "#/definitions/price_logic"
+        }
+      },
+      "required": [
+        "price_logic"
       ]
     },
     "unauthorized_error": {

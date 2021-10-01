@@ -6,8 +6,8 @@ import Customer from '@/router/customer';
 import AddCreditCard from '@/router/add-credit-card';
 import Customers from '@/router/customers';
 import Payments from '@/router/payments';
-import Plan from '@/router/plan';
-import Plans from '@/router/plans';
+import Product from '@/router/product';
+import Products from '@/router/products';
 import Settings from '@/router/settings';
 import store from '@/store';
 
@@ -60,19 +60,19 @@ const router = createRouter({
         authRequired: true,
       },
     }, {
-      path: '/plans',
-      name: 'plans',
-      component: Plans,
+      path: '/products',
+      name: 'products',
+      component: Products,
       meta: {
-        title: 'Plans | Plutto',
+        title: 'Products | Plutto',
         authRequired: true,
       },
     }, {
-      path: '/plan/:id',
-      name: 'plan',
-      component: Plan,
+      path: '/product/:id',
+      name: 'product',
+      component: Product,
       meta: {
-        title: 'Plan | Plutto',
+        title: 'Product | Plutto',
         authRequired: true,
       },
     }, {
