@@ -38,7 +38,7 @@ SUBSCRIPTION_CREATE_SCHEMA = {
   properties: {
     customer_id: { type: :string, example: 'customer_5198c6ad60c3363b089a1421',
                    'x-nullable': false },
-    pricings_ids: {
+    pricing_ids: {
       type: :array,
       items: { type: :string, example: 'pricing_5198c6ad60c3363b089a1422' },
       'x-nullable': false

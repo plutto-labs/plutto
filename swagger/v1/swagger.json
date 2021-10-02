@@ -227,7 +227,7 @@
           "example": "customer_5198c6ad60c3363b089a1421",
           "x-nullable": false
         },
-        "pricings_ids": {
+        "pricing_ids": {
           "type": "array",
           "items": {
             "type": "string",
