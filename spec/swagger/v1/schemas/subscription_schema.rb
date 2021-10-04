@@ -62,12 +62,12 @@ SUBSCRIPTION_CREATE_SCHEMA = {
 SUBSCRIPTION_EDIT_PRICINGS_SCHEMA = {
   type: :object,
   properties: {
-    pricings_ids: {
+    pricing_ids: {
       type: :array,
       items: { type: :string, example: 'pricing_5198c6ad60c3363b089a1422', 'x-nullable': false }
     }
   },
-  required: [:pricings_ids]
+  required: [:pricing_ids]
 }
 
 SUBSCRIPTION_RESOURCE_SCHEMA = {
