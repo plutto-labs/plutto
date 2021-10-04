@@ -1,4 +1,7 @@
 class Api::V1::CustomersController < Api::V1::BaseController
+  PARAMS = Customer.attribute_names + ['billing_information']
+  wrap_parameters include: PARAMS
+
   def index
     respond_with(paginate(customers))
   end

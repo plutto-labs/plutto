@@ -330,7 +330,7 @@
             },
             "country_iso_code": {
               "type": "string",
-              "example": "CHL",
+              "example": "CL",
               "x-nullable": false
             },
             "state": {
@@ -457,7 +457,7 @@
             },
             "country_iso_code": {
               "type": "string",
-              "example": "CHL",
+              "example": "CL",
               "x-nullable": false
             },
             "state": {
