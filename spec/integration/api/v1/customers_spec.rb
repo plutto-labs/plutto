@@ -5,19 +5,19 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
   let(:customer) do
-    { customer: { email: 'donald@getplutto.com',
-                  name: 'Donald',
-                  identifier: 'your-id_12885305',
-                  billing_information: {
-                    city: 'Santiago',
-                    country_iso_code: 'CL',
-                    state: 'Metropolitana',
-                    address: 'Av. Las Condes',
-                    zip: '12345',
-                    tax_id: '73245432-1',
-                    legal_name: 'Plutto Inc',
-                    phone: '+56992680522'
-                  } } }
+    { email: 'donald@getplutto.com',
+      name: 'Donald',
+      identifier: 'your-id_12885305',
+      billing_information: {
+        city: 'Santiago',
+        country_iso_code: 'CL',
+        state: 'Metropolitana',
+        address: 'Av. Las Condes',
+        zip: '12345',
+        tax_id: '73245432-1',
+        legal_name: 'Plutto Inc',
+        phone: '+56992680522'
+      } }
   end
 
   path '/customers' do

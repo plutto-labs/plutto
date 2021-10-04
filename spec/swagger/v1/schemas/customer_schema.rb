@@ -29,7 +29,7 @@ CUSTOMER_SCHEMA = {
     billing_information: {
       type: :object, 'x-nullable': true, properties: {
         city: { type: :string, example: 'Santiago', 'x-nullable': true },
-        country_iso_code: { type: :string, example: 'CHL', 'x-nullable': false },
+        country_iso_code: { type: :string, example: 'CL', 'x-nullable': false },
         state: { type: :string, example: 'Metropolitana', 'x-nullable': true },
         billing_address: { type: :string, example: 'Av. Las Condes', 'x-nullable': true },
         zip: { type: :string, example: '12345', 'x-nullable': true },
@@ -53,7 +53,7 @@ CUSTOMER_CREATE_SCHEMA = {
       type: :object, 'x-nullable': true,
       properties: {
         city: { type: :string, example: 'Santiago', 'x-nullable': true },
-        country_iso_code: { type: :string, example: 'CHL', 'x-nullable': false },
+        country_iso_code: { type: :string, example: 'CL', 'x-nullable': false },
         state: { type: :string, example: 'Metropolitana', 'x-nullable': true },
         billing_address: { type: :string, example: 'Av. Las Condes', 'x-nullable': true },
         zip: { type: :string, example: '12345', 'x-nullable': true },
