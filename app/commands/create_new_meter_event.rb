@@ -30,7 +30,7 @@ class CreateNewMeterEvent < PowerTypes::Command.new(
 
   def customer
     @customer ||= @organization.customers.find_by!(
-      'id = ? OR identifier = ?', @customer_id, @customer_id
+      'id = ? OR identifier = ?', @customer_id.to_s, @customer_id.to_s
     )
   end
 

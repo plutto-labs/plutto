@@ -27,7 +27,7 @@ class Api::V1::CustomersController < Api::V1::BaseController
 
   def customer
     @customer ||= policy_scope(Customer).find_by!(
-      'id = ? OR identifier = ?', params[:id], params[:id]
+      'id = ? OR identifier = ?', params[:id].to_s, params[:id].to_s
     )
   end
 
