@@ -27,13 +27,11 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
       let(:bills_at) { 'end' }
       let!(:subscription) do
         {
-          subscription: {
-            customer_id: customer.id,
-            pricing_ids: pricings.map(&:id),
-            billing_period_duration: 'P0Y1M0DT0H0M0S',
-            trial_finishes_at: 15.days.from_now.iso8601,
-            bills_at: bills_at
-          }
+          customer_id: customer.id,
+          pricing_ids: pricings.map(&:id),
+          billing_period_duration: 'P0Y1M0DT0H0M0S',
+          trial_finishes_at: 15.days.from_now.iso8601,
+          bills_at: bills_at
         }
       end
 

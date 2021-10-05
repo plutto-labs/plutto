@@ -3,7 +3,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
     authorize(Subscription)
     respond_with(
       CreateSubscription.for(
-        pricings: pricings(pricings_params, [:product, :price_logics]),
+        pricings: pricings(pricings_params[:pricing_ids], [:product, :price_logics]),
         customer: customer,
         billing_period_duration: create_params[:billing_period_duration],
         trial_finishes_at: create_params[:trial_finishes_at],
@@ -21,7 +21,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   def add_pricings
     EditSubscriptionPricings::AddPricings.for(
       subscription: subscription,
-      pricings: pricings(edit_pricings_params, [:product, :price_logics])
+      pricings: pricings(pricings_params[:pricing_ids], [:product, :price_logics])
     )
     respond_with(subscription)
   end
@@ -29,7 +29,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   def remove_pricings
     EditSubscriptionPricings::RemovePricings.for(
       subscription: subscription,
-      pricings: pricings(edit_pricings_params)
+      pricings: pricings(pricings_params[:pricing_ids])
     )
     respond_with(subscription)
   end
@@ -40,10 +40,10 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
     @subscription ||= policy_scope(Subscription).find(params[:subscription_id])
   end
 
-  def pricings(params, includes = [])
-    return if params[:pricing_ids].blank?
+  def pricings(ids, includes = [])
+    return [] if ids.blank?
 
-    policy_scope(Pricing).includes(includes).where(id: params[:pricing_ids]).uniq
+    policy_scope(Pricing).includes(includes).where(id: ids).uniq
   end
 
   def customer
@@ -59,10 +59,6 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   end
 
   def pricings_params
-    params.require(:subscription).permit(pricing_ids: [])
-  end
-
-  def edit_pricings_params
     params.permit(pricing_ids: [])
   end
 
