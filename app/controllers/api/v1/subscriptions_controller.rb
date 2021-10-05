@@ -48,7 +48,8 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 
   def customer
     policy_scope(Customer).find_by!(
-      'id = ? OR identifier = ?', create_params[:customer_id], create_params[:customer_id]
+      'id = CAST(? AS VARCHAR) OR identifier = CAST(? AS VARCHAR)',
+      create_params[:customer_id], create_params[:customer_id]
     )
   end
 
