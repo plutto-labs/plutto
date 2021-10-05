@@ -11,7 +11,7 @@ class CreateSubscription < PowerTypes::Command.new(
         end_billing_period(active_subscription)
       end
 
-      subscription = create_subscription!
+      subscription = instantiate_subscription
       EditSubscriptionPricings::AddPricings.for(subscription: subscription, pricings: @pricings)
       subscription.save!
       subscription.reload
@@ -20,8 +20,8 @@ class CreateSubscription < PowerTypes::Command.new(
 
   private
 
-  def create_subscription!
-    Subscription.create!(
+  def instantiate_subscription
+    Subscription.new(
       customer: @customer,
       active: true,
       billing_period_duration: @billing_period_duration,
