@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .plutto-checkbox {
   @apply appearance-none m-0 text-sm w-4 h-4 outline-none text-center border border-gray-300 cursor-pointer;
   border-radius: .15em;
