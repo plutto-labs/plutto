@@ -1,8 +1,15 @@
 class Payment < ApplicationRecord
   belongs_to :payment_method
   belongs_to :invoice
+  has_one :customer, through: :invoice
 
   enum gateway: { kushki: 0 }
+
+  private
+
+  def generate_id
+    init_id('payment')
+  end
 end
 
 # == Schema Information

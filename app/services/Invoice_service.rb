@@ -7,6 +7,10 @@ class InvoiceService < PowerTypes::Service.new
     )
   end
 
+  def charge(invoice, payment_method)
+    kushki.charge(payment_method, invoice)
+  end
+
   private
 
   def invoice_properties(invoice)
