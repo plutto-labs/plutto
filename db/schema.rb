@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_01_153214) do
+ActiveRecord::Schema.define(version: 2021_10_06_145114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,33 @@ ActiveRecord::Schema.define(version: 2021_10_01_153214) do
     t.index ["payment_method_id"], name: "index_payments_on_payment_method_id"
   end
 
+  create_table "permissions", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.string "meter_id", null: false
+    t.integer "meter_count_method"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["meter_id"], name: "index_permissions_on_meter_id"
+  end
+
+  create_table "plan_permissions", id: :string, force: :cascade do |t|
+    t.string "plan_id", null: false
+    t.string "permission_id", null: false
+    t.integer "limit"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["permission_id"], name: "index_plan_permissions_on_permission_id"
+    t.index ["plan_id"], name: "index_plan_permissions_on_plan_id"
+  end
+
+  create_table "plans", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.bigint "price_cents", default: 0, null: false
+    t.integer "price_currency", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "price_logic_tiers", id: :string, force: :cascade do |t|
     t.float "upper_limit", null: false
     t.float "lower_limit", null: false
@@ -311,6 +338,9 @@ ActiveRecord::Schema.define(version: 2021_10_01_153214) do
   add_foreign_key "payment_methods", "customers"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "payment_methods"
+  add_foreign_key "permissions", "meters"
+  add_foreign_key "plan_permissions", "permissions"
+  add_foreign_key "plan_permissions", "plans"
   add_foreign_key "price_logics", "pricings"
   add_foreign_key "pricing_subscriptions", "pricings"
   add_foreign_key "pricing_subscriptions", "subscriptions"
