@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_145114) do
+ActiveRecord::Schema.define(version: 2021_10_06_192302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,7 +200,9 @@ ActiveRecord::Schema.define(version: 2021_10_06_145114) do
     t.integer "meter_count_method"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "organization_id", null: false
     t.index ["meter_id"], name: "index_permissions_on_meter_id"
+    t.index ["organization_id"], name: "index_permissions_on_organization_id"
   end
 
   create_table "plan_permissions", id: :string, force: :cascade do |t|
@@ -219,6 +221,8 @@ ActiveRecord::Schema.define(version: 2021_10_06_145114) do
     t.integer "price_currency", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "organization_id", null: false
+    t.index ["organization_id"], name: "index_plans_on_organization_id"
   end
 
   create_table "price_logic_tiers", id: :string, force: :cascade do |t|
@@ -339,8 +343,10 @@ ActiveRecord::Schema.define(version: 2021_10_06_145114) do
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "payment_methods"
   add_foreign_key "permissions", "meters"
+  add_foreign_key "permissions", "organizations"
   add_foreign_key "plan_permissions", "permissions"
   add_foreign_key "plan_permissions", "plans"
+  add_foreign_key "plans", "organizations"
   add_foreign_key "price_logics", "pricings"
   add_foreign_key "pricing_subscriptions", "pricings"
   add_foreign_key "pricing_subscriptions", "subscriptions"
