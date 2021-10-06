@@ -84,6 +84,7 @@ import { mapState } from 'vuex';
 const navigation = [
   { label: 'Customers', path: '/customers', matchingRoutes: ['customers'] },
   { label: 'Payments', path: '/payments', matchingRoutes: ['payments'] },
+  { label: 'Plans', path: '/plans', matchingRoutes: ['plans', 'plan'] },
   { label: 'Products', path: '/products', matchingRoutes: ['products', 'product'] },
   { label: 'Settings', path: '/settings', matchingRoutes: ['settings'] },
 ];

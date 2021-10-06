@@ -6,6 +6,7 @@ import Customer from '@/router/customer';
 import AddCreditCard from '@/router/add-credit-card';
 import Customers from '@/router/customers';
 import Payments from '@/router/payments';
+import Plans from '@/router/plans';
 import Product from '@/router/product';
 import Products from '@/router/products';
 import Settings from '@/router/settings';
@@ -57,6 +58,14 @@ const router = createRouter({
       component: Payments,
       meta: {
         title: 'Payments | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/plans',
+      name: 'plans',
+      component: Plans,
+      meta: {
+        title: 'Plans | Plutto',
         authRequired: true,
       },
     }, {
