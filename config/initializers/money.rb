@@ -34,14 +34,13 @@ MoneyRails.configure do |config|
   #                          default: 0
   #                        }
   #
-  # config.currency_column = { prefix: '',
-  #                            postfix: '_currency',
-  #                            column_name: nil,
-  #                            type: :string,
-  #                            present: true,
-  #                            null: false,
-  #                            default: 'USD'
-  #                          }
+  config.currency_column = { prefix: '',
+                             postfix: '_currency',
+                             column_name: nil,
+                             type: :integer,
+                             present: true,
+                             null: false,
+                             default: nil }
 
   # Register a custom currency
   #
