@@ -1,11 +1,9 @@
 class SetDataToBillingPeriod < PowerTypes::Command.new(:billing_period, :count_type)
   def perform
-    @billing_period.price_logics.each do |price_logic|
-      if price_logic.metered?
-        meter_count = find_or_create_meter_count(price_logic.meter)
-        billing_period_meter_data = find_or_create_billing_period_meter_data(meter_count)
-        set_count_to_billing_period_meter_data(billing_period_meter_data, meter_count, @count_type)
-      end
+    organization.meters.each do |meter|
+      meter_count = find_or_create_meter_count(meter)
+      billing_period_meter_data = find_or_create_billing_period_meter_data(meter_count)
+      set_count_to_billing_period_meter_data(billing_period_meter_data, meter_count, @count_type)
     end
   end
 
@@ -13,6 +11,10 @@ class SetDataToBillingPeriod < PowerTypes::Command.new(:billing_period, :count_t
 
   def customer
     @customer ||= @billing_period.subscription.customer
+  end
+
+  def organization
+    @organization ||= customer.organization
   end
 
   def find_or_create_meter_count(meter)
