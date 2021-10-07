@@ -1,7 +1,7 @@
 <template>
   <Form
     @submit="submit"
-    class="w-full px-4 space-y-8 divide-y divide-gray-200 md:max-w-xl md:px-6"
+    class="w-full px-4 space-y-8 md:max-w-xl md:px-6"
   >
     <div class="m-auto divide-gray-200">
       <div class="sm:col-span-3">
@@ -41,11 +41,11 @@
         Permissions
       </div>
       <div
-        class="flex items-center justify-between plutto-input"
+        class="flex items-center justify-between my-4"
         v-for="permission in permissions"
         :key="permission.id"
       >
-        <div class="flex flex-row-reverse items-center justify-end">
+        <div class="flex flex-row-reverse items-center justify-end w-full">
           <label
             :for="`${permission.id}`"
             class="ml-4"
@@ -59,14 +59,25 @@
             @change="toggleChecked(permission)"
           >
         </div>
-        <div v-if="selectedPermissions[permission.id] && permission.meter">
-          <label class="mr-4">limit:</label>
+        <div
+          class="flex items-center"
+          v-if="selectedPermissions[permission.id] && permission.meterId"
+        >
+          <label class="mr-4 text-sm">limit:</label>
           <input
             class="w-20 h-8 px-1 text-center plutto-input__input plutto-input__input--no-icon"
             v-model="selectedPermissions[permission.id].limit"
             type="text"
           >
         </div>
+      </div>
+      <div
+        class="flex items-center justify-between w-full border-b border-gray-800 plutto-input"
+        v-if="!showPermissionModal"
+        @click="showPermissionModal = true"
+      >
+        <label class="mr-4 text-gray-300">Add permission</label>
+        <span class="plutto-icon text-primary">add</span>
       </div>
     </div>
     <div class="pt-5">
@@ -76,49 +87,44 @@
         </button>
       </div>
     </div>
+    <PluttoModal
+      :showing="showPermissionModal"
+      @close="showPermissionModal = false"
+    >
+      <PermissionForm
+        @created-permission="showPermissionModal = false"
+      />
+    </PluttoModal>
   </Form>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import PluttoDropdown from '@/components/plutto-dropdown';
+import PluttoModal from '@/components/plutto-modal';
+import PermissionForm from '@/components/forms/permission-form';
 import { Form } from 'vee-validate';
 
 export default {
-  components: { Form, PluttoDropdown },
+  components: { Form, PluttoDropdown, PluttoModal, PermissionForm },
   data() {
     return {
       newPlan: {
         name: null,
         priceCurrency: 'CLP',
       },
-      // temporal permissions
-      permissions: [{
-        id: 1,
-        name: 'GB Video',
-        meter: { id: 'meter-123', name: 'GB Video', meterCountMethod: 'period_sum' },
-      }, {
-        id: 2,
-        name: 'GB Photos',
-        meter: { id: 'meter-231', name: 'GB Photos', meterCountMethod: 'period_sum' },
-      }, {
-        id: 3,
-        name: 'Portals',
-        meter: { id: 'meter-312', name: 'Portals', meterCountMethod: 'historic_sum' },
-      }, {
-        id: 4,
-        name: 'Dashboard',
-        meter: null,
-      }, {
-        id: 5,
-        name: 'Analytics',
-        meter: null,
-      }, {
-        id: 5,
-        name: 'Group Sessions',
-        meter: null,
-      }],
+      addingPermission: false,
       selectedPermissions: {},
+      showPermissionModal: false,
     };
+  },
+  async beforeMount() {
+    await this.$store.dispatch('GET_PERMISSIONS');
+  },
+  computed: {
+    ...mapState({
+      permissions: state => state.permissions.permissions,
+    }),
   },
   methods: {
     submit() {
