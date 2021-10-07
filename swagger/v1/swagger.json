@@ -428,6 +428,31 @@
         "customer"
       ]
     },
+    "customer_permission_resource": {
+      "type": "object",
+      "properties": {
+        "current_usage": {
+          "type": "integer",
+          "example": 10,
+          "x-nullable": true
+        },
+        "limit": {
+          "type": "integer",
+          "example": 30,
+          "x-nullable": true
+        },
+        "allowed": {
+          "type": "boolean",
+          "example": true,
+          "x-nullable": false
+        },
+        "name": {
+          "type": "string",
+          "example": "downloads",
+          "x-nullable": true
+        }
+      }
+    },
     "customer_create": {
       "type": "object",
       "properties": {
@@ -1106,6 +1131,58 @@
         "responses": {
           "204": {
             "description": "customer deleted"
+          },
+          "404": {
+            "description": "resource not found",
+            "schema": {
+              "$ref": "#/definitions/not_found_error_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/customers/{id}/has_permission/{permission_name}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "permission_name",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Retrieves Customer permission",
+        "tags": [
+          "Customers"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "customer retrieved",
+            "schema": {
+              "$ref": "#/definitions/customer_permission_resource"
+            }
           },
           "404": {
             "description": "resource not found",

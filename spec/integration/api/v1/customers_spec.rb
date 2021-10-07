@@ -140,4 +140,30 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       it_behaves_like 'unauthorized endpoint'
     end
   end
+
+  path '/customers/{id}/has_permission/{permission_name}' do
+    parameter name: :id, in: :path, type: :string
+    parameter name: :permission_name, in: :path, type: :string
+
+    let(:existent_customer) { create(:customer, organization: organization) }
+    let(:id) { existent_customer.id }
+    let(:permission) { create(:permission, organization: organization) }
+    let(:permission_name) { permission.name }
+
+    get 'Retrieves Customer permission' do
+      tags 'Customers'
+      produces 'application/json'
+      security [Bearer: []]
+
+      response '200', 'customer retrieved' do
+        schema('$ref' => '#/definitions/customer_permission_resource')
+        let(:Authorization) { "Bearer #{token}" }
+
+        run_test!
+      end
+
+      it_behaves_like 'not_found endpoint'
+      it_behaves_like 'unauthorized endpoint'
+    end
+  end
 end
