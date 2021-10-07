@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         patch 'add_pricings', to: 'subscriptions#add_pricings'
         patch 'remove_pricings', to: 'subscriptions#remove_pricings'
       end
+      resources :plans, only: [:index, :show, :create]
       resources :products, only: [:index, :show, :create, :update, :destroy] do
         resources :pricings, only: [:create, :update, :destroy]
       end
