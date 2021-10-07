@@ -21,6 +21,8 @@
               v-model="newPlan.name"
             >
           </div>
+        </div>
+        <div class="flex my-4 mt-10">
           <div class="w-32 mr-8">
             <label
               for="priceCurrency"
@@ -34,6 +36,21 @@
               :options="CURRENCY_KEYS"
               @selected="(priceCurrency) => newPlan.priceCurrency = priceCurrency"
             />
+          </div>
+          <div class="w-full mr-8">
+            <label
+              for="price"
+              class="block text-sm font-medium text-gray-100"
+            >
+              {{ $t('message.global.price') }}
+            </label>
+            <div class="mt-2 plutto-input">
+              <span class="plutto-input__icon">attach_money</span>
+              <input
+                class="plutto-input__input"
+                v-model="newPlan.price"
+              >
+            </div>
           </div>
         </div>
       </div>

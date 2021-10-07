@@ -4,6 +4,7 @@ export default {
       name: 'Name',
       country: 'Country',
       currency: 'Currency',
+      price: 'Price',
     },
     table: {
       headers: {
