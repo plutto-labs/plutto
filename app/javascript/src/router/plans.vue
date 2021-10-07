@@ -23,10 +23,17 @@
               v-for="permission in plan.permissions"
               :key="permission.key"
             >
-              <span
-                class="text-primary"
+              <div
+                class="flex items-center"
                 v-if="permission.meterId"
-              >{{ permission.limit || '&infin;' }}</span> {{ permission.name }}
+              >
+                <span class="text-primary">{{ permission.limit || '&infin;' }}</span>
+                <span class="flex-1 mx-2">{{ permission.name }}</span>
+                <span class="plutto-icon text-secondary-200">{{ permission.meterCountMethod === 'period_sum' ? 'autorenew' : 'trending_up' }}</span>
+              </div>
+              <div v-else>
+                <span>{{ permission.name }}</span>
+              </div>
             </li>
           </ul>
           <div class="absolute bottom-0 w-full py-4 -mx-6 text-xl text-center">
