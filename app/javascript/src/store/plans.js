@@ -119,17 +119,8 @@ export const actions = {
   },
 };
 
-export const getters = {
-  pricingsOptions(state) {
-    return state.plans.map((plan) => (
-      { name: `${plan.name} - ${plan.defaultVersion.version}`, id: plan.defaultVersion.id }
-    ));
-  },
-};
-
 export default {
   state: { ...initialState },
   mutations,
   actions,
-  getters,
 };
