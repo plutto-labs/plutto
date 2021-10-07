@@ -18,6 +18,7 @@ API_V1 = {
     customer_index: CUSTOMER_INDEX_SCHEMA,
     customer_resource: CUSTOMER_RESOURCE_SCHEMA,
     customer_create: CUSTOMER_CREATE_SCHEMA,
+    customer_update: CUSTOMER_UPDATE_SCHEMA,
     customers_collection: CUSTOMERS_COLLECTION_SCHEMA,
     meter_event: METER_EVENT_SCHEMA,
     meter_event_create: METER_EVENT_CREATE_SCHEMA,
