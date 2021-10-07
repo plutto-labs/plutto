@@ -24,7 +24,17 @@ class Api::V1::CustomersController < Api::V1::BaseController
   end
 
   def permission
-    respond_with customer.has_permission?(permission_params['permission_name'])
+    authorize(Customer)
+    permission = customer.organization.permissions.find_by!(
+      name: permission_params['permission_name']
+    )
+    plan_permission = customer.active_subscription&.plan&.plan_permissions&.find_by(
+      permission_id: permission.id
+    )
+
+    respond_with CustomerPermission.new(
+      permission, plan_permission, customer
+    ), serializer: Api::V1::CustomerPermissionSerializer
   end
 
   private

@@ -47,16 +47,6 @@ class Customer < ApplicationRecord
     end
   end
 
-  def has_permission?(permission_name)
-    permission = organization.permissions.find_by!(name: permission_name)
-    plan_permission = active_subscription&.plan&.plan_permissions&.find_by(
-      permission_id: permission.id
-    )
-    return false if plan_permission.nil?
-
-    permission.metered? ? remaining_usage?(plan_permission) : !plan_permission.nil?
-  end
-
   private
 
   def generate_id
@@ -70,17 +60,6 @@ class Customer < ApplicationRecord
       errors.add(:identifier, :taken)
       raise ActiveRecord::RecordInvalid, self
     end
-  end
-
-  def remaining_usage?(plan_permission)
-    return true if plan_permission.limit.nil?
-
-    meter_count = meter_counts.find_by(meter_id: plan_permission.permission.meter.id)
-    current_usage = active_subscription.current_billing_period.billing_period_meter_datas.find_by(
-      meter_count_id: meter_count.id
-    ).count(plan_permission.permission.meter_count_method)
-
-    current_usage < plan_permission.limit
   end
 end
 
