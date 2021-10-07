@@ -71,7 +71,7 @@
         </div>
       </div>
     </nav>
-    <div class="md:px-16">
+    <div class="px-4 md:px-16">
       <slot />
     </div>
   </div>

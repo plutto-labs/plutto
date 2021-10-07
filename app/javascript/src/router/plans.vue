@@ -4,17 +4,41 @@
       button-text="Add Plan"
       @button-clicked="showPlanForm = true"
     />
-    <div class="px-6 mx-auto mt-6 max-w-7xl">
+    <div class="mx-auto mt-6 max-w-7xl">
       <div
         v-if="!loading"
-        class="grid grid-rows-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-      />
-      <div v-else-if="plans">
+        class="grid grid-rows-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      >
         <div
-          v-for="plan in plans"
+          v-for="plan in plans.sort((a, b) => Number(a.price) < Number(b.price) ? -1 : 1)"
           :key="plan.id"
+          class="relative px-6 py-8 border border-gray-600 rounded-lg"
         >
-          {{ plan.id }}
+          <div class="text-lg underline md:text-xl text-gray-50">
+            {{ plan.name }}
+          </div>
+          <ul class="pl-4 mt-4 mb-8 text-gray-300">
+            <li
+              class="list-disc"
+              v-for="permission in plan.permissions"
+              :key="permission.key"
+            >
+              <div
+                class="flex items-center"
+                v-if="permission.meterId"
+              >
+                <span class="text-primary">{{ permission.limit || '&infin;' }}</span>
+                <span class="flex-1 mx-2">{{ permission.name }}</span>
+                <span class="plutto-icon text-secondary-200">{{ permission.meterCountMethod === 'period_sum' ? 'autorenew' : 'trending_up' }}</span>
+              </div>
+              <div v-else>
+                <span>{{ permission.name }}</span>
+              </div>
+            </li>
+          </ul>
+          <div class="absolute bottom-0 w-full py-4 -mx-6 text-xl text-center">
+            {{ formatCurrency(plan.price, plan.currency) }}
+          </div>
         </div>
       </div>
       <PluttoLoader

@@ -5,6 +5,8 @@ class Permission < ApplicationRecord
   belongs_to :meter, optional: true
 
   enum meter_count_method: { period_sum: 0, history_sum: 1 }
+  validates :meter_id, presence: true, if: :meter_count_method
+  validates :meter_count_method, presence: true, if: :meter_id
 
   def metered?
     !meter.nil?
