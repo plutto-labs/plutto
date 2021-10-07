@@ -2,6 +2,7 @@ class Plan < ApplicationRecord
   belongs_to :organization
   has_many :plan_permissions, dependent: :destroy
   has_many :permissions, through: :plan_permissions
+  has_many :subscriptions, dependent: :nullify
 
   accepts_nested_attributes_for :plan_permissions, allow_destroy: true
 
