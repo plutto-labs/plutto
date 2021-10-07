@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :permission do
     organization
     name { "MyString" }
-    meter
-    meter_count_method { 1 }
+    meter { create(:meter) }
+    meter_count_method { 'period_sum' }
   end
 end
