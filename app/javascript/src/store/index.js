@@ -8,6 +8,7 @@ import invoices from './invoices';
 import meters from './meters';
 import plans from './plans';
 import products from './products';
+import permissions from './permissions';
 import subscriptions from './subscriptions';
 import ui from './ui';
 
@@ -19,6 +20,7 @@ const initialState = {
   meters: meters.state,
   plans: plans.state,
   products: products.state,
+  permissions: permissions.state,
   subscriptions: subscriptions.state,
   ui: ui.state,
 };
@@ -39,6 +41,7 @@ export default createStore({
     meters,
     plans,
     products,
+    permissions,
     subscriptions,
     ui,
   },
