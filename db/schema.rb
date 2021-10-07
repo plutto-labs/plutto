@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_192302) do
+ActiveRecord::Schema.define(version: 2021_10_07_140703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 2021_10_06_192302) do
 
   create_table "permissions", id: :string, force: :cascade do |t|
     t.string "name"
-    t.string "meter_id", null: false
+    t.string "meter_id"
     t.integer "meter_count_method"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
