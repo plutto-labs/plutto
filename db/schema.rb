@@ -299,7 +299,9 @@ ActiveRecord::Schema.define(version: 2021_10_07_140703) do
     t.string "billing_period_duration"
     t.integer "country_iso_code", default: 0, null: false
     t.integer "currency"
+    t.string "plan_id"
     t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
+    t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
   end
 
   create_table "users", id: :string, force: :cascade do |t|
@@ -354,5 +356,6 @@ ActiveRecord::Schema.define(version: 2021_10_07_140703) do
   add_foreign_key "products", "meters"
   add_foreign_key "products", "organizations"
   add_foreign_key "subscriptions", "customers"
+  add_foreign_key "subscriptions", "plans"
   add_foreign_key "users", "organizations"
 end

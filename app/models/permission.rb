@@ -1,8 +1,14 @@
 class Permission < ApplicationRecord
   belongs_to :organization
-  has_one :plan_permission, dependent: :destroy
-  has_one :plan, through: :plan_permission
+  has_many :plan_permission, dependent: :destroy
+  has_many :plan, through: :plan_permission
   belongs_to :meter, optional: true
+
+  enum meter_count_method: { period_sum: 0, history_sum: 1 }
+
+  def metered?
+    !meter.nil?
+  end
 
   private
 

@@ -28,7 +28,9 @@ Rails.application.routes.draw do
   end
   scope path: '/api' do
     api_version(module: 'Api::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
-      resources :customers
+      resources :customers do
+        get 'has_permission/:permission_name', to: 'customers#permission'
+      end
       resources :meter_events, only: [:create]
       resources :invoices, only: [:index, :show]
       resources :subscriptions, only: [:create] do

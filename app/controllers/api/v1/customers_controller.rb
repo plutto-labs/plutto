@@ -23,11 +23,26 @@ class Api::V1::CustomersController < Api::V1::BaseController
     respond_with customer.destroy!
   end
 
+  def permission
+    authorize(Customer)
+    permission = customer.organization.permissions.find_by!(
+      name: permission_params['permission_name']
+    )
+    plan_permission = customer.active_subscription&.plan&.plan_permissions&.find_by(
+      permission_id: permission.id
+    )
+
+    respond_with CustomerPermission.new(
+      permission, plan_permission, customer
+    ), serializer: Api::V1::CustomerPermissionSerializer
+  end
+
   private
 
   def customer
     @customer ||= policy_scope(Customer).find_by!(
-      'id = ? OR identifier = ?', params[:id].to_s, params[:id].to_s
+      'id = ? OR identifier = ?',
+      (params[:id] || params[:customer_id]).to_s, (params[:id] || params[:customer_id]).to_s
     )
   end
 
@@ -43,5 +58,9 @@ class Api::V1::CustomersController < Api::V1::BaseController
       ]
     )
     rename_nested_object_params_for_nested_attributes(cust_params, :billing_information)
+  end
+
+  def permission_params
+    params.permit(:permission_name)
   end
 end

@@ -7,6 +7,7 @@ class Subscription < ApplicationRecord
   has_many :products, through: :pricings
   has_many :price_logics, through: :pricings
   belongs_to :customer
+  belongs_to :plan, optional: true
 
   delegate :country_iso_code, to: :customer, allow_nil: true
 
@@ -75,14 +76,17 @@ end
 #  trial_finishes_at       :datetime
 #  bills_at                :integer          default("end")
 #  billing_period_duration :string
+#  currency                :integer          default("USD"), not null
 #  country_iso_code        :integer          default(0), not null
-#  currency                :integer
+#  plan_id                 :string
 #
 # Indexes
 #
 #  index_subscriptions_on_customer_id  (customer_id)
+#  index_subscriptions_on_plan_id      (plan_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (customer_id => customers.id)
+#  fk_rails_...  (plan_id => plans.id)
 #
