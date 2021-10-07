@@ -128,15 +128,15 @@ export default {
   },
   methods: {
     submit() {
-      const plan = { ...this.newPlan, planPermissionsAttributes: this.selectedPermissions };
+      const plan = { ...this.newPlan, planPermissionsAttributes: Object.values(this.selectedPermissions) };
       this.$store.dispatch('CREATE_PLAN', { plan })
-        .then((product) => this.$emit('created-product', product));
+        .then((newPlan) => this.$emit('created-plan', newPlan));
     },
     toggleChecked(permission) {
       if (this.selectedPermissions[permission.id]) {
         delete this.selectedPermissions[permission.id];
       } else {
-        this.selectedPermissions[permission.id] = { id: permission.id, limit: null };
+        this.selectedPermissions[permission.id] = { permissionId: permission.id, limit: null };
       }
     },
   },
