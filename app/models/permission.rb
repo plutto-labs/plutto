@@ -17,7 +17,7 @@ end
 #
 #  id                 :string           not null, primary key
 #  name               :string
-#  meter_id           :string           not null
+#  meter_id           :string
 #  meter_count_method :integer
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
