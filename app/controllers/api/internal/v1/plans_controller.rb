@@ -32,6 +32,6 @@ class Api::Internal::V1::PlansController < Api::Internal::V1::BaseController
   end
 
   def plans
-    @plans ||= policy_scope(Plan).includes([:meter, :pricings])
+    @plans ||= policy_scope(Plan).includes(plan_permissions: :permission)
   end
 end
