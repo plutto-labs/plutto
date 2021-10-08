@@ -17,6 +17,10 @@
           <div class="text-lg underline md:text-xl text-gray-50">
             {{ plan.name }}
           </div>
+          <PluttoCopyableDiv
+            class="text-xs text-gray-100"
+            :value="plan.id"
+          />
           <ul class="pl-4 mt-4 mb-8 text-gray-300">
             <li
               class="list-disc"
@@ -62,10 +66,11 @@ import { mapState } from 'vuex';
 import PluttoHeader from '@/components/plutto-header';
 import PluttoLoader from '@/components/plutto-loader';
 import PluttoSlideover from '@/components/plutto-slideover';
+import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 import PlanForm from '@/components/forms/plan-form';
 
 export default {
-  components: { PluttoHeader, PluttoLoader, PluttoSlideover, PlanForm },
+  components: { PluttoHeader, PluttoLoader, PluttoSlideover, PlanForm, PluttoCopyableDiv },
   data() {
     return {
       showPlanForm: false,
