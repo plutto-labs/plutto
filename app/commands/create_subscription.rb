@@ -1,8 +1,13 @@
 class CreateSubscription < PowerTypes::Command.new(
-  :pricings, :customer, :billing_period_duration, bills_at: 'end', trial_finishes_at: nil
+  :pricings,
+  :customer,
+  :billing_period_duration,
+  bills_at: 'end',
+  trial_finishes_at: nil,
+  plan_id: nil
 )
   def perform
-    ensure_at_leat_one_pricing!
+    ensure_pricings_or_plan!
     active_subscription = @customer.active_subscription
     check_if_pricing_is_active(active_subscription)
 
@@ -27,7 +32,8 @@ class CreateSubscription < PowerTypes::Command.new(
       billing_period_duration: @billing_period_duration,
       trial_finishes_at: @trial_finishes_at,
       bills_at: @bills_at,
-      currency: @pricings.first.currency
+      currency: currency,
+      plan_id: @plan_id
     )
   end
 
@@ -49,10 +55,18 @@ class CreateSubscription < PowerTypes::Command.new(
     end
   end
 
-  def ensure_at_leat_one_pricing!
-    if @pricings.empty?
+  def ensure_pricings_or_plan!
+    if @pricings.blank? && !@plan_id
       raise(ApiException::Errors::UnprocessableEntity.new(detail:
-        "Can't create subscription with no valid pricings"))
+        "Can't create subscription with no valid pricings or plan"))
     end
+  end
+
+  def currency
+    plan&.price_currency || @pricings.first.currency
+  end
+
+  def plan
+    @plan ||= @plan_id.nil? ? nil : Plan.find(@plan_id)
   end
 end

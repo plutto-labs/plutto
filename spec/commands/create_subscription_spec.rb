@@ -5,8 +5,13 @@ describe CreateSubscription do
   let(:customer) { create(:customer, organization: organization) }
   let(:pricings) { create_list(:pricing, 2) }
 
-  def perform(pricings)
-    described_class.for(customer: customer, pricings: pricings, billing_period_duration: 'P1M')
+  def perform(pricings, plan_id = nil)
+    described_class.for(
+      customer: customer,
+      pricings: pricings,
+      billing_period_duration: 'P1M',
+      plan_id: plan_id
+    )
   end
 
   describe '#perform' do
@@ -25,6 +30,24 @@ describe CreateSubscription do
 
     it 'returns the new Subscription' do
       expect(perform(pricings)).to be_a(Subscription)
+    end
+
+    context 'when plan is present' do
+      let(:plan) { create(:plan, organization: organization) }
+
+      it 'creates a new subscription with plan' do
+        subscription = perform(pricings, plan.id)
+        expect(subscription.plan_id).to eq(plan.id)
+        expect(subscription.currency).to eq(plan.price_currency)
+      end
+    end
+
+    context 'when plan is not present' do
+      it 'creates a new subscription without plan' do
+        subscription = perform(pricings)
+        expect(subscription.plan_id).to eq(nil)
+        expect(subscription.currency).to eq(pricings.first.currency)
+      end
     end
 
     context 'when there is a previous active subscription' do
@@ -57,12 +80,6 @@ describe CreateSubscription do
             perform(pricings)
           end.to raise_error(ActiveRecord::RecordInvalid)
         end
-      end
-    end
-
-    context 'when no pricings given' do
-      it 'raises an error' do
-        expect { perform([]) }.to raise_error(ApiException::Errors::UnprocessableEntity)
       end
     end
   end

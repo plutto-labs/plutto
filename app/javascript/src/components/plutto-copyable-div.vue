@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="flex items-center cursor-pointer"
+      class="flex items-center break-all cursor-pointer"
       @click.prevent.stop="e => copyToClipboard(e, value)"
     >
       <p class="max-w-xs break-words sm:max-w-sm md:max-w-md">
