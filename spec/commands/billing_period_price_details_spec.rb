@@ -6,7 +6,7 @@ describe BillingPeriodPriceDetails do
   end
 
   let(:customer) { create(:customer) }
-  let(:subscription) { create(:subscription, customer: customer) }
+  let(:subscription) { create(:subscription, customer: customer, plan: nil) }
   let!(:pricing_subscription) do
     create(:pricing_subscription, subscription: subscription)
   end
@@ -107,6 +107,22 @@ describe BillingPeriodPriceDetails do
           expected_price = (price_logic_prices[0] + price_logic_prices[1]) * 1
           expect(perform[:price]).to eq(expected_price.amount)
         end
+      end
+    end
+
+    context 'when there is a plan' do
+      let(:plan) { create(:plan, price: 1000, price_currency: 'CLP') }
+      let(:subscription) { create(:subscription, customer: customer, plan: plan) }
+
+      it 'sums the plan price to total amount' do
+        expect(perform[:price]).to eq(clp(1000).amount)
+      end
+
+      it 'writes correct details for plan' do
+        details = perform[:details][0]
+        expect(details[:type]).to eq('Plan')
+        expect(details[:description]).to eq("Plan #{plan.name}")
+        expect(details[:id]).to eq(plan.id)
       end
     end
   end
