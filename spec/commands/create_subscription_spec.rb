@@ -4,9 +4,15 @@ describe CreateSubscription do
   let(:organization) { create(:organization) }
   let(:customer) { create(:customer, organization: organization) }
   let(:pricings) { create_list(:pricing, 2) }
+  let(:plan) { create(:plan, organization: organization) }
 
   def perform(pricings)
-    described_class.for(customer: customer, pricings: pricings, billing_period_duration: 'P1M')
+    described_class.for(
+      customer: customer,
+      pricings: pricings,
+      billing_period_duration: 'P1M',
+      plan_id: plan.id
+    )
   end
 
   describe '#perform' do
@@ -21,6 +27,11 @@ describe CreateSubscription do
     it 'creates a new subscription with active status' do
       subscription = perform(pricings)
       expect(subscription.active).to be_truthy
+    end
+
+    it 'creates a new subscription with plan' do
+      subscription = perform(pricings)
+      expect(subscription.plan_id).to eq(plan.id)
     end
 
     it 'returns the new Subscription' do

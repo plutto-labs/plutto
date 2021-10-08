@@ -25,13 +25,15 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
                 schema: { '$ref': '#/definitions/subscription_create' }
 
       let(:bills_at) { 'end' }
+      let(:plan) { create(:plan, organization: organization) }
       let!(:subscription) do
         {
           customer_id: customer.id,
           pricing_ids: pricings.map(&:id),
           billing_period_duration: 'P0Y1M0DT0H0M0S',
           trial_finishes_at: 15.days.from_now.iso8601,
-          bills_at: bills_at
+          bills_at: bills_at,
+          plan_id: plan.id
         }
       end
 
