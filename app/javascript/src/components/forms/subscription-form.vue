@@ -61,8 +61,18 @@
         </DatePicker>
       </div>
     </div>
-    <div class="items-center inline gap-4">
-      <span>Add products:</span>
+    <div class="flex items-center justify-between my-8">
+      <span class="flex-1">Select Plan:<br><span class="text-xs text-gray-300">(optional)</span></span>
+      <PluttoDropdown
+        class="w-32 ml-4 plutto-input"
+        :options="plans"
+        value-key="id"
+        :selected="subscription.planId"
+        @selected="(planId) => subscription.planId = planId"
+      />
+    </div>
+    <div class="flex items-center justify-between my-8">
+      <span class="flex-1">Add products:<br><span class="text-xs text-gray-300">(0 or more)</span></span>
       <PluttoDropdown
         class="w-32 ml-4 plutto-input"
         force-selected-text="Choose..."
@@ -122,6 +132,7 @@ export default {
         billingPeriodDuration: null,
         billsAt: null,
         trialFinishesAt: null,
+        planId: null,
       },
       billingPeriodDurations: [
         { label: 'day', value: 'P1D' },
@@ -154,6 +165,7 @@ export default {
     ...mapState({
       loading: state => state.products.loading,
       products: state => state.products.products,
+      plans: state => state.plans.plans,
       currentCustomer: state => state.customers.currentCustomer,
     }),
     productOptions() {

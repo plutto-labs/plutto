@@ -9,7 +9,8 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
         customer: customer,
         billing_period_duration: params['billing_period_duration'],
         trial_finishes_at: params['trial_finishes_at'],
-        bills_at: params['bills_at']
+        bills_at: params['bills_at'],
+        plan_id: params['plan_id']
       )
     )
   end
