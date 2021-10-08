@@ -68,6 +68,29 @@ CUSTOMER_CREATE_SCHEMA = {
   required: [:email, :billing_information]
 }
 
+CUSTOMER_UPDATE_SCHEMA = {
+  type: "object",
+  properties: {
+    identifier: { type: :string, example: 'your-id_12885305', 'x-nullable': true },
+    email: { type: :string, example: 'donald@getplutto.com', 'x-nullable': false },
+    name: { type: :string, example: 'donald', 'x-nullable': false },
+    billing_information: {
+      type: :object, 'x-nullable': true,
+      properties: {
+        city: { type: :string, example: 'Santiago', 'x-nullable': true },
+        country_iso_code: { type: :string, example: 'CL', 'x-nullable': false },
+        state: { type: :string, example: 'Metropolitana', 'x-nullable': true },
+        billing_address: { type: :string, example: 'Av. Las Condes', 'x-nullable': true },
+        zip: { type: :string, example: '12345', 'x-nullable': true },
+        tax_id: { type: :string, example: '73245432-1', 'x-nullable': true },
+        legal_name: { type: :string, example: 'Plutto Inc', 'x-nullable': true },
+        activity: { type: :string, example: 'Software Development', 'x-nullable': true },
+        phone: { type: :string, example: '+56992680522', 'x-nullable': true }
+      }
+    }
+  }
+}
+
 CUSTOMERS_COLLECTION_SCHEMA = {
   type: "object",
   properties: {
