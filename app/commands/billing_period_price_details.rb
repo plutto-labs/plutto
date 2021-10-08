@@ -3,15 +3,11 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
     total_price = 0
     details = []
 
-    subscription.price_logics.each do |price_logic|
-      billing_period_meter_data = billing_period_meter_data_for_price_logic(price_logic)
-      price_logic_price = price_logic.calculate_price(
-        billing_period_meter_data&.count(price_logic.meter_count_method) || 0
-      )
-      details.push(details_from_price_logic(price_logic, billing_period_meter_data,
-                                            price_logic_price))
+    details, total_price = price_logic_details(details, total_price)
 
-      total_price += price_logic_price
+    if plan
+      details.push(details_for_plan(plan))
+      total_price += plan.price
     end
 
     { price: total_price.zero? ? 0 : total_price.amount, details: details }.with_indifferent_access
@@ -34,21 +30,59 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
     @subscription = @billing_period.subscription
   end
 
-  def details_from_price_logic(price_logic, billing_period_meter_data, total_price)
-    details = {}
+  def plan
+    @plan ||= @subscription.plan
+  end
 
-    details[:type] = price_logic.class.const_get('NAME')
-    details[:total_price] = total_price.amount.to_f
-    details[:description] = details[:type]
-    details[:id] = price_logic.id
-
-    if price_logic.metered?
-      details[:meter] = price_logic.meter.name
-      details[:id] = price_logic.meter.id
-      details[:quantity] = billing_period_meter_data&.count(price_logic.meter_count_method) || 0
-      details[:description] = "#{details[:quantity]} x #{details[:meter]}"
+  def price_logic_details(details, total_price)
+    subscription.price_logics.each do |price_logic|
+      billing_period_meter_data = billing_period_meter_data_for_price_logic(price_logic)
+      price_logic_price = price_logic.calculate_price(
+        billing_period_meter_data&.count(price_logic.meter_count_method) || 0
+      )
+      details.push(price_logic_detail(price_logic, billing_period_meter_data, price_logic_price))
+      total_price += price_logic_price
     end
 
-    details
+    [details, total_price]
+  end
+
+  def price_logic_detail(price_logic, billing_period_meter_data, total_price)
+    if price_logic.metered?
+      return details_for_metered_price_logic(price_logic, billing_period_meter_data, total_price)
+    end
+
+    details_for_not_metered_price_logic(price_logic, total_price)
+  end
+
+  def details_for_metered_price_logic(price_logic, billing_period_meter_data, total_price)
+    quantity = billing_period_meter_data&.count(price_logic.meter_count_method) || 0
+    meter = price_logic.meter.name
+    {
+      type: price_logic.class.const_get('NAME'),
+      meter: meter,
+      total_price: total_price.amount.to_f,
+      quantity: quantity,
+      description: "#{quantity} x #{meter}",
+      id: price_logic.meter.id
+    }
+  end
+
+  def details_for_not_metered_price_logic(price_logic, total_price)
+    {
+      type: price_logic.class.const_get('NAME'),
+      total_price: total_price.amount.to_f,
+      description: price_logic.pricing.name,
+      id: price_logic.id
+    }
+  end
+
+  def details_for_plan(plan)
+    {
+      type: 'Plan',
+      total_price: plan.price.amount.to_f,
+      description: "Plan #{plan.name}",
+      id: plan.id
+    }
   end
 end
