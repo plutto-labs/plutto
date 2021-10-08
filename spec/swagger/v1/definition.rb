@@ -24,6 +24,8 @@ API_V1 = {
     meter_event: METER_EVENT_SCHEMA,
     meter_event_create: METER_EVENT_CREATE_SCHEMA,
     meter_event_resource: METER_EVENT_RESOURCE_SCHEMA,
+    plan: PLAN_SCHEMA,
+    plan_permission: PLAN_PERMISSION_SCHEMA,
     pricing: PRICING_SCHEMA,
     pricing_resource: PRICING_RESOURCE_SCHEMA,
     price_logic: PRICE_LOGIC_SCHEMA,
