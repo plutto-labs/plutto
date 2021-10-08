@@ -63,10 +63,10 @@ class CreateSubscription < PowerTypes::Command.new(
   end
 
   def currency
-    plan.price_currency || @pricings.first.currency
+    plan&.price_currency || @pricings.first.currency
   end
 
   def plan
-    @plan ||= Plan.find(@plan_id)
+    @plan ||= @plan_id.nil? ? nil : Plan.find(@plan_id)
   end
 end
