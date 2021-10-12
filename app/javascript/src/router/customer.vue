@@ -77,11 +77,14 @@
           </div>
           <div class="justify-between md:flex">
             <div>
-              Products:
-              <div class="text-xs">
-                <div>
+              <div>
+                Products:
+                <div class="text-xs">
                   {{ productsString(currentCustomer.activeSubscription.pricings) }}
                 </div>
+              </div>
+              <div v-if="currentCustomer.activeSubscription.plan">
+                Plan: <span>{{ currentCustomer.activeSubscription.plan.name }}</span>
               </div>
               <div v-if="currentCustomer.activeSubscription.trialFinishesAt !== null">
                 <div>
@@ -134,7 +137,7 @@
             :key="index"
             class="flex justify-between"
           >
-            <span><span v-if="detail.meter">{{ detail.quantity }}x </span>{{ detail.meter || detail.type }}:</span>
+            <span>{{ detail.description }}:</span>
             <span>
               {{ formatCurrency(detail.totalPrice, currentCustomer.activeSubscription.currency) }}
             </span>
