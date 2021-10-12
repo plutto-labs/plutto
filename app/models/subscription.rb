@@ -76,8 +76,8 @@ end
 #  trial_finishes_at       :datetime
 #  bills_at                :integer          default("end")
 #  billing_period_duration :string
-#  currency                :integer          default("USD"), not null
 #  country_iso_code        :integer          default(0), not null
+#  currency                :integer
 #  plan_id                 :string
 #
 # Indexes

@@ -16,7 +16,7 @@ end
 #  id            :string           not null, primary key
 #  plan_id       :string           not null
 #  permission_id :string           not null
-#  limit         :integer
+#  limit         :float
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #

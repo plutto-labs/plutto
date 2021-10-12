@@ -9,6 +9,8 @@ RSpec.describe Permission, type: :model do
   describe 'Validations' do
     let!(:permission) { create(:permission) }
 
+    it { expect(permission).to validate_uniqueness_of(:name).scoped_to(:organization_id) }
+
     it 'validates presence of meter_count_method if meter_id present' do
       allow(permission).to receive(:meter_count_method).and_return(true)
       expect(permission).to validate_presence_of(:meter_id)

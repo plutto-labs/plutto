@@ -7,6 +7,7 @@ class Permission < ApplicationRecord
   enum meter_count_method: { period_sum: 0, history_sum: 1 }
   validates :meter_id, presence: true, if: :meter_count_method
   validates :meter_count_method, presence: true, if: :meter_id
+  validates :name, uniqueness: { scope: :organization_id }
 
   def metered?
     !meter.nil?
@@ -33,8 +34,9 @@ end
 #
 # Indexes
 #
-#  index_permissions_on_meter_id         (meter_id)
-#  index_permissions_on_organization_id  (organization_id)
+#  index_permissions_on_meter_id                  (meter_id)
+#  index_permissions_on_name_and_organization_id  (name,organization_id) UNIQUE
+#  index_permissions_on_organization_id           (organization_id)
 #
 # Foreign Keys
 #
