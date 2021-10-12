@@ -32,3 +32,7 @@ export const cardMasks = {
 export const cvvMask = {
   mask: '0000',
 };
+
+export const dateMask = {
+  mask: '00',
+};
