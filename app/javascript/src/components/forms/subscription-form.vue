@@ -133,6 +133,7 @@
       <button
         class="mt-auto btn"
         @click="createSubscription"
+        :disabled="Object.values(pricingErrors).includes(true)"
       >
         Create subscription
       </button>
@@ -146,9 +147,10 @@ import { DatePicker } from 'v-calendar';
 import PluttoDropdown from '@/components/plutto-dropdown';
 import PluttoRadioInput from '@/components/plutto-radio-input';
 import PluttoTooltip from '@/components/plutto-tooltip';
+import { Form } from 'vee-validate';
 
 export default {
-  components: { PluttoDropdown, PluttoRadioInput, DatePicker, PluttoTooltip },
+  components: { PluttoDropdown, PluttoRadioInput, DatePicker, PluttoTooltip, Form },
   data() {
     return {
       selectedProducts: {},
