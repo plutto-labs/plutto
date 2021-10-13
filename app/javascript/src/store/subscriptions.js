@@ -2,7 +2,6 @@ import * as subscriptionsApi from '../api/subscriptions';
 
 const initialState = {
   loading: null,
-  error: null,
 };
 
 export const mutations = {
@@ -11,9 +10,6 @@ export const mutations = {
   },
   setSubscriptionsLoading(state, payload) {
     state.loading = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
 };
 
