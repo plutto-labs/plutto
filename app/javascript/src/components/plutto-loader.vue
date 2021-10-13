@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .plutto-loading {
   @apply relative h-12;
 
@@ -16,6 +16,11 @@
     animation: loading 1.2s infinite linear;
     transform: translate(-50%, -50%);
     font-size: 6px;
+
+    &--input {
+      font-size: 3px;
+      left: 1.5rem;
+    }
   }
 }
 
