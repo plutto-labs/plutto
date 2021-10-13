@@ -10,7 +10,7 @@
         class="grid grid-rows-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       >
         <div
-          v-for="plan in plans.sort((a, b) => Number(a.price) < Number(b.price) ? -1 : 1)"
+          v-for="plan in sortedPlans"
           :key="plan.id"
           class="relative px-6 py-8 border border-gray-600 rounded-lg"
         >
@@ -93,8 +93,14 @@ export default {
       loading: state => state.plans.loading,
       plans: state => state.plans.plans,
     }),
+
+    sortedPlans() {
+      if (!this.plans) return [];
+
+      return [...this.plans].sort((a, b) => (Number(a.price) < Number(b.price) ? -1 : 1));
+    },
   },
-  async mounted() {
+  async beforeMount() {
     await this.$store.dispatch('GET_PLANS');
   },
   methods: {
