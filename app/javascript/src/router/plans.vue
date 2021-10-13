@@ -27,14 +27,25 @@
               v-for="permission in plan.permissions"
               :key="permission.key"
             >
-              <div
-                class="flex items-center"
-                v-if="permission.meterId"
-              >
-                <span class="text-primary">{{ permission.limit || '&infin;' }}</span>
-                <span class="flex-1 mx-2">{{ permission.name }}</span>
-                <span class="plutto-icon text-secondary-200">{{ permission.meterCountMethod === 'period_sum' ? 'autorenew' : 'trending_up' }}</span>
-              </div>
+              <PluttoTooltip v-if="permission.meterId">
+                <template #trigger>
+                  <div class="flex items-center">
+                    <PluttoTooltip />
+                    <span class="text-primary">{{ permission.limit || '&infin;' }}</span>
+                    <span class="flex-1 mx-2">{{ permission.name }}</span>
+                    <span class="plutto-icon text-secondary-200">{{ permission.meterCountMethod === 'period_sum' ? 'autorenew' : 'trending_up' }}</span>
+                  </div>
+                </template>
+                <template #content>
+                  <p>Meter: {{ permission.meterName }} </p>
+                  <p>Limit: {{ permission.limit }} </p>
+                  <p>
+                    Count: {{
+                      permission.meterCountMethod === 'period_sum' ? 'Period information' : 'Historic information'
+                    }}
+                  </p>
+                </template>
+              </PluttoTooltip>
               <div v-else>
                 <span>{{ permission.name }}</span>
               </div>
@@ -68,9 +79,10 @@ import PluttoLoader from '@/components/plutto-loader';
 import PluttoSlideover from '@/components/plutto-slideover';
 import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 import PlanForm from '@/components/forms/plan-form';
+import PluttoTooltip from '@/components/plutto-tooltip';
 
 export default {
-  components: { PluttoHeader, PluttoLoader, PluttoSlideover, PlanForm, PluttoCopyableDiv },
+  components: { PluttoHeader, PluttoLoader, PluttoSlideover, PlanForm, PluttoCopyableDiv, PluttoTooltip },
   data() {
     return {
       showPlanForm: false,
