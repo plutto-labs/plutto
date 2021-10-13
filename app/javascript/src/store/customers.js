@@ -4,7 +4,6 @@ const initialState = {
   customers: null,
   currentCustomer: false,
   loading: null,
-  error: null,
 };
 
 export const mutations = {
@@ -43,9 +42,6 @@ export const mutations = {
   },
   setCustomersLoading(state, payload) {
     state.loading = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
 };
 

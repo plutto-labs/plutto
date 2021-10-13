@@ -4,7 +4,6 @@ const initialState = {
   plans: null,
   currentPlan: false,
   loading: null,
-  error: null,
 };
 
 export const mutations = {
@@ -37,9 +36,6 @@ export const mutations = {
   },
   setPlansLoading(state, payload) {
     state.loading = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
 };
 
