@@ -3,6 +3,6 @@ class Api::V1::MeterEventSerializer < Api::BaseSerializer
              :customer_id
 
   def customer_id
-    object.customer.id
+    object.customer.identifier || object.customer.id
   end
 end
