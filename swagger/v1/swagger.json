@@ -703,7 +703,13 @@
         "action": {
           "type": "string",
           "example": "increment",
-          "x-nullable": false
+          "x-nullable": false,
+          "enum": [
+            "set",
+            "increment",
+            "decrement"
+          ],
+          "description": "increment count, decrement count or set to restore count"
         },
         "timestamp": {
           "type": "string",
