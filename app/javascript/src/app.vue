@@ -103,7 +103,7 @@ main {
     @apply h-full bg-transparent w-full pl-10 rounded border border-gray-200;
 
     &::placeholder {
-      @apply text-gray-200;
+      @apply text-gray-100 text-opacity-50;
     }
 
     &:focus {
