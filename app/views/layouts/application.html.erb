@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="<%= asset_path('favicon.png') %>"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
+    <script type="text/javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&libraries=places"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <%= csp_meta_tag %>
