@@ -4,10 +4,12 @@
       <h1 class="my-8 text-4xl text-center">
         Plutto
       </h1>
-      <form
-        class="relative w-full px-6 py-10 m-auto border rounded-lg md:max-w-xl"
+      <Form
+        class="relative w-full py-4 m-auto rounded-lg md:px-6 md:max-w-md"
         v-if="!cardCreated && !invalidUrl"
         @submit.prevent="registerCard"
+        v-slot="{ errors }"
+        :validation-schema="schema"
       >
         <div class="mt-8 plutto-input">
           <label
@@ -28,7 +30,7 @@
               >
             </div>
           </div>
-          <input
+          <Field
             v-imask="cardMasks"
             @accept="onAcceptCardType"
             placeholder="Card Number"
@@ -37,69 +39,95 @@
             inputmode="decimal"
             name="number"
             class="plutto-input__input"
+          />
+          <div
+            class="absolute text-sm text-danger-light"
+            v-if="errors.number"
           >
+            Required
+          </div>
         </div>
-        <div class="mt-8 plutto-input">
+        <div class="mt-12 plutto-input">
           <label
             class="plutto-input__label"
             for="name"
           >Name</label>
-          <input
+          <Field
             placeholder="Full Name"
             v-model="card.name"
             type="text"
             name="name"
             class="plutto-input__input"
+          />
+          <div
+            class="absolute text-sm text-danger-light"
+            v-if="errors.name"
           >
+            Required
+          </div>
         </div>
-        <div class="flex w-full mt-8">
+        <div class="flex w-full mt-12">
           <div class="plutto-input">
             <label
               class="plutto-input__label"
               for="expiryMonth"
-            >Expiry Month</label>
-            <input
+            >Expiry Date</label>
+            <Field
+              v-imask="dateMask"
               placeholder="MM"
               v-model="card.expiryMonth"
               type="text"
               name="expiryMonth"
               inputmode="decimal"
-              class="plutto-input__input plutto-input__input--no-icon"
-            >
-          </div>
-          <div class="ml-2 plutto-input">
-            <label
-              class="plutto-input__label"
-              for="expiryYear"
-            >Expiry Year</label>
-            <input
+              class="w-16 plutto-input__input plutto-input__input--no-icon"
+            /><span class="mx-4">/</span>
+            <Field
+              v-imask="dateMask"
               placeholder="YY"
               v-model="card.expiryYear"
               type="text"
               name="expiryYear"
               inputmode="decimal"
-              class="plutto-input__input plutto-input__input--no-icon"
+              class="w-16 plutto-input__input plutto-input__input--no-icon"
+            />
+            <div
+              class="absolute text-sm text-danger-light"
+              v-if="errors.expiryMonth || errors.expiryYear"
             >
+              Required
+            </div>
+            <div
+              class="absolute text-sm text-danger-light"
+              v-else-if="!isFutureDate"
+            >
+              Must be a future Date
+            </div>
           </div>
           <div class="ml-2 md:ml-8 plutto-input">
             <label
               class="plutto-input__label"
               for="cvc"
             >CVC</label>
-            <input
+            <Field
               v-imask="cvvMask"
               placeholder="CVC"
               v-model="card.cvc"
-              type="text"
+              type="password"
               name="cvc"
               inputmode="decimal"
               class="plutto-input__input plutto-input__input--no-icon"
+            />
+            <div
+              class="absolute text-sm text-danger-light"
+              v-if="errors.cvc"
             >
+              Required
+            </div>
           </div>
         </div>
         <button
           v-if="!loading"
-          class="h-12 mt-8 btn btn--full btn--big btn--filled bg-primary"
+          class="h-12 mt-12 btn btn--full btn--big btn--filled bg-primary"
         >
           Add credit card
         </button>
@@ -113,6 +141,13 @@
         >
           {{ error }}
         </div>
+        <div class="mt-6 text-xs text-center text-gray-200">
+          Powered by Plutto ™
+        </div>
+        <img
+          class="object-cover h-12 m-auto"
+          src="../../img/kushki.svg"
+        >
       </form>
       <div
         class="relative flex flex-col items-center w-full px-6 py-10 m-auto md:max-w-xl"
@@ -140,16 +175,18 @@
 /* eslint-disable no-undef */
 
 import { IMaskDirective } from 'vue-imask';
-import { cardMasks, cvvMask } from '@/utils/card-masks';
+import { cardMasks, cvvMask, dateMask } from '@/utils/card-masks';
+import { Field, Form } from 'vee-validate';
 import * as paymentMethodsApi from '@/api/payment_methods';
 import PluttoLoader from '../components/plutto-loader';
 
 export default {
-  components: { PluttoLoader },
+  components: { PluttoLoader, Field, Form },
   data() {
     return {
       cardMasks,
       cvvMask,
+      dateMask,
       card: {
         name: null,
         number: null,
@@ -163,6 +200,13 @@ export default {
       cardCreated: false,
       symbolImage: null,
       invalidUrl: false,
+      schema: {
+        number: 'required',
+        name: 'required',
+        expiryMonth: 'required',
+        expiryYear: 'required',
+        cvc: 'required',
+      },
     };
   },
   beforeMount() {
@@ -180,6 +224,14 @@ export default {
       });
       kushkiScript.removeEventListener('load', listener);
     });
+  },
+  computed: {
+    isFutureDate() {
+      if (!this.card.expiryYear || !this.card.expiryMonth) return true;
+      const date = new Date(`20${this.card.expiryYear}`, Number(this.card.expiryMonth) - 1);
+
+      return date > new Date();
+    },
   },
   methods: {
     registerCard() {

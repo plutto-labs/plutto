@@ -5,6 +5,7 @@ class Invoice < ApplicationRecord
 
   belongs_to :billing_period
   belongs_to :customer
+  has_one :payment, dependent: :destroy
 
   monetize :subtotal_cents, with_model_currency: :currency
   monetize :tax_cents, :discount_cents, :total_cents, :net_cents, allow_nil: true,
@@ -27,7 +28,14 @@ class Invoice < ApplicationRecord
     end
 
     event :charge do
-      transitions from: [:posted], to: :paid
+      before do |payment_method|
+        charge_customer(payment_method)
+      end
+      error do |e|
+        fail! unless status == 'not_paid'
+        raise e
+      end
+      transitions from: [:posted, :not_paid], to: :paid
     end
 
     event :fail do
@@ -52,6 +60,10 @@ class Invoice < ApplicationRecord
 
   def send_to_customer
     invoice_service.send_to_customer(self)
+  end
+
+  def charge_customer(payment_method)
+    invoice_service.charge(self, payment_method)
   end
 
   private
