@@ -4,17 +4,17 @@
       <router-view />
     </NavBar>
     <router-view v-else />
+    <PluttoError />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import NavBar from './components/nav-bar.vue';
+import NavBar from '@/components/nav-bar.vue';
+import PluttoError from '@/components/plutto-error.vue';
 
 export default {
-  components: {
-    NavBar,
-  },
+  components: { NavBar, PluttoError },
   beforeMount() {
     if (this.loggedIn) {
       this.$store.dispatch('UPDATE_USER_DATA', this.currentUser.id)
@@ -154,6 +154,16 @@ main {
   &--yellow {
     @apply text-yellow-800 bg-yellow-200;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 
 /* stylelint-disable selector-no-qualifying-type, rule-empty-line-before, property-no-vendor-prefix*/
