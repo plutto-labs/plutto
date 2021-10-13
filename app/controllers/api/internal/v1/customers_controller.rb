@@ -1,5 +1,5 @@
 class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
-  acts_as_token_authentication_handler_for User
+  acts_as_token_authentication_handler_for User, except: [:show, :update]
   include Pundit
 
   def index
