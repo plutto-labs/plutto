@@ -47,7 +47,7 @@ class KushkiService
   end
 
   def enroll_link_for(customer)
-    "https://#{ENV.fetch('APPLICATION_HOST')}/#/add-credit-card?customerId=#{customer.id}"
+    "https://#{ENV.fetch('APPLICATION_HOST')}/#/checkout?customerId=#{customer.id}"
   end
 
   private
