@@ -3,7 +3,6 @@ import * as apiKeysApi from '@/api/api-keys';
 const initialState = {
   apiKeys: null,
   loading: null,
-  error: null,
 };
 
 export const mutations = {
@@ -24,9 +23,6 @@ export const mutations = {
   },
   setApiKeysLoading(state, payload) {
     state.loading = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
 };
 

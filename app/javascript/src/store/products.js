@@ -5,7 +5,6 @@ const initialState = {
   products: null,
   currentProduct: false,
   loading: null,
-  error: null,
 };
 
 export const mutations = {
@@ -50,9 +49,6 @@ export const mutations = {
   },
   setDefaultVersion(state, payload) {
     state.currentProduct.defaultVersion = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
 };
 

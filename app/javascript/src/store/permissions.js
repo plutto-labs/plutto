@@ -3,7 +3,6 @@ import * as permissionsApi from '../api/permissions';
 const initialState = {
   permissions: null,
   loading: null,
-  error: null,
 };
 
 export const mutations = {
@@ -22,9 +21,6 @@ export const mutations = {
   },
   setPermissionsLoading(state, payload) {
     state.loading = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
 };
 

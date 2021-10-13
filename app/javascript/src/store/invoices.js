@@ -4,7 +4,6 @@ const initialState = {
   invoices: [],
   currentInvoice: null,
   loading: null,
-  error: null,
 };
 
 export const mutations = {
@@ -19,9 +18,6 @@ export const mutations = {
   },
   setInvoicesLoading(state, payload) {
     state.loading = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
   updateInvoice(state, payload) {
     const index = state.invoices.findIndex(invoice => invoice.id === payload.id);

@@ -4,7 +4,6 @@ const initialState = {
   meters: null,
   currentMeter: false,
   loading: null,
-  error: null,
 };
 
 export const mutations = {
@@ -34,9 +33,6 @@ export const mutations = {
   },
   setMetersLoading(state, payload) {
     state.loading = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
 };
 
