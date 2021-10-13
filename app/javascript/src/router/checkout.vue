@@ -4,7 +4,7 @@
       <h1 class="my-8 text-4xl text-center">
         Checkout
       </h1>
-      <PluttoBreadcums
+      <PluttoBreadcrumbs
         :steps="3"
         :current-step="currentStep"
         class="w-56 max-w-xs m-auto"
@@ -67,10 +67,10 @@ import * as paymentMethodsApi from '@/api/payment_methods';
 import PluttoLoader from '@/components/plutto-loader';
 import BillingInformationForm from '@/components/forms/billing-information-form.vue';
 import CreditCardForm from '@/components/forms/credit-card-form.vue';
-import PluttoBreadcums from '@/components/plutto-breadcums';
+import PluttoBreadcrumbs from '@/components/plutto-breadcrumbs';
 
 export default {
-  components: { CreditCardForm, BillingInformationForm, PluttoLoader, PluttoBreadcums },
+  components: { CreditCardForm, BillingInformationForm, PluttoLoader, PluttoBreadcrumbs },
   data() {
     return {
       kushki: null,
