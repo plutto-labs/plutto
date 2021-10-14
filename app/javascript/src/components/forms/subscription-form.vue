@@ -133,7 +133,6 @@
       <button
         class="mt-auto btn"
         @click="createSubscription"
-        :disabled="Object.values(pricingErrors).includes(true)"
       >
         Create subscription
       </button>
