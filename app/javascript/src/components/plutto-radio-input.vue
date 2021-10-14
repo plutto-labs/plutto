@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <Field
+    as="div"
+    :name="inputId"
+  >
     <div
       class="flex flex-row-reverse items-center justify-end"
       v-for="option in options"
@@ -19,9 +22,11 @@
         :id="`${inputId}_${option}`"
       >
     </div>
-  </div>
+  </Field>
 </template>
 <script>
+import { Field } from 'vee-validate';
+
 export default {
   props: {
     inputId: {
@@ -37,6 +42,7 @@ export default {
       default: '',
     },
   },
+  components: { Field },
   computed: {
     selectedOption: {
       get() {

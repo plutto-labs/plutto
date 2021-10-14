@@ -1,5 +1,10 @@
 <template>
-  <div class="w-full px-8">
+  <Form
+    class="w-full px-8"
+    @submit="createSubscription"
+    v-slot="{ errors }"
+    :validation-schema="schema"
+  >
     <h1 class="text-xl">
       New Subscription
     </h1>
@@ -16,6 +21,12 @@
           :options="['start', 'end']"
           v-model="subscription.billsAt"
         />
+        <div
+          class="absolute text-sm text-danger-light"
+          v-if="errors.billsAt"
+        >
+          Required
+        </div>
       </div>
       <div class="mr-8 w-50">
         <label
@@ -132,12 +143,11 @@
     <div class="flex justify-around w-full h-full my-8">
       <button
         class="mt-auto btn"
-        @click="createSubscription"
       >
         Create subscription
       </button>
     </div>
-  </div>
+  </Form>
 </template>
 
 <script>
@@ -184,6 +194,9 @@ export default {
           dates: new Date(),
         },
       ],
+      schema: {
+        billsAt: 'required',
+      },
     };
   },
   async mounted() {
