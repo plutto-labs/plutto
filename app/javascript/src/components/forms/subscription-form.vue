@@ -12,7 +12,7 @@
       <div class="mr-8 w-50">
         <label
           for="bills_at"
-          class="block mb-2 text-sm font-medium text-gray-100"
+          class="block mb-4 text-sm font-medium text-gray-100"
         >
           Bill when periods:
         </label>
@@ -36,13 +36,20 @@
           Bill every:
         </label>
         <PluttoDropdown
-          class="my-4 plutto-input"
+          dropdown-id="billingPeriodDuration"
+          class="w-32 mt-4 plutto-input"
           :options="billingPeriodDurations"
           :selected="subscription.billingPeriodDuration"
           @selected="(bpd) => subscription.billingPeriodDuration = bpd"
           label-key="label"
           value-key="value"
         />
+        <div
+          class="absolute text-sm text-danger-light"
+          v-if="errors.billingPeriodDuration"
+        >
+          Required
+        </div>
       </div>
       <div class="mr-8 w-50">
         <label
@@ -196,6 +203,7 @@ export default {
       ],
       schema: {
         billsAt: 'required',
+        billingPeriodDuration: 'required',
       },
     };
   },
