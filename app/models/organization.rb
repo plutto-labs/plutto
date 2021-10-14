@@ -4,6 +4,7 @@ class Organization < ApplicationRecord
   has_many :permissions, dependent: :destroy
   has_many :plans, dependent: :destroy
   has_many :customers, dependent: :destroy
+  has_many :subscriptions, through: :customers
   has_many :meters, dependent: :destroy
   has_many :invoices, through: :customers
   has_many :api_keys, as: :bearer, dependent: :destroy
