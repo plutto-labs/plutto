@@ -84,23 +84,26 @@
     </div>
     <div class="grid grid-cols-3 gap-4 mt-4">
       <div
-        v-for="(productId) in selectedProducts"
-        :key="productId"
+        v-for="(product) in Object.values(selectedProducts)"
+        :key="product"
         class="relative p-4 border border-gray-400 rounded group"
       >
         <div
           class="absolute top-0 right-0 -mt-3 -mr-2 text-xl opacity-0 cursor-pointer plutto-icon group-hover:opacity-100"
-          @click="removeProduct(productId)"
+          @click="removeProduct(product.id)"
         >
           cancel
         </div>
-        <div class="flex flex-col">
+        <div
+          v-if="product"
+          class="flex flex-col"
+        >
           <div class="flex items-center justify-between">
             <div>
-              {{ findProduct(productId).name }}
+              {{ product.name }}
             </div>
             <PluttoTooltip
-              v-if="meteredPricingError(productId, selectedPricings[productId])"
+              v-if="meteredPricingError(product, selectedPricings[productId])"
               :background="'danger'"
             >
               <template #trigger>
@@ -120,7 +123,7 @@
           <PluttoDropdown
             class="w-full mt-2 plutto-input"
             selected="Pricing..."
-            :options="pricingOptions(productId)"
+            :options="pricingOptions(product)"
             @selected="(pricingId) => selectedPricings[productId] = pricingId"
           />
         </div>
@@ -130,7 +133,6 @@
       <button
         class="mt-auto btn"
         @click="createSubscription"
-        :disabled="Object.values(pricingErrors).includes(true)"
       >
         Create subscription
       </button>
@@ -149,7 +151,7 @@ export default {
   components: { PluttoDropdown, PluttoRadioInput, DatePicker, PluttoTooltip },
   data() {
     return {
-      selectedProducts: [],
+      selectedProducts: {},
       selectedPricings: {},
       pricingErrors: {},
       subscription: {
@@ -196,7 +198,8 @@ export default {
   },
   methods: {
     selectProduct(productId) {
-      if (!this.selectedProducts.includes(productId)) this.selectedProducts = [...this.selectedProducts, productId];
+      const product = this.findProduct(productId);
+      if (product) this.selectedProducts[productId] = product;
     },
     findProduct(productId) {
       return this.products.find(
@@ -208,8 +211,8 @@ export default {
         (pricing) => pricing.id === pricingId,
       );
     },
-    pricingOptions(productId) {
-      return this.findProduct(productId).pricings.map(
+    pricingOptions(product) {
+      return product.pricings.map(
         pricing => ({ value: pricing.id, name: `${pricing.name} [${pricing.currency}]` }),
       );
     },
@@ -219,21 +222,21 @@ export default {
         .then(this.$emit('created-subscription'));
     },
     removeProduct(productId) {
-      this.selectedProducts.splice(this.selectedProducts.indexOf(productId), 1);
+      delete this.selectedProducts[productId];
       delete this.selectedPricings[productId];
     },
-    meteredPricingError(productId, pricingId) {
+    meteredPricingError(product, pricingId) {
       if (this.subscription.billsAt !== 'start') {
-        this.pricingErrors[productId] = false;
+        this.pricingErrors[product.id] = false;
 
         return false;
       }
 
-      this.pricingErrors[productId] = this.findPricing(
-        this.findProduct(productId).pricings, pricingId,
+      this.pricingErrors[product.id] = this.findPricing(
+        product.pricings, pricingId,
       )?.priceLogics.map(priceLogic => priceLogic.metered).includes(true);
 
-      return this.pricingErrors[productId];
+      return this.pricingErrors[product.id];
     },
   },
 };
