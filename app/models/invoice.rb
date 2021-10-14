@@ -28,8 +28,13 @@ class Invoice < ApplicationRecord
     end
 
     event :charge do
-      before do |payment_method|
-        charge_customer(payment_method)
+      before do
+        unless customer.payment_methods.any?
+          detail = "No available payment methods for #{customer.name}"
+          raise(ApiException::Errors::UnprocessableEntity.new(detail: detail))
+        end
+
+        charge_customer(customer.payment_methods.last)
       end
       error do |e|
         fail! unless status == 'not_paid'

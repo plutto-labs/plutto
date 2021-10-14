@@ -35,12 +35,50 @@ RSpec.describe Invoice, type: :model do
 
   describe '#change_status' do
     let(:invoice) { create(:invoice) }
+    let(:invoice_service) { double }
 
-    before { allow(invoice.aasm).to receive(:fire!) }
+    before do
+      allow(invoice.aasm).to receive(:fire!)
+      allow(InvoiceService).to receive(:new).and_return(invoice_service)
+    end
 
     it 'calls fire! method from aasm' do
       invoice.change_status('paid')
       expect(invoice.aasm).to have_received(:fire!)
+    end
+
+    describe 'post' do
+      before { allow(invoice_service).to receive(:send_to_customer).with(invoice) }
+
+      it 'calls invoice_service.send_to_customer' do
+        invoice.post!
+        expect(invoice_service).to have_received(:send_to_customer).with(invoice)
+      end
+    end
+
+    describe 'charge' do
+      let!(:customer) { create(:customer, invoices: [invoice]) }
+      let!(:payment_method) { create(:payment_method, customer: customer) }
+
+      before do
+        allow(invoice_service).to receive(:charge).with(invoice, payment_method)
+        invoice.status = 'posted'
+      end
+
+      context 'when user have payment_methods' do
+        it 'calls invoice_service.charge' do
+          invoice.charge!
+          expect(invoice_service).to have_received(:charge).with(invoice, payment_method)
+        end
+      end
+
+      context 'when user does not have payment_methods' do
+        it 'calls invoice_service.charge' do
+          customer.payment_methods.destroy_all
+          expect { invoice.charge! }.to raise_error(ApiException::Errors::UnprocessableEntity)
+          expect(invoice_service).not_to have_received(:charge)
+        end
+      end
     end
   end
 end
