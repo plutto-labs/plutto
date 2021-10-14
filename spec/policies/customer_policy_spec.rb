@@ -5,7 +5,7 @@ describe CustomerPolicy do
     let(:user) { create(:user) }
     let(:customer) { create(:customer) }
 
-    it { is_expected.to forbid_actions([:create, :destroy, :show, :update]) }
+    it { is_expected.to forbid_actions([:create, :destroy]) }
   end
 
   context 'when user belongs to organization' do

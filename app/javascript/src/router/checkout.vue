@@ -15,9 +15,16 @@
       >
         Ups! This url does not seem valid or has already expired. <br>Please try again.
       </div>
+      <template v-else-if="loadingRequest">
+        <PluttoLoader
+          class="mt-8"
+        />
+      </template>
       <template v-else-if="!updatedBillingInfo">
         <BillingInformationForm
           v-model="billingInformation"
+          :show-actions="true"
+          @button-clicked="updateCustomerInformation"
         />
       </template>
       <template v-else-if="!cardCreated">
@@ -63,6 +70,7 @@
 <script>
 /* eslint-disable no-undef */
 
+import { mapState } from 'vuex';
 import * as paymentMethodsApi from '@/api/payment_methods';
 import PluttoLoader from '@/components/plutto-loader';
 import BillingInformationForm from '@/components/forms/billing-information-form.vue';
@@ -84,8 +92,18 @@ export default {
       billingInformation: {},
     };
   },
-  beforeMount() {
-    if (!this.$route.query.customerId) this.invalidUrl = true;
+  async beforeMount() {
+    const customerId = this.$route.query.customerId;
+    if (customerId) {
+      await this.$store.dispatch('GET_CUSTOMER', customerId);
+      if (this.currentCustomer) {
+        this.billingInformation = { ...this.currentCustomer.billingInformation };
+
+        return;
+      }
+    }
+
+    this.invalidUrl = true;
   },
   mounted() {
     const kushkiScript = document.createElement('script');
@@ -101,6 +119,11 @@ export default {
     });
   },
   computed: {
+    ...mapState({
+      loadingRequest: state => state.customers.loading,
+      currentCustomer: state => state.customers.currentCustomer,
+      globalError: state => state.ui.error,
+    }),
     currentStep() {
       if (!this.updatedBillingInfo) return 1;
       else if (!this.cardCreated) return 2;
@@ -127,6 +150,12 @@ export default {
         .then(() => (this.cardCreated = true))
         .catch(err => (this.error = err.response))
         .finally(() => (this.loading = false));
+    },
+    async updateCustomerInformation() {
+      await this.$store.dispatch('UPDATE_CUSTOMER',
+        { ...this.currentCustomer, billingInformation: this.billingInformation },
+      );
+      if (!this.globalError || (this.globalError && !this.globalError.response)) this.updatedBillingInfo = true;
     },
   },
 };

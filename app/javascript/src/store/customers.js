@@ -17,6 +17,8 @@ export const mutations = {
     state.customers.push(payload);
   },
   updateCustomer(state, payload) {
+    state.currentCustomer = payload;
+    if (!state.customers) return;
     const index = state.customers.findIndex(customer => customer.id === payload.id);
     if (index !== -1) {
       state.customers.splice(index, 1, payload);

@@ -106,7 +106,7 @@
           v-model="billingInformation.phone"
           type="text"
           name="phone"
-          class="plutto-input__input"
+          class="plutto-input__input plutto-input__input--no-icon"
         />
         <div
           class="absolute text-sm text-danger-light"
@@ -161,6 +161,19 @@
         class="plutto-input__input"
       />
     </div>
+    <slot
+      v-if="!showActions"
+      name="actions"
+    />
+    <div v-else>
+      <button
+        @click.prevent="$emit('button-clicked')"
+        class="h-12 mt-12 btn btn--full btn--big btn--filled bg-primary"
+        :disabled="Object.keys(errors).length > 0"
+      >
+        Next
+      </button>
+    </div>
   </Form>
 </template>
 
@@ -176,12 +189,15 @@ export default {
       type: Object,
       default: () => {},
     },
+    showActions: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       address: null,
       schema: {
-        address: 'required',
         city: 'required',
         state: 'required',
         zip: 'required',
@@ -205,7 +221,7 @@ export default {
       this.billingInformation.countryIsoCode = details.country;
       this.billingInformation.state = details.administrativeAreaLevel1;
       this.billingInformation.city = details.administrativeAreaLevel2;
-      this.billingInformation.zip = details.postalCode;
+      if (details.postalCode) this.billingInformation.zip = details.postalCode;
       if (details.postalCodeSuffix) this.billingInformation.zip = `${details.postalCodeSuffix}-${details.postalCode}`;
       this.billingInformation.address = `${details.route} ${details.streetNumber}, ${details.administrativeAreaLevel3}`;
     },
