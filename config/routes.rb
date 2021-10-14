@@ -24,6 +24,10 @@ Rails.application.routes.draw do
         resources :pricings, only: [:create, :update, :destroy]
       end
       resources :users, only: [:show]
+      get 'analytics/customers', to: 'analytics#customers'
+      get 'analytics/numbers', to: 'analytics#numbers'
+      get 'analytics/subscriptions/:currency', to: 'analytics#subscriptions'
+      get 'analytics/mrr_and_arr/:currency', to: 'analytics#mrr_and_arr'
     end
   end
   scope path: '/api' do
