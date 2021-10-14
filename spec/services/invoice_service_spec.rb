@@ -1,10 +1,12 @@
 describe InvoiceService do
-  let(:kushki) { double }
+  let(:kushki_service) { double }
   let(:subscription) { build(:subscription) }
   let(:billing_period) { build(:billing_period, subscription: subscription) }
   let(:invoice) do
-    build(:invoice, billing_period: billing_period, customer: subscription.customer)
+    create(:invoice, billing_period: billing_period, customer: subscription.customer)
   end
+
+  before { allow(KushkiService).to receive(:new).and_return(kushki_service) }
 
   describe '#send_to_customer' do
     let(:segment_info) do
@@ -24,13 +26,23 @@ describe InvoiceService do
 
     before do
       allow(Analytics).to receive(:track).with(segment_info)
-      allow(KushkiService).to receive(:new).and_return(kushki)
-      allow(kushki).to receive(:enroll_link_for).with(invoice.customer).and_return('https://link.com')
+      allow(kushki_service).to receive(:enroll_link_for).with(invoice.customer).and_return('https://link.com')
     end
 
     it 'send Segment event with correct data' do
       invoice.send_to_customer
       expect(Analytics).to have_received(:track).with(segment_info)
+    end
+  end
+
+  describe '#charge' do
+    let(:payment_method) { create(:payment_method, customer: invoice.customer) }
+
+    before { allow(kushki_service).to receive(:charge).with(payment_method, invoice) }
+
+    it 'calls charge on kushki_client' do
+      invoice.charge_customer(invoice.customer.payment_methods.first)
+      expect(kushki_service).to have_received(:charge).with(payment_method, invoice)
     end
   end
 end
