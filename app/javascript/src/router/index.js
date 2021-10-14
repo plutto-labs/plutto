@@ -9,6 +9,7 @@ import Payments from '@/router/payments';
 import Plans from '@/router/plans';
 import Product from '@/router/product';
 import Products from '@/router/products';
+import Analytics from '@/router/analytics';
 import Settings from '@/router/settings';
 import store from '@/store';
 
@@ -82,6 +83,14 @@ const router = createRouter({
       component: Product,
       meta: {
         title: 'Product | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/analytics',
+      name: 'analytics',
+      component: Analytics,
+      meta: {
+        title: 'Analytics | Plutto',
         authRequired: true,
       },
     }, {
