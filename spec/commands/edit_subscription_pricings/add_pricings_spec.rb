@@ -49,6 +49,16 @@ describe EditSubscriptionPricings::AddPricings do
       end
     end
 
+    context 'when subscription bills at start and have metered pricings' do
+      let(:subscription) { create(:subscription, active: true, currency: 'USD', bills_at: 'start') }
+      let(:pricing) { create(:pricing, currency: 'CLP') }
+      let!(:metered_logic) { create(:price_logic_per_unit, pricing: pricing) }
+
+      it 'raise a bad request error' do
+        expect { perform([pricing]) }.to raise_error(ApiException::Errors::UnprocessableEntity)
+      end
+    end
+
     it_behaves_like 'edit subscription command'
   end
 end

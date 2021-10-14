@@ -4,6 +4,7 @@ class EditSubscriptionPricings::AddPricings < EditSubscriptionPricings::Base
   def action
     ensure_no_products_repeated!
     ensure_product_not_suscribed!
+    ensure_no_meterd_pricings_when_bills_at_start!
 
     pricings_to_subscribe.each do |pricing|
       @subscription.pricing_subscriptions.build(
@@ -39,5 +40,19 @@ class EditSubscriptionPricings::AddPricings < EditSubscriptionPricings::Base
     pricings = @pricings - @subscription.pricings
     pricings = pricings.uniq
     pricings.uniq(&:product_id)
+  end
+
+  def ensure_no_meterd_pricings_when_bills_at_start!
+    return unless @subscription.bills_at === 'start'
+
+    @pricings.each do |pricing|
+      pricing.price_logics.each do |logic|
+        if logic.metered?
+          raise_unprocessable_entity(
+            "Metered pricing #{pricing.name} is not allowed when period bills at start"
+          )
+        end
+      end
+    end
   end
 end

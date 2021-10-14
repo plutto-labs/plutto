@@ -76,31 +76,55 @@
       <PluttoDropdown
         class="w-32 ml-4 plutto-input"
         force-selected-text="Choose..."
-        :options="productOptions"
+        :options="products"
+        value-key="id"
+        label-key="name"
         @selected="(productId) => selectProduct(productId)"
       />
     </div>
     <div class="grid grid-cols-3 gap-4 mt-4">
       <div
-        v-for="(productId) in selectedProducts"
-        :key="productId"
+        v-for="(product) in Object.values(selectedProducts)"
+        :key="product"
         class="relative p-4 border border-gray-400 rounded group"
       >
         <div
           class="absolute top-0 right-0 -mt-3 -mr-2 text-xl opacity-0 cursor-pointer plutto-icon group-hover:opacity-100"
-          @click="removeProduct(productId)"
+          @click="removeProduct(product.id)"
         >
           cancel
         </div>
-        <div class="flex flex-col w-32">
-          <div>
-            {{ findProduct(productId).name }}
+        <div
+          v-if="product"
+          class="flex flex-col"
+        >
+          <div class="flex items-center justify-between">
+            <div>
+              {{ product.name }}
+            </div>
+            <PluttoTooltip
+              v-if="meteredPricingError(product, selectedPricings[productId])"
+              :background="'danger'"
+            >
+              <template #trigger>
+                <span
+                  class="-my-1 text-lg cursor-pointer text-danger-light plutto-icon"
+                >
+                  error
+                </span>
+              </template>
+              <template #content>
+                <p class="w-24 text-xs text-gray-800">
+                  Metered pricing is not allowed when period bills at start
+                </p>
+              </template>
+            </PluttoTooltip>
           </div>
           <PluttoDropdown
             class="w-full mt-2 plutto-input"
             selected="Pricing..."
-            :options="pricingOptions(productId)"
-            @selected="(pricingId) => this.subscription.pricingIds = [...this.subscription.pricingIds, pricingId]"
+            :options="pricingOptions(product)"
+            @selected="(pricingId) => selectedPricings[productId] = pricingId"
           />
         </div>
       </div>
@@ -121,12 +145,15 @@ import { mapState } from 'vuex';
 import { DatePicker } from 'v-calendar';
 import PluttoDropdown from '@/components/plutto-dropdown';
 import PluttoRadioInput from '@/components/plutto-radio-input';
+import PluttoTooltip from '@/components/plutto-tooltip';
 
 export default {
-  components: { PluttoDropdown, PluttoRadioInput, DatePicker },
+  components: { PluttoDropdown, PluttoRadioInput, DatePicker, PluttoTooltip },
   data() {
     return {
-      selectedProducts: [],
+      selectedProducts: {},
+      selectedPricings: {},
+      pricingErrors: {},
       subscription: {
         pricingIds: [],
         billingPeriodDuration: null,
@@ -168,33 +195,48 @@ export default {
       plans: state => state.plans.plans,
       currentCustomer: state => state.customers.currentCustomer,
     }),
-    productOptions() {
-      return this.products.map(product => ({ value: product.id, name: product.name }));
-    },
   },
   methods: {
     selectProduct(productId) {
-      if (!this.selectedProducts.includes(productId)) this.selectedProducts = [...this.selectedProducts, productId];
+      const product = this.findProduct(productId);
+      if (product) this.selectedProducts[productId] = product;
     },
     findProduct(productId) {
       return this.products.find(
         (product) => product.id === productId,
       );
     },
-    pricingOptions(productId) {
-      return this.findProduct(productId).pricings.map(
+    findPricing(pricings, pricingId) {
+      return pricings.find(
+        (pricing) => pricing.id === pricingId,
+      );
+    },
+    pricingOptions(product) {
+      return product.pricings.map(
         pricing => ({ value: pricing.id, name: `${pricing.name} [${pricing.currency}]` }),
       );
     },
     createSubscription() {
+      this.subscription.pricingIds = Object.values(this.selectedPricings);
       this.$store.dispatch('CREATE_SUBSCRIPTION', { ...this.subscription, customerId: this.currentCustomer.id })
         .then(this.$emit('created-subscription'));
     },
     removeProduct(productId) {
-      this.selectedProducts.splice(this.selectedProducts.indexOf(productId), 1);
-      this.findProduct(productId).pricings.forEach(
-        pricing => (this.subscription.pricingIds.splice(this.subscription.pricingIds.indexOf(pricing.id), 1)),
-      );
+      delete this.selectedProducts[productId];
+      delete this.selectedPricings[productId];
+    },
+    meteredPricingError(product, pricingId) {
+      if (this.subscription.billsAt !== 'start') {
+        this.pricingErrors[product.id] = false;
+
+        return false;
+      }
+
+      this.pricingErrors[product.id] = this.findPricing(
+        product.pricings, pricingId,
+      )?.priceLogics.map(priceLogic => priceLogic.metered).includes(true);
+
+      return this.pricingErrors[product.id];
     },
   },
 };

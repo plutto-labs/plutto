@@ -109,9 +109,9 @@ export default {
       this.$store.dispatch('LOGOUT_USER');
     },
     changeEnvironment() {
-      if (this.environment !== 'app' && this.environment !== 'sandox') return;
+      if (!['production', 'sandox'].includes(this.environment)) return;
 
-      window.location.replace(`https://${this.environment === 'app' ? 'sandbox' : 'app'}.getplutto.com`);
+      window.location.replace(`https://${this.environment === 'production' ? 'sandbox' : 'app'}.getplutto.com`);
     },
   },
   setup() {
