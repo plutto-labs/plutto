@@ -30,7 +30,6 @@
               <PluttoTooltip v-if="permission.meterId">
                 <template #trigger>
                   <div class="flex items-center">
-                    <PluttoTooltip />
                     <span class="text-primary">{{ permission.limit || '&infin;' }}</span>
                     <span class="flex-1 mx-2">{{ permission.name }}</span>
                     <span class="plutto-icon text-secondary-200">{{ permission.meterCountMethod === 'period_sum' ? 'autorenew' : 'trending_up' }}</span>
