@@ -22,7 +22,7 @@ class InvoiceService < PowerTypes::Service.new
       customer_name: invoice.customer.name,
       customer_organization: invoice.customer.organization.name,
       billing_information: invoice.customer.billing_information&.serializable_hash,
-      payment_link: kushki.enroll_link_for(invoice.customer)
+      payment_link: kushki.enroll_link_for(invoice)
     }
   end
 
