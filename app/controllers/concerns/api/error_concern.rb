@@ -17,6 +17,10 @@ module Api::ErrorConcern
         "Couldn't find #{exception.model} resource"))
     end
 
+    rescue_from 'Pundit::NotAuthorizedError' do |exception|
+      respond_with_unauthorized({ detail: exception.message })
+    end
+
     rescue_from 'ActiveRecord::RecordInvalid' do |exception|
       respond_api_error(
         ApiException::Errors::UnprocessableEntity.new(
@@ -43,8 +47,8 @@ module Api::ErrorConcern
     end
   end
 
-  def respond_with_unauthorized
-    respond_api_error(ApiException::Errors::Unauthorized.new)
+  def respond_with_unauthorized(**kwargs)
+    respond_api_error(ApiException::Errors::Unauthorized.new(kwargs))
   end
 
   def respond_api_error(error, *_args)

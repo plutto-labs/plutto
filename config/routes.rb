@@ -24,6 +24,7 @@ Rails.application.routes.draw do
         resources :pricings, only: [:create, :update, :destroy]
       end
       resources :users, only: [:show]
+      resources :checkouts, param: :token, only: [:show, :update]
       get 'analytics/customers', to: 'analytics#customers'
       get 'analytics/numbers', to: 'analytics#numbers'
       get 'analytics/subscriptions/:currency', to: 'analytics#subscriptions'

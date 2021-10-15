@@ -26,7 +26,7 @@ describe InvoiceService do
 
     before do
       allow(Analytics).to receive(:track).with(segment_info)
-      allow(kushki_service).to receive(:enroll_link_for).with(invoice.customer).and_return('https://link.com')
+      allow(kushki_service).to receive(:enroll_link_for).with(invoice).and_return('https://link.com')
     end
 
     it 'send Segment event with correct data' do

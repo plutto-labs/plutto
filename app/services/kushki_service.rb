@@ -46,8 +46,11 @@ class KushkiService
     end
   end
 
-  def enroll_link_for(customer)
-    "https://#{ENV.fetch('APPLICATION_HOST')}/#/checkout?customerId=#{customer.id}"
+  def enroll_link_for(invoice)
+    key = "customer|#{invoice.customer.id}||invoice|#{invoice.id}"
+    token = EncryptionService.encrypt(key)
+    escaped_token = CGI.escape token
+    "https://#{ENV.fetch('APPLICATION_HOST')}/#/checkout?token=#{escaped_token}"
   end
 
   private
