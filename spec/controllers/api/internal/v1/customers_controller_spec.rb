@@ -82,9 +82,17 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
     let(:organization) { create(:organization) }
     let!(:customer) { create(:customer, organization: organization) }
 
-    it 'returns a success response' do
-      get :show, format: :json, params: { id: customer.id }
-      expect(response).to be_successful
+    context 'when signed in' do
+      before { sign_in create(:user, organization: organization) }
+
+      it 'returns a success response' do
+        get :show, format: :json, params: { id: customer.id }
+        expect(response).to be_successful
+      end
+    end
+
+    it_behaves_like 'unauthorized internal SHOW endpoint' do
+      let(:resource_id) { customer.id }
     end
   end
 
@@ -147,11 +155,19 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
       } }
     end
 
-    context 'with valid params' do
-      it 'returns http success' do
-        put :update, format: :json, params: customer_params.merge(id: customer.id)
-        expect(response).to have_http_status(:success)
+    context 'when signed in' do
+      before { sign_in create(:user, organization: organization) }
+
+      context 'with valid params' do
+        it 'returns http success' do
+          put :update, format: :json, params: customer_params.merge(id: customer.id)
+          expect(response).to have_http_status(:success)
+        end
       end
+    end
+
+    it_behaves_like 'unauthorized internal PATCH endpoint' do
+      let(:resource_id) { customer.id }
     end
   end
 
