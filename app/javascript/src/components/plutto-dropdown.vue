@@ -1,6 +1,6 @@
 <template>
   <div
-    class="inline-block text-left"
+    class="relative inline-block m-auto text-left"
     v-click-outside="closeMenu"
   >
     <div class="h-full rounded-md shadow-sm">
