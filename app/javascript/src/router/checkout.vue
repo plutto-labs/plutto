@@ -71,6 +71,7 @@
 /* eslint-disable no-undef */
 
 import { mapState } from 'vuex';
+import * as checkoutsApi from '@/api/checkouts';
 import * as paymentMethodsApi from '@/api/payment_methods';
 import PluttoLoader from '@/components/plutto-loader';
 import BillingInformationForm from '@/components/forms/billing-information-form.vue';
@@ -84,26 +85,27 @@ export default {
       kushki: null,
       error: null,
       loading: false,
+      loadingRequest: false,
       updatedBillingInfo: false,
       cardCreated: false,
       symbolImage: null,
       invalidUrl: false,
       card: {},
       billingInformation: {},
+      customer: null,
+      invoice: null,
+      token: null,
     };
   },
   async beforeMount() {
-    const customerId = this.$route.query.customerId;
-    if (customerId) {
-      await this.$store.dispatch('GET_CUSTOMER', customerId);
-      if (this.currentCustomer) {
-        this.billingInformation = { ...this.currentCustomer.billingInformation };
-
-        return;
-      }
+    this.token = encodeURIComponent(this.$route.query.token);
+    if (this.token) {
+      this.loadingRequest = true;
+      await Promise.all([this.getCustomer(), this.getInvoice()]);
+      this.loadingRequest = false;
+    } else {
+      this.invalidUrl = true;
     }
-
-    this.invalidUrl = true;
   },
   mounted() {
     const kushkiScript = document.createElement('script');
@@ -121,7 +123,6 @@ export default {
   computed: {
     ...mapState({
       loadingRequest: state => state.customers.loading,
-      currentCustomer: state => state.customers.currentCustomer,
       globalError: state => state.ui.error,
     }),
     currentStep() {
@@ -151,11 +152,25 @@ export default {
         .catch(err => (this.error = err.response))
         .finally(() => (this.loading = false));
     },
-    async updateCustomerInformation() {
-      await this.$store.dispatch('UPDATE_CUSTOMER',
-        { ...this.currentCustomer, billingInformation: this.billingInformation },
-      );
-      if (!this.globalError || (this.globalError && !this.globalError.response)) this.updatedBillingInfo = true;
+    getCustomer() {
+      return checkoutsApi.get(this.token, 'customer')
+        .then((res) => {
+          this.customer = res.customer;
+          this.billingInformation = { ...this.customer.billingInformation };
+        })
+        .catch(() => (this.invalidUrl = true));
+    },
+    getInvoice() {
+      return checkoutsApi.get(this.token, 'invoice')
+        .then((res) => (this.invoice = res.invoice))
+        .catch(() => (this.invalidUrl = true));
+    },
+    updateCustomerInformation() {
+      this.loadingRequest = true;
+      checkoutsApi.update(
+        this.token, 'customer', { id: this.customer.id, billingInformationAttributes: this.billingInformation },
+      ).then(() => (this.updatedBillingInfo = true))
+        .finally(() => (this.loadingRequest = false));
     },
   },
 };
