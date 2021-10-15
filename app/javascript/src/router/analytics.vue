@@ -1,0 +1,218 @@
+<template>
+  <main class="mt-2 overflow-auto">
+    <div
+      v-if="!loading"
+      class="grid grid-cols-2 gap-4"
+    >
+      <line-chart
+        :labels="Object.keys(subscriptions)"
+        :data="Object.values(subscriptions)"
+        title="Active subscriptions per month"
+        label="Subscriptions"
+        class="p-3 bg-gray-800 rounded-md"
+      />
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col h-full p-5 bg-gray-800 rounded-md">
+          <div class="relative flex items-center justify-center">
+            <div
+              class="text-lg font-medium text-primary-700"
+              :class="churnRate >= 0 ? 'text-green-400' : 'text-red-500'"
+            >
+              Customer Churn Rate
+            </div>
+            <PluttoTooltip>
+              <template #trigger>
+                <span
+                  class="absolute top-0 ml-2 text-sm text-gray-500 cursor-pointer plutto-icon"
+                >
+                  info
+                </span>
+              </template>
+              <template #content>
+                <span
+                  class="text-xs"
+                >
+                  The rate at which your customers are canceling their subscriptions
+                </span>
+              </template>
+            </PluttoTooltip>
+          </div>
+          <div class="flex items-center justify-around ">
+            <p class="text-xs text-gray-400">
+              for {{ numbersMonth }}
+            </p>
+          </div>
+          <div class="flex items-center justify-around h-full text-3xl">
+            {{ churnRate }}%
+          </div>
+        </div>
+        <div class="flex flex-col h-full p-5">
+          <div class="flex items-center justify-around">
+            <div>
+              Currency
+            </div>
+          </div>
+          <div class="flex items-center h-full">
+            <PluttoDropdown
+              :selected="selectedCurrency"
+              :options="CURRENCY_KEYS"
+              label-key="label"
+              value-key="value"
+              @selected="(currency) => updateCurrency(currency)"
+            />
+          </div>
+        </div>
+        <div class="flex flex-col h-full p-5 text-center bg-gray-800 rounded-md">
+          <div class="flex items-center justify-around text-lg font-medium text-primary-700">
+            MRR
+          </div>
+          <div class="flex items-center justify-around ">
+            <p class="text-xs text-gray-400">
+              for {{ numbersMonth }}
+            </p>
+          </div>
+          <div
+            class="flex items-center justify-around h-full text-3xl align-middle"
+            :class="mrrRate >= 0 ? 'text-green-400' : 'text-red-500'"
+          >
+            <div>
+              <span
+                v-if="mrrRate >= 0"
+                class="inline mr-2 align-middle plutto-icon"
+              >arrow_upward</span>
+              <span
+                v-else
+                class="inline mr-2 align-middle plutto-icon"
+              >arrow_downward</span>
+              <p class="inline align-middle">
+                {{ formatCurrency(mrrVal, selectedCurrency) }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col h-full p-5 text-center bg-gray-800 rounded-md">
+          <div class="flex items-center justify-around text-lg font-medium text-primary-700">
+            ARR
+          </div>
+          <div class="flex items-center justify-around ">
+            <p class="text-xs text-gray-400">
+              for {{ numbersMonth }}
+            </p>
+          </div>
+          <div
+            class="flex items-center justify-around h-full text-3xl align-middle"
+            :class="arrRate >= 0 ? 'text-green-400' : 'text-red-500'"
+          >
+            <div>
+              <span
+                v-if="arrRate >= 0"
+                class="inline mr-2 align-middle plutto-icon"
+              >arrow_upward</span>
+              <span
+                v-else
+                class="inline mr-2 align-middle plutto-icon"
+              >arrow_downward</span>
+              <p class="inline align-middle">
+                {{ formatCurrency(arrVal, selectedCurrency) }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <bar-chart
+        :datasets="mrr"
+        title="Monthly Recurring Revenue"
+        label="MRR"
+        class="p-3 bg-gray-800 rounded-md"
+      />
+      <line-chart
+        :labels="Object.keys(arr)"
+        :data="Object.values(arr)"
+        title="Annualized Run Rate"
+        label="ARR"
+        class="p-3 bg-gray-800 rounded-md"
+      />
+      <line-chart
+        :labels="Object.keys(customers)"
+        :data="Object.values(customers)"
+        title="Customers created per month"
+        label="Customers"
+        class="p-3 bg-gray-800 rounded-md"
+      />
+    </div>
+    <PluttoLoader
+      class="mt-8"
+      v-else
+    />
+  </main>
+</template>
+
+<script>
+
+import { mapState } from 'vuex';
+import LineChart from '@/components/charts/line-chart';
+import BarChart from '@/components/charts/bar-chart.vue';
+import PluttoLoader from '@/components/plutto-loader';
+import PluttoDropdown from '@/components/plutto-dropdown';
+import PluttoTooltip from '@/components/plutto-tooltip';
+
+export default {
+  components: { LineChart, PluttoLoader, BarChart, PluttoDropdown, PluttoTooltip },
+
+  data() {
+    return {
+      selectedCurrency: 'USD',
+    };
+  },
+  async mounted() {
+    await this.$store.dispatch('GET_CUSTOMERS_ANALYTICS');
+    await this.$store.dispatch('GET_NUMBERS_ANALYTICS');
+    this.fetchCurrencyData();
+  },
+
+  computed: {
+    ...mapState({
+      loading: state => state.analytics.loading,
+      customers: state => state.analytics.customers,
+      numbers: state => state.analytics.numbers,
+      subscriptions: state => state.analytics.subscriptions,
+      mrr: state => state.analytics.mrr,
+      arr: state => state.analytics.arr,
+    }),
+    churnRate() {
+      return this.numbers.churnRate;
+    },
+    /* eslint-disable no-magic-numbers */
+    arrVal() { return this.arrValue(10); },
+    arrRate() { return this.arrValue() * 100 / this.arrValue(this.monthKey(10)) || 0; },
+    mrrVal() { return this.arrValue(10) / 12; },
+    mrrRate() { return this.arrRate / 12 || 0; },
+    numbersMonth() {
+      return this.monthKey(10);
+    },
+    /* eslint-enable no-magic-numbers */
+  },
+
+  methods: {
+    async fetchCurrencyData() {
+      await this.$store.dispatch('GET_SUBSCRIPTIONS_ANALYTICS', { currency: this.selectedCurrency });
+      await this.$store.dispatch('GET_MRR_ARR_ANALYTICS', { currency: this.selectedCurrency });
+    },
+
+    updateCurrency(currency) {
+      this.selectedCurrency = currency;
+      this.fetchCurrencyData();
+    },
+    arrValue(key = 1) {
+      if (!this.arr) {
+        return 0;
+      }
+
+      return this.arr[this.monthKey(key)] || 0;
+    },
+    monthKey(n) {
+      return Object.keys(this.arr)[n];
+    },
+  },
+};
+</script>

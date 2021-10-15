@@ -86,6 +86,7 @@ const navigation = [
   { label: 'Payments', path: '/payments', matchingRoutes: ['payments'] },
   { label: 'Plans', path: '/plans', matchingRoutes: ['plans', 'plan'] },
   { label: 'Products', path: '/products', matchingRoutes: ['products', 'product'] },
+  { label: 'Analytics', path: '/analytics', matchingRoutes: ['analytics'] },
   { label: 'Settings', path: '/settings', matchingRoutes: ['settings'] },
 ];
 

@@ -42,7 +42,7 @@
               for="price"
               class="block text-sm font-medium text-gray-100"
             >
-              {{ $t('message.global.price') }}
+              Base {{ $t('message.global.price') }}
             </label>
             <div class="mt-2 plutto-input">
               <span class="plutto-input__icon">attach_money</span>
