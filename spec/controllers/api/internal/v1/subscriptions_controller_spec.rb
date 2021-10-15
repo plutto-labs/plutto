@@ -16,7 +16,7 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
           it 'returns http success' do
             post :create, format: :json,
               params: { customer_id: customer.id, pricing_ids: [pricing.id],
-                        billing_period_duration: 'P1M' }
+                        billing_period_duration: 'P1M', bills_at: 'end' }
 
             expect(response).to have_http_status(:success)
           end

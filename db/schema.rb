@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_12_152315) do
+ActiveRecord::Schema.define(version: 2021_10_15_150200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -296,8 +296,8 @@ ActiveRecord::Schema.define(version: 2021_10_12_152315) do
     t.boolean "auto_collection", default: true
     t.integer "price_type", default: 0
     t.datetime "trial_finishes_at"
-    t.integer "bills_at", default: 0
-    t.string "billing_period_duration"
+    t.integer "bills_at", default: 0, null: false
+    t.string "billing_period_duration", null: false
     t.integer "country_iso_code", default: 0, null: false
     t.integer "currency"
     t.string "plan_id"

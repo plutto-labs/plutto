@@ -18,7 +18,7 @@ class Subscription < ApplicationRecord
   attribute :billing_period_duration, :duration
 
   validate :trial_finishes_at_is_valid_datetime
-  validates :currency, presence: true
+  validates :currency, :bills_at, :billing_period_duration, presence: true
 
   def current_billing_period
     billing_periods.order(created_at: :asc).last
@@ -74,8 +74,8 @@ end
 #  auto_collection         :boolean          default(TRUE)
 #  price_type              :integer          default("tax_inclusive")
 #  trial_finishes_at       :datetime
-#  bills_at                :integer          default("end")
-#  billing_period_duration :string
+#  bills_at                :integer          default("end"), not null
+#  billing_period_duration :string           not null
 #  country_iso_code        :integer          default(0), not null
 #  currency                :integer
 #  plan_id                 :string
