@@ -30,7 +30,6 @@
     "v-calendar": "^3.0.0-alpha.5",
     "vee-validate": "^4.4.9",
     "vue": "^3.1.5",
-    "vue-chart-3": "^0.5.8",
     "vue-i18n": "^9.1.7",
     "vue-imask": "^6.2.2",
     "vue-loader": "^16.4.1",
