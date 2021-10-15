@@ -1,5 +1,10 @@
 <template>
-  <div class="w-full px-8">
+  <Form
+    class="w-full px-8"
+    @submit="createSubscription"
+    v-slot="{ errors }"
+    :validation-schema="schema"
+  >
     <h1 class="text-xl">
       New Subscription
     </h1>
@@ -7,7 +12,7 @@
       <div class="mr-8 w-50">
         <label
           for="bills_at"
-          class="block mb-2 text-sm font-medium text-gray-100"
+          class="block mb-4 text-sm font-medium text-gray-100"
         >
           Bill when periods:
         </label>
@@ -16,6 +21,12 @@
           :options="['start', 'end']"
           v-model="subscription.billsAt"
         />
+        <div
+          class="absolute text-sm text-danger-light"
+          v-if="errors.billsAt"
+        >
+          Required
+        </div>
       </div>
       <div class="mr-8 w-50">
         <label
@@ -25,13 +36,20 @@
           Bill every:
         </label>
         <PluttoDropdown
-          class="my-4 plutto-input"
+          dropdown-id="billingPeriodDuration"
+          class="w-32 mt-4 plutto-input"
           :options="billingPeriodDurations"
           :selected="subscription.billingPeriodDuration"
           @selected="(bpd) => subscription.billingPeriodDuration = bpd"
           label-key="label"
           value-key="value"
         />
+        <div
+          class="absolute text-sm text-danger-light"
+          v-if="errors.billingPeriodDuration"
+        >
+          Required
+        </div>
       </div>
       <div class="mr-8 w-50">
         <label
@@ -132,12 +150,11 @@
     <div class="flex justify-around w-full h-full my-8">
       <button
         class="mt-auto btn"
-        @click="createSubscription"
       >
         Create subscription
       </button>
     </div>
-  </div>
+  </Form>
 </template>
 
 <script>
@@ -146,9 +163,10 @@ import { DatePicker } from 'v-calendar';
 import PluttoDropdown from '@/components/plutto-dropdown';
 import PluttoRadioInput from '@/components/plutto-radio-input';
 import PluttoTooltip from '@/components/plutto-tooltip';
+import { Form } from 'vee-validate';
 
 export default {
-  components: { PluttoDropdown, PluttoRadioInput, DatePicker, PluttoTooltip },
+  components: { PluttoDropdown, PluttoRadioInput, DatePicker, PluttoTooltip, Form },
   data() {
     return {
       selectedProducts: {},
@@ -183,6 +201,10 @@ export default {
           dates: new Date(),
         },
       ],
+      schema: {
+        billsAt: 'required',
+        billingPeriodDuration: 'required',
+      },
     };
   },
   async mounted() {

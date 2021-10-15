@@ -1,79 +1,73 @@
 <template>
-  <Menu
-    as="div"
+  <div
     class="relative inline-block m-auto text-left"
+    v-click-outside="closeMenu"
   >
-    <div class="h-full">
-      <MenuButton
-        class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm focus:outline-none text-gray-50 hover:bg-gray-500"
-        v-if="forceSelectedText !== null"
+    <div class="h-full rounded-md shadow-sm">
+      <Field
+        as="div"
+        @click="isMenuOpen = !isMenuOpen"
+        v-model="selectedOptionValue"
+        :name="dropdownId"
+        class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm cursor-pointer focus:outline-none text-gray-50 hover:bg-gray-500"
+        id="options-menu"
+        aria-haspopup="true"
+        aria-expanded="true"
       >
-        {{ forceSelectedText }}
-        <ChevronDownIcon
-          class="w-5 h-5 ml-2 -mr-1"
-          aria-hidden="true"
-        />
-      </MenuButton>
-      <MenuButton
-        class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm focus:outline-none text-gray-50 hover:bg-gray-500"
-        v-else
-      >
-        {{ selectedOption[labelKey] || selectedOption || 'Choose...' }}
-        <ChevronDownIcon
-          class="w-5 h-5 ml-2 -mr-1"
-          aria-hidden="true"
-        />
-      </MenuButton>
+        <span> {{ selectedOption[labelKey] || selectedOption || 'Choose...' }} </span>
+        <span class="text-xl plutto-icon">expand_more</span>
+      </Field>
     </div>
-
     <transition
-      enter-active-class="transition duration-75 ease-out"
-      enter-from-class="transform scale-95 opacity-0"
+      enter-active-class="transition duration-100 ease-out"
+      enter-class="transform scale-95 opacity-0"
       enter-to-class="transform scale-100 opacity-100"
-      leave-active-class="transition ease-in duration-50"
-      leave-from-class="transform scale-100 opacity-100"
+      leave-active-class="transition duration-75 ease-in"
+      leave-class="transform scale-100 opacity-100"
       leave-to-class="transform scale-95 opacity-0"
     >
-      <MenuItems class="absolute left-0 right-0 z-50 w-56 mt-2 bg-gray-700 rounded-md shadow-lg outline-none ring-1 ring-black ring-opacity-5">
-        <div>
-          <MenuItem
-            v-slot="{ active }"
+      <div
+        v-if="isMenuOpen"
+        class="absolute left-0 z-50 w-56 mt-2 bg-gray-700 rounded-md shadow-lg outline-none ring-1 ring-black ring-opacity-5"
+      >
+        <div
+          class="flex flex-col text-sm"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="options-menu"
+        >
+          <div
+            class="px-4 py-2 rounded-md cursor-pointer hover:bg-gray-500"
             v-for="(option, optionIndex) in options"
             :key="optionIndex"
+            @click="selectOption(option)"
           >
             <a
-              @click="selectOption(option)"
               class="rounded-md"
-              :class="[active ? 'bg-gray-500' : 'text-white', 'block px-4 py-2 text-sm']"
             > {{ option && option[labelKey] || option }} </a>
-          </MenuItem>
-          <MenuItem
-            v-slot="{ active }"
+          </div>
+          <div
             v-if="addElementText"
-            class="flex items-center border-t-2 border-gray-400"
+            class="border-t-2 border-gray-400 cursor-pointer rounded-b-md hover:bg-gray-500"
+            @click="$emit('add-element-clicked'); closeMenu()"
           >
             <a
-              @click="$emit('add-element-clicked')"
-              :class="[active ? 'bg-gray-500' : 'text-white', 'block px-4 py-2 text-sm']"
+              class="flex items-center px-4 py-2 text-sm"
             ><span class="mr-4 plutto-icon">add</span> {{ addElementText }} </a>
-          </MenuItem>
+          </div>
         </div>
-      </MenuItems>
+      </div>
     </transition>
-  </Menu>
+  </div>
 </template>
 
 <script>
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-import { ChevronDownIcon } from '@heroicons/vue/solid';
+import { Field } from 'vee-validate';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   components: {
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    ChevronDownIcon,
+    Field,
   },
   props: {
     selected: {
@@ -96,14 +90,18 @@ export default {
       type: String,
       default: null,
     },
-    forceSelectedText: {
+    dropdownId: {
       type: String,
-      default: null,
+      default: '',
     },
+  },
+  directives: {
+    clickOutside: vClickOutside.directive,
   },
   data() {
     return {
       selectedOption: '',
+      isMenuOpen: false,
     };
   },
   mounted() {
@@ -115,6 +113,15 @@ export default {
     selectOption(selectedOption) {
       this.selectedOption = selectedOption;
       this.$emit('selected', selectedOption[this.valueKey] || this.selectedOption);
+      this.isMenuOpen = false;
+    },
+    closeMenu() {
+      this.isMenuOpen = false;
+    },
+  },
+  computed: {
+    selectedOptionValue() {
+      return this.selectedOption[this.labelKey] || this.selectedOption || null;
     },
   },
   watch: {
