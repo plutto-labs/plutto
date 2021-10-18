@@ -19,10 +19,12 @@
       :showing="showInvoice"
       @close="showInvoice = false"
     >
-      <Invoice
-        :invoice-id="invoiceId"
-        class="pb-8 mx-auto"
-      />
+      <div class="w-full pb-8 mx-auto mt-20 space-y-8 divide-y divide-gray-200 md:max-w-xl">
+        <Invoice
+          :invoice-id="invoiceId"
+          class="pb-8 mx-auto"
+        />
+      </div>
     </PluttoSlideover>
   </div>
 </template>
