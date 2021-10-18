@@ -19,7 +19,7 @@ Rails.application.routes.draw do
         patch 'remove_pricings', to: 'subscriptions#remove_pricings'
       end
       resources :permissions, only: [:index, :create]
-      resources :plans, only: [:index, :show, :create]
+      resources :permission_groups, only: [:index, :show, :create]
       resources :products, only: [:index, :show, :create, :update, :destroy] do
         resources :pricings, only: [:create, :update, :destroy]
       end

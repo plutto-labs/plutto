@@ -66,7 +66,11 @@ class CreateSubscription < PowerTypes::Command.new(
     plan&.price_currency || @pricings.first.currency
   end
 
-  def plan
-    @plan ||= @plan_id.nil? ? nil : Plan.find(@plan_id)
+  def permission_group
+    @permission_group ||= if @permission_group_id.nil?
+                            nil
+                          else
+                            PermissionGroup.find(@permission_group_id)
+                          end
   end
 end

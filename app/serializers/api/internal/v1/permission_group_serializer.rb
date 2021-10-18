@@ -1,15 +1,15 @@
-class Api::Internal::V1::PlanSerializer < ActiveModel::Serializer
+class Api::Internal::V1::PermissionGroupSerializer < ActiveModel::Serializer
   include MoneyConcern
 
   attributes :id, :name, :price, :permissions, :currency
 
   def permissions
-    object.plan_permissions.map do |plan_permission|
-      permission = plan_permission.permission
+    object.permission_group_permissions.map do |pgp|
+      permission = pgp.permission
       {
         id: permission.id,
         name: permission.name,
-        limit: plan_permission.limit,
+        limit: pgp.limit,
         meter_id: permission.meter_id,
         meter_count_method: permission.meter_count_method,
         meter_name: permission.meter&.name
