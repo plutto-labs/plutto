@@ -2,13 +2,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import Auth from '@/router/auth';
+import BusinessModel from '@/router/business-model';
 import Customer from '@/router/customer';
 import Checkout from '@/router/checkout';
 import Customers from '@/router/customers';
 import Payments from '@/router/payments';
-import Plans from '@/router/plans';
 import Product from '@/router/product';
-import Products from '@/router/products';
 import Analytics from '@/router/analytics';
 import Settings from '@/router/settings';
 import store from '@/store';
@@ -29,6 +28,39 @@ const router = createRouter({
       name: 'home',
       redirect: {
         name: 'customers',
+      },
+    }, {
+      path: '/business-model',
+      name: 'business-model',
+      redirect: {
+        name: 'plans',
+      },
+    }, {
+      path: '/business-model/meters',
+      name: 'meters',
+      component: BusinessModel,
+      props: { selectedOption: 'meters' },
+      meta: {
+        title: 'Meters | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/business-model/plans',
+      name: 'plans',
+      component: BusinessModel,
+      props: { selectedOption: 'plans' },
+      meta: {
+        title: 'Plans | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/business-model/products',
+      name: 'products',
+      component: BusinessModel,
+      props: { selectedOption: 'products' },
+      meta: {
+        title: 'Products | Plutto',
+        authRequired: true,
       },
     }, {
       path: '/checkout',
@@ -56,25 +88,25 @@ const router = createRouter({
     }, {
       path: '/payments',
       name: 'payments',
+      redirect: {
+        name: 'invoices',
+      },
+    }, {
+      path: '/payments/invoices',
+      name: 'invoices',
       component: Payments,
+      props: { selectedOption: 'invoices' },
       meta: {
-        title: 'Payments | Plutto',
+        title: 'Invoices | Plutto',
         authRequired: true,
       },
     }, {
-      path: '/plans',
-      name: 'plans',
-      component: Plans,
+      path: '/payments/transactions',
+      name: 'transactions',
+      component: Payments,
+      props: { selectedOption: 'transactions' },
       meta: {
-        title: 'Plans | Plutto',
-        authRequired: true,
-      },
-    }, {
-      path: '/products',
-      name: 'products',
-      component: Products,
-      meta: {
-        title: 'Products | Plutto',
+        title: 'Transactions | Plutto',
         authRequired: true,
       },
     }, {

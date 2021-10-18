@@ -3,8 +3,8 @@
     <div class="grid grid-cols-4 md:grid-cols-6">
       <PluttoSideOptions
         class="col-span-1"
-        title="Payments"
-        :options="viewOptions"
+        title="Business Model"
+        :options="options"
         :selected-option="selectedOption"
         @optionClicked="option => $route.name === option ? null : $router.push({ name: option })"
       />
@@ -17,12 +17,13 @@
 </template>
 
 <script>
+import Meters from '@/router/meters';
+import Plans from '@/router/plans';
 import PluttoSideOptions from '@/components/plutto-side-options';
-import Invoices from '@/router/invoices';
-import Transactions from '@/router/transactions';
+import Products from '@/router/products';
 
 export default {
-  components: { PluttoSideOptions, Invoices, Transactions },
+  components: { PluttoSideOptions, Plans, Meters, Products },
   props: {
     selectedOption: {
       type: String,
@@ -31,13 +32,15 @@ export default {
   },
   data() {
     return {
-      viewOptions: [
-        { label: 'Invoices', value: 'invoices' },
-        { label: 'Transactions', value: 'transactions' },
+      options: [
+        { label: 'Plans', value: 'plans' },
+        { label: 'Products', value: 'products' },
+        { label: 'Meters', value: 'meters' },
       ],
       components: {
-        'invoices': 'Invoices',
-        'transactions': 'Transactions',
+        'plans': 'Plans',
+        'products': 'Products',
+        'meters': 'Meters',
       },
     };
   },

@@ -41,7 +41,7 @@
           :key="item.label"
           :to="item.path"
           :class="[
-            item.matchingRoutes.indexOf($route.name) !== -1 ?
+            item.matchingRoutes.includes($route.name) ?
               'text-white border-b border-primary' : 'text-gray-300 hover:text-white',
             'px-3 mx-1 py-4 text-xs md:text-sm font-medium'
           ]"
@@ -83,9 +83,8 @@ import { mapState } from 'vuex';
 
 const navigation = [
   { label: 'Customers', path: '/customers', matchingRoutes: ['customers'] },
+  { label: 'Business Model', path: '/business-model', matchingRoutes: ['plans', 'products', 'meters'] },
   { label: 'Payments', path: '/payments', matchingRoutes: ['payments'] },
-  { label: 'Plans', path: '/plans', matchingRoutes: ['plans', 'plan'] },
-  { label: 'Products', path: '/products', matchingRoutes: ['products', 'product'] },
   { label: 'Analytics', path: '/analytics', matchingRoutes: ['analytics'] },
   { label: 'Settings', path: '/settings', matchingRoutes: ['settings'] },
 ];
