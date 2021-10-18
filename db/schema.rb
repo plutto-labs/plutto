@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_15_150200) do
+ActiveRecord::Schema.define(version: 2021_10_18_192530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,16 @@ ActiveRecord::Schema.define(version: 2021_10_15_150200) do
     t.index ["payment_method_id"], name: "index_payments_on_payment_method_id"
   end
 
+  create_table "permission_groups", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.bigint "price_cents", default: 0, null: false
+    t.integer "price_currency", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "organization_id", null: false
+    t.index ["organization_id"], name: "index_permission_groups_on_organization_id"
+  end
+
   create_table "permissions", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "meter_id"
@@ -207,23 +217,13 @@ ActiveRecord::Schema.define(version: 2021_10_15_150200) do
   end
 
   create_table "plan_permissions", id: :string, force: :cascade do |t|
-    t.string "plan_id", null: false
+    t.string "permission_group_id", null: false
     t.string "permission_id", null: false
     t.float "limit"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["permission_group_id"], name: "index_plan_permissions_on_permission_group_id"
     t.index ["permission_id"], name: "index_plan_permissions_on_permission_id"
-    t.index ["plan_id"], name: "index_plan_permissions_on_plan_id"
-  end
-
-  create_table "plans", id: :string, force: :cascade do |t|
-    t.string "name"
-    t.bigint "price_cents", default: 0, null: false
-    t.integer "price_currency", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "organization_id", null: false
-    t.index ["organization_id"], name: "index_plans_on_organization_id"
   end
 
   create_table "price_logic_tiers", id: :string, force: :cascade do |t|
@@ -300,9 +300,9 @@ ActiveRecord::Schema.define(version: 2021_10_15_150200) do
     t.string "billing_period_duration", null: false
     t.integer "country_iso_code", default: 0, null: false
     t.integer "currency"
-    t.string "plan_id"
+    t.string "permission_group_id"
     t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
-    t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
+    t.index ["permission_group_id"], name: "index_subscriptions_on_permission_group_id"
   end
 
   create_table "users", id: :string, force: :cascade do |t|
@@ -345,11 +345,11 @@ ActiveRecord::Schema.define(version: 2021_10_15_150200) do
   add_foreign_key "payment_methods", "customers"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "payment_methods"
+  add_foreign_key "permission_groups", "organizations"
   add_foreign_key "permissions", "meters"
   add_foreign_key "permissions", "organizations"
+  add_foreign_key "plan_permissions", "permission_groups"
   add_foreign_key "plan_permissions", "permissions"
-  add_foreign_key "plan_permissions", "plans"
-  add_foreign_key "plans", "organizations"
   add_foreign_key "price_logics", "pricings"
   add_foreign_key "pricing_subscriptions", "pricings"
   add_foreign_key "pricing_subscriptions", "subscriptions"
@@ -357,6 +357,6 @@ ActiveRecord::Schema.define(version: 2021_10_15_150200) do
   add_foreign_key "products", "meters"
   add_foreign_key "products", "organizations"
   add_foreign_key "subscriptions", "customers"
-  add_foreign_key "subscriptions", "plans"
+  add_foreign_key "subscriptions", "permission_groups"
   add_foreign_key "users", "organizations"
 end

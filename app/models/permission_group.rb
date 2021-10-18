@@ -1,4 +1,4 @@
-class Plan < ApplicationRecord
+class PermissionGroup < ApplicationRecord
   belongs_to :organization
   has_many :plan_permissions, dependent: :destroy
   has_many :permissions, through: :plan_permissions
@@ -19,7 +19,7 @@ end
 
 # == Schema Information
 #
-# Table name: plans
+# Table name: permission_groups
 #
 #  id              :string           not null, primary key
 #  name            :string
@@ -31,7 +31,7 @@ end
 #
 # Indexes
 #
-#  index_plans_on_organization_id  (organization_id)
+#  index_permission_groups_on_organization_id  (organization_id)
 #
 # Foreign Keys
 #

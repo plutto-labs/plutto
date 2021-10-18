@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :subscription do
     customer
-    plan
+    permission_group
     auto_collection { true }
     price_type { 'tax_inclusive' }
     trial_finishes_at { nil }

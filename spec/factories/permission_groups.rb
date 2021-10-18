@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :plan do
+  factory :permission_group do
     organization
     name { "MyString" }
     price_currency { 0 }

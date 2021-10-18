@@ -3,7 +3,7 @@ RSpec.describe Subscription, type: :model do
     it { is_expected.to have_many(:billing_periods) }
     it { is_expected.to have_many(:pricing_subscriptions) }
     it { is_expected.to belong_to(:customer) }
-    it { is_expected.to belong_to(:plan).optional }
+    it { is_expected.to belong_to(:permission_group).optional }
   end
 
   describe 'Validations' do

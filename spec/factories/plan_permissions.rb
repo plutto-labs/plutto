@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :plan_permission do
-    plan
+    permission_group
     permission
     limit { 5 }
   end
