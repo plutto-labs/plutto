@@ -1,4 +1,4 @@
-class PlanPermission < ApplicationRecord
+class PermissionGroupPermission < ApplicationRecord
   belongs_to :permission_group
   belongs_to :permission
 
@@ -11,7 +11,7 @@ end
 
 # == Schema Information
 #
-# Table name: plan_permissions
+# Table name: permission_group_permissions
 #
 #  id                  :string           not null, primary key
 #  permission_group_id :string           not null
@@ -22,8 +22,8 @@ end
 #
 # Indexes
 #
-#  index_plan_permissions_on_permission_group_id  (permission_group_id)
-#  index_plan_permissions_on_permission_id        (permission_id)
+#  index_permission_group_permissions_on_permission_group_id  (permission_group_id)
+#  index_permission_group_permissions_on_permission_id        (permission_id)
 #
 # Foreign Keys
 #

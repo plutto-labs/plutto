@@ -1,7 +1,7 @@
 RSpec.describe PermissionGroup, type: :model do
   describe 'Relations' do
     it { is_expected.to belong_to(:organization) }
-    it { is_expected.to have_many(:plan_permissions) }
+    it { is_expected.to have_many(:permission_group_permissions) }
     it { is_expected.to have_many(:permissions) }
     it { is_expected.to have_many(:subscriptions) }
   end

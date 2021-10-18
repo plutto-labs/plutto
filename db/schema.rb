@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_18_192530) do
+ActiveRecord::Schema.define(version: 2021_10_18_195709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,16 @@ ActiveRecord::Schema.define(version: 2021_10_18_192530) do
     t.index ["payment_method_id"], name: "index_payments_on_payment_method_id"
   end
 
+  create_table "permission_group_permissions", id: :string, force: :cascade do |t|
+    t.string "permission_group_id", null: false
+    t.string "permission_id", null: false
+    t.float "limit"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["permission_group_id"], name: "index_permission_group_permissions_on_permission_group_id"
+    t.index ["permission_id"], name: "index_permission_group_permissions_on_permission_id"
+  end
+
   create_table "permission_groups", id: :string, force: :cascade do |t|
     t.string "name"
     t.bigint "price_cents", default: 0, null: false
@@ -214,16 +224,6 @@ ActiveRecord::Schema.define(version: 2021_10_18_192530) do
     t.index ["meter_id"], name: "index_permissions_on_meter_id"
     t.index ["name", "organization_id"], name: "index_permissions_on_name_and_organization_id", unique: true
     t.index ["organization_id"], name: "index_permissions_on_organization_id"
-  end
-
-  create_table "plan_permissions", id: :string, force: :cascade do |t|
-    t.string "permission_group_id", null: false
-    t.string "permission_id", null: false
-    t.float "limit"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["permission_group_id"], name: "index_plan_permissions_on_permission_group_id"
-    t.index ["permission_id"], name: "index_plan_permissions_on_permission_id"
   end
 
   create_table "price_logic_tiers", id: :string, force: :cascade do |t|
@@ -345,11 +345,11 @@ ActiveRecord::Schema.define(version: 2021_10_18_192530) do
   add_foreign_key "payment_methods", "customers"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "payment_methods"
+  add_foreign_key "permission_group_permissions", "permission_groups"
+  add_foreign_key "permission_group_permissions", "permissions"
   add_foreign_key "permission_groups", "organizations"
   add_foreign_key "permissions", "meters"
   add_foreign_key "permissions", "organizations"
-  add_foreign_key "plan_permissions", "permission_groups"
-  add_foreign_key "plan_permissions", "permissions"
   add_foreign_key "price_logics", "pricings"
   add_foreign_key "pricing_subscriptions", "pricings"
   add_foreign_key "pricing_subscriptions", "subscriptions"
