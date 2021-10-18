@@ -6,11 +6,11 @@
         title="Payments"
         :options="viewOptions"
         :selected-option="selectedOption"
-        @optionClicked="changeOption"
+        @optionClicked="option => $route.name === option ? null : $router.push({ name: option })"
       />
       <component
         class="col-span-3 col start-2 md:col-span-5"
-        :is="selectedOption"
+        :is="components[selectedOption]"
       />
     </div>
   </main>
@@ -23,19 +23,23 @@ import Transactions from '@/router/transactions';
 
 export default {
   components: { PluttoSideOptions, Invoices, Transactions },
+  props: {
+    selectedOption: {
+      type: String,
+      default: null,
+    },
+  },
   data() {
     return {
       viewOptions: [
-        { label: 'Invoices', value: 'Invoices' },
-        { label: 'Transactions', value: 'Transactions' },
+        { label: 'Invoices', value: 'invoices' },
+        { label: 'Transactions', value: 'transactions' },
       ],
-      selectedOption: 'Invoices',
+      components: {
+        'invoices': 'Invoices',
+        'transactions': 'Transactions',
+      },
     };
-  },
-  methods: {
-    changeOption(option) {
-      this.selectedOption = option;
-    },
   },
 };
 </script>

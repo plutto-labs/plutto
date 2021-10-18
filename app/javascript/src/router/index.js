@@ -88,9 +88,25 @@ const router = createRouter({
     }, {
       path: '/payments',
       name: 'payments',
+      redirect: {
+        name: 'invoices',
+      },
+    }, {
+      path: '/payments/invoices',
+      name: 'invoices',
       component: Payments,
+      props: { selectedOption: 'invoices' },
       meta: {
-        title: 'Payments | Plutto',
+        title: 'Invoices | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/payments/transactions',
+      name: 'transactions',
+      component: Payments,
+      props: { selectedOption: 'transactions' },
+      meta: {
+        title: 'Transactions | Plutto',
         authRequired: true,
       },
     }, {
