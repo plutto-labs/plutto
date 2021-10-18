@@ -33,7 +33,7 @@ const router = createRouter({
       path: '/business-model',
       name: 'business-model',
       redirect: {
-        name: 'plans',
+        name: 'permission-groups',
       },
     }, {
       path: '/business-model/meters',
@@ -45,12 +45,12 @@ const router = createRouter({
         authRequired: true,
       },
     }, {
-      path: '/business-model/plans',
-      name: 'plans',
+      path: '/business-model/permission-groups',
+      name: 'permission-groups',
       component: BusinessModel,
-      props: { selectedOption: 'plans' },
+      props: { selectedOption: 'permission-groups' },
       meta: {
-        title: 'Plans | Plutto',
+        title: 'Permission Groups | Plutto',
         authRequired: true,
       },
     }, {
