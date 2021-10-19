@@ -4,10 +4,10 @@ class CreateSubscription < PowerTypes::Command.new(
   :billing_period_duration,
   bills_at: 'end',
   trial_finishes_at: nil,
-  plan_id: nil
+  permission_group_id: nil
 )
   def perform
-    ensure_pricings_or_plan!
+    ensure_pricings_or_permission_group!
     active_subscription = @customer.active_subscription
     check_if_pricing_is_active(active_subscription)
 
@@ -33,7 +33,7 @@ class CreateSubscription < PowerTypes::Command.new(
       trial_finishes_at: @trial_finishes_at,
       bills_at: @bills_at,
       currency: currency,
-      plan_id: @plan_id
+      permission_group_id: @permission_group_id
     )
   end
 
@@ -55,15 +55,15 @@ class CreateSubscription < PowerTypes::Command.new(
     end
   end
 
-  def ensure_pricings_or_plan!
-    if @pricings.blank? && !@plan_id
+  def ensure_pricings_or_permission_group!
+    if @pricings.blank? && !@permission_group_id
       raise(ApiException::Errors::UnprocessableEntity.new(detail:
-        "Can't create subscription with no valid pricings or plan"))
+        "Can't create subscription with no valid pricings or permission group"))
     end
   end
 
   def currency
-    plan&.price_currency || @pricings.first.currency
+    permission_group&.price_currency || @pricings.first.currency
   end
 
   def permission_group

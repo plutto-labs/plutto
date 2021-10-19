@@ -11,12 +11,14 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
       context 'with valid params' do
         let(:product) { create(:product, organization: organization) }
         let!(:pricing) { create(:pricing, product: product) }
+        let(:permission_group) { create(:permission_group, organization: organization) }
 
         context 'with pricing param' do
           it 'returns http success' do
             post :create, format: :json,
               params: { customer_id: customer.id, pricing_ids: [pricing.id],
-                        billing_period_duration: 'P1M', bills_at: 'end' }
+                        billing_period_duration: 'P1M', bills_at: 'end',
+                        permission_group_id: permission_group.id }
 
             expect(response).to have_http_status(:success)
           end
