@@ -6,7 +6,7 @@ describe BillingPeriodPriceDetails do
   end
 
   let(:customer) { create(:customer) }
-  let(:subscription) { create(:subscription, customer: customer, plan: nil) }
+  let(:subscription) { create(:subscription, customer: customer, permission_group: nil) }
   let!(:pricing_subscription) do
     create(:pricing_subscription, subscription: subscription)
   end
@@ -110,19 +110,21 @@ describe BillingPeriodPriceDetails do
       end
     end
 
-    context 'when there is a plan' do
-      let(:plan) { create(:plan, price: 1000, price_currency: 'CLP') }
-      let(:subscription) { create(:subscription, customer: customer, plan: plan) }
+    context 'when there is a permission_group' do
+      let(:permission_group) { create(:permission_group, price: 1000, price_currency: 'CLP') }
+      let(:subscription) do
+        create(:subscription, customer: customer, permission_group: permission_group)
+      end
 
-      it 'sums the plan price to total amount' do
+      it 'sums the permission_group price to total amount' do
         expect(perform[:price]).to eq(clp(1000).amount)
       end
 
-      it 'writes correct details for plan' do
+      it 'writes correct details for permission_group' do
         details = perform[:details][0]
-        expect(details[:type]).to eq('Plan')
-        expect(details[:description]).to eq("Plan #{plan.name}")
-        expect(details[:id]).to eq(plan.id)
+        expect(details[:type]).to eq('Permission Group')
+        expect(details[:description]).to eq("Permission Group #{permission_group.name}")
+        expect(details[:id]).to eq(permission_group.id)
       end
     end
   end

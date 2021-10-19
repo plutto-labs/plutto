@@ -5,9 +5,9 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
 
     details, total_price = price_logic_details(details, total_price)
 
-    if plan
-      details.push(details_for_plan(plan))
-      total_price += plan.price
+    if permission_group
+      details.push(details_for_permission_group(permission_group))
+      total_price += permission_group.price
     end
 
     { price: total_price.zero? ? 0 : total_price.amount, details: details }.with_indifferent_access
@@ -30,8 +30,8 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
     @subscription = @billing_period.subscription
   end
 
-  def plan
-    @plan ||= @subscription.plan
+  def permission_group
+    @permission_group ||= @subscription.permission_group
   end
 
   def price_logic_details(details, total_price)
@@ -77,12 +77,12 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
     }
   end
 
-  def details_for_plan(plan)
+  def details_for_permission_group(permission_group)
     {
-      type: 'Plan',
-      total_price: plan.price.amount.to_f,
-      description: "Plan #{plan.name}",
-      id: plan.id
+      type: 'Permission Group',
+      total_price: permission_group.price.amount.to_f,
+      description: "Permission Group #{permission_group.name}",
+      id: permission_group.id
     }
   end
 end
