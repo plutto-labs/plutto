@@ -4,8 +4,6 @@ const initialState = {
   id: null,
   token: null,
   email: null,
-  organizationId: null,
-  organizationName: null,
 };
 
 export const mutations = {
@@ -13,10 +11,6 @@ export const mutations = {
     state.id = payload.id;
     state.token = payload.authenticationToken;
     state.email = payload.email;
-  },
-  setCompanyData(state, payload) {
-    state.organizationId = payload.id;
-    state.organizationName = payload.name;
   },
   resetState(state) {
     Object.assign(state, initialState);
@@ -30,7 +24,7 @@ export const actions = {
         const { user } = res;
         if (user.authenticationToken) {
           commit('setUserData', user);
-          commit('setCompanyData', user.organization);
+          commit('setOrganizationData', user.organization);
         }
       });
   },
@@ -40,6 +34,7 @@ export const actions = {
         const { user } = data;
         if (user.authenticationToken) {
           commit('setUserData', user);
+          commit('setOrganizationData', user.organization);
         }
       });
   },

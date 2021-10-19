@@ -84,12 +84,11 @@ export default {
   },
   computed: {
     ...mapState({
-      organizationName: state => state.auth.organizationName,
-      organizationId: state => state.auth.organizationId,
+      organization: state => state.organization,
       apiKeys: state => state.apiKeys.apiKeys,
     }),
     bearer() {
-      return { bearerType: 'Organization', bearerId: this.organizationId };
+      return { bearerType: 'Organization', bearerId: this.organization.id };
     },
   },
   async mounted() {
