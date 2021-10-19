@@ -2,7 +2,6 @@ import * as analyticsApi from '../api/analytics';
 
 const initialState = {
   loading: null,
-  error: null,
   customers: {},
   numbers: {},
   subscriptions: {},
@@ -16,9 +15,6 @@ export const mutations = {
   },
   setAnalyticsLoading(state, payload) {
     state.loading = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
   setCustomersAnalytics(state, payload) {
     state.customers = payload;
