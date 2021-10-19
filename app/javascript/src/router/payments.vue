@@ -20,9 +20,10 @@
 import PluttoSideOptions from '@/components/plutto-side-options';
 import Invoices from '@/router/invoices';
 import Transactions from '@/router/transactions';
+import PaymentSettings from '@/router/payment-settings';
 
 export default {
-  components: { PluttoSideOptions, Invoices, Transactions },
+  components: { PluttoSideOptions, Invoices, Transactions, PaymentSettings },
   props: {
     selectedOption: {
       type: String,
@@ -34,10 +35,12 @@ export default {
       viewOptions: [
         { label: 'Invoices', value: 'invoices' },
         { label: 'Transactions', value: 'transactions' },
+        { label: 'Settings', value: 'payment-settings' },
       ],
       components: {
         'invoices': 'Invoices',
         'transactions': 'Transactions',
+        'payment-settings': 'PaymentSettings',
       },
     };
   },
