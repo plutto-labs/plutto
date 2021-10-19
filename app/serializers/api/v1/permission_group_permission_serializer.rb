@@ -1,4 +1,4 @@
-class Api::V1::PlanPermissionSerializer < Api::BaseSerializer
+class Api::V1::PermissionGroupPermissionSerializer < Api::BaseSerializer
   attributes  :limit, :name
 
   def name
