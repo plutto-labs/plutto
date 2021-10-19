@@ -7,7 +7,7 @@ import auth from './auth';
 import customers from './customers';
 import invoices from './invoices';
 import meters from './meters';
-import plans from './plans';
+import permissionGroups from './permission-groups';
 import products from './products';
 import permissions from './permissions';
 import subscriptions from './subscriptions';
@@ -20,7 +20,7 @@ const initialState = {
   customers: customers.state,
   invoices: invoices.state,
   meters: meters.state,
-  plans: plans.state,
+  permissionGroups: permissionGroups.state,
   products: products.state,
   permissions: permissions.state,
   subscriptions: subscriptions.state,
@@ -42,7 +42,7 @@ export default createStore({
     customers,
     invoices,
     meters,
-    plans,
+    permissionGroups,
     products,
     permissions,
     subscriptions,

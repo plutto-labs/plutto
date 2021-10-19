@@ -3,7 +3,7 @@ class Api::Internal::V1::SubscriptionSerializer < ActiveModel::Serializer
              :bills_at, :billing_period_duration
 
   has_many :pricings, serializer: Api::Internal::V1::PricingSerializer
-  has_one :plan
+  has_one :permission_group
 
   def billing_period_duration
     object.billing_period_duration.iso8601

@@ -21,7 +21,7 @@ SUBSCRIPTION_SCHEMA = {
       type: :string, example: 'P0Y1M0DT0H0M0S', 'x-nullable': false,
       description: 'ISO 8601 duration for a billing period'
     },
-    plan: { "$ref" => "#/definitions/plan" }
+    permission_group: { "$ref" => "#/definitions/permission_group" }
   },
   required: [
     :id,
@@ -54,7 +54,7 @@ SUBSCRIPTION_CREATE_SCHEMA = {
       type: :string, example: 'P0Y1M0DT0H0M0S', 'x-nullable': false,
       description: 'ISO 8601 duration for a billing period'
     },
-    plan_id: { type: :string, example: 'plan_5436c6ad60c3363b089a9876',
+    permission_group_id: { type: :string, example: 'permission_group_5436c6ad60c3363b089a9876',
                'x-nullable': true }
   },
   required: [

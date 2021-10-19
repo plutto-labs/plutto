@@ -6,31 +6,37 @@ describe CustomerPermissionService do
   let(:customer) { create(:customer) }
   let(:meter) { create(:meter) }
   let(:permission) { create(:permission, meter: meter, meter_count_method: 1) }
-  let(:plan_permission) { create(:plan_permission, permission: permission) }
+  let(:permission_group_permission) { create(:permission_group_permission, permission: permission) }
   let(:service) do
-    build(permission: permission, plan_permission: plan_permission, customer: customer)
+    build(
+      permission: permission,
+      permission_group_permission: permission_group_permission,
+      customer: customer
+    )
   end
 
-  describe '#plan_permission_limit' do
-    context 'when plan permission not exist' do
-      let(:plan_permission) { nil }
+  describe '#permission_group_permission_limit' do
+    context 'when permission group permission not exist' do
+      let(:permission_group_permission) { nil }
 
-      it { expect(service.plan_permission_limit).to eq(nil) }
+      it { expect(service.permission_group_permission_limit).to eq(nil) }
     end
 
-    context 'when plan permission exist' do
-      it { expect(service.plan_permission_limit).to eq(plan_permission.limit) }
+    context 'when permission group permission exist' do
+      it do
+        expect(service.permission_group_permission_limit).to eq(permission_group_permission.limit)
+      end
     end
   end
 
   describe '#usage_for_current_period' do
-    context 'when plan permission not exist' do
-      let(:plan_permission) { nil }
+    context 'when permission group permission not exist' do
+      let(:permission_group_permission) { nil }
 
       it { expect(service.usage_for_current_period).to eq(nil) }
     end
 
-    context 'when plan permission exist' do
+    context 'when permission group permission exist' do
       before do
         meter_count = create(:meter_count, customer: customer, meter: meter)
         subscription = create(:subscription, customer: customer, active: true)
@@ -48,24 +54,24 @@ describe CustomerPermissionService do
   end
 
   describe '#customer_allowed?' do
-    context 'when plan permission not exist' do
-      let(:plan_permission) { nil }
+    context 'when permission group permission not exist' do
+      let(:permission_group_permission) { nil }
 
       it { expect(service.customer_allowed?).to eq(false) }
     end
 
     context 'when limit is nil' do
       before do
-        allow(service).to receive(:plan_permission_limit).and_return(nil)
+        allow(service).to receive(:permission_group_permission_limit).and_return(nil)
       end
 
       it { expect(service.customer_allowed?).to eq(true) }
     end
 
-    context 'when plan permission exist and limit is not nil' do
+    context 'when permission group permission exist and limit is not nil' do
       context 'when permission is metered' do
         before do
-          allow(service).to receive(:plan_permission_limit).and_return(10)
+          allow(service).to receive(:permission_group_permission_limit).and_return(10)
           allow(service).to receive(:usage_for_current_period).and_return(9)
         end
 

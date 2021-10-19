@@ -83,8 +83,8 @@
                   {{ productsString(currentCustomer.activeSubscription.pricings) }}
                 </div>
               </div>
-              <div v-if="currentCustomer.activeSubscription.plan">
-                Plan: <span>{{ currentCustomer.activeSubscription.plan.name }}</span>
+              <div v-if="currentCustomer.activeSubscription.permissionGroup">
+                Permission group: <span>{{ currentCustomer.activeSubscription.permissionGroup.name }}</span>
               </div>
               <div v-if="currentCustomer.activeSubscription.trialFinishesAt !== null">
                 <div>

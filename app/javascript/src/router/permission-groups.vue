@@ -1,30 +1,30 @@
 <template>
   <main>
     <PluttoHeader
-      button-text="Add Plan"
-      @button-clicked="showPlanForm = true"
+      button-text="Add Permission Group"
+      @button-clicked="showPermissionGroupForm = true"
     />
     <div class="mx-auto mt-6 max-w-7xl">
       <div
         v-if="!loading"
-        class="grid grid-rows-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        class="grid grid-rows-1 gap-6 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4"
       >
         <div
-          v-for="plan in sortedPlans"
-          :key="plan.id"
+          v-for="permissionGroup in sortedPermissionGroups"
+          :key="permissionGroup.id"
           class="relative px-6 py-8 border border-gray-600 rounded-lg"
         >
           <div class="text-lg underline md:text-xl text-gray-50">
-            {{ plan.name }}
+            {{ permissionGroup.name }}
           </div>
           <PluttoCopyableDiv
             class="text-xs text-gray-100"
-            :value="plan.id"
+            :value="permissionGroup.id"
           />
           <ul class="pl-4 mt-4 mb-8 text-gray-300">
             <li
               class="list-disc"
-              v-for="permission in plan.permissions"
+              v-for="permission in permissionGroup.permissions"
               :key="permission.key"
             >
               <PluttoTooltip v-if="permission.meterId">
@@ -51,7 +51,7 @@
             </li>
           </ul>
           <div class="absolute bottom-0 w-full py-4 -mx-6 text-xl text-center">
-            {{ formatCurrency(plan.price, plan.currency) }}
+            {{ formatCurrency(permissionGroup.price, permissionGroup.currency) }}
           </div>
         </div>
       </div>
@@ -60,11 +60,11 @@
       />
     </div>
     <PluttoSlideover
-      :showing="showPlanForm"
-      @close="showPlanForm = false"
+      :showing="showPermissionGroupForm"
+      @close="showPermissionGroupForm = false"
     >
-      <PlanForm
-        @created-plan="plan => showPlanForm = false"
+      <PermissionGroupForm
+        @created-permission-group="permissionGroup => showPermissionGroupForm = false"
         class="pb-8 mx-auto"
       />
     </PluttoSlideover>
@@ -77,34 +77,34 @@ import PluttoHeader from '@/components/plutto-header';
 import PluttoLoader from '@/components/plutto-loader';
 import PluttoSlideover from '@/components/plutto-slideover';
 import PluttoCopyableDiv from '@/components/plutto-copyable-div';
-import PlanForm from '@/components/forms/plan-form';
+import PermissionGroupForm from '@/components/forms/permission-group-form';
 import PluttoTooltip from '@/components/plutto-tooltip';
 
 export default {
-  components: { PluttoHeader, PluttoLoader, PluttoSlideover, PlanForm, PluttoCopyableDiv, PluttoTooltip },
+  components: { PluttoHeader, PluttoLoader, PluttoSlideover, PermissionGroupForm, PluttoCopyableDiv, PluttoTooltip },
   data() {
     return {
-      showPlanForm: false,
+      showPermissionGroupForm: false,
     };
   },
   computed: {
     ...mapState({
-      loading: state => state.plans.loading,
-      plans: state => state.plans.plans,
+      loading: state => state.permissionGroups.loading,
+      permissionGroups: state => state.permissionGroups.permissionGroups,
     }),
 
-    sortedPlans() {
-      if (!this.plans) return [];
+    sortedPermissionGroups() {
+      if (!this.permissionGroups) return [];
 
-      return [...this.plans].sort((a, b) => (Number(a.price) < Number(b.price) ? -1 : 1));
+      return [...this.permissionGroups].sort((a, b) => (Number(a.price) < Number(b.price) ? -1 : 1));
     },
   },
   async beforeMount() {
-    await this.$store.dispatch('GET_PLANS');
+    await this.$store.dispatch('GET_PERMISSION_GROUPS');
   },
   methods: {
-    destroyPlan(plan) {
-      this.$store.dispatch('DESTROY_PLAN', plan);
+    destroyPermissionGroup(permissionGroup) {
+      this.$store.dispatch('DESTROY_PERMISSION_GROUP', permissionGroup);
     },
   },
 };

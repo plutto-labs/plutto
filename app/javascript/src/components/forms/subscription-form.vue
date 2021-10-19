@@ -80,13 +80,13 @@
       </div>
     </div>
     <div class="flex items-center justify-between my-8">
-      <span class="flex-1">Select Plan:<br><span class="text-xs text-gray-300">(optional)</span></span>
+      <span class="flex-1">Select permissionGroup:<br><span class="text-xs text-gray-300">(optional)</span></span>
       <PluttoDropdown
         class="w-32 ml-4 plutto-input"
-        :options="plans"
+        :options="permissionGroups"
         value-key="id"
-        :selected="subscription.planId"
-        @selected="(planId) => subscription.planId = planId"
+        :selected="subscription.permissionGroupId"
+        @selected="(permissionGroupId) => subscription.permissionGroupId = permissionGroupId"
       />
     </div>
     <div class="flex items-center justify-between my-8">
@@ -177,7 +177,7 @@ export default {
         billingPeriodDuration: null,
         billsAt: null,
         trialFinishesAt: null,
-        planId: null,
+        permissionGroupId: null,
       },
       billingPeriodDurations: [
         { label: 'day', value: 'P1D' },
@@ -214,7 +214,7 @@ export default {
     ...mapState({
       loading: state => state.products.loading,
       products: state => state.products.products,
-      plans: state => state.plans.plans,
+      permissionGroups: state => state.permissionGroups.permissionGroups,
       currentCustomer: state => state.customers.currentCustomer,
     }),
   },

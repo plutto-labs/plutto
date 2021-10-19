@@ -5,12 +5,12 @@ describe CreateSubscription do
   let(:customer) { create(:customer, organization: organization) }
   let(:pricings) { create_list(:pricing, 2) }
 
-  def perform(pricings, plan_id = nil)
+  def perform(pricings, permission_group_id = nil)
     described_class.for(
       customer: customer,
       pricings: pricings,
       billing_period_duration: 'P1M',
-      plan_id: plan_id
+      permission_group_id: permission_group_id
     )
   end
 
@@ -32,20 +32,20 @@ describe CreateSubscription do
       expect(perform(pricings)).to be_a(Subscription)
     end
 
-    context 'when plan is present' do
-      let(:plan) { create(:plan, organization: organization) }
+    context 'when permission_group is present' do
+      let(:permission_group) { create(:permission_group, organization: organization) }
 
-      it 'creates a new subscription with plan' do
-        subscription = perform(pricings, plan.id)
-        expect(subscription.plan_id).to eq(plan.id)
-        expect(subscription.currency).to eq(plan.price_currency)
+      it 'creates a new subscription with permission_group' do
+        subscription = perform(pricings, permission_group.id)
+        expect(subscription.permission_group_id).to eq(permission_group.id)
+        expect(subscription.currency).to eq(permission_group.price_currency)
       end
     end
 
-    context 'when plan is not present' do
-      it 'creates a new subscription without plan' do
+    context 'when permission_group is not present' do
+      it 'creates a new subscription without permission_group' do
         subscription = perform(pricings)
-        expect(subscription.plan_id).to eq(nil)
+        expect(subscription.permission_group_id).to eq(nil)
         expect(subscription.currency).to eq(pricings.first.currency)
       end
     end

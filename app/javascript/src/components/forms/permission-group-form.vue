@@ -6,7 +6,7 @@
     <div class="m-auto divide-gray-200">
       <div class="sm:col-span-3">
         <div class="mt-8 mb-4 text-lg">
-          Plan
+          Permission Group
         </div>
         <div class="flex my-4">
           <div class="w-full mr-8 plutto-input">
@@ -18,7 +18,7 @@
             </label>
             <input
               class="mt-2 plutto-input__input"
-              v-model="newPlan.name"
+              v-model="newPermissionGroup.name"
             >
           </div>
         </div>
@@ -32,9 +32,9 @@
             </label>
             <PluttoDropdown
               class="w-32 mt-2 plutto-input"
-              :selected="newPlan.priceCurrency"
+              :selected="newPermissionGroup.priceCurrency"
               :options="CURRENCY_KEYS"
-              @selected="(priceCurrency) => newPlan.priceCurrency = priceCurrency"
+              @selected="(priceCurrency) => newPermissionGroup.priceCurrency = priceCurrency"
             />
           </div>
           <div class="w-full mr-8">
@@ -48,7 +48,7 @@
               <span class="plutto-input__icon">attach_money</span>
               <input
                 class="plutto-input__input"
-                v-model="newPlan.price"
+                v-model="newPermissionGroup.price"
               >
             </div>
           </div>
@@ -100,7 +100,7 @@
     <div class="pt-5">
       <div class="flex justify-end">
         <button class="btn">
-          Create Plan
+          Create Group
         </button>
       </div>
     </div>
@@ -126,7 +126,7 @@ export default {
   components: { Form, PluttoDropdown, PluttoModal, PermissionForm },
   data() {
     return {
-      newPlan: {
+      newPermissionGroup: {
         name: null,
         priceCurrency: 'CLP',
       },
@@ -145,9 +145,12 @@ export default {
   },
   methods: {
     submit() {
-      const plan = { ...this.newPlan, planPermissionsAttributes: Object.values(this.selectedPermissions) };
-      this.$store.dispatch('CREATE_PLAN', { plan })
-        .then((newPlan) => this.$emit('created-plan', newPlan));
+      const permissionGroup = {
+        ...this.newPermissionGroup,
+        permissionGroupPermissionsAttributes: Object.values(this.selectedPermissions),
+      };
+      this.$store.dispatch('CREATE_PERMISSION_GROUP', { permissionGroup })
+        .then((newPermissionGroup) => this.$emit('created-permission-group', newPermissionGroup));
     },
     toggleChecked(permission) {
       if (this.selectedPermissions[permission.id]) {

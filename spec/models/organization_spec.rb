@@ -6,7 +6,7 @@ RSpec.describe Organization, type: :model do
   describe 'Relations' do
     it { is_expected.to have_many(:users) }
     it { is_expected.to have_many(:meters) }
-    it { is_expected.to have_many(:plans) }
+    it { is_expected.to have_many(:permission_groups) }
     it { is_expected.to have_many(:permissions) }
   end
 

@@ -2,7 +2,7 @@
   <main>
     <div class="grid grid-cols-4 md:grid-cols-6">
       <PluttoSideOptions
-        class="col-span-1"
+        class="col-span-1 mt-20"
         title="Business Model"
         :options="options"
         :selected-option="selectedOption"
@@ -18,12 +18,12 @@
 
 <script>
 import Meters from '@/router/meters';
-import Plans from '@/router/plans';
+import PermissionGroups from '@/router/permission-groups';
 import PluttoSideOptions from '@/components/plutto-side-options';
 import Products from '@/router/products';
 
 export default {
-  components: { PluttoSideOptions, Plans, Meters, Products },
+  components: { PluttoSideOptions, PermissionGroups, Meters, Products },
   props: {
     selectedOption: {
       type: String,
@@ -33,12 +33,12 @@ export default {
   data() {
     return {
       options: [
-        { label: 'Plans', value: 'plans' },
+        { label: 'Permission Groups', value: 'permission-groups' },
         { label: 'Products', value: 'products' },
         { label: 'Meters', value: 'meters' },
       ],
       components: {
-        'plans': 'Plans',
+        'permission-groups': 'PermissionGroups',
         'products': 'Products',
         'meters': 'Meters',
       },

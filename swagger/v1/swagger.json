@@ -208,8 +208,8 @@
           "x-nullable": false,
           "description": "ISO 8601 duration for a billing period"
         },
-        "plan": {
-          "$ref": "#/definitions/plan"
+        "permission_group": {
+          "$ref": "#/definitions/permission_group"
         }
       },
       "required": [
@@ -260,9 +260,9 @@
           "x-nullable": false,
           "description": "ISO 8601 duration for a billing period"
         },
-        "plan_id": {
+        "permission_group_id": {
           "type": "string",
-          "example": "plan_5436c6ad60c3363b089a9876",
+          "example": "permission_group_5436c6ad60c3363b089a9876",
           "x-nullable": true
         }
       },
@@ -734,12 +734,12 @@
         "meter_event"
       ]
     },
-    "plan": {
+    "permission_group": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string",
-          "example": "plan_d4328039347671a0b4b07f3f",
+          "example": "permission_group_d4328039347671a0b4b07f3f",
           "x-nullable": false
         },
         "name": {
@@ -747,10 +747,10 @@
           "example": "Pro",
           "x-nullable": false
         },
-        "plan_permissions": {
+        "permission_group_permissions": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/plan_permission"
+            "$ref": "#/definitions/permission_group_permission"
           }
         }
       },
@@ -759,7 +759,7 @@
         "name"
       ]
     },
-    "plan_permission": {
+    "permission_group_permission": {
       "type": "object",
       "properties": {
         "limit": {

@@ -1,4 +1,4 @@
-class PlanPolicy < OrganizationRelatedPolicy
+class PermissionGroupPolicy < OrganizationRelatedPolicy
   private
 
   def organization_id

@@ -10,7 +10,7 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
         billing_period_duration: params['billing_period_duration'],
         trial_finishes_at: params['trial_finishes_at'],
         bills_at: params['bills_at'],
-        plan_id: params['plan_id']
+        permission_group_id: params['permission_group_id']
       )
     )
   end
@@ -47,7 +47,7 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
   private
 
   def pricings(includes = [])
-    return if pricings_params[:pricing_ids].blank?
+    return [] if pricings_params[:pricing_ids].blank?
 
     policy_scope(Pricing).includes(includes).where(id: pricings_params[:pricing_ids]).uniq
   end

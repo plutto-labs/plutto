@@ -1,10 +1,10 @@
-class Plan < ApplicationRecord
+class PermissionGroup < ApplicationRecord
   belongs_to :organization
-  has_many :plan_permissions, dependent: :destroy
-  has_many :permissions, through: :plan_permissions
+  has_many :permission_group_permissions, dependent: :destroy
+  has_many :permissions, through: :permission_group_permissions
   has_many :subscriptions, dependent: :nullify
 
-  accepts_nested_attributes_for :plan_permissions, allow_destroy: true
+  accepts_nested_attributes_for :permission_group_permissions, allow_destroy: true
 
   enum price_currency: Currencies.keys
   monetize :price_cents
@@ -13,13 +13,13 @@ class Plan < ApplicationRecord
   private
 
   def generate_id
-    init_id('plan')
+    init_id('permission-group')
   end
 end
 
 # == Schema Information
 #
-# Table name: plans
+# Table name: permission_groups
 #
 #  id              :string           not null, primary key
 #  name            :string
@@ -31,7 +31,7 @@ end
 #
 # Indexes
 #
-#  index_plans_on_organization_id  (organization_id)
+#  index_permission_groups_on_organization_id  (organization_id)
 #
 # Foreign Keys
 #
