@@ -7,7 +7,7 @@
     <div class="mx-auto mt-6 max-w-7xl">
       <div
         v-if="!loading"
-        class="grid grid-rows-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        class="grid grid-rows-1 gap-6 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4"
       >
         <div
           v-for="permissionGroup in sortedPermissionGroups"

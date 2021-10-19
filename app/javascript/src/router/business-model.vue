@@ -2,7 +2,7 @@
   <main>
     <div class="grid grid-cols-4 md:grid-cols-6">
       <PluttoSideOptions
-        class="col-span-1"
+        class="col-span-1 mt-20"
         title="Business Model"
         :options="options"
         :selected-option="selectedOption"
