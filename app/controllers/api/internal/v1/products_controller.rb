@@ -8,7 +8,7 @@ class Api::Internal::V1::ProductsController < Api::Internal::V1::BaseController
 
   def show
     authorize product
-    respond_with(product, show: true)
+    respond_with(product)
   end
 
   def create
@@ -58,6 +58,6 @@ class Api::Internal::V1::ProductsController < Api::Internal::V1::BaseController
   end
 
   def products
-    @products ||= policy_scope(Product).includes([:meter, :pricings])
+    @products ||= policy_scope(Product).includes([:meter])
   end
 end

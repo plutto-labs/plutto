@@ -20,19 +20,15 @@
         <div class="p-2 text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__info md:p-4">
           <div class="mb-2 text-lg text-gray-50">
             Information
+            <div class="text-xs text-gray-300">
+              <PluttoCopyableDiv :value="currentCustomer.identifier" />
+            </div>
           </div>
           <div>
             Name: <span class="text-gray-300">{{ currentCustomer.name }}</span>
           </div>
           <div>
             Email: <span class="text-gray-300">{{ currentCustomer.email }}</span>
-          </div>
-          <div class="flex items-center">
-            Identifier:
-            <PluttoCopyableDiv
-              class="ml-1"
-              :value="currentCustomer.identifier"
-            />
           </div>
           <div>
             Created: <span class="text-gray-300">{{ formatDate(currentCustomer.createdAt) }}</span>
@@ -62,6 +58,49 @@
           </div>
           <div>
             Phone: <span class="text-gray-300">{{ currentCustomer.billingInformation.phone }}</span>
+          </div>
+        </div>
+        <div
+          class="relative p-2 overflow-y-hidden text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__payments md:p-4 max-h-52"
+          v-if="currentCustomer.paymentMethods"
+        >
+          <div class="mb-2 text-lg text-gray-50">
+            Payment Methods
+          </div>
+          <div class="h-full overflow-y-scroll">
+            <div
+              v-for="(method, index) in currentCustomer.paymentMethods"
+              :key="index"
+              class="flex items-center justify-between px-3 py-2 my-2 text-xs bg-gray-900 border border-gray-600 rounded-lg"
+            >
+              <div class="flex">
+                <div class="relative w-6 h-4">
+                  <img
+                    v-if="method.cardBrand === 'mastercard'"
+                    class="absolute"
+                    src="../../img/master-card.svg"
+                  >
+                  <img
+                    v-if="method.cardBrand === 'visa'"
+                    class="absolute -mt-1"
+                    src="../../img/visa.png"
+                  >
+                </div>
+                <span class="ml-2">{{ method.currency }}</span>
+              </div>
+              <span class="font-mono">
+                <span class="hidden xl:inline">
+                  &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226;
+                </span>
+                <span class="inline md:hidden">
+                  &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226;
+                </span>
+                {{ method.last4Digits }}
+              </span>
+            </div>
+            <div v-if="currentCustomer.paymentMethods.length === 0">
+              No method availabe, yet
+            </div>
           </div>
         </div>
         <div
@@ -156,48 +195,13 @@
             N/A
           </div>
         </div>
-        <div
-          class="relative p-2 overflow-y-hidden text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__payments md:p-4 max-h-52"
-          v-if="currentCustomer.paymentMethods"
-        >
-          <div class="mb-2 text-lg text-gray-50">
-            Payment Methods
-          </div>
-          <div class="h-full overflow-y-scroll">
-            <div
-              v-for="(method, index) in currentCustomer.paymentMethods"
-              :key="index"
-              class="flex items-center justify-between px-3 py-2 my-2 text-xs bg-gray-900 border border-gray-600 rounded-lg"
-            >
-              <div class="flex">
-                <div class="relative w-6 h-4">
-                  <img
-                    v-if="method.cardBrand === 'mastercard'"
-                    class="absolute"
-                    src="../../img/master-card.svg"
-                  >
-                  <img
-                    v-if="method.cardBrand === 'visa'"
-                    class="absolute -mt-1"
-                    src="../../img/visa.png"
-                  >
-                </div>
-                <span class="ml-2">{{ method.currency }}</span>
-              </div>
-              <span class="font-mono">
-                <span class="hidden xl:inline">
-                  &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226;
-                </span>
-                <span class="inline md:hidden">
-                  &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226;
-                </span>
-                {{ method.last4Digits }}
-              </span>
-            </div>
-            <div v-if="currentCustomer.paymentMethods.length === 0">
-              No method availabe, yet
-            </div>
-          </div>
+        <div class="p-2 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg customer-grid__meters md:p-4">
+          <line-chart
+            :datasets="currentCustomer.meterEventsData"
+            title="Counts for each meter"
+            label="Meter Count"
+            class="p-3 bg-gray-800 rounded-md"
+          />
         </div>
       </div>
     </template>
@@ -240,10 +244,11 @@ import EditTrialForm from '@/components/forms/edit-trial-form';
 import SubscriptionForm from '@/components/forms/subscription-form';
 import PluttoModal from '@/components/plutto-modal';
 import PluttoCopyableDiv from '@/components/plutto-copyable-div';
+import LineChart from '@/components/charts/line-chart';
 
 export default {
   components: {
-    PluttoHeader, PluttoModal, NewCustomerForm, EditTrialForm, PluttoCopyableDiv, SubscriptionForm,
+    PluttoHeader, PluttoModal, NewCustomerForm, EditTrialForm, PluttoCopyableDiv, SubscriptionForm, LineChart,
   },
   data() {
     return {
@@ -279,14 +284,15 @@ export default {
 .customer-grid {
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-areas: 'info info billing billing'
-    'subscription subscription usage payments'
-    'invoices invoices meters meters';
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas:
+    'info info billing billing usage usage'
+    'subscription subscription meters meters meters meters'
+    'payments payments meters meters meters meters';
   grid-gap: 24px;
 
   @media screen and (max-width: '768px') {
-    grid-template-areas: 'info' 'billing' 'subscription' ' usage' 'payments' 'invoices' 'meters';
+    grid-template-areas: 'info' 'billing' 'meters' 'subscription' 'none' 'usage' 'payments' ;
     grid-template-columns: 1fr;
   }
 
