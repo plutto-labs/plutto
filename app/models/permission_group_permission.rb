@@ -5,7 +5,7 @@ class PermissionGroupPermission < ApplicationRecord
   private
 
   def generate_id
-    init_id('plan-permission')
+    init_id('permission-group-permission')
   end
 end
 
