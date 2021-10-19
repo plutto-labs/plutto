@@ -56,8 +56,6 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   end
 
   def customers
-    @customers ||= policy_scope(Customer).reverse_order.includes(
-      [:billing_information, { active_subscription: :pricings }]
-    )
+    @customers ||= policy_scope(Customer).reverse_order
   end
 end
