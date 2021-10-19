@@ -1,4 +1,4 @@
-PLAN_PERMISSION_SCHEMA = {
+PERMISSION_GROUP_PERMISSION_SCHEMA = {
   type: :object,
   properties: {
     limit: { type: :integer, example: 10, 'x-nullable': false },

@@ -79,7 +79,7 @@ class BillingPeriodPriceDetails < PowerTypes::Command.new(:billing_period)
 
   def details_for_permission_group(permission_group)
     {
-      type: 'Permission Group',
+      type: 'Permissions',
       total_price: permission_group.price.amount.to_f,
       description: "Permission Group #{permission_group.name}",
       id: permission_group.id
