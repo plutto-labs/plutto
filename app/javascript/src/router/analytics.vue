@@ -5,8 +5,7 @@
       class="grid grid-cols-2 gap-4"
     >
       <line-chart
-        :labels="Object.keys(subscriptions)"
-        :data="Object.values(subscriptions)"
+        :datasets="{ subscriptions }"
         title="Active subscriptions per month"
         label="Subscriptions"
         class="p-3 bg-gray-800 rounded-md"
@@ -126,15 +125,13 @@
         class="p-3 bg-gray-800 rounded-md"
       />
       <line-chart
-        :labels="Object.keys(arr)"
-        :data="Object.values(arr)"
+        :datasets="{ arr }"
         title="Annualized Run Rate"
         label="ARR"
         class="p-3 bg-gray-800 rounded-md"
       />
       <line-chart
-        :labels="Object.keys(customers)"
-        :data="Object.values(customers)"
+        :datasets="{ customers }"
         title="Customers created per month"
         label="Customers"
         class="p-3 bg-gray-800 rounded-md"
@@ -161,18 +158,21 @@ export default {
 
   data() {
     return {
+      loading: true,
       selectedCurrency: 'USD',
     };
   },
-  async mounted() {
-    await this.$store.dispatch('GET_CUSTOMERS_ANALYTICS');
-    await this.$store.dispatch('GET_NUMBERS_ANALYTICS');
-    this.fetchCurrencyData();
+  async beforeMount() {
+    await Promise.all([
+      this.$store.dispatch('GET_CUSTOMERS_ANALYTICS'),
+      this.$store.dispatch('GET_NUMBERS_ANALYTICS'),
+      this.fetchCurrencyData(),
+    ]);
+    this.loading = false;
   },
 
   computed: {
     ...mapState({
-      loading: state => state.analytics.loading,
       customers: state => state.analytics.customers,
       numbers: state => state.analytics.numbers,
       subscriptions: state => state.analytics.subscriptions,
