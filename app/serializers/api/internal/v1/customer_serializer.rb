@@ -6,10 +6,12 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
   attribute :previous_invoice_currency, if: :active?
   attribute :current_period_details, if: :current_period_details?
   attribute :trial_finishes_at, if: :trial?
+  attribute :meter_events_data, if: :show?
 
-  has_one :active_subscription, serializer: Api::Internal::V1::SubscriptionSerializer
-  has_one :billing_information
+  has_one :active_subscription, serializer: Api::Internal::V1::SubscriptionSerializer, if: :show?
+  has_one :billing_information, if: :show?
   has_many :payment_methods, if: :show?
+  has_many :invoices, if: :show?
 
   def previous_invoice_amount
     previous_invoice&.subtotal&.amount
@@ -25,6 +27,10 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
 
   def trial_finishes_at
     object.active_subscription&.trial_finishes_at
+  end
+
+  def meter_events_data
+    customer_analytics_service.meter_events_data
   end
 
   def active?
@@ -46,6 +52,14 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
   private
 
   def previous_invoice
-    @previous_invoice ||= object&.invoices&.last
+    @previous_invoice ||= invoices.last
+  end
+
+  def invoices
+    @invoices ||= object&.invoices&.last(5)
+  end
+
+  def customer_analytics_service
+    @customer_analytics_service ||= CustomerAnalyticsService.new(customer: object)
   end
 end

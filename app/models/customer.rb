@@ -1,5 +1,7 @@
 class Customer < ApplicationRecord
   has_many :meter_counts, dependent: :destroy
+  has_many :meter_events, through: :meter_counts
+  has_many :meters, through: :meter_counts
   has_many :subscriptions, dependent: :destroy
   has_many :invoices, dependent: :destroy
   has_many :payment_methods, dependent: :destroy
