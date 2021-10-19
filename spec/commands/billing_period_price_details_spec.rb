@@ -122,7 +122,7 @@ describe BillingPeriodPriceDetails do
 
       it 'writes correct details for permission_group' do
         details = perform[:details][0]
-        expect(details[:type]).to eq('Permission Group')
+        expect(details[:type]).to eq('Permissions')
         expect(details[:description]).to eq("Permission Group #{permission_group.name}")
         expect(details[:id]).to eq(permission_group.id)
       end
