@@ -110,6 +110,15 @@ const router = createRouter({
         authRequired: true,
       },
     }, {
+      path: '/payments/settings',
+      name: 'payment-settings',
+      component: Payments,
+      props: { selectedOption: 'payment-settings' },
+      meta: {
+        title: 'Payment Settings | Plutto',
+        authRequired: true,
+      },
+    }, {
       path: '/product/:id',
       name: 'product',
       component: Product,
@@ -126,12 +135,19 @@ const router = createRouter({
         authRequired: true,
       },
     }, {
+      path: '/settings/api-keys',
+      name: 'api-keys',
+      component: Settings,
+      props: { selectedOption: 'api-keys' },
+      meta: {
+        title: 'Api Keys | Plutto',
+        authRequired: true,
+      },
+    }, {
       path: '/settings',
       name: 'settings',
-      component: Settings,
-      meta: {
-        title: 'Settings | Plutto',
-        authRequired: true,
+      redirect: {
+        name: 'api-keys',
       },
     },
   ],

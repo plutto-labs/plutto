@@ -84,9 +84,9 @@ import { mapState } from 'vuex';
 const navigation = [
   { label: 'Customers', path: '/customers', matchingRoutes: ['customers'] },
   { label: 'Business Model', path: '/business-model', matchingRoutes: ['permission-groups', 'products', 'meters'] },
-  { label: 'Payments', path: '/payments', matchingRoutes: ['payments'] },
+  { label: 'Payments', path: '/payments', matchingRoutes: ['invoices', 'transactions', 'payment-settings'] },
   { label: 'Analytics', path: '/analytics', matchingRoutes: ['analytics'] },
-  { label: 'Settings', path: '/settings', matchingRoutes: ['settings'] },
+  { label: 'Settings', path: '/settings', matchingRoutes: ['api-keys'] },
 ];
 
 export default {
