@@ -72,6 +72,7 @@
       <PermissionGroupForm
         :editing-permission-group="editingPermissionGroup"
         @created-permission-group="permissionGroup => {showPermissionGroupForm = false; editingPermissionGroup = null}"
+        @deleted-permission-group="showPermissionGroupForm = false; editingPermissionGroup = null"
         class="pb-8 mx-auto"
       />
     </PluttoSlideover>

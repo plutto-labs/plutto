@@ -99,7 +99,14 @@
       </div>
     </div>
     <div class="pt-5">
-      <div class="flex justify-end">
+      <div class="flex justify-end gap-8">
+        <button
+          class="btn btn--cancel"
+          v-if="editingPermissionGroup"
+          @click.prevent="deletePermissionGroup"
+        >
+          Delete
+        </button>
         <button class="btn">
           {{ editingPermissionGroup ? 'Edit Group' : 'Create Group' }}
         </button>
@@ -188,6 +195,11 @@ export default {
       } else {
         this.selectedPermissions[permission.id] = { permissionId: permission.id, limit: null };
       }
+    },
+    deletePermissionGroup() {
+      this.$store.dispatch(
+        'DESTROY_PERMISSION_GROUP', this.editingPermissionGroup,
+      ).then(this.$emit('deleted-permission-group'));
     },
   },
 };
