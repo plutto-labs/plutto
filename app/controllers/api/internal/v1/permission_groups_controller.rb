@@ -29,6 +29,11 @@ class Api::Internal::V1::PermissionGroupsController < Api::Internal::V1::BaseCon
     respond_with(permission_group)
   end
 
+  def destroy
+    authorize permission_group
+    respond_with(permission_group.destroy!)
+  end
+
   private
 
   def permission_group_params

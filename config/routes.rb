@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :meters, only: [:index, :show, :update, :create, :destroy]
       resources :organizations, only: [:update]
       resources :permissions, only: [:index, :create]
-      resources :permission_groups, only: [:index, :show, :create, :update]
+      resources :permission_groups, only: [:index, :show, :create, :update, :destroy]
       resources :products, only: [:index, :show, :create, :update, :destroy] do
         resources :pricings, only: [:create, :update, :destroy]
       end
