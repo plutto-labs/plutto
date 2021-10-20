@@ -14,7 +14,7 @@
           for="autocollect"
           class="ml-4"
         >
-          Send invoices automatically
+          Post invoices automatically
           <div class="text-xs text-gray-200">
             An email with invoice details will be sent to customers every billing period
           </div>
