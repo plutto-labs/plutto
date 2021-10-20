@@ -23,7 +23,7 @@ class Api::Internal::V1::InvoiceSerializer < ActiveModel::Serializer
   end
 
   def permitted_events
-    ['post', 'charge', 'void']
+    Invoice::VALID_ACTIONS[object.status.to_sym]
   end
 
   def show?

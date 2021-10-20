@@ -1,5 +1,6 @@
 class InvoiceService < PowerTypes::Service.new(:invoice)
   def post!
+    validate_transition!(@invoice.status, 'post')
     Analytics.track(
       user_id: @invoice.customer.organization_id,
       event: 'send invoice',
@@ -9,6 +10,7 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
   end
 
   def charge!
+    validate_transition!(@invoice.status, 'charge')
     if @invoice.customer.payment_methods.any?
       begin
         kushki.charge(@invoice.customer.payment_methods.first, @invoice)
@@ -23,16 +25,16 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
     end
   end
 
+  def void!
+    validate_transition!(@invoice.status, 'void')
+    @invoice.update!(status: 'voided')
+  end
+
   private
 
-  def post_if_configured
-    settings = customer.organization.settings
-    return unless settings
-
-    if settings['charge_invoices_automatically']
-      charge!
-    elsif settings['send_invoices_automatically']
-      post!
+  def validate_transition!(from, to)
+    unless Invoice::VALID_ACTIONS[from.to_sym].include?(to.to_s)
+      raise PluttoErrors::InvalidTransition, "Invoice can't change from #{from} to #{to}"
     end
   end
 

@@ -1,6 +1,14 @@
 class Invoice < ApplicationRecord
   default_scope { order(issue_date: :desc) }
 
+  VALID_ACTIONS = {
+    created: ['post', 'charge', 'void'],
+    posted: ['post', 'charge', 'void'],
+    paid: ['void'],
+    not_paid: ['paid', 'void'],
+    voided: []
+  }
+
   belongs_to :billing_period
   belongs_to :customer
   has_one :payment, dependent: :destroy
@@ -36,7 +44,7 @@ class Invoice < ApplicationRecord
   end
 
   def void!
-    update!(status: 'voided')
+    invoice_service.void!
   end
 
   private

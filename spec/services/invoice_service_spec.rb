@@ -82,6 +82,21 @@ describe InvoiceService do
         expect(invoice.status).to eq('posted')
       end
     end
+
+    context 'when it is already paid' do
+      before { invoice.update(status: 'paid') }
+
+      it 'raises PluttoErrors:InvalidTransition error' do
+        expect { invoice.charge! }.to raise_error(PluttoErrors::InvalidTransition)
+      end
+    end
+  end
+
+  describe '#void' do
+    it 'changes status to voided' do
+      invoice.void!
+      expect(invoice.status).to eq('voided')
+    end
   end
 end
 # rubocop:enable RSpec/MultipleMemoizedHelpers
