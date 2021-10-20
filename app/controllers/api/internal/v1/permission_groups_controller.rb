@@ -20,6 +20,15 @@ class Api::Internal::V1::PermissionGroupsController < Api::Internal::V1::BaseCon
     respond_with(permission_group)
   end
 
+  def update
+    authorize permission_group
+    ActiveRecord::Base.transaction do
+      permission_group.permission_group_permissions.clear
+      permission_group.update!(permission_group_params)
+    end
+    respond_with(permission_group)
+  end
+
   private
 
   def permission_group_params

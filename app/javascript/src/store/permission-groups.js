@@ -85,7 +85,7 @@ export const actions = {
   UPDATE_PERMISSION_GROUP({ commit }, payload) {
     commit('setPermissionGroupsLoading', true);
 
-    return permissionGroupsApi.update(payload.id, payload)
+    return permissionGroupsApi.update(payload.permissionGroup.id, payload)
       .then((data) => {
         if (data.permissionGroup) commit('updatePermissionGroup', data.permissionGroup);
       })
