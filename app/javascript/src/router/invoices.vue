@@ -52,7 +52,7 @@ export default {
           title: 'status',
           type: 'tag',
           tags: {
-            new: 'purple',
+            created: 'purple',
             posted: 'blue',
             paid: 'green',
             notPaid: 'red',

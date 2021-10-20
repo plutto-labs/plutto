@@ -35,7 +35,7 @@ class AnalyticsService < PowerTypes::Service.new(:organization)
     {
       paid: invoices_amount_per_month(invoices.paid),
       not_paid: invoices_amount_per_month(invoices.not_paid),
-      new: invoices_amount_per_month(invoices.where(status: 'new')),
+      created: invoices_amount_per_month(invoices.where(status: 'created')),
       voided: invoices_amount_per_month(invoices.voided),
       posted: invoices_amount_per_month(invoices.posted),
       total: invoices_amount_per_month(invoices)

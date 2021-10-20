@@ -51,7 +51,7 @@ describe AnalyticsService do
         "Jul": 20000, "Aug": 40000, "Sep": 60000, "Oct": 0, "Nov": 0, "Dec": 0
       }.to_h
       expect(service.mrr_arr_per_month[:mrr].keys)
-        .to contain_exactly(:paid, :not_paid, :voided, :new, :posted)
+        .to contain_exactly(:paid, :not_paid, :voided, :created, :posted)
       expect(service.mrr_arr_per_month[:mrr][:paid].transform_keys(&:to_sym))
         .to eq(expected_paid_result)
     end

@@ -25,7 +25,7 @@ export default {
         none: '',
       },
       tags: {
-        new: 'New',
+        created: 'Created',
         posted: 'Posted',
         paid: 'Paid',
         notPaid: 'Not Paid',
@@ -57,7 +57,7 @@ export default {
     },
     invoices: {
       status: {
-        new: 'New',
+        created: 'Created',
         posted: 'Posted',
         paid: 'Paid',
         notPaid: 'Not Paid',
