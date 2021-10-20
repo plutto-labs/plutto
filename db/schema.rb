@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_19_190313) do
+ActiveRecord::Schema.define(version: 2021_10_20_204506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,7 +114,6 @@ ActiveRecord::Schema.define(version: 2021_10_19_190313) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "customer_id", null: false
-    t.string "status", default: "new"
     t.datetime "payed_at"
     t.integer "payment_method"
     t.integer "tax_type"
@@ -123,6 +122,7 @@ ActiveRecord::Schema.define(version: 2021_10_19_190313) do
     t.bigint "total_cents"
     t.bigint "net_cents", default: 0, null: false
     t.integer "currency"
+    t.integer "status", default: 0
     t.index ["billing_period_id"], name: "index_invoices_on_billing_period_id"
     t.index ["customer_id"], name: "index_invoices_on_customer_id"
   end

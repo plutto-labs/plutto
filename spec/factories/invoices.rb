@@ -5,7 +5,7 @@ FactoryBot.define do
     subtotal { usd(10) }
     discount { usd(0) }
     issue_date { Date.current }
-    status { 'new' }
+    status { 'created' }
     payed_at { Date.current }
     payment_method { 'bank_transfer' }
     tax_type { 'IVA' }

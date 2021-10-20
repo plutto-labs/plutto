@@ -13,9 +13,9 @@
             class="btn"
             v-for="event in invoice.permittedEvents"
             :key="event"
-            @click="changeInvoiceStatus(event.event)"
+            @click="changeInvoiceStatus(event)"
           >
-            {{ $t(`message.invoices.events.${event.event}`) }}
+            {{ $t(`message.invoices.events.${event}`) }}
           </button>
         </div>
         <div class="px-6 py-6 mt-3 bg-gray-600 rounded-lg">

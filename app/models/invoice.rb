@@ -1,6 +1,4 @@
 class Invoice < ApplicationRecord
-  include AASM
-
   default_scope { order(issue_date: :desc) }
 
   belongs_to :billing_period
@@ -12,45 +10,9 @@ class Invoice < ApplicationRecord
     with_model_currency: :currency
 
   enum currency: Currencies.keys
+  enum status: { created: 0, posted: 1, paid: 2, not_paid: 3, voided: 4 }
 
   before_validation :set_invoice_data
-
-  aasm(column: :status) do
-    state :new, initial: true
-    state :posted, :paid, :not_paid, :voided
-
-    event :post do
-      after do
-        send_to_customer
-      end
-
-      transitions from: :new, to: :posted
-    end
-
-    event :charge do
-      before do
-        unless customer.payment_methods.any?
-          detail = "No available payment methods for #{customer.name}"
-          raise(ApiException::Errors::UnprocessableEntity.new(detail: detail))
-        end
-
-        charge_customer(customer.payment_methods.last)
-      end
-      error do |e|
-        fail! unless status == 'not_paid'
-        raise e
-      end
-      transitions from: [:posted, :not_paid], to: :paid
-    end
-
-    event :fail do
-      transitions from: [:new, :posted], to: :not_paid
-    end
-
-    event :void do
-      transitions from: [:new, :posted, :not_paid], to: :voided
-    end
-  end
 
   enum tax_type: { IVA: 0, VAT: 1 }, _suffix: true
   enum payment_method: { bank_transfer: 0, credit: 1 }, _suffix: true
@@ -59,16 +21,22 @@ class Invoice < ApplicationRecord
     ['status']
   end
 
-  def change_status(event)
-    aasm.fire!(event.to_sym)
+  def change_status(new_status)
+    return post! if new_status == 'post'
+    return charge! if new_status == 'charge'
+    return void! if new_status == 'void'
   end
 
-  def send_to_customer
-    invoice_service.send_to_customer(self)
+  def post!
+    invoice_service.post!
   end
 
-  def charge_customer(payment_method)
-    invoice_service.charge(self, payment_method)
+  def charge!
+    invoice_service.charge!
+  end
+
+  def void!
+    update!(status: 'voided')
   end
 
   private
@@ -88,7 +56,7 @@ class Invoice < ApplicationRecord
   end
 
   def invoice_service
-    @invoice_service ||= InvoiceService.new
+    @invoice_service ||= InvoiceService.new(invoice: self)
   end
 end
 
@@ -106,7 +74,6 @@ end
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  customer_id         :string           not null
-#  status              :string           default("new")
 #  payed_at            :datetime
 #  payment_method      :integer
 #  tax_type            :integer
@@ -115,6 +82,7 @@ end
 #  total_cents         :bigint(8)
 #  net_cents           :bigint(8)        default(0), not null
 #  currency            :integer
+#  status              :integer          default("created")
 #
 # Indexes
 #

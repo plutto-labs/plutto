@@ -3,7 +3,7 @@ export default {
   methods: {
     invoiceStatusTags() {
       const tags = {
-        new: 'purple',
+        created: 'purple',
         posted: 'blue',
         paid: 'green',
         notPaid: 'red',

@@ -35,13 +35,13 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
         end
 
         context 'when filters are sent' do
-          let(:'q[status_eq]') { 'new' }
+          let(:'q[status_eq]') { 'created' }
 
-          before { create(:invoice, customer: customer, status: 'new') }
+          before { create(:invoice, customer: customer, status: 'created') }
 
           run_test! do |response|
             expect(JSON.parse(response.body)['invoices'].count).to eq(1)
-            expect(JSON.parse(response.body)['invoices'][0]['status']).to eq('new')
+            expect(JSON.parse(response.body)['invoices'][0]['status']).to eq('created')
           end
         end
       end

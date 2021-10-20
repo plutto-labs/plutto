@@ -23,9 +23,7 @@ class Api::Internal::V1::InvoiceSerializer < ActiveModel::Serializer
   end
 
   def permitted_events
-    object.aasm.permitted_transitions.map(
-      &(Proc.new { |hash| hash.transform_values { |value| value.to_s.camelize(:lower) } })
-    )
+    ['post', 'charge', 'void']
   end
 
   def show?
