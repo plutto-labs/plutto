@@ -18,7 +18,7 @@
             </label>
             <input
               class="mt-2 plutto-input__input"
-              v-model="newPermissionGroup.name"
+              v-model="permissionGroup.name"
             >
           </div>
         </div>
@@ -32,9 +32,9 @@
             </label>
             <PluttoDropdown
               class="w-32 mt-2 plutto-input"
-              :selected="newPermissionGroup.priceCurrency"
+              :selected="permissionGroup.priceCurrency"
               :options="CURRENCY_KEYS"
-              @selected="(priceCurrency) => newPermissionGroup.priceCurrency = priceCurrency"
+              @selected="(priceCurrency) => permissionGroup.priceCurrency = priceCurrency"
             />
           </div>
           <div class="w-full mr-8">
@@ -48,7 +48,7 @@
               <span class="plutto-input__icon">attach_money</span>
               <input
                 class="plutto-input__input"
-                v-model="newPermissionGroup.price"
+                v-model="permissionGroup.price"
               >
             </div>
           </div>
@@ -73,6 +73,7 @@
             type="checkbox"
             class="plutto-checkbox"
             :id="`${permission.id}`"
+            :checked="selectedPermissions[permission.id]"
             @change="toggleChecked(permission)"
           >
         </div>
@@ -98,9 +99,16 @@
       </div>
     </div>
     <div class="pt-5">
-      <div class="flex justify-end">
+      <div class="flex justify-end gap-8">
+        <button
+          class="btn btn--cancel"
+          v-if="editingPermissionGroup"
+          @click.prevent="deletePermissionGroup"
+        >
+          Delete
+        </button>
         <button class="btn">
-          Create Group
+          {{ editingPermissionGroup ? 'Edit Group' : 'Create Group' }}
         </button>
       </div>
     </div>
@@ -124,11 +132,19 @@ import { Form } from 'vee-validate';
 
 export default {
   components: { Form, PluttoDropdown, PluttoModal, PermissionForm },
+  props: {
+    editingPermissionGroup: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
-      newPermissionGroup: {
+      selected: true,
+      permissionGroup: {
         name: null,
         priceCurrency: 'CLP',
+        price: null,
       },
       addingPermission: false,
       selectedPermissions: {},
@@ -137,6 +153,20 @@ export default {
   },
   async beforeMount() {
     await this.$store.dispatch('GET_PERMISSIONS');
+
+    if (this.editingPermissionGroup) {
+      this.permissionGroup.name = this.editingPermissionGroup.name;
+      this.permissionGroup.price = this.editingPermissionGroup.price;
+      this.permissionGroup.currency = this.editingPermissionGroup.currency;
+
+      this.editingPermissionGroup.permissions.forEach(permission => {
+        this.selectedPermissions[permission.id] = {
+          limit: permission.limit,
+          permissionId: permission.id,
+          selected: true,
+        };
+      });
+    }
   },
   computed: {
     ...mapState({
@@ -146,11 +176,18 @@ export default {
   methods: {
     submit() {
       const permissionGroup = {
-        ...this.newPermissionGroup,
+        ...this.permissionGroup,
         permissionGroupPermissionsAttributes: Object.values(this.selectedPermissions),
       };
-      this.$store.dispatch('CREATE_PERMISSION_GROUP', { permissionGroup })
-        .then((newPermissionGroup) => this.$emit('created-permission-group', newPermissionGroup));
+
+      if (this.editingPermissionGroup) permissionGroup.id = this.editingPermissionGroup.id;
+      this.$store.dispatch(
+        `${this.editingPermissionGroup ? 'UPDATE' : 'CREATE'}_PERMISSION_GROUP`,
+        { permissionGroup },
+      ).then((group) => this.$emit(
+        'created-permission-group',
+        group,
+      ));
     },
     toggleChecked(permission) {
       if (this.selectedPermissions[permission.id]) {
@@ -158,6 +195,11 @@ export default {
       } else {
         this.selectedPermissions[permission.id] = { permissionId: permission.id, limit: null };
       }
+    },
+    deletePermissionGroup() {
+      this.$store.dispatch(
+        'DESTROY_PERMISSION_GROUP', this.editingPermissionGroup,
+      ).then(this.$emit('deleted-permission-group'));
     },
   },
 };

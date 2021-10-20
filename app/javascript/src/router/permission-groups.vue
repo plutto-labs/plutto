@@ -14,8 +14,14 @@
           :key="permissionGroup.id"
           class="relative px-6 py-8 border border-gray-600 rounded-lg"
         >
-          <div class="text-lg underline md:text-xl text-gray-50">
-            {{ permissionGroup.name }}
+          <div class="flex items-center gap-4">
+            <div class="text-lg underline md:text-xl text-gray-50">
+              {{ permissionGroup.name }}
+            </div>
+            <span
+              class="cursor-pointer plutto-icon text-primary"
+              @click="editPermissionGroup(permissionGroup)"
+            >edit</span>
           </div>
           <PluttoCopyableDiv
             class="text-xs text-gray-100"
@@ -61,10 +67,12 @@
     </div>
     <PluttoSlideover
       :showing="showPermissionGroupForm"
-      @close="showPermissionGroupForm = false"
+      @close="showPermissionGroupForm = false; editingPermissionGroup = null"
     >
       <PermissionGroupForm
-        @created-permission-group="permissionGroup => showPermissionGroupForm = false"
+        :editing-permission-group="editingPermissionGroup"
+        @created-permission-group="permissionGroup => {showPermissionGroupForm = false; editingPermissionGroup = null}"
+        @deleted-permission-group="showPermissionGroupForm = false; editingPermissionGroup = null"
         class="pb-8 mx-auto"
       />
     </PluttoSlideover>
@@ -85,6 +93,7 @@ export default {
   data() {
     return {
       showPermissionGroupForm: false,
+      editingPermissionGroup: null,
     };
   },
   computed: {
@@ -105,6 +114,10 @@ export default {
   methods: {
     destroyPermissionGroup(permissionGroup) {
       this.$store.dispatch('DESTROY_PERMISSION_GROUP', permissionGroup);
+    },
+    editPermissionGroup(permissionGroup) {
+      this.editingPermissionGroup = permissionGroup;
+      this.showPermissionGroupForm = true;
     },
   },
 };
