@@ -16,7 +16,7 @@ module ApiException::Errors
     def initialize(**kwargs)
       super(type: 'invalid_request_error', # :nocov:
             http_code: '422',
-            code: 'unprocessable entity',
+            code: 'unprocessable_entity',
             message: 'Your request was understood, but we were not able to process it. Please ' \
              'fix it before repeating',
             detail: kwargs[:detail],
