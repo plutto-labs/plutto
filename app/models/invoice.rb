@@ -1,4 +1,6 @@
 class Invoice < ApplicationRecord
+  include PowerTypes::Observable
+
   default_scope { order(issue_date: :desc) }
 
   VALID_ACTIONS = {
