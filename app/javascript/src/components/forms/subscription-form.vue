@@ -142,7 +142,7 @@
             class="w-full mt-2 plutto-input"
             selected="Pricing..."
             :options="pricingOptions(product)"
-            @selected="(pricingId) => selectedPricings[productId] = pricingId"
+            @selected="(pricingId) => selectedPricings[product.id] = pricingId"
           />
         </div>
       </div>
