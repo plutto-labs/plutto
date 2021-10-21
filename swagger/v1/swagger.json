@@ -1418,7 +1418,14 @@
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Search query"
+            "description": "Search by status"
+          },
+          {
+            "name": "q[customer_eq]",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Search by customer"
           }
         ],
         "security": [

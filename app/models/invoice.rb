@@ -27,8 +27,16 @@ class Invoice < ApplicationRecord
   enum tax_type: { IVA: 0, VAT: 1 }, _suffix: true
   enum payment_method: { bank_transfer: 0, credit: 1 }, _suffix: true
 
+  scope :customer_eq, ->(id) { includes(:customer).where(customers: { identifier: id }) }
+
+  ransacker :status, formatter: proc { |v| statuses[v] }
+
   def self.ransackable_attributes(_auth_object = nil)
     ['status']
+  end
+
+  def self.ransackable_scopes(_auth_object = nil)
+    [:customer_eq]
   end
 
   def change_status!(new_status)
