@@ -1,5 +1,9 @@
 class Api::V1::PermissionGroupSerializer < Api::BaseSerializer
-  attributes  :id, :name
+  attributes  :id, :name, :permissions
 
-  has_many :permission_group_permissions, serializer: Api::V1::PermissionGroupPermissionSerializer
+  def permissions
+    object.permission_group_permissions.map do |pgp|
+      Api::V1::PermissionGroupPermissionSerializer.new(pgp)
+    end
+  end
 end

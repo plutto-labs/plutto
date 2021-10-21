@@ -26,6 +26,7 @@ API_V1 = {
     meter_event_resource: METER_EVENT_RESOURCE_SCHEMA,
     permission_group: PERMISSION_GROUP_SCHEMA,
     permission_group_permission: PERMISSION_GROUP_PERMISSION_SCHEMA,
+    permission_groups_collection: PERMISSION_GROUPS_COLLECTION_SCHEMA,
     pricing: PRICING_SCHEMA,
     pricing_resource: PRICING_RESOURCE_SCHEMA,
     price_logic: PRICE_LOGIC_SCHEMA,

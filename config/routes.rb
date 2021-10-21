@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         patch 'remove_pricings', to: 'subscriptions#remove_pricings'
         patch 'end_subscription', to: 'subscriptions#end_subscription'
       end
+      resources :permission_groups, only: [:index]
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
