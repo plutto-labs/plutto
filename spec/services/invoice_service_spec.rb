@@ -3,6 +3,7 @@ describe InvoiceService do
   let(:kushki_service) { double }
   let(:subscription) { build(:subscription) }
   let(:billing_period) { build(:billing_period, subscription: subscription) }
+  let!(:payment_link) { nil }
   let(:invoice) do
     create(:invoice, billing_period: billing_period, customer: subscription.customer)
   end
@@ -17,13 +18,13 @@ describe InvoiceService do
         customer_name: invoice.customer.name,
         customer_organization: invoice.customer.organization.name,
         billing_information: invoice.customer.billing_information.serializable_hash,
-        payment_link: 'https://link.com'
+        payment_link: payment_link
       } }
   end
 
   before { allow(KushkiService).to receive(:new).and_return(kushki_service) }
 
-  describe '#send_to_customer' do
+  describe '#post' do
     before do
       allow(Analytics).to receive(:track).with(segment_info)
       allow(kushki_service).to receive(:enroll_link_for).with(invoice).and_return('https://link.com')
@@ -71,6 +72,8 @@ describe InvoiceService do
     end
 
     context 'when user does not have payment_methods' do
+      let!(:payment_link) { 'https://link.com' }
+
       before do
         customer.payment_methods.destroy_all
         allow(Analytics).to receive(:track).with(segment_info)
@@ -80,6 +83,11 @@ describe InvoiceService do
       it 'keeps status as posted' do
         invoice.change_status!('charge')
         expect(invoice.status).to eq('posted')
+      end
+
+      it 'send invoice email with payment_link' do
+        invoice.change_status!('charge')
+        expect(Analytics).to have_received(:track).with(segment_info)
       end
     end
 
