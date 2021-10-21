@@ -12,7 +12,7 @@ class Api::Internal::V1::InvoicesController < Api::Internal::V1::BaseController
 
   def change_status
     authorize(invoice)
-    invoice.change_status(event_param)
+    invoice.change_status!(event_param)
     respond_with(invoice, show: true)
   end
 

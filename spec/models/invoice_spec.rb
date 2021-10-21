@@ -44,12 +44,12 @@ RSpec.describe Invoice, type: :model do
     end
 
     it 'calls invoice_service.post' do
-      invoice.change_status('post')
+      invoice.change_status!('post')
       expect(invoice_service).to have_received(:post!)
     end
 
     it 'calls invoice_service.charge' do
-      invoice.change_status('charge')
+      invoice.change_status!('charge')
       expect(invoice_service).to have_received(:charge!)
     end
   end

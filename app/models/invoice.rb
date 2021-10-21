@@ -31,7 +31,7 @@ class Invoice < ApplicationRecord
     ['status']
   end
 
-  def change_status(new_status)
+  def change_status!(new_status)
     validate_transition!(status.to_sym, new_status)
     send("#{new_status}!")
   end
