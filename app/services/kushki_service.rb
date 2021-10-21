@@ -1,16 +1,18 @@
 class KushkiService
   def enroll(customer, params)
+    invoice = Invoice.find(params[:invoice_id])
     body = {
       token: params[:token],
       planName: 'Plutto',
       periodicity: 'custom',
       contactDetails: contact_details(customer),
-      amount: { subtotalIva: 0, subtotalIva0: 0, ice: 0, iva: 0, currency: params[:currency] },
+      amount: { subtotalIva: 0, subtotalIva0: 0, ice: 0, iva: 0, currency: invoice.currency },
       startDate: (Date.current + 1.day).to_s
     }
     res = client.post('/subscriptions/v1/card', body)
     if res.code == 201
-      create_payment_method(params[:token], res['subscriptionId'], customer, params[:currency])
+      create_payment_method(params[:token], res['subscriptionId'], customer, invoice.currency)
+      ChargeInvoiceJob.perform_later(invoice)
     end
     res
   end
