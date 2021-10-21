@@ -624,6 +624,24 @@
         "customers"
       ]
     },
+    "meter": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "event_80b199c7744342f3c5df8622",
+          "x-nullable": false
+        },
+        "name": {
+          "type": "string",
+          "example": "Some meter",
+          "x-nullable": false
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
     "meter_event": {
       "type": "object",
       "properties": {
@@ -747,7 +765,7 @@
           "example": "Pro",
           "x-nullable": false
         },
-        "permission_group_permissions": {
+        "permissions": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/permission_group_permission"
@@ -776,6 +794,20 @@
       "required": [
         "limit",
         "name"
+      ]
+    },
+    "permission_groups_collection": {
+      "type": "object",
+      "properties": {
+        "permission_groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/permission_group"
+          }
+        }
+      },
+      "required": [
+        "permission_groups"
       ]
     },
     "pricing": {
@@ -888,6 +920,48 @@
       },
       "required": [
         "price_logic"
+      ]
+    },
+    "product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "product_d4328039347671a0b4b07f3f",
+          "x-nullable": false
+        },
+        "name": {
+          "type": "string",
+          "example": "Api calls",
+          "x-nullable": false
+        },
+        "meter": {
+          "$ref": "#/definitions/meter"
+        },
+        "pricings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pricing"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "products_collection": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/product"
+          }
+        }
+      },
+      "required": [
+        "products"
       ]
     },
     "unauthorized_error": {
@@ -1450,6 +1524,72 @@
             "description": "meter_event created",
             "schema": {
               "$ref": "#/definitions/meter_event_resource"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/permission_groups": {
+      "get": {
+        "summary": "Retrieves Permission Groups",
+        "tags": [
+          "Permission Groups"
+        ],
+        "description": "Retrieves all the Permission Groups",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission Groups retrieved",
+            "schema": {
+              "$ref": "#/definitions/permission_groups_collection"
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "schema": {
+              "$ref": "#/definitions/unauthorized_error_resource"
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "Retrieves Products",
+        "tags": [
+          "Products"
+        ],
+        "description": "Retrieves all the Products",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products retrieved",
+            "schema": {
+              "$ref": "#/definitions/products_collection"
             }
           },
           "401": {
