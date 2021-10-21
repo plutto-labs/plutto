@@ -45,6 +45,7 @@ Rails.application.routes.draw do
         patch 'end_subscription', to: 'subscriptions#end_subscription'
       end
       resources :permission_groups, only: [:index]
+      resources :products, only: [:index]
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
