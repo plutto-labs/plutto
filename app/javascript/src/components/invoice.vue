@@ -32,7 +32,7 @@
               <dt class="md:text-right font-small">
                 <div
                   class="inline-flex px-4 py-1 text-xs font-semibold leading-5 rounded-full whitespace-nowrap"
-                  :class="`tag-color--${invoiceStatusTags()[invoice.status]}`"
+                  :class="`tag-color--${tagColor}`"
                 >
                   {{ $t(`message.invoices.status.${invoice.status}`) }}
                 </div>
@@ -47,7 +47,7 @@
               <dd class="mt-3 text-gray-300">
                 <span class="block">{{ invoice.customerName }}</span>
                 <span class="block">{{ invoice.customerEmail }}</span>
-                <span class="block">{{ invoice.billingInformation.taxId }}</span>
+                <span class="block">{{ invoice.billingInformation && invoice.billingInformation.taxId }}</span>
               </dd>
             </div>
             <div>
@@ -138,6 +138,13 @@ export default {
     return {
       dropdownOptions: ['new', 'posted', 'paid', 'not_paid', 'voided'],
       invoice: {},
+      tags: {
+        created: 'purple',
+        posted: 'blue',
+        paid: 'green',
+        notPaid: 'red',
+        voided: 'yellow',
+      },
     };
   },
   async beforeMount() {
@@ -152,20 +159,27 @@ export default {
       loading: state => state.invoices.loading,
       currentInvoice: state => state.invoices.currentInvoice,
     }),
+    tagColor() {
+      return this.tags[this.invoice.status];
+    },
   },
   methods: {
     async getInvoice(id) {
       await this.$store.dispatch('GET_INVOICE', id);
-      this.invoice = this.currentInvoice;
     },
     async changeInvoiceStatus(event) {
-      this.$store.dispatch('CHANGE_INVOICE_STATUS', {
+      await this.$store.dispatch('CHANGE_INVOICE_STATUS', {
         id: this.currentInvoice.id,
         event,
       });
     },
     totalAmount() {
       return parseFloat(this.currentInvoice.subtotal) + parseFloat(this.currentInvoice.tax);
+    },
+  },
+  watch: {
+    currentInvoice() {
+      this.invoice = this.currentInvoice;
     },
   },
 };

@@ -45,6 +45,11 @@ module Api::ErrorConcern
     rescue_from 'PluttoErrors::InvalidTransition' do |exception|
       respond_api_error(ApiException::Errors::BadRequest.new(detail: exception.to_s))
     end
+
+    rescue_from 'PluttoErrors::PaymentError' do |exception|
+      Raven.capture_exception(exception) if Rails.env.production?
+      respond_api_error(ApiException::Errors::BadRequest.new(detail: exception.to_s))
+    end
   end
 
   def respond_with_unauthorized(**kwargs)
