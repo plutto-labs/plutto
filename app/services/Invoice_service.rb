@@ -9,9 +9,10 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
   end
 
   def charge!
-    if @invoice.customer.payment_methods.any?
+    compatible_methods = @invoice.customer.payment_methods.where(currency: @invoice.currency)
+    if compatible_methods.any?
       begin
-        kushki.charge(@invoice.customer.payment_methods.first, @invoice)
+        kushki.charge(compatible_methods.first, @invoice)
       rescue PluttoErrors::PaymentError => e
         @invoice.update!(status: 'not_paid')
         raise e
