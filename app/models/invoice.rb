@@ -2,6 +2,7 @@ class Invoice < ApplicationRecord
   include AASM
 
   default_scope { order(issue_date: :desc) }
+  scope :unordered, -> { unscope(:order) }
 
   belongs_to :billing_period
   belongs_to :customer

@@ -43,7 +43,7 @@ class AnalyticsService < PowerTypes::Service.new(:organization)
   end
 
   def invoices_amount_per_month(collection)
-    group_by_date(collection).select('created_at, net_cents, issue_date').sum('net_cents')
+    group_by_date(collection).sum('net_cents')
   end
 
   def churn_rate
@@ -67,19 +67,19 @@ class AnalyticsService < PowerTypes::Service.new(:organization)
   end
 
   def invoices(currency)
-    @invoices ||= @organization.invoices.unscoped.where(currency: currency)
+    @invoices ||= @organization.invoices.unordered.where(currency: currency)
   end
 
   def subscriptions(currency = nil)
     @subscriptions ||= if currency
-                         @organization.subscriptions.unscoped.where(currency: currency)
+                         @organization.subscriptions.where(currency: currency)
                        else
-                         @organization.subscriptions.unscoped
+                         @organization.subscriptions
                        end
   end
 
   def customers
-    @customers ||= @organization.customers.unscoped
+    @customers ||= @organization.customers
   end
 
   def beginning_of_previous_month
