@@ -8,7 +8,6 @@ import store from '@/store';
 import Locales from '@/locales/locales.js';
 import FormatterMixin from '@/mixins/formatter-mixin';
 import Segment from '@/mixins/segment';
-import Tags from '@/mixins/tags';
 
 import '@/helpers/validation-rules.js';
 import '../css/application.css';
@@ -30,6 +29,5 @@ document.addEventListener('DOMContentLoaded', () => {
   app.use(i18n);
   app.mixin(FormatterMixin);
   app.mixin(Segment);
-  app.mixin(Tags);
   app.mount('#vue-app');
 });

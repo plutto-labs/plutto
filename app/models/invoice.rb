@@ -7,7 +7,7 @@ class Invoice < ApplicationRecord
     created: ['post', 'charge', 'void'],
     posted: ['post', 'charge', 'void'],
     paid: ['void'],
-    not_paid: ['paid', 'void'],
+    not_paid: ['charge', 'void'],
     voided: []
   }
 
@@ -60,9 +60,9 @@ class Invoice < ApplicationRecord
     billing_period&.subscription&.tax_rate || 0
   end
 
-  def validate_transition!(from, to)
-    unless VALID_ACTIONS[from.to_sym].include?(to.to_s)
-      raise PluttoErrors::InvalidTransition, "Invoice can't change from '#{from}' to '#{to}'"
+  def validate_transition!(status, action)
+    unless VALID_ACTIONS[status.to_sym].include?(action.to_s)
+      raise PluttoErrors::InvalidTransition, "Can't '#{action}' invoice with status '#{status}'"
     end
   end
 
