@@ -152,7 +152,7 @@ export default {
       this.error = null;
       this.loading = true;
       this.kushki.requestSubscriptionToken({
-        currency: 'USD',
+        currency: this.invoice.currency,
         card: { ...this.card, number: this.card.number.replace(/\s/g, '') },
       }, (response) => {
         if (response.code) {
@@ -162,7 +162,7 @@ export default {
       });
     },
     submitToken(token) {
-      paymentMethodsApi.create(this.customer.id, { gateway: 'kushki', token })
+      paymentMethodsApi.create(this.customer.id, { gateway: 'kushki', token, currency: this.invoice.currency })
         .then(() => (this.cardCreated = true))
         .catch(err => (this.error = err.response))
         .finally(() => (this.loading = false));

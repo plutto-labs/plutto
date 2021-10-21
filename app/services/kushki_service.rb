@@ -5,12 +5,12 @@ class KushkiService
       planName: 'Plutto',
       periodicity: 'custom',
       contactDetails: contact_details(customer),
-      amount: { subtotalIva: 0, subtotalIva0: 0, ice: 0, iva: 0, currency: 'CLP' },
+      amount: { subtotalIva: 0, subtotalIva0: 0, ice: 0, iva: 0, currency: params[:currency] },
       startDate: (Date.current + 1.day).to_s
     }
     res = client.post('/subscriptions/v1/card', body)
     if res.code == 201
-      create_payment_method(params[:token], res['subscriptionId'], customer)
+      create_payment_method(params[:token], res['subscriptionId'], customer, params[:currency])
     end
     res
   end
@@ -55,9 +55,9 @@ class KushkiService
 
   private
 
-  def create_payment_method(token, subscription_id, customer)
+  def create_payment_method(token, subscription_id, customer, currency)
     payment_method = customer.payment_methods.create!(
-      gateway: 'kushki', category: 'credit_card',
+      gateway: 'kushki', category: 'credit_card', currency: currency,
       gateway_info: { token: token, subscription_id: subscription_id }
     )
     update_payment_method_data(payment_method)
@@ -79,7 +79,10 @@ class KushkiService
   end
 
   def charge_amount(invoice)
-    { ice: 0, iva: 0, subtotalIva: 0, subtotalIva0: invoice.total.amount.to_f, currency: 'USD' }
+    {
+      ice: 0, iva: 0, subtotalIva: 0,
+      subtotalIva0: invoice.total.amount.to_f, currency: invoice.currency
+    }
   end
 
   def product_details(invoice)

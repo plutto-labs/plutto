@@ -3,8 +3,11 @@ describe InvoiceService do
   let(:kushki_service) { double }
   let(:subscription) { build(:subscription) }
   let(:billing_period) { build(:billing_period, subscription: subscription) }
+  let!(:payment_link) { nil }
   let(:invoice) do
-    create(:invoice, billing_period: billing_period, customer: subscription.customer)
+    create(
+      :invoice, billing_period: billing_period, customer: subscription.customer, currency: 'CLP'
+    )
   end
   let(:segment_info) do
     { user_id: invoice.customer.organization_id,
@@ -17,13 +20,13 @@ describe InvoiceService do
         customer_name: invoice.customer.name,
         customer_organization: invoice.customer.organization.name,
         billing_information: invoice.customer.billing_information.serializable_hash,
-        payment_link: 'https://link.com'
+        payment_link: payment_link
       } }
   end
 
   before { allow(KushkiService).to receive(:new).and_return(kushki_service) }
 
-  describe '#send_to_customer' do
+  describe '#post' do
     before do
       allow(Analytics).to receive(:track).with(segment_info)
       allow(kushki_service).to receive(:enroll_link_for).with(invoice).and_return('https://link.com')
@@ -36,14 +39,14 @@ describe InvoiceService do
   end
 
   describe '#charge' do
-    let(:payment_method) { create(:payment_method, customer: invoice.customer) }
     let!(:customer) { create(:customer, invoices: [invoice]) }
+    let!(:payment_method) do
+      create(:payment_method, customer: customer, currency: 'CLP')
+    end
 
     before { allow(kushki_service).to receive(:charge).with(payment_method, invoice) }
 
     context 'when user have payment_methods' do
-      let!(:payment_method) { create(:payment_method, customer: customer) }
-
       it 'calls charge on kushki_client' do
         invoice.change_status!('charge')
         expect(kushki_service).to have_received(:charge).with(payment_method, invoice)
@@ -53,6 +56,26 @@ describe InvoiceService do
         it 'changes status to paid' do
           invoice.change_status!('charge')
           expect(invoice.status).to eq('paid')
+        end
+      end
+
+      context 'when payment_method is for another currency' do
+        let!(:payment_link) { 'https://link.com' }
+
+        before do
+          payment_method.update(currency: 'USD')
+          allow(Analytics).to receive(:track).with(segment_info)
+          allow(kushki_service).to receive(:enroll_link_for).with(invoice).and_return('https://link.com')
+        end
+
+        it 'keeps status as posted' do
+          invoice.change_status!('charge')
+          expect(invoice.status).to eq('posted')
+        end
+
+        it 'send invoice email with payment_link' do
+          invoice.change_status!('charge')
+          expect(Analytics).to have_received(:track).with(segment_info)
         end
       end
 
@@ -71,6 +94,8 @@ describe InvoiceService do
     end
 
     context 'when user does not have payment_methods' do
+      let!(:payment_link) { 'https://link.com' }
+
       before do
         customer.payment_methods.destroy_all
         allow(Analytics).to receive(:track).with(segment_info)
@@ -80,6 +105,11 @@ describe InvoiceService do
       it 'keeps status as posted' do
         invoice.change_status!('charge')
         expect(invoice.status).to eq('posted')
+      end
+
+      it 'send invoice email with payment_link' do
+        invoice.change_status!('charge')
+        expect(Analytics).to have_received(:track).with(segment_info)
       end
     end
 

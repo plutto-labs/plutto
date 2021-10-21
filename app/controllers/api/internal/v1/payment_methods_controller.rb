@@ -7,7 +7,7 @@ class Api::Internal::V1::PaymentMethodsController < Api::Internal::V1::BaseContr
   private
 
   def payment_method_params
-    params.require(:payment_method).permit(:gateway, :token)
+    params.require(:payment_method).permit(:gateway, :token, :currency)
   end
 
   def service
