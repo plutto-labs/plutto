@@ -30,7 +30,7 @@ describe InvoiceService do
     end
 
     it 'send Segment event with correct data' do
-      invoice.post!
+      invoice.change_status('post')
       expect(Analytics).to have_received(:track).with(segment_info)
     end
   end
@@ -45,13 +45,13 @@ describe InvoiceService do
       let!(:payment_method) { create(:payment_method, customer: customer) }
 
       it 'calls charge on kushki_client' do
-        invoice.charge!
+        invoice.change_status('charge')
         expect(kushki_service).to have_received(:charge).with(payment_method, invoice)
       end
 
       context 'when payment succeeds' do
         it 'changes status to paid' do
-          invoice.charge!
+          invoice.change_status('charge')
           expect(invoice.status).to eq('paid')
         end
       end
@@ -63,7 +63,7 @@ describe InvoiceService do
         end
 
         it 'changes status to not_paid' do
-          expect { invoice.charge! }.to raise_error(PluttoErrors::PaymentError)
+          expect { invoice.change_status('charge') }.to raise_error(PluttoErrors::PaymentError)
 
           expect(invoice.status).to eq('not_paid')
         end
@@ -78,7 +78,7 @@ describe InvoiceService do
       end
 
       it 'keeps status as posted' do
-        invoice.charge!
+        invoice.change_status('charge')
         expect(invoice.status).to eq('posted')
       end
     end
@@ -87,14 +87,14 @@ describe InvoiceService do
       before { invoice.update(status: 'paid') }
 
       it 'raises PluttoErrors:InvalidTransition error' do
-        expect { invoice.charge! }.to raise_error(PluttoErrors::InvalidTransition)
+        expect { invoice.change_status('charge') }.to raise_error(PluttoErrors::InvalidTransition)
       end
     end
   end
 
   describe '#void' do
     it 'changes status to voided' do
-      invoice.void!
+      invoice.change_status('void')
       expect(invoice.status).to eq('voided')
     end
   end

@@ -32,10 +32,11 @@ class Invoice < ApplicationRecord
   end
 
   def change_status(new_status)
-    return post! if new_status == 'post'
-    return charge! if new_status == 'charge'
-    return void! if new_status == 'void'
+    validate_transition!(status.to_sym, new_status)
+    send("#{new_status}!")
   end
+
+  private
 
   def post!
     invoice_service.post!
@@ -49,8 +50,6 @@ class Invoice < ApplicationRecord
     invoice_service.void!
   end
 
-  private
-
   def set_invoice_data
     self.net = subtotal - discount
     self.tax = net * tax_rate
@@ -59,6 +58,12 @@ class Invoice < ApplicationRecord
 
   def tax_rate
     billing_period&.subscription&.tax_rate || 0
+  end
+
+  def validate_transition!(from, to)
+    unless VALID_ACTIONS[from.to_sym].include?(to.to_s)
+      raise PluttoErrors::InvalidTransition, "Invoice can't change from '#{from}' to '#{to}'"
+    end
   end
 
   def generate_id

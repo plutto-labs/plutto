@@ -52,6 +52,20 @@ RSpec.describe Api::Internal::V1::InvoicesController, type: :controller do
           expect(response).to have_http_status(:success)
         end
       end
+
+      context 'with invalid params' do
+        let(:event_params) { { event: 'destroy' } }
+
+        before { patch :change_status, format: :json,  params: event_params.merge(id: invoice.id) }
+
+        it 'returns http bad_request' do
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'wont perform destroy (or any other unvalid) action' do
+          expect(Invoice.exists?(invoice.id)).to be(true)
+        end
+      end
     end
 
     it_behaves_like 'unauthorized internal PATCH endpoint', :change_status do
