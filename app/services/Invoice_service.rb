@@ -23,18 +23,11 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
     end
   end
 
-  private
-
-  def post_if_configured
-    settings = customer.organization.settings
-    return unless settings
-
-    if settings['charge_invoices_automatically']
-      charge!
-    elsif settings['send_invoices_automatically']
-      post!
-    end
+  def void!
+    @invoice.update!(status: 'voided')
   end
+
+  private
 
   def invoice_properties
     {
