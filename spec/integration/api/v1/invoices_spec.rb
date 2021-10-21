@@ -12,7 +12,9 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
       description 'Retrieves all the invoices'
       produces 'application/json'
       parameter name: :'q[status_eq]', in: :query, type: :string, required: false,
-                description: 'Search query'
+                description: 'Search by status'
+      parameter name: :'q[customer_eq]', in: :query, type: :string, required: false,
+                description: 'Search by customer'
       security [Bearer: []]
 
       let(:collection_count) { 5 }
@@ -34,7 +36,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
           end
         end
 
-        context 'when filters are sent' do
+        context 'when status filters are sent' do
           let(:'q[status_eq]') { 'created' }
 
           before { create(:invoice, customer: customer, status: 'created') }
@@ -42,6 +44,20 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
           run_test! do |response|
             expect(JSON.parse(response.body)['invoices'].count).to eq(1)
             expect(JSON.parse(response.body)['invoices'][0]['status']).to eq('created')
+          end
+        end
+
+        context 'when customer filters are sent' do
+          let!(:filtering_customer) { create(:customer, organization: organization) }
+          let(:'q[customer_eq]') { filtering_customer.identifier }
+
+          before { create(:invoice, customer: filtering_customer) }
+
+          run_test! do |response|
+            expect(JSON.parse(response.body)['invoices'].count).to eq(1)
+            expect(JSON.parse(response.body)['invoices'][0]['customer_id']).to eq(
+              filtering_customer.id
+            )
           end
         end
       end
