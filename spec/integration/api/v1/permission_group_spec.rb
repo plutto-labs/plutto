@@ -24,7 +24,7 @@ describe 'API V1 Permission Groups', swagger_doc: 'v1/swagger.json' do
       end
 
       response '200', 'Permission Groups retrieved' do
-        schema('$ref' => '#/definitions/permission_groups_collection')
+        schema('$ref' => '#/components/schemas/permission_groups_collection')
         let(:Authorization) { "Bearer #{token}" }
 
         run_test! do |response|

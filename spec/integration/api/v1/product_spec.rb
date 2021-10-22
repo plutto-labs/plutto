@@ -24,7 +24,7 @@ describe 'API V1 Products', swagger_doc: 'v1/swagger.json' do
       end
 
       response '200', 'Products retrieved' do
-        schema('$ref' => '#/definitions/products_collection')
+        schema('$ref' => '#/components/schemas/products_collection')
         let(:Authorization) { "Bearer #{token}" }
 
         run_test! do |response|

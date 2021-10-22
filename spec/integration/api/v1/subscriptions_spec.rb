@@ -22,7 +22,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
       produces 'application/json'
       security [Bearer: []]
       parameter name: :subscription, in: :body,
-                schema: { '$ref': '#/definitions/subscription_create' }
+                schema: { '$ref': '#/components/schemas/subscription_create' }
 
       let(:bills_at) { 'end' }
       let(:permission_group) { create(:permission_group, organization: organization) }
@@ -38,7 +38,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
       end
 
       response '201', 'subscription created' do
-        schema('$ref' => '#/definitions/subscription_resource')
+        schema('$ref' => '#/components/schemas/subscription_resource')
         let(:Authorization) { "Bearer #{token}" }
 
         run_test!
@@ -59,7 +59,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
   end
 
   path '/subscriptions/{id}/end_subscription' do
-    parameter name: :id, in: :path, type: :string
+    parameter name: :id, in: :path, schema: { type: :string }
     let(:active) { true }
     let(:existent_subscription) do
       create(:subscription, customer: customer, active: active)
@@ -101,7 +101,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
   end
 
   path '/subscriptions/{id}/add_pricings' do
-    parameter name: :id, in: :path, type: :string
+    parameter name: :id, in: :path, schema: { type: :string }
     let(:existent_subscription) { create(:subscription, customer: customer, active: true) }
     let(:id) { existent_subscription.id }
 
@@ -112,13 +112,13 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
       produces 'application/json'
       security [Bearer: []]
       parameter name: :pricing_ids, in: :body,
-                schema: { '$ref': '#/definitions/subscription_edit_pricings' }
+                schema: { '$ref': '#/components/schemas/subscription_edit_pricings' }
 
       let(:pricing_ids) { { pricing_ids: pricings.map(&:id) } }
 
       context 'when subscription is active' do
         response '200', 'pricings added' do
-          schema('$ref' => '#/definitions/subscription_resource')
+          schema('$ref' => '#/components/schemas/subscription_resource')
           let(:Authorization) { "Bearer #{token}" }
 
           run_test! do |response|
@@ -131,7 +131,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
           let(:pricing_ids) { { pricing_ids: [pricings[0].id, pricings[0].id] } }
 
           response '200', 'pricings added' do
-            schema('$ref' => '#/definitions/subscription_resource')
+            schema('$ref' => '#/components/schemas/subscription_resource')
             let(:Authorization) { "Bearer #{token}" }
 
             run_test! do |response|
@@ -172,7 +172,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
   end
 
   path '/subscriptions/{id}/remove_pricings' do
-    parameter name: :id, in: :path, type: :string
+    parameter name: :id, in: :path, schema: { type: :string }
     let(:subscription) { create(:subscription, customer: customer, active: true) }
     let(:id) { subscription.id }
 
@@ -183,7 +183,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
       produces 'application/json'
       security [Bearer: []]
       parameter name: :pricing_ids, in: :body,
-                schema: { '$ref': '#/definitions/subscription_edit_pricings' }
+                schema: { '$ref': '#/components/schemas/subscription_edit_pricings' }
 
       let(:pricing_ids) { { pricing_ids: [pricings[0].id] } }
 
@@ -194,7 +194,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
         end
 
         response '200', 'pricings removed' do
-          schema('$ref' => '#/definitions/subscription_resource')
+          schema('$ref' => '#/components/schemas/subscription_resource')
           let(:Authorization) { "Bearer #{token}" }
 
           run_test! do |response|
