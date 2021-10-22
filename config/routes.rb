@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :invoices, only: [:index, :show]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
       resources :organizations, only: [:update]
+      resources :payments, only: [:index, :show]
       resources :permissions, only: [:index, :create]
       resources :permission_groups, only: [:index, :show, :create, :update, :destroy]
       resources :products, only: [:index, :show, :create, :update, :destroy] do
