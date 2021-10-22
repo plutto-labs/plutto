@@ -4,7 +4,7 @@
       <PluttoTabs
         :tabs="tabs"
         :selected-tab="selectedTab"
-        @tab-clicked="changeTab"
+        @tab-clicked="(tab) => $route.name === tab ? null : $router.push({ name: tab })"
       />
       <PluttoHeader
         class="w-full"
@@ -40,21 +40,32 @@ export default {
   components: {
     PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, All, Active, Trial,
   },
+  props: {
+    selectedTab: {
+      type: String,
+      default: 'all',
+    },
+  },
   data() {
     return {
       showNewCustomerForm: false,
       editingCustomer: null,
-      selectedTab: 'All',
-      tabs: [{ label: 'All', value: 'All' }, { label: 'Active', value: 'Active' }, { label: 'Trial', value: 'Trial' }],
+      tabs: [
+        { label: 'All', value: 'all' },
+        { label: 'Active', value: 'active' },
+        { label: 'Trial', value: 'trial' },
+      ],
+      components: {
+        all: 'All',
+        active: 'Active',
+        trial: 'Trial',
+      },
     };
   },
   methods: {
     editCustomer(customer) {
       this.editingCustomer = customer;
       this.showNewCustomerForm = true;
-    },
-    changeTab(tab) {
-      this.selectedTab = tab;
     },
   },
 };

@@ -78,6 +78,33 @@ const router = createRouter({
         authRequired: true,
       },
     }, {
+      path: '/customers/all',
+      name: 'all',
+      component: Customers,
+      props: { selectedTab: 'all' },
+      meta: {
+        title: 'Customers | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/customers/active',
+      name: 'active',
+      component: Customers,
+      props: { selectedTab: 'active' },
+      meta: {
+        title: 'Customers | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/customers/trial',
+      name: 'trial',
+      component: Customers,
+      props: { selectedTab: 'trial' },
+      meta: {
+        title: 'Customers | Plutto',
+        authRequired: true,
+      },
+    }, {
       path: '/customer/:id',
       name: 'customer',
       component: Customer,
