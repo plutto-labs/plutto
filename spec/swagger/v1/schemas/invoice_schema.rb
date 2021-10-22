@@ -63,7 +63,7 @@ INVOICES_COLLECTION_SCHEMA = {
   properties: {
     invoices: {
       type: "array",
-      items: { "$ref" => "#/definitions/invoice" }
+      items: { "$ref" => "#/components/schemas/invoice" }
     }
   },
   required: [
@@ -74,7 +74,7 @@ INVOICES_COLLECTION_SCHEMA = {
 INVOICE_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    invoice: { "$ref" => "#/definitions/invoice" }
+    invoice: { "$ref" => "#/components/schemas/invoice" }
   },
   required: [
     :invoice

@@ -7,7 +7,7 @@ PERMISSION_GROUP_SCHEMA = {
     name: { type: :string, example: 'Pro', 'x-nullable': false },
     permissions: {
       type: :array,
-      items: { "$ref" => "#/definitions/permission_group_permission" }
+      items: { "$ref" => "#/components/schemas/permission_group_permission" }
     }
   },
   required: [
@@ -19,7 +19,7 @@ PERMISSION_GROUP_SCHEMA = {
 PERMISSION_GROUP_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    permission_group: { "$ref" => "#/definitions/permission_group" }
+    permission_group: { "$ref" => "#/components/schemas/permission_group" }
   },
   required: [
     :permission_group
@@ -31,7 +31,7 @@ PERMISSION_GROUPS_COLLECTION_SCHEMA = {
   properties: {
     permission_groups: {
       type: "array",
-      items: { "$ref" => "#/definitions/permission_group" }
+      items: { "$ref" => "#/components/schemas/permission_group" }
     }
   },
   required: [

@@ -6,7 +6,7 @@ PRICING_SCHEMA = {
     currency: { type: :string, example: 'USD', 'x-nullable': false },
     product_id: { type: :string, example: 'product_ff3s803su47n71a0b4b07f3f', 'x-nullable': false },
     price_logics: {
-      type: :array, items: { "$ref" => "#/definitions/price_logic" }
+      type: :array, items: { "$ref" => "#/components/schemas/price_logic" }
     }
   },
   required: [
@@ -20,7 +20,7 @@ PRICING_SCHEMA = {
 PRICING_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    pricing: { "$ref" => "#/definitions/pricing" }
+    pricing: { "$ref" => "#/components/schemas/pricing" }
   },
   required: [
     :pricing
