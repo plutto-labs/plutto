@@ -49,7 +49,7 @@ export default {
       customers: state => state.customers.customers,
     }),
     customersRows() {
-      return this.customers.map((customer) => (
+      return this.sortedCustomers.map((customer) => (
         {
           email: customer.email,
           name: customer.name,
@@ -60,6 +60,11 @@ export default {
           product: this.productsString(customer.activeSubscription?.pricings),
         }
       ));
+    },
+    sortedCustomers() {
+      return [...this.customers].sort(
+        (a, b) => new Date(a.trialFinishesAt) - new Date(b.trialFinishesAt),
+      );
     },
   },
   async mounted() {
