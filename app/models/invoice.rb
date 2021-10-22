@@ -39,9 +39,9 @@ class Invoice < ApplicationRecord
     [:customer_eq]
   end
 
-  def change_status!(new_status)
-    validate_transition!(status.to_sym, new_status)
-    send("#{new_status}!")
+  def change_status!(action)
+    validate_transition!(status.to_sym, action)
+    send("#{action}!")
   end
 
   private

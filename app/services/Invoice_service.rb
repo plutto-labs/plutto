@@ -9,10 +9,10 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
   end
 
   def charge!
-    compatible_methods = @invoice.customer.payment_methods.where(currency: @invoice.currency)
-    if compatible_methods.any?
+    validate_enabled_currency!
+    if compatible_payment_methods.any?
       begin
-        kushki.charge(compatible_methods.first, @invoice)
+        kushki.charge(compatible_payment_methods.first, @invoice)
       rescue PluttoErrors::PaymentError => e
         @invoice.update!(status: 'not_paid')
         raise e
@@ -43,7 +43,19 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
     }
   end
 
+  def validate_enabled_currency!
+    return if VALID_CURRENCIES.include?(@invoice.currency)
+
+    raise PluttoErrors::PaymentError, "Only CLP and CLF invoices can be charged"
+  end
+
+  def compatible_payment_methods
+    @invoice.customer.payment_methods.where(currency: @invoice.currency)
+  end
+
   def kushki
     @kushki ||= KushkiService.new
   end
+
+  VALID_CURRENCIES = ['CLP', 'CLF']
 end

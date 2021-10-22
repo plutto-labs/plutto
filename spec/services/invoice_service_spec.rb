@@ -91,6 +91,13 @@ describe InvoiceService do
           expect(invoice.status).to eq('not_paid')
         end
       end
+
+      context 'when invoice is from unallowed currency' do
+        it 'raises PaymentError' do
+          invoice.update(currency: 'USD')
+          expect { invoice.change_status!('charge') }.to raise_error(PluttoErrors::PaymentError)
+        end
+      end
     end
 
     context 'when user does not have payment_methods' do

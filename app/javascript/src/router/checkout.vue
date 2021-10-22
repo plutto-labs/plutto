@@ -26,6 +26,7 @@
             :initial-invoice="invoice"
           />
           <button
+            v-if="this.invoice.status !== 'paid'"
             class="h-12 mt-8 btn btn--full btn--big btn--filled bg-primary"
             @click="reviewedInvoice = true"
           >
@@ -140,7 +141,8 @@ export default {
     }),
     /* eslint-disable no-magic-numbers*/
     currentStep() {
-      if (!this.reviewedInvoice) return 1;
+      if (this.invoice && this.invoice.status === 'paid') return 5;
+      else if (!this.reviewedInvoice) return 1;
       else if (!this.updatedBillingInfo) return 2;
       else if (!this.cardCreated) return 3;
 
@@ -162,7 +164,7 @@ export default {
       });
     },
     submitToken(token) {
-      paymentMethodsApi.create(this.customer.id, { gateway: 'kushki', token, currency: this.invoice.currency })
+      paymentMethodsApi.create(this.customer.id, { gateway: 'kushki', token, invoiceId: this.invoice.id })
         .then(() => (this.cardCreated = true))
         .catch(err => (this.error = err.response))
         .finally(() => (this.loading = false));
