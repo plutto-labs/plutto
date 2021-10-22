@@ -6,7 +6,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
   let!(:token) { api_key.token }
   let(:customer) { create(:customer, organization: organization) }
 
-  path '/invoices' do
+  path '/api/v1/invoices' do
     get 'Retrieves Invoices' do
       tags 'Invoices'
       description 'Retrieves all the invoices'
@@ -66,7 +66,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
     end
   end
 
-  path '/invoices/{id}' do
+  path '/api/v1/invoices/{id}' do
     parameter name: :id, in: :path, schema: { type: :integer }
 
     let(:existent_invoice) { create(:invoice, customer: customer) }

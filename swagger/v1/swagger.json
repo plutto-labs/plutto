@@ -4,13 +4,21 @@
     "title": "API V1",
     "version": "v1"
   },
-  "basePath": "/api/v1",
   "servers": [
     {
-      "url": "https://{environment}.getplutto.com/api/v1",
+      "url": "https://sandbox.getplutto.com",
+      "description": "Sandbox server (uses test data)"
+    },
+    {
+      "url": "https://app.getplutto.com",
+      "description": "Production server (uses live data)"
+    },
+    {
+      "url": "http://localhost:{port}",
+      "description": "Local server (uses local data)",
       "variables": {
-        "environment": {
-          "default": "sandbox"
+        "port": {
+          "default": "3000"
         }
       }
     }
@@ -1149,13 +1157,12 @@
     "securitySchemes": {
       "Bearer": {
         "type": "http",
-        "scheme": "bearer",
-        "in": "header"
+        "scheme": "bearer"
       }
     }
   },
   "paths": {
-    "/customers": {
+    "/api/v1/customers": {
       "get": {
         "summary": "Retrieves Customers",
         "tags": [
@@ -1251,7 +1258,7 @@
         }
       }
     },
-    "/customers/{id}": {
+    "/api/v1/customers/{id}": {
       "parameters": [
         {
           "name": "id",
@@ -1395,7 +1402,7 @@
         }
       }
     },
-    "/customers/{id}/has_permission/{permission_name}": {
+    "/api/v1/customers/{id}/has_permission/{permission_name}": {
       "parameters": [
         {
           "name": "id",
@@ -1460,7 +1467,7 @@
         }
       }
     },
-    "/invoices": {
+    "/api/v1/invoices": {
       "get": {
         "summary": "Retrieves Invoices",
         "tags": [
@@ -1518,7 +1525,7 @@
         }
       }
     },
-    "/invoices/{id}": {
+    "/api/v1/invoices/{id}": {
       "parameters": [
         {
           "name": "id",
@@ -1575,7 +1582,7 @@
         }
       }
     },
-    "/meter_events": {
+    "/api/v1/meter_events": {
       "post": {
         "summary": "Creates Meter Event",
         "tags": [
@@ -1625,7 +1632,7 @@
         }
       }
     },
-    "/permission_groups": {
+    "/api/v1/permission_groups": {
       "get": {
         "summary": "Retrieves Permission Groups",
         "tags": [
@@ -1663,7 +1670,7 @@
         }
       }
     },
-    "/products": {
+    "/api/v1/products": {
       "get": {
         "summary": "Retrieves Products",
         "tags": [
@@ -1701,7 +1708,7 @@
         }
       }
     },
-    "/subscriptions": {
+    "/api/v1/subscriptions": {
       "post": {
         "summary": "Creates Subscription",
         "tags": [
@@ -1761,7 +1768,7 @@
         }
       }
     },
-    "/subscriptions/{id}/end_subscription": {
+    "/api/v1/subscriptions/{id}/end_subscription": {
       "parameters": [
         {
           "name": "id",
@@ -1822,7 +1829,7 @@
         }
       }
     },
-    "/subscriptions/{id}/add_pricings": {
+    "/api/v1/subscriptions/{id}/add_pricings": {
       "parameters": [
         {
           "name": "id",
@@ -1902,7 +1909,7 @@
         }
       }
     },
-    "/subscriptions/{id}/remove_pricings": {
+    "/api/v1/subscriptions/{id}/remove_pricings": {
       "parameters": [
         {
           "name": "id",

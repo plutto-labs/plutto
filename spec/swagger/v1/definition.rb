@@ -4,13 +4,19 @@ API_V1 = {
     title: 'API V1',
     version: 'v1'
   },
-  basePath: '/api/v1',
   servers: [
     {
-      url: 'https://{environment}.getplutto.com/api/v1',
+      url: 'https://sandbox.getplutto.com',
+      description: 'Sandbox server (uses test data)'
+    }, {
+      url: 'https://app.getplutto.com',
+      description: 'Production server (uses live data)'
+    }, {
+      url: 'http://localhost:{port}',
+      description: 'Local server (uses local data)',
       variables: {
-        environment: {
-          default: 'sandbox'
+        port: {
+          default: '3000'
         }
       }
     }
@@ -54,8 +60,7 @@ API_V1 = {
     securitySchemes: {
       Bearer: {
         type: :http,
-        scheme: :bearer,
-        in: :header
+        scheme: :bearer
       }
     }
   }

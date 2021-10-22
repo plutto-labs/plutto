@@ -7,7 +7,7 @@ describe 'API V1 Meter Events', swagger_doc: 'v1/swagger.json' do
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
 
-  path '/meter_events' do
+  path '/api/v1/meter_events' do
     post 'Creates Meter Event' do
       tags 'Meter Event'
       description 'Creates Meter Event'

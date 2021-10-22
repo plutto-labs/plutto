@@ -13,7 +13,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
     ]
   end
 
-  path '/subscriptions' do
+  path '/api/v1/subscriptions' do
     post 'Creates Subscription' do
       tags 'Subscription'
       description "Creates Subscription for one or more products \n\n"\
@@ -58,7 +58,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
     end
   end
 
-  path '/subscriptions/{id}/end_subscription' do
+  path '/api/v1/subscriptions/{id}/end_subscription' do
     parameter name: :id, in: :path, schema: { type: :string }
     let(:active) { true }
     let(:existent_subscription) do
@@ -100,7 +100,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
     end
   end
 
-  path '/subscriptions/{id}/add_pricings' do
+  path '/api/v1/subscriptions/{id}/add_pricings' do
     parameter name: :id, in: :path, schema: { type: :string }
     let(:existent_subscription) { create(:subscription, customer: customer, active: true) }
     let(:id) { existent_subscription.id }
@@ -171,7 +171,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
     end
   end
 
-  path '/subscriptions/{id}/remove_pricings' do
+  path '/api/v1/subscriptions/{id}/remove_pricings' do
     parameter name: :id, in: :path, schema: { type: :string }
     let(:subscription) { create(:subscription, customer: customer, active: true) }
     let(:id) { subscription.id }

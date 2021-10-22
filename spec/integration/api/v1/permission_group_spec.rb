@@ -5,7 +5,7 @@ describe 'API V1 Permission Groups', swagger_doc: 'v1/swagger.json' do
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
 
-  path '/permission_groups' do
+  path '/api/v1/permission_groups' do
     get 'Retrieves Permission Groups' do
       tags 'Permission Groups'
       description 'Retrieves all the Permission Groups'

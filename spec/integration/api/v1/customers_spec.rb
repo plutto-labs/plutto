@@ -20,7 +20,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       } }
   end
 
-  path '/customers' do
+  path '/api/v1/customers' do
     get 'Retrieves Customers' do
       tags 'Customers'
       description 'Retrieves all the customers'
@@ -50,7 +50,9 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: []]
-      parameter name: :customer, in: :body, schema: { '$ref': '#/components/schemas/customer_create' }
+      parameter name: :customer, in: :body, schema: {
+        '$ref': '#/components/schemas/customer_create'
+      }
 
       response '201', 'customer created' do
         schema('$ref' => '#/components/schemas/customer_resource')
@@ -78,7 +80,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
     end
   end
 
-  path '/customers/{id}' do
+  path '/api/v1/customers/{id}' do
     parameter name: :id, in: :path, schema: { type: :string }
 
     let(:existent_customer) { create(:customer, organization: organization) }
@@ -106,7 +108,9 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
       consumes 'application/json'
       produces 'application/json'
       security [Bearer: []]
-      parameter name: :customer, in: :body, schema: { '$ref': '#/components/schemas/customer_update' }
+      parameter name: :customer, in: :body, schema: {
+        '$ref': '#/components/schemas/customer_update'
+      }
 
       response '200', 'customer updated' do
         schema('$ref' => '#/components/schemas/customer_resource')
@@ -141,7 +145,7 @@ describe 'API V1 Customers', swagger_doc: 'v1/swagger.json' do
     end
   end
 
-  path '/customers/{id}/has_permission/{permission_name}' do
+  path '/api/v1/customers/{id}/has_permission/{permission_name}' do
     parameter name: :id, in: :path, schema: { type: :string }
     parameter name: :permission_name, in: :path, schema: { type: :string }
 

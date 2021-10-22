@@ -5,7 +5,7 @@ describe 'API V1 Products', swagger_doc: 'v1/swagger.json' do
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
 
-  path '/products' do
+  path '/api/v1/products' do
     get 'Retrieves Products' do
       tags 'Products'
       description 'Retrieves all the Products'
