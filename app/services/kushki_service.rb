@@ -32,7 +32,8 @@ class KushkiService
       )
     end
 
-    raise PluttoErrors::PaymentError, "Kushki Error: #{res['details']['response_text']}"
+    raise PluttoErrors::PaymentError,
+          "Kushki Error: #{res.dig('details', 'response_text') || res.dig('message')}"
   end
 
   def update_payment_method_data(payment_method)
