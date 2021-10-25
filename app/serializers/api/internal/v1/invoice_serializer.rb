@@ -23,7 +23,11 @@ class Api::Internal::V1::InvoiceSerializer < ActiveModel::Serializer
   end
 
   def permitted_events
-    Invoice::VALID_ACTIONS[object.status.to_sym]
+    # TEMP
+    # Invoice::VALID_ACTIONS[object.status.to_sym]
+    events = Invoice::VALID_ACTIONS[object.status.to_sym]
+    events.delete('charge')
+    events
   end
 
   def show?

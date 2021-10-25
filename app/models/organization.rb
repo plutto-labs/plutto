@@ -10,6 +10,7 @@ class Organization < ApplicationRecord
   has_many :api_keys, as: :bearer, dependent: :destroy
 
   validates :name, presence: true
+  validate :prevent_automatic_charge
   resourcify
 
   after_save :identify_organization
@@ -27,6 +28,13 @@ class Organization < ApplicationRecord
       user_id:  id,
       traits: { name: name, created_at: created_at }
     )
+  end
+
+  # TEMP
+  def prevent_automatic_charge
+    if settings && settings['charge_invoices_automatically']
+      errors.add(:settings, 'cannot charge invoices automatically, yet')
+    end
   end
 
   def generate_id
