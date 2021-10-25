@@ -82,7 +82,7 @@ import { ref } from 'vue';
 import { mapState } from 'vuex';
 
 const navigation = [
-  { label: 'Customers', path: '/customers', matchingRoutes: ['customers'] },
+  { label: 'Customers', path: '/customers', matchingRoutes: ['customers', 'customer'] },
   { label: 'Business Model', path: '/business-model', matchingRoutes: ['permission-groups', 'products', 'meters'] },
   { label: 'Payments', path: '/payments', matchingRoutes: ['invoices', 'transactions', 'payment-settings'] },
   { label: 'Analytics', path: '/analytics', matchingRoutes: ['analytics'] },
