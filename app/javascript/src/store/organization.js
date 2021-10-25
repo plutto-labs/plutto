@@ -24,6 +24,9 @@ export const actions = {
         if (res.organization) {
           commit('setOrganizationData', res.organization);
         }
+      })
+      .catch((err) => {
+        commit('setError', err);
       });
   },
 };

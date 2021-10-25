@@ -6,12 +6,12 @@
       </p>
     </div>
     <div
-      v-if="settings"
+      v-if="newSettings"
       class="mt-6"
     >
       <div class="flex flex-row-reverse items-center justify-end">
         <label
-          for="autocollect"
+          for="autopost"
           class="ml-4"
         >
           Post invoices automatically
@@ -22,8 +22,8 @@
         <input
           class="plutto-checkbox"
           type="checkbox"
-          v-model="settings.sendInvoicesAutomatically"
-          id="autocollect"
+          v-model="newSettings.sendInvoicesAutomatically"
+          id="autopost"
           @change="updateSettings"
         >
       </div>
@@ -40,8 +40,9 @@
         <input
           class="plutto-checkbox"
           type="checkbox"
-          v-model="settings.chargeInvoicesAutomatically"
+          v-model="newSettings.chargeInvoicesAutomatically"
           id="autocollect"
+          disabled
           @change="updateSettings"
         >
       </div>
@@ -53,9 +54,18 @@
 import { mapState } from 'vuex';
 
 export default {
+  data() {
+    return {
+      newSettings: null,
+    };
+  },
+  beforeMount() {
+    this.newSettings = { ...this.settings };
+  },
   methods: {
-    updateSettings() {
-      this.$store.dispatch('UPDATE_SETTINGS', { ...this.organization, settings: this.settings });
+    async updateSettings() {
+      await this.$store.dispatch('UPDATE_SETTINGS', { ...this.organization, settings: this.newSettings });
+      this.newSettings = { ...this.settings };
     },
   },
   computed: {
