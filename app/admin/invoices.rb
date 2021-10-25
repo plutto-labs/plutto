@@ -1,4 +1,5 @@
 ActiveAdmin.register Invoice do
+  permit_params :status
   belongs_to :customer, optional: true
   includes :customer
 
@@ -6,6 +7,7 @@ ActiveAdmin.register Invoice do
     id_column
     column :customer
     column :subtotal
+    column :status
     column :created_at
     actions
   end
