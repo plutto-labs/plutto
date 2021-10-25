@@ -83,5 +83,9 @@ export default {
       margin-left: 1.5px;
     }
   }
+
+  &:disabled {
+    @apply opacity-50 bg-gray-500 cursor-not-allowed;
+  }
 }
 </style>
