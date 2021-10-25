@@ -11,14 +11,6 @@ API_V1 = {
     }, {
       url: 'https://app.getplutto.com',
       description: 'Production server (uses live data)'
-    }, {
-      url: 'http://localhost:{port}',
-      description: 'Local server (uses local data)',
-      variables: {
-        port: {
-          default: '3000'
-        }
-      }
     }
   ],
   components: {
