@@ -47,7 +47,7 @@ METER_EVENT_CREATE_SCHEMA = {
 METER_EVENT_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    meter_event: { "$ref" => "#/definitions/meter_event" }
+    meter_event: { "$ref" => "#/components/schemas/meter_event" }
   },
   required: [
     :meter_event

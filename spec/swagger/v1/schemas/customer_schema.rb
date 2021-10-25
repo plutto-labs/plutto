@@ -22,7 +22,7 @@ CUSTOMER_SCHEMA = {
     subscription: {
       type: :object,
       properties: {
-        customer: { "$ref" => "#/definitions/subscription" }
+        customer: { "$ref" => "#/components/schemas/subscription" }
       },
       'x-nullable': true
     },
@@ -96,7 +96,7 @@ CUSTOMERS_COLLECTION_SCHEMA = {
   properties: {
     customers: {
       type: "array",
-      items: { "$ref" => "#/definitions/customer_index" }
+      items: { "$ref" => "#/components/schemas/customer_index" }
     }
   },
   required: [
@@ -107,7 +107,7 @@ CUSTOMERS_COLLECTION_SCHEMA = {
 CUSTOMER_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    customer: { "$ref" => "#/definitions/customer" }
+    customer: { "$ref" => "#/components/schemas/customer" }
   },
   required: [
     :customer

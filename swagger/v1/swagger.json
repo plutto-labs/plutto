@@ -1,1160 +1,1165 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "API V1",
     "version": "v1"
   },
-  "basePath": "/api/v1",
-  "host": "sandbox.getplutto.com",
-  "definitions": {
-    "invoice": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "1",
-          "x-nullable": false
+  "servers": [
+    {
+      "url": "https://sandbox.getplutto.com",
+      "description": "Sandbox server (uses test data)"
+    },
+    {
+      "url": "https://app.getplutto.com",
+      "description": "Production server (uses live data)"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "invoice": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1",
+            "x-nullable": false
+          },
+          "subtotal_cents": {
+            "type": "integer",
+            "example": 10000,
+            "x-nullable": false
+          },
+          "tax_cents": {
+            "type": "integer",
+            "example": 190,
+            "x-nullable": true
+          },
+          "discount_cents": {
+            "type": "integer",
+            "example": 0,
+            "x-nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD",
+            "x-nullable": false
+          },
+          "issue_date": {
+            "type": "string",
+            "example": "2020-01-01T00:00:00.000Z",
+            "x-nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "total_price_cents": {
+                  "type": "integer",
+                  "x-nullable": true
+                },
+                "meter": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "quantity": {
+                  "type": "integer",
+                  "x-nullable": true
+                }
+              }
+            },
+            "example": "[{ type: 'flat_fee', total_price_cents: 100 },\n      { type: 'volume', total_price_cents: 25000, meter: 'Requests', quantity: 250.0 }]",
+            "x-nullable": false
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2020-01-01T00:00:00.000Z",
+            "x-nullable": true
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2020-01-01T00:00:00.000Z",
+            "x-nullable": true
+          },
+          "customer_id": {
+            "type": "string",
+            "example": "customer_d43280e9377673a0b4b07f31",
+            "x-nullable": false
+          },
+          "status": {
+            "type": "string",
+            "example": "paid",
+            "x-nullable": false
+          },
+          "payed_at": {
+            "type": "string",
+            "example": "2020-01-01T00:00:00.000Z",
+            "x-nullable": true
+          },
+          "payment_method": {
+            "type": "string",
+            "example": "bank_transfer",
+            "x-nullable": true
+          },
+          "tax_type": {
+            "type": "string",
+            "example": "VAT",
+            "x-nullable": true
+          },
+          "document_id": {
+            "type": "string",
+            "example": "some-id",
+            "x-nullable": true
+          },
+          "billing_information": {
+            "type": "object",
+            "example": "{'customer': customer,\n      'city': 'Santiago',\n      'country_iso_code': 'CHL',\n      'state': 'Metropolitana',\n      'address': 'Av. Las Condes',\n      'zip': '12345',\n      'tax_id': '73245432-1',\n      'phone': '9550898',\n      'legal_name': 'Plutto Inc'}",
+            "x-nullable": true
+          }
         },
-        "subtotal_cents": {
-          "type": "integer",
-          "example": 10000,
-          "x-nullable": false
+        "required": [
+          "id",
+          "subtotal_cents",
+          "tax_cents",
+          "discount_cents",
+          "currency",
+          "issue_date",
+          "details",
+          "created_at",
+          "customer_id",
+          "status",
+          "payment_method",
+          "tax_type",
+          "billing_information"
+        ]
+      },
+      "invoice_resource": {
+        "type": "object",
+        "properties": {
+          "invoice": {
+            "$ref": "#/components/schemas/invoice"
+          }
         },
-        "tax_cents": {
-          "type": "integer",
-          "example": 190,
-          "x-nullable": true
+        "required": [
+          "invoice"
+        ]
+      },
+      "invoices_collection": {
+        "type": "object",
+        "properties": {
+          "invoices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/invoice"
+            }
+          }
         },
-        "discount_cents": {
-          "type": "integer",
-          "example": 0,
-          "x-nullable": true
+        "required": [
+          "invoices"
+        ]
+      },
+      "subscription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "subscription_80b199c7744342f3c5df8622",
+            "x-nullable": false
+          },
+          "customer_id": {
+            "type": "string",
+            "example": "customer_5198c6ad60c3363b089a1421",
+            "x-nullable": false
+          },
+          "pricings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pricing"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "example": "1984-06-04 09:00",
+            "x-nullable": false
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "1984-06-04 09:00",
+            "x-nullable": true
+          },
+          "active": {
+            "type": "boolean",
+            "example": true,
+            "x-nullable": false
+          },
+          "trial_finishes_at": {
+            "type": "string",
+            "example": "1984-06-04 09:00",
+            "x-nullable": true,
+            "format": "date"
+          },
+          "bills_at": {
+            "type": "string",
+            "example": "end",
+            "x-nullable": false,
+            "enum": [
+              "start",
+              "end"
+            ],
+            "description": "choose wether the subscription should be billed at the start or end of the period. Note that usage based subscriptions are can only be billed at the end of the period."
+          },
+          "billing_period_duration": {
+            "type": "string",
+            "example": "P0Y1M0DT0H0M0S",
+            "x-nullable": false,
+            "description": "ISO 8601 duration for a billing period"
+          },
+          "permission_group": {
+            "$ref": "#/components/schemas/permission_group"
+          }
         },
-        "currency": {
-          "type": "string",
-          "example": "USD",
-          "x-nullable": false
+        "required": [
+          "id",
+          "customer_id",
+          "pricings",
+          "created_at",
+          "active",
+          "bills_at",
+          "billing_period_duration"
+        ]
+      },
+      "subscription_create": {
+        "type": "object",
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "example": "customer_5198c6ad60c3363b089a1421",
+            "x-nullable": false
+          },
+          "pricing_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "pricing_5198c6ad60c3363b089a1422"
+            },
+            "x-nullable": false
+          },
+          "trial_finishes_at": {
+            "type": "string",
+            "example": "1984-06-04 09:00",
+            "x-nullable": true,
+            "format": "date"
+          },
+          "bills_at": {
+            "type": "string",
+            "example": "end",
+            "x-nullable": false,
+            "enum": [
+              "start",
+              "end"
+            ],
+            "description": "choose wether the subscription should be billed at the start or end of the period. Note that usage based subscriptions are can only be billed at the end of the period."
+          },
+          "billing_period_duration": {
+            "type": "string",
+            "example": "P0Y1M0DT0H0M0S",
+            "x-nullable": false,
+            "description": "ISO 8601 duration for a billing period"
+          },
+          "permission_group_id": {
+            "type": "string",
+            "example": "permission_group_5436c6ad60c3363b089a9876",
+            "x-nullable": true
+          }
         },
-        "issue_date": {
-          "type": "string",
-          "example": "2020-01-01T00:00:00.000Z",
-          "x-nullable": true
+        "required": [
+          "customer_id",
+          "pricing_ids",
+          "billing_period_duration",
+          "bills_at"
+        ]
+      },
+      "subscription_resource": {
+        "type": "object",
+        "properties": {
+          "subscription": {
+            "$ref": "#/components/schemas/subscription"
+          }
         },
-        "details": {
-          "type": "array",
-          "items": {
+        "required": [
+          "subscription"
+        ]
+      },
+      "subscription_edit_pricings": {
+        "type": "object",
+        "properties": {
+          "pricing_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "pricing_5198c6ad60c3363b089a1422",
+              "x-nullable": false
+            }
+          }
+        },
+        "required": [
+          "pricing_ids"
+        ]
+      },
+      "customer": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "example": "your-id_12885305",
+            "x-nullable": true
+          },
+          "email": {
+            "type": "string",
+            "example": "donald@getplutto.com",
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "donald",
+            "x-nullable": true
+          },
+          "subscription": {
+            "type": "object",
             "properties": {
-              "type": {
+              "customer": {
+                "$ref": "#/components/schemas/subscription"
+              }
+            },
+            "x-nullable": true
+          },
+          "billing_information": {
+            "type": "object",
+            "x-nullable": true,
+            "properties": {
+              "city": {
                 "type": "string",
+                "example": "Santiago",
                 "x-nullable": true
               },
-              "total_price_cents": {
-                "type": "integer",
-                "x-nullable": true
-              },
-              "meter": {
+              "country_iso_code": {
                 "type": "string",
+                "example": "CL",
+                "x-nullable": false
+              },
+              "state": {
+                "type": "string",
+                "example": "Metropolitana",
                 "x-nullable": true
               },
-              "quantity": {
-                "type": "integer",
+              "billing_address": {
+                "type": "string",
+                "example": "Av. Las Condes",
+                "x-nullable": true
+              },
+              "zip": {
+                "type": "string",
+                "example": "12345",
+                "x-nullable": true
+              },
+              "tax_id": {
+                "type": "string",
+                "example": "73245432-1",
+                "x-nullable": true
+              },
+              "legal_name": {
+                "type": "string",
+                "example": "Plutto Inc",
+                "x-nullable": true
+              },
+              "activity": {
+                "type": "string",
+                "example": "Software Development",
+                "x-nullable": true
+              },
+              "phone": {
+                "type": "string",
+                "example": "+56992680522",
                 "x-nullable": true
               }
             }
+          }
+        },
+        "required": [
+          "email",
+          "billing_information"
+        ]
+      },
+      "customer_index": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "customer_d43280e9377673a0b4b07f31",
+            "x-nullable": false
           },
-          "example": "[{ type: 'flat_fee', total_price_cents: 100 },\n      { type: 'volume', total_price_cents: 25000, meter: 'Requests', quantity: 250.0 }]",
-          "x-nullable": false
+          "email": {
+            "type": "string",
+            "example": "donald@getplutto.com",
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "donald",
+            "x-nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2020-01-01T00:00:00.000Z",
+            "x-nullable": true,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2020-01-01T00:00:00.000Z",
+            "x-nullable": true,
+            "format": "date-time"
+          },
+          "identifier": {
+            "type": "string",
+            "example": "your-id_12885305",
+            "x-nullable": true
+          }
         },
-        "created_at": {
-          "type": "string",
-          "example": "2020-01-01T00:00:00.000Z",
-          "x-nullable": true
-        },
-        "updated_at": {
-          "type": "string",
-          "example": "2020-01-01T00:00:00.000Z",
-          "x-nullable": true
-        },
-        "customer_id": {
-          "type": "string",
-          "example": "customer_d43280e9377673a0b4b07f31",
-          "x-nullable": false
-        },
-        "status": {
-          "type": "string",
-          "example": "paid",
-          "x-nullable": false
-        },
-        "payed_at": {
-          "type": "string",
-          "example": "2020-01-01T00:00:00.000Z",
-          "x-nullable": true
-        },
-        "payment_method": {
-          "type": "string",
-          "example": "bank_transfer",
-          "x-nullable": true
-        },
-        "tax_type": {
-          "type": "string",
-          "example": "VAT",
-          "x-nullable": true
-        },
-        "document_id": {
-          "type": "string",
-          "example": "some-id",
-          "x-nullable": true
-        },
-        "billing_information": {
-          "type": "object",
-          "example": "{'customer': customer,\n      'city': 'Santiago',\n      'country_iso_code': 'CHL',\n      'state': 'Metropolitana',\n      'address': 'Av. Las Condes',\n      'zip': '12345',\n      'tax_id': '73245432-1',\n      'phone': '9550898',\n      'legal_name': 'Plutto Inc'}",
-          "x-nullable": true
-        }
+        "required": [
+          "id",
+          "email"
+        ]
       },
-      "required": [
-        "id",
-        "subtotal_cents",
-        "tax_cents",
-        "discount_cents",
-        "currency",
-        "issue_date",
-        "details",
-        "created_at",
-        "customer_id",
-        "status",
-        "payment_method",
-        "tax_type",
-        "billing_information"
-      ]
-    },
-    "invoice_resource": {
-      "type": "object",
-      "properties": {
-        "invoice": {
-          "$ref": "#/definitions/invoice"
-        }
+      "customer_resource": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/customer"
+          }
+        },
+        "required": [
+          "customer"
+        ]
       },
-      "required": [
-        "invoice"
-      ]
-    },
-    "invoices_collection": {
-      "type": "object",
-      "properties": {
-        "invoices": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/invoice"
+      "customer_permission_resource": {
+        "type": "object",
+        "properties": {
+          "current_usage": {
+            "type": "integer",
+            "example": 10,
+            "x-nullable": true
+          },
+          "limit": {
+            "type": "integer",
+            "example": 30,
+            "x-nullable": true
+          },
+          "allowed": {
+            "type": "boolean",
+            "example": true,
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "downloads",
+            "x-nullable": true
           }
         }
       },
-      "required": [
-        "invoices"
-      ]
-    },
-    "subscription": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "subscription_80b199c7744342f3c5df8622",
-          "x-nullable": false
-        },
-        "customer_id": {
-          "type": "string",
-          "example": "customer_5198c6ad60c3363b089a1421",
-          "x-nullable": false
-        },
-        "pricings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/pricing"
+      "customer_create": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "example": "your-id_12885305",
+            "x-nullable": true
+          },
+          "email": {
+            "type": "string",
+            "example": "donald@getplutto.com",
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "donald",
+            "x-nullable": false
+          },
+          "billing_information": {
+            "type": "object",
+            "x-nullable": true,
+            "properties": {
+              "city": {
+                "type": "string",
+                "example": "Santiago",
+                "x-nullable": true
+              },
+              "country_iso_code": {
+                "type": "string",
+                "example": "CL",
+                "x-nullable": false
+              },
+              "state": {
+                "type": "string",
+                "example": "Metropolitana",
+                "x-nullable": true
+              },
+              "billing_address": {
+                "type": "string",
+                "example": "Av. Las Condes",
+                "x-nullable": true
+              },
+              "zip": {
+                "type": "string",
+                "example": "12345",
+                "x-nullable": true
+              },
+              "tax_id": {
+                "type": "string",
+                "example": "73245432-1",
+                "x-nullable": true
+              },
+              "legal_name": {
+                "type": "string",
+                "example": "Plutto Inc",
+                "x-nullable": true
+              },
+              "activity": {
+                "type": "string",
+                "example": "Software Development",
+                "x-nullable": true
+              },
+              "phone": {
+                "type": "string",
+                "example": "+56992680522",
+                "x-nullable": true
+              }
+            },
+            "required": [
+              "country_iso_code"
+            ]
           }
         },
-        "created_at": {
-          "type": "string",
-          "example": "1984-06-04 09:00",
-          "x-nullable": false
-        },
-        "updated_at": {
-          "type": "string",
-          "example": "1984-06-04 09:00",
-          "x-nullable": true
-        },
-        "active": {
-          "type": "boolean",
-          "example": true,
-          "x-nullable": false
-        },
-        "trial_finishes_at": {
-          "type": "string",
-          "example": "1984-06-04 09:00",
-          "x-nullable": true,
-          "format": "date"
-        },
-        "bills_at": {
-          "type": "string",
-          "example": "end",
-          "x-nullable": false,
-          "enum": [
-            "start",
-            "end"
-          ],
-          "description": "choose wether the subscription should be billed at the start or end of the period. Note that usage based subscriptions are can only be billed at the end of the period."
-        },
-        "billing_period_duration": {
-          "type": "string",
-          "example": "P0Y1M0DT0H0M0S",
-          "x-nullable": false,
-          "description": "ISO 8601 duration for a billing period"
-        },
-        "permission_group": {
-          "$ref": "#/definitions/permission_group"
-        }
+        "required": [
+          "email",
+          "billing_information"
+        ]
       },
-      "required": [
-        "id",
-        "customer_id",
-        "pricings",
-        "created_at",
-        "active",
-        "bills_at",
-        "billing_period_duration"
-      ]
-    },
-    "subscription_create": {
-      "type": "object",
-      "properties": {
-        "customer_id": {
-          "type": "string",
-          "example": "customer_5198c6ad60c3363b089a1421",
-          "x-nullable": false
-        },
-        "pricing_ids": {
-          "type": "array",
-          "items": {
+      "customer_update": {
+        "type": "object",
+        "properties": {
+          "identifier": {
             "type": "string",
-            "example": "pricing_5198c6ad60c3363b089a1422"
+            "example": "your-id_12885305",
+            "x-nullable": true
           },
-          "x-nullable": false
-        },
-        "trial_finishes_at": {
-          "type": "string",
-          "example": "1984-06-04 09:00",
-          "x-nullable": true,
-          "format": "date"
-        },
-        "bills_at": {
-          "type": "string",
-          "example": "end",
-          "x-nullable": false,
-          "enum": [
-            "start",
-            "end"
-          ],
-          "description": "choose wether the subscription should be billed at the start or end of the period. Note that usage based subscriptions are can only be billed at the end of the period."
-        },
-        "billing_period_duration": {
-          "type": "string",
-          "example": "P0Y1M0DT0H0M0S",
-          "x-nullable": false,
-          "description": "ISO 8601 duration for a billing period"
-        },
-        "permission_group_id": {
-          "type": "string",
-          "example": "permission_group_5436c6ad60c3363b089a9876",
-          "x-nullable": true
-        }
-      },
-      "required": [
-        "customer_id",
-        "pricing_ids",
-        "billing_period_duration",
-        "bills_at"
-      ]
-    },
-    "subscription_resource": {
-      "type": "object",
-      "properties": {
-        "subscription": {
-          "$ref": "#/definitions/subscription"
-        }
-      },
-      "required": [
-        "subscription"
-      ]
-    },
-    "subscription_edit_pricings": {
-      "type": "object",
-      "properties": {
-        "pricing_ids": {
-          "type": "array",
-          "items": {
+          "email": {
             "type": "string",
-            "example": "pricing_5198c6ad60c3363b089a1422",
+            "example": "donald@getplutto.com",
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "donald",
+            "x-nullable": false
+          },
+          "billing_information": {
+            "type": "object",
+            "x-nullable": true,
+            "properties": {
+              "city": {
+                "type": "string",
+                "example": "Santiago",
+                "x-nullable": true
+              },
+              "country_iso_code": {
+                "type": "string",
+                "example": "CL",
+                "x-nullable": false
+              },
+              "state": {
+                "type": "string",
+                "example": "Metropolitana",
+                "x-nullable": true
+              },
+              "billing_address": {
+                "type": "string",
+                "example": "Av. Las Condes",
+                "x-nullable": true
+              },
+              "zip": {
+                "type": "string",
+                "example": "12345",
+                "x-nullable": true
+              },
+              "tax_id": {
+                "type": "string",
+                "example": "73245432-1",
+                "x-nullable": true
+              },
+              "legal_name": {
+                "type": "string",
+                "example": "Plutto Inc",
+                "x-nullable": true
+              },
+              "activity": {
+                "type": "string",
+                "example": "Software Development",
+                "x-nullable": true
+              },
+              "phone": {
+                "type": "string",
+                "example": "+56992680522",
+                "x-nullable": true
+              }
+            }
+          }
+        }
+      },
+      "customers_collection": {
+        "type": "object",
+        "properties": {
+          "customers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/customer_index"
+            }
+          }
+        },
+        "required": [
+          "customers"
+        ]
+      },
+      "meter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "event_80b199c7744342f3c5df8622",
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "Some meter",
             "x-nullable": false
           }
-        }
+        },
+        "required": [
+          "name"
+        ]
       },
-      "required": [
-        "pricing_ids"
-      ]
-    },
-    "customer": {
-      "type": "object",
-      "properties": {
-        "identifier": {
-          "type": "string",
-          "example": "your-id_12885305",
-          "x-nullable": true
-        },
-        "email": {
-          "type": "string",
-          "example": "donald@getplutto.com",
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "donald",
-          "x-nullable": true
-        },
-        "subscription": {
-          "type": "object",
-          "properties": {
-            "customer": {
-              "$ref": "#/definitions/subscription"
-            }
+      "meter_event": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "example": "2021-06-04 09:00"
           },
-          "x-nullable": true
+          "amount": {
+            "type": "number",
+            "example": 1000,
+            "x-nullable": false
+          },
+          "action": {
+            "type": "string",
+            "example": "set",
+            "x-nullable": false,
+            "enum": [
+              "set",
+              "increment",
+              "decrement"
+            ],
+            "description": "increment count, decrement count or set to restore count"
+          },
+          "id": {
+            "type": "string",
+            "example": "event_80b199c7744342f3c5df8622",
+            "x-nullable": false
+          },
+          "meter_id": {
+            "type": "string",
+            "example": 10,
+            "x-nullable": false
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-06-04 09:00",
+            "x-nullable": false
+          },
+          "idempotency_key": {
+            "type": "string",
+            "example": "Some idempotency_key",
+            "x-nullable": true
+          },
+          "customer_id": {
+            "type": "string",
+            "example": "customer_5198c6ad60c3363b089a1421",
+            "x-nullable": false
+          }
         },
-        "billing_information": {
-          "type": "object",
-          "x-nullable": true,
-          "properties": {
-            "city": {
-              "type": "string",
-              "example": "Santiago",
-              "x-nullable": true
-            },
-            "country_iso_code": {
-              "type": "string",
-              "example": "CL",
-              "x-nullable": false
-            },
-            "state": {
-              "type": "string",
-              "example": "Metropolitana",
-              "x-nullable": true
-            },
-            "billing_address": {
-              "type": "string",
-              "example": "Av. Las Condes",
-              "x-nullable": true
-            },
-            "zip": {
-              "type": "string",
-              "example": "12345",
-              "x-nullable": true
-            },
-            "tax_id": {
-              "type": "string",
-              "example": "73245432-1",
-              "x-nullable": true
-            },
-            "legal_name": {
-              "type": "string",
-              "example": "Plutto Inc",
-              "x-nullable": true
-            },
-            "activity": {
-              "type": "string",
-              "example": "Software Development",
-              "x-nullable": true
-            },
-            "phone": {
-              "type": "string",
-              "example": "+56992680522",
-              "x-nullable": true
+        "required": [
+          "timestamp",
+          "action",
+          "amount",
+          "meter_id",
+          "customer_id",
+          "created_at"
+        ]
+      },
+      "meter_event_create": {
+        "type": "object",
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "example": "customer_5198c6ad60c3363b089a1421",
+            "x-nullable": false
+          },
+          "meter_id": {
+            "type": "string",
+            "example": "meter_46cf463812d56103d1dfa382",
+            "x-nullable": false
+          },
+          "amount": {
+            "type": "number",
+            "example": 6.66,
+            "x-nullable": false
+          },
+          "action": {
+            "type": "string",
+            "example": "increment",
+            "x-nullable": false,
+            "enum": [
+              "set",
+              "increment",
+              "decrement"
+            ],
+            "description": "increment count, decrement count or set to restore count"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2021-06-04 09:00"
+          }
+        },
+        "required": [
+          "action",
+          "amount",
+          "customer_id",
+          "meter_id"
+        ]
+      },
+      "meter_event_resource": {
+        "type": "object",
+        "properties": {
+          "meter_event": {
+            "$ref": "#/components/schemas/meter_event"
+          }
+        },
+        "required": [
+          "meter_event"
+        ]
+      },
+      "permission_group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "permission_group_d4328039347671a0b4b07f3f",
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "Pro",
+            "x-nullable": false
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/permission_group_permission"
             }
           }
-        }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
       },
-      "required": [
-        "email",
-        "billing_information"
-      ]
-    },
-    "customer_index": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "customer_d43280e9377673a0b4b07f31",
-          "x-nullable": false
+      "permission_group_permission": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "example": 10,
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "api-call",
+            "x-nullable": false
+          }
         },
-        "email": {
-          "type": "string",
-          "example": "donald@getplutto.com",
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "donald",
-          "x-nullable": true
-        },
-        "created_at": {
-          "type": "string",
-          "example": "2020-01-01T00:00:00.000Z",
-          "x-nullable": true,
-          "format": "date-time"
-        },
-        "updated_at": {
-          "type": "string",
-          "example": "2020-01-01T00:00:00.000Z",
-          "x-nullable": true,
-          "format": "date-time"
-        },
-        "identifier": {
-          "type": "string",
-          "example": "your-id_12885305",
-          "x-nullable": true
-        }
+        "required": [
+          "limit",
+          "name"
+        ]
       },
-      "required": [
-        "id",
-        "email"
-      ]
-    },
-    "customer_resource": {
-      "type": "object",
-      "properties": {
-        "customer": {
-          "$ref": "#/definitions/customer"
-        }
+      "permission_groups_collection": {
+        "type": "object",
+        "properties": {
+          "permission_groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/permission_group"
+            }
+          }
+        },
+        "required": [
+          "permission_groups"
+        ]
       },
-      "required": [
-        "customer"
-      ]
-    },
-    "customer_permission_resource": {
-      "type": "object",
-      "properties": {
-        "current_usage": {
-          "type": "integer",
-          "example": 10,
-          "x-nullable": true
+      "pricing": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "pricing_d4328039347671a0b4b07f3f",
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "Basic",
+            "x-nullable": false
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD",
+            "x-nullable": false
+          },
+          "product_id": {
+            "type": "string",
+            "example": "product_ff3s803su47n71a0b4b07f3f",
+            "x-nullable": false
+          },
+          "price_logics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/price_logic"
+            }
+          }
         },
-        "limit": {
-          "type": "integer",
-          "example": 30,
-          "x-nullable": true
+        "required": [
+          "id",
+          "name",
+          "currency",
+          "product_id"
+        ]
+      },
+      "pricing_resource": {
+        "type": "object",
+        "properties": {
+          "pricing": {
+            "$ref": "#/components/schemas/pricing"
+          }
         },
-        "allowed": {
-          "type": "boolean",
-          "example": true,
-          "x-nullable": false
+        "required": [
+          "pricing"
+        ]
+      },
+      "price_logic": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "price-logic_fkto44788dfglk82wz",
+            "x-nullable": false
+          },
+          "type": {
+            "type": "string",
+            "example": "FlatFee",
+            "x-nullable": false,
+            "enum": [
+              "FaltFee",
+              "PerUnit",
+              "Volume",
+              "StairStep",
+              "Tiered"
+            ]
+          },
+          "price": {
+            "type": "string",
+            "example": "USD",
+            "x-nullable": false
+          },
+          "price_currency": {
+            "type": "string",
+            "example": "Plutto Invoices",
+            "x-nullable": false
+          },
+          "meter_count_method": {
+            "type": "string",
+            "example": "period_sum",
+            "enum": [
+              "period_sum",
+              "history_sum"
+            ],
+            "x-nullable": true,
+            "description": "choose if meters are from historic count or just this billing period count"
+          },
+          "price_logics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/price_logic"
+            }
+          }
         },
-        "name": {
-          "type": "string",
-          "example": "downloads",
-          "x-nullable": true
-        }
+        "required": [
+          "type",
+          "price",
+          "meter_count_method"
+        ]
+      },
+      "price_logic_resource": {
+        "type": "object",
+        "properties": {
+          "price_logic": {
+            "$ref": "#/components/schemas/price_logic"
+          }
+        },
+        "required": [
+          "price_logic"
+        ]
+      },
+      "product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "product_d4328039347671a0b4b07f3f",
+            "x-nullable": false
+          },
+          "name": {
+            "type": "string",
+            "example": "Api calls",
+            "x-nullable": false
+          },
+          "meter": {
+            "$ref": "#/components/schemas/meter"
+          },
+          "pricings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pricing"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "products_collection": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/product"
+            }
+          }
+        },
+        "required": [
+          "products"
+        ]
+      },
+      "unauthorized_error": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "authentication_error",
+            "x-nullable": false
+          },
+          "code": {
+            "type": "string",
+            "example": "unauthorized",
+            "x-nullable": false
+          },
+          "message": {
+            "type": "string",
+            "example": "No valid API key provided.",
+            "x-nullable": false
+          },
+          "detail": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "param": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "request_id": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "docs_url": {
+            "type": "string",
+            "example": "docs.getplutto.com/docs/authorization",
+            "x-nullable": false
+          }
+        },
+        "required": [
+          "type",
+          "code",
+          "message",
+          "docs_url"
+        ]
+      },
+      "unauthorized_error_resource": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/unauthorized_error"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "not_found_error": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "invalid_request_error",
+            "x-nullable": false
+          },
+          "code": {
+            "type": "string",
+            "example": "resource_not_found",
+            "x-nullable": false
+          },
+          "message": {
+            "type": "string",
+            "example": "The requested resource cannot be found. This item does not exist or has been previously removed.",
+            "x-nullable": false
+          },
+          "detail": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "param": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "request_id": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "docs_url": {
+            "type": "string",
+            "example": "docs.getplutto.com",
+            "x-nullable": false
+          }
+        },
+        "required": [
+          "type",
+          "code",
+          "message",
+          "docs_url"
+        ]
+      },
+      "not_found_error_resource": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/not_found_error"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "unprocessable_entity_error": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "invalid_request_error",
+            "x-nullable": false
+          },
+          "code": {
+            "type": "string",
+            "example": "unprocessable",
+            "x-nullable": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Your request was understood, but we were not able to process it. Please fix it before repeating",
+            "x-nullable": false
+          },
+          "detail": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "param": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "request_id": {
+            "type": "string",
+            "example": "",
+            "x-nullable": true
+          },
+          "docs_url": {
+            "type": "string",
+            "example": "docs.getplutto.com",
+            "x-nullable": false
+          }
+        },
+        "required": [
+          "type",
+          "code",
+          "message",
+          "docs_url"
+        ]
+      },
+      "unprocessable_entity_error_resource": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/unprocessable_entity_error"
+          }
+        },
+        "required": [
+          "error"
+        ]
       }
     },
-    "customer_create": {
-      "type": "object",
-      "properties": {
-        "identifier": {
-          "type": "string",
-          "example": "your-id_12885305",
-          "x-nullable": true
-        },
-        "email": {
-          "type": "string",
-          "example": "donald@getplutto.com",
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "donald",
-          "x-nullable": false
-        },
-        "billing_information": {
-          "type": "object",
-          "x-nullable": true,
-          "properties": {
-            "city": {
-              "type": "string",
-              "example": "Santiago",
-              "x-nullable": true
-            },
-            "country_iso_code": {
-              "type": "string",
-              "example": "CL",
-              "x-nullable": false
-            },
-            "state": {
-              "type": "string",
-              "example": "Metropolitana",
-              "x-nullable": true
-            },
-            "billing_address": {
-              "type": "string",
-              "example": "Av. Las Condes",
-              "x-nullable": true
-            },
-            "zip": {
-              "type": "string",
-              "example": "12345",
-              "x-nullable": true
-            },
-            "tax_id": {
-              "type": "string",
-              "example": "73245432-1",
-              "x-nullable": true
-            },
-            "legal_name": {
-              "type": "string",
-              "example": "Plutto Inc",
-              "x-nullable": true
-            },
-            "activity": {
-              "type": "string",
-              "example": "Software Development",
-              "x-nullable": true
-            },
-            "phone": {
-              "type": "string",
-              "example": "+56992680522",
-              "x-nullable": true
-            }
-          },
-          "required": [
-            "country_iso_code"
-          ]
-        }
-      },
-      "required": [
-        "email",
-        "billing_information"
-      ]
-    },
-    "customer_update": {
-      "type": "object",
-      "properties": {
-        "identifier": {
-          "type": "string",
-          "example": "your-id_12885305",
-          "x-nullable": true
-        },
-        "email": {
-          "type": "string",
-          "example": "donald@getplutto.com",
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "donald",
-          "x-nullable": false
-        },
-        "billing_information": {
-          "type": "object",
-          "x-nullable": true,
-          "properties": {
-            "city": {
-              "type": "string",
-              "example": "Santiago",
-              "x-nullable": true
-            },
-            "country_iso_code": {
-              "type": "string",
-              "example": "CL",
-              "x-nullable": false
-            },
-            "state": {
-              "type": "string",
-              "example": "Metropolitana",
-              "x-nullable": true
-            },
-            "billing_address": {
-              "type": "string",
-              "example": "Av. Las Condes",
-              "x-nullable": true
-            },
-            "zip": {
-              "type": "string",
-              "example": "12345",
-              "x-nullable": true
-            },
-            "tax_id": {
-              "type": "string",
-              "example": "73245432-1",
-              "x-nullable": true
-            },
-            "legal_name": {
-              "type": "string",
-              "example": "Plutto Inc",
-              "x-nullable": true
-            },
-            "activity": {
-              "type": "string",
-              "example": "Software Development",
-              "x-nullable": true
-            },
-            "phone": {
-              "type": "string",
-              "example": "+56992680522",
-              "x-nullable": true
-            }
-          }
-        }
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
-    },
-    "customers_collection": {
-      "type": "object",
-      "properties": {
-        "customers": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/customer_index"
-          }
-        }
-      },
-      "required": [
-        "customers"
-      ]
-    },
-    "meter": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "event_80b199c7744342f3c5df8622",
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "Some meter",
-          "x-nullable": false
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "meter_event": {
-      "type": "object",
-      "properties": {
-        "timestamp": {
-          "type": "string",
-          "example": "2021-06-04 09:00"
-        },
-        "amount": {
-          "type": "number",
-          "example": 1000,
-          "x-nullable": false
-        },
-        "action": {
-          "type": "string",
-          "example": "set",
-          "x-nullable": false,
-          "enum": [
-            "set",
-            "increment",
-            "decrement"
-          ],
-          "description": "increment count, decrement count or set to restore count"
-        },
-        "id": {
-          "type": "string",
-          "example": "event_80b199c7744342f3c5df8622",
-          "x-nullable": false
-        },
-        "meter_id": {
-          "type": "string",
-          "example": 10,
-          "x-nullable": false
-        },
-        "created_at": {
-          "type": "string",
-          "example": "2021-06-04 09:00",
-          "x-nullable": false
-        },
-        "idempotency_key": {
-          "type": "string",
-          "example": "Some idempotency_key",
-          "x-nullable": true
-        },
-        "customer_id": {
-          "type": "string",
-          "example": "customer_5198c6ad60c3363b089a1421",
-          "x-nullable": false
-        }
-      },
-      "required": [
-        "timestamp",
-        "action",
-        "amount",
-        "meter_id",
-        "customer_id",
-        "created_at"
-      ]
-    },
-    "meter_event_create": {
-      "type": "object",
-      "properties": {
-        "customer_id": {
-          "type": "string",
-          "example": "customer_5198c6ad60c3363b089a1421",
-          "x-nullable": false
-        },
-        "meter_id": {
-          "type": "string",
-          "example": "meter_46cf463812d56103d1dfa382",
-          "x-nullable": false
-        },
-        "amount": {
-          "type": "number",
-          "example": 6.66,
-          "x-nullable": false
-        },
-        "action": {
-          "type": "string",
-          "example": "increment",
-          "x-nullable": false,
-          "enum": [
-            "set",
-            "increment",
-            "decrement"
-          ],
-          "description": "increment count, decrement count or set to restore count"
-        },
-        "timestamp": {
-          "type": "string",
-          "example": "2021-06-04 09:00"
-        }
-      },
-      "required": [
-        "action",
-        "amount",
-        "customer_id",
-        "meter_id"
-      ]
-    },
-    "meter_event_resource": {
-      "type": "object",
-      "properties": {
-        "meter_event": {
-          "$ref": "#/definitions/meter_event"
-        }
-      },
-      "required": [
-        "meter_event"
-      ]
-    },
-    "permission_group": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "permission_group_d4328039347671a0b4b07f3f",
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "Pro",
-          "x-nullable": false
-        },
-        "permissions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/permission_group_permission"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "name"
-      ]
-    },
-    "permission_group_permission": {
-      "type": "object",
-      "properties": {
-        "limit": {
-          "type": "integer",
-          "example": 10,
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "api-call",
-          "x-nullable": false
-        }
-      },
-      "required": [
-        "limit",
-        "name"
-      ]
-    },
-    "permission_groups_collection": {
-      "type": "object",
-      "properties": {
-        "permission_groups": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/permission_group"
-          }
-        }
-      },
-      "required": [
-        "permission_groups"
-      ]
-    },
-    "pricing": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "pricing_d4328039347671a0b4b07f3f",
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "Basic",
-          "x-nullable": false
-        },
-        "currency": {
-          "type": "string",
-          "example": "USD",
-          "x-nullable": false
-        },
-        "product_id": {
-          "type": "string",
-          "example": "product_ff3s803su47n71a0b4b07f3f",
-          "x-nullable": false
-        },
-        "price_logics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/price_logic"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "currency",
-        "product_id"
-      ]
-    },
-    "pricing_resource": {
-      "type": "object",
-      "properties": {
-        "pricing": {
-          "$ref": "#/definitions/pricing"
-        }
-      },
-      "required": [
-        "pricing"
-      ]
-    },
-    "price_logic": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "price-logic_fkto44788dfglk82wz",
-          "x-nullable": false
-        },
-        "type": {
-          "type": "string",
-          "example": "FlatFee",
-          "x-nullable": false,
-          "enum": [
-            "FaltFee",
-            "PerUnit",
-            "Volume",
-            "StairStep",
-            "Tiered"
-          ]
-        },
-        "price": {
-          "type": "string",
-          "example": "USD",
-          "x-nullable": false
-        },
-        "price_currency": {
-          "type": "string",
-          "example": "Plutto Invoices",
-          "x-nullable": false
-        },
-        "meter_count_method": {
-          "type": "string",
-          "example": "period_sum",
-          "enum": [
-            "period_sum",
-            "history_sum"
-          ],
-          "x-nullable": true,
-          "description": "choose if meters are from historic count or just this billing period count"
-        },
-        "price_logics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/price_logic"
-          }
-        }
-      },
-      "required": [
-        "type",
-        "price",
-        "meter_count_method"
-      ]
-    },
-    "price_logic_resource": {
-      "type": "object",
-      "properties": {
-        "price_logic": {
-          "$ref": "#/definitions/price_logic"
-        }
-      },
-      "required": [
-        "price_logic"
-      ]
-    },
-    "product": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "product_d4328039347671a0b4b07f3f",
-          "x-nullable": false
-        },
-        "name": {
-          "type": "string",
-          "example": "Api calls",
-          "x-nullable": false
-        },
-        "meter": {
-          "$ref": "#/definitions/meter"
-        },
-        "pricings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/pricing"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "name"
-      ]
-    },
-    "products_collection": {
-      "type": "object",
-      "properties": {
-        "products": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/product"
-          }
-        }
-      },
-      "required": [
-        "products"
-      ]
-    },
-    "unauthorized_error": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "authentication_error",
-          "x-nullable": false
-        },
-        "code": {
-          "type": "string",
-          "example": "unauthorized",
-          "x-nullable": false
-        },
-        "message": {
-          "type": "string",
-          "example": "No valid API key provided.",
-          "x-nullable": false
-        },
-        "detail": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "param": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "request_id": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "docs_url": {
-          "type": "string",
-          "example": "docs.getplutto.com/docs/authorization",
-          "x-nullable": false
-        }
-      },
-      "required": [
-        "type",
-        "code",
-        "message",
-        "docs_url"
-      ]
-    },
-    "unauthorized_error_resource": {
-      "type": "object",
-      "properties": {
-        "error": {
-          "$ref": "#/definitions/unauthorized_error"
-        }
-      },
-      "required": [
-        "error"
-      ]
-    },
-    "not_found_error": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "invalid_request_error",
-          "x-nullable": false
-        },
-        "code": {
-          "type": "string",
-          "example": "resource_not_found",
-          "x-nullable": false
-        },
-        "message": {
-          "type": "string",
-          "example": "The requested resource cannot be found. This item does not exist or has been previously removed.",
-          "x-nullable": false
-        },
-        "detail": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "param": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "request_id": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "docs_url": {
-          "type": "string",
-          "example": "docs.getplutto.com",
-          "x-nullable": false
-        }
-      },
-      "required": [
-        "type",
-        "code",
-        "message",
-        "docs_url"
-      ]
-    },
-    "not_found_error_resource": {
-      "type": "object",
-      "properties": {
-        "error": {
-          "$ref": "#/definitions/not_found_error"
-        }
-      },
-      "required": [
-        "error"
-      ]
-    },
-    "unprocessable_entity_error": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "invalid_request_error",
-          "x-nullable": false
-        },
-        "code": {
-          "type": "string",
-          "example": "unprocessable",
-          "x-nullable": false
-        },
-        "message": {
-          "type": "string",
-          "example": "Your request was understood, but we were not able to process it. Please fix it before repeating",
-          "x-nullable": false
-        },
-        "detail": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "param": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "request_id": {
-          "type": "string",
-          "example": "",
-          "x-nullable": true
-        },
-        "docs_url": {
-          "type": "string",
-          "example": "docs.getplutto.com",
-          "x-nullable": false
-        }
-      },
-      "required": [
-        "type",
-        "code",
-        "message",
-        "docs_url"
-      ]
-    },
-    "unprocessable_entity_error_resource": {
-      "type": "object",
-      "properties": {
-        "error": {
-          "$ref": "#/definitions/unprocessable_entity_error"
-        }
-      },
-      "required": [
-        "error"
-      ]
-    }
-  },
-  "securityDefinitions": {
-    "Bearer": {
-      "description": "ApiKey token",
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
     }
   },
   "paths": {
-    "/customers": {
+    "/api/v1/customers": {
       "get": {
         "summary": "Retrieves Customers",
         "tags": [
           "Customers"
         ],
         "description": "Retrieves all the customers",
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1165,14 +1170,22 @@
         "responses": {
           "200": {
             "description": "Customers retrieved",
-            "schema": {
-              "$ref": "#/definitions/customers_collection"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/customers_collection"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           }
         }
@@ -1183,12 +1196,6 @@
           "Customers"
         ],
         "description": "Creates Customer",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1197,42 +1204,59 @@
           }
         ],
         "parameters": [
-          {
-            "name": "customer",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/customer_create"
-            }
-          }
+
         ],
         "responses": {
           "201": {
             "description": "customer created",
-            "schema": {
-              "$ref": "#/definitions/customer_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/customer_resource"
+                }
+              }
             }
           },
           "422": {
             "description": "unprocessable entity",
-            "schema": {
-              "$ref": "#/definitions/unprocessable_entity_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unprocessable_entity_error_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/customer_create"
+              }
             }
           }
         }
       }
     },
-    "/customers/{id}": {
+    "/api/v1/customers/{id}": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
-          "type": "string",
+          "schema": {
+            "type": "string"
+          },
           "required": true
         }
       ],
@@ -1240,9 +1264,6 @@
         "summary": "Retrieves Customer",
         "tags": [
           "Customers"
-        ],
-        "produces": [
-          "application/json"
         ],
         "security": [
           {
@@ -1254,20 +1275,32 @@
         "responses": {
           "200": {
             "description": "customer retrieved",
-            "schema": {
-              "$ref": "#/definitions/customer_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/customer_resource"
+                }
+              }
             }
           },
           "404": {
             "description": "resource not found",
-            "schema": {
-              "$ref": "#/definitions/not_found_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           }
         }
@@ -1278,12 +1311,6 @@
           "Customers"
         ],
         "description": "Updates Customer",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1292,25 +1319,36 @@
           }
         ],
         "parameters": [
-          {
-            "name": "customer",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/customer_update"
-            }
-          }
+
         ],
         "responses": {
           "200": {
             "description": "customer updated",
-            "schema": {
-              "$ref": "#/definitions/customer_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/customer_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/customer_update"
+              }
             }
           }
         }
@@ -1319,9 +1357,6 @@
         "summary": "Deletes Customer",
         "tags": [
           "Customers"
-        ],
-        "produces": [
-          "application/json"
         ],
         "description": "Deletes specific customer",
         "security": [
@@ -1337,31 +1372,43 @@
           },
           "404": {
             "description": "resource not found",
-            "schema": {
-              "$ref": "#/definitions/not_found_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           }
         }
       }
     },
-    "/customers/{id}/has_permission/{permission_name}": {
+    "/api/v1/customers/{id}/has_permission/{permission_name}": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
-          "type": "string",
+          "schema": {
+            "type": "string"
+          },
           "required": true
         },
         {
           "name": "permission_name",
           "in": "path",
-          "type": "string",
+          "schema": {
+            "type": "string"
+          },
           "required": true
         }
       ],
@@ -1369,9 +1416,6 @@
         "summary": "Retrieves Customer permission",
         "tags": [
           "Customers"
-        ],
-        "produces": [
-          "application/json"
         ],
         "security": [
           {
@@ -1383,47 +1427,60 @@
         "responses": {
           "200": {
             "description": "customer retrieved",
-            "schema": {
-              "$ref": "#/definitions/customer_permission_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/customer_permission_resource"
+                }
+              }
             }
           },
           "404": {
             "description": "resource not found",
-            "schema": {
-              "$ref": "#/definitions/not_found_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           }
         }
       }
     },
-    "/invoices": {
+    "/api/v1/invoices": {
       "get": {
         "summary": "Retrieves Invoices",
         "tags": [
           "Invoices"
         ],
         "description": "Retrieves all the invoices",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "q[status_eq]",
             "in": "query",
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "required": false,
             "description": "Search by status"
           },
           {
             "name": "q[customer_eq]",
             "in": "query",
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "required": false,
             "description": "Search by customer"
           }
@@ -1438,25 +1495,35 @@
         "responses": {
           "200": {
             "description": "Invoices retrieved",
-            "schema": {
-              "$ref": "#/definitions/invoices_collection"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/invoices_collection"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           }
         }
       }
     },
-    "/invoices/{id}": {
+    "/api/v1/invoices/{id}": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
-          "type": "integer",
+          "schema": {
+            "type": "integer"
+          },
           "required": true
         }
       ],
@@ -1464,9 +1531,6 @@
         "summary": "Retrieves Invoice",
         "tags": [
           "Invoices"
-        ],
-        "produces": [
-          "application/json"
         ],
         "security": [
           {
@@ -1478,38 +1542,44 @@
         "responses": {
           "200": {
             "description": "invoice retrieved",
-            "schema": {
-              "$ref": "#/definitions/invoice_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/invoice_resource"
+                }
+              }
             }
           },
           "404": {
             "description": "resource not found",
-            "schema": {
-              "$ref": "#/definitions/not_found_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           }
         }
       }
     },
-    "/meter_events": {
+    "/api/v1/meter_events": {
       "post": {
         "summary": "Creates Meter Event",
         "tags": [
           "Meter Event"
         ],
         "description": "Creates Meter Event",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1518,40 +1588,48 @@
           }
         ],
         "parameters": [
-          {
-            "name": "meter_event",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/meter_event_create"
-            }
-          }
+
         ],
         "responses": {
           "201": {
             "description": "meter_event created",
-            "schema": {
-              "$ref": "#/definitions/meter_event_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/meter_event_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/meter_event_create"
+              }
             }
           }
         }
       }
     },
-    "/permission_groups": {
+    "/api/v1/permission_groups": {
       "get": {
         "summary": "Retrieves Permission Groups",
         "tags": [
           "Permission Groups"
         ],
         "description": "Retrieves all the Permission Groups",
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1562,29 +1640,34 @@
         "responses": {
           "200": {
             "description": "Permission Groups retrieved",
-            "schema": {
-              "$ref": "#/definitions/permission_groups_collection"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/permission_groups_collection"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           }
         }
       }
     },
-    "/products": {
+    "/api/v1/products": {
       "get": {
         "summary": "Retrieves Products",
         "tags": [
           "Products"
         ],
         "description": "Retrieves all the Products",
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1595,32 +1678,34 @@
         "responses": {
           "200": {
             "description": "Products retrieved",
-            "schema": {
-              "$ref": "#/definitions/products_collection"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/products_collection"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           }
         }
       }
     },
-    "/subscriptions": {
+    "/api/v1/subscriptions": {
       "post": {
         "summary": "Creates Subscription",
         "tags": [
           "Subscription"
         ],
         "description": "Creates Subscription for one or more products \n\nMake sure pricing_ids is NOT NULL.",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1629,42 +1714,59 @@
           }
         ],
         "parameters": [
-          {
-            "name": "subscription",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/subscription_create"
-            }
-          }
+
         ],
         "responses": {
           "201": {
             "description": "subscription created",
-            "schema": {
-              "$ref": "#/definitions/subscription_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/subscription_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           },
           "422": {
             "description": "unprocessable entity",
-            "schema": {
-              "$ref": "#/definitions/unprocessable_entity_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unprocessable_entity_error_resource"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/subscription_create"
+              }
             }
           }
         }
       }
     },
-    "/subscriptions/{id}/end_subscription": {
+    "/api/v1/subscriptions/{id}/end_subscription": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
-          "type": "string",
+          "schema": {
+            "type": "string"
+          },
           "required": true
         }
       ],
@@ -1674,12 +1776,6 @@
           "Subscription"
         ],
         "description": "Ends a Subscription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1693,31 +1789,45 @@
           },
           "404": {
             "description": "resource not found",
-            "schema": {
-              "$ref": "#/definitions/not_found_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
             }
           },
           "422": {
             "description": "unprocessable entity",
-            "schema": {
-              "$ref": "#/definitions/unprocessable_entity_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unprocessable_entity_error_resource"
+                }
+              }
             }
           }
         }
       }
     },
-    "/subscriptions/{id}/add_pricings": {
+    "/api/v1/subscriptions/{id}/add_pricings": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
-          "type": "string",
+          "schema": {
+            "type": "string"
+          },
           "required": true
         }
       ],
@@ -1727,12 +1837,6 @@
           "Subscription"
         ],
         "description": "Add pricings to a Subscription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1741,48 +1845,69 @@
           }
         ],
         "parameters": [
-          {
-            "name": "pricing_ids",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/subscription_edit_pricings"
-            }
-          }
+
         ],
         "responses": {
           "200": {
             "description": "pricings added",
-            "schema": {
-              "$ref": "#/definitions/subscription_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/subscription_resource"
+                }
+              }
             }
           },
           "422": {
             "description": "unprocessable entity",
-            "schema": {
-              "$ref": "#/definitions/unprocessable_entity_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unprocessable_entity_error_resource"
+                }
+              }
             }
           },
           "404": {
             "description": "resource not found",
-            "schema": {
-              "$ref": "#/definitions/not_found_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/subscription_edit_pricings"
+              }
             }
           }
         }
       }
     },
-    "/subscriptions/{id}/remove_pricings": {
+    "/api/v1/subscriptions/{id}/remove_pricings": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
-          "type": "string",
+          "schema": {
+            "type": "string"
+          },
           "required": true
         }
       ],
@@ -1792,12 +1917,6 @@
           "Subscription"
         ],
         "description": "Remove pricings to a Subscription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "security": [
           {
             "Bearer": [
@@ -1806,31 +1925,46 @@
           }
         ],
         "parameters": [
-          {
-            "name": "pricing_ids",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/subscription_edit_pricings"
-            }
-          }
+
         ],
         "responses": {
           "200": {
             "description": "pricings removed",
-            "schema": {
-              "$ref": "#/definitions/subscription_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/subscription_resource"
+                }
+              }
             }
           },
           "404": {
             "description": "resource not found",
-            "schema": {
-              "$ref": "#/definitions/not_found_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
             }
           },
           "401": {
             "description": "authentication failed",
-            "schema": {
-              "$ref": "#/definitions/unauthorized_error_resource"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/subscription_edit_pricings"
+              }
             }
           }
         }

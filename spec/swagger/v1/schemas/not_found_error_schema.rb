@@ -21,7 +21,7 @@ NOT_FOUND_ERROR_SCHEMA = {
 NOT_FOUND_ERROR_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    error: { "$ref" => "#/definitions/not_found_error" }
+    error: { "$ref" => "#/components/schemas/not_found_error" }
   },
   required: [
     :error

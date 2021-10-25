@@ -6,14 +6,14 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
   let!(:token) { api_key.token }
   let(:customer) { create(:customer, organization: organization) }
 
-  path '/invoices' do
+  path '/api/v1/invoices' do
     get 'Retrieves Invoices' do
       tags 'Invoices'
       description 'Retrieves all the invoices'
       produces 'application/json'
-      parameter name: :'q[status_eq]', in: :query, type: :string, required: false,
+      parameter name: :'q[status_eq]', in: :query, schema: { type: :string }, required: false,
                 description: 'Search by status'
-      parameter name: :'q[customer_eq]', in: :query, type: :string, required: false,
+      parameter name: :'q[customer_eq]', in: :query, schema: { type: :string }, required: false,
                 description: 'Search by customer'
       security [Bearer: []]
 
@@ -27,7 +27,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
       end
 
       response '200', 'Invoices retrieved' do
-        schema('$ref' => '#/definitions/invoices_collection')
+        schema('$ref' => '#/components/schemas/invoices_collection')
         let(:Authorization) { "Bearer #{token}" }
 
         context 'when no filters are sent' do
@@ -66,8 +66,8 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
     end
   end
 
-  path '/invoices/{id}' do
-    parameter name: :id, in: :path, type: :integer
+  path '/api/v1/invoices/{id}' do
+    parameter name: :id, in: :path, schema: { type: :integer }
 
     let(:existent_invoice) { create(:invoice, customer: customer) }
     let(:id) { existent_invoice.id }
@@ -78,7 +78,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
       security [Bearer: []]
 
       response '200', 'invoice retrieved' do
-        schema('$ref' => '#/definitions/invoice_resource')
+        schema('$ref' => '#/components/schemas/invoice_resource')
         let(:Authorization) { "Bearer #{token}" }
 
         run_test!

@@ -6,7 +6,7 @@ SUBSCRIPTION_SCHEMA = {
                    'x-nullable': false },
     pricings: {
       type: :array,
-      items: { "$ref" => "#/definitions/pricing" }
+      items: { "$ref" => "#/components/schemas/pricing" }
     },
     created_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': false },
     updated_at: { type: :string, example: '1984-06-04 09:00', 'x-nullable': true },
@@ -21,7 +21,7 @@ SUBSCRIPTION_SCHEMA = {
       type: :string, example: 'P0Y1M0DT0H0M0S', 'x-nullable': false,
       description: 'ISO 8601 duration for a billing period'
     },
-    permission_group: { "$ref" => "#/definitions/permission_group" }
+    permission_group: { "$ref" => "#/components/schemas/permission_group" }
   },
   required: [
     :id,
@@ -76,7 +76,7 @@ SUBSCRIPTION_EDIT_PRICINGS_SCHEMA = {
 SUBSCRIPTION_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    subscription: { "$ref" => "#/definitions/subscription" }
+    subscription: { "$ref" => "#/components/schemas/subscription" }
   },
   required: [
     :subscription

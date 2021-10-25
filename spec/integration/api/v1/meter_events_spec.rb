@@ -7,7 +7,7 @@ describe 'API V1 Meter Events', swagger_doc: 'v1/swagger.json' do
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
 
-  path '/meter_events' do
+  path '/api/v1/meter_events' do
     post 'Creates Meter Event' do
       tags 'Meter Event'
       description 'Creates Meter Event'
@@ -15,7 +15,7 @@ describe 'API V1 Meter Events', swagger_doc: 'v1/swagger.json' do
       produces 'application/json'
       security [Bearer: []]
       parameter name: :meter_event, in: :body,
-                schema: { '$ref': '#/definitions/meter_event_create' }
+                schema: { '$ref': '#/components/schemas/meter_event_create' }
 
       let(:meter_event) do
         {
@@ -28,7 +28,7 @@ describe 'API V1 Meter Events', swagger_doc: 'v1/swagger.json' do
       end
 
       response '201', 'meter_event created' do
-        schema('$ref' => '#/definitions/meter_event_resource')
+        schema('$ref' => '#/components/schemas/meter_event_resource')
         let(:Authorization) { "Bearer #{token}" }
 
         run_test!

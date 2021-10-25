@@ -12,7 +12,7 @@ PRICE_LOGIC_SCHEMA = {
       description: 'choose if meters are from historic count or just this billing period count'
     },
     price_logics: {
-      type: :array, items: { "$ref" => "#/definitions/price_logic" }
+      type: :array, items: { "$ref" => "#/components/schemas/price_logic" }
     }
   },
   required: [
@@ -25,7 +25,7 @@ PRICE_LOGIC_SCHEMA = {
 PRICE_LOGIC_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    price_logic: { "$ref" => "#/definitions/price_logic" }
+    price_logic: { "$ref" => "#/components/schemas/price_logic" }
   },
   required: [
     :price_logic

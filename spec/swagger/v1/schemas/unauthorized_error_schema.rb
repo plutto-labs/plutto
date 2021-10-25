@@ -21,7 +21,7 @@ UNAUTHORIZED_ERROR_SCHEMA = {
 UNAUTHORIZED_ERROR_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    error: { "$ref" => "#/definitions/unauthorized_error" }
+    error: { "$ref" => "#/components/schemas/unauthorized_error" }
   },
   required: [
     :error

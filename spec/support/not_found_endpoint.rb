@@ -1,7 +1,7 @@
 # rubocop:disable RSpec/SharedContext, RSpec/VariableName
 RSpec.shared_examples 'not_found endpoint' do
   response '404', 'resource not found' do
-    schema('$ref' => '#/definitions/not_found_error_resource')
+    schema('$ref' => '#/components/schemas/not_found_error_resource')
 
     let(:Authorization) { "Bearer #{token}" }
     let(:id) { 'invalid_id-1234' }

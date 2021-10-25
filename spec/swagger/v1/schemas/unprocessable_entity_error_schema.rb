@@ -21,7 +21,7 @@ UNPROCESSABLE_ENTITY_ERROR_SCHEMA = {
 UNPROCESSABLE_ENTITY_ERROR_RESOURCE_SCHEMA = {
   type: "object",
   properties: {
-    error: { "$ref" => "#/definitions/unprocessable_entity_error" }
+    error: { "$ref" => "#/components/schemas/unprocessable_entity_error" }
   },
   required: [
     :error
