@@ -9,6 +9,7 @@ import invoices from './invoices';
 import meters from './meters';
 import permissionGroups from './permission-groups';
 import organization from './organization';
+import payments from './payments';
 import products from './products';
 import permissions from './permissions';
 import subscriptions from './subscriptions';
@@ -21,6 +22,7 @@ const initialState = {
   customers: customers.state,
   invoices: invoices.state,
   meters: meters.state,
+  payments: payments.state,
   permissionGroups: permissionGroups.state,
   organization: organization.state,
   products: products.state,
@@ -44,6 +46,7 @@ export default createStore({
     customers,
     invoices,
     meters,
+    payments,
     permissionGroups,
     organization,
     products,
