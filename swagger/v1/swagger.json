@@ -92,7 +92,14 @@
           "status": {
             "type": "string",
             "example": "paid",
-            "x-nullable": false
+            "x-nullable": false,
+            "enum": [
+              "created",
+              "posted",
+              "paid",
+              "not_paid",
+              "voided"
+            ]
           },
           "payed_at": {
             "type": "string",
@@ -160,6 +167,23 @@
         "required": [
           "invoices"
         ]
+      },
+      "invoice_mark_as": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "paid",
+            "x-nullable": true,
+            "enum": [
+              "new",
+              "posted",
+              "paid",
+              "not_paid",
+              "voided"
+            ]
+          }
+        }
       },
       "subscription": {
         "type": "object",
@@ -1567,6 +1591,76 @@
                 "schema": {
                   "$ref": "#/components/schemas/unauthorized_error_resource"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/invoices/{id}/mark_as": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "patch": {
+        "summary": "mark as",
+        "tags": [
+          "Invoices"
+        ],
+        "description": "Change invoices status without running callbacks",
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "status changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/invoice_resource"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/invoice_mark_as"
               }
             }
           }

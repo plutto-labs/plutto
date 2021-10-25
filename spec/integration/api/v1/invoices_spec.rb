@@ -88,4 +88,35 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
       it_behaves_like 'unauthorized endpoint'
     end
   end
+
+  path '/api/v1/invoices/{id}/mark_as' do
+    parameter name: :id, in: :path, type: :string
+    let(:existent_invoice) { create(:invoice, customer: customer, status: 'posted') }
+    let(:id) { existent_invoice.id }
+
+    patch 'mark as' do
+      tags 'Invoices'
+      description 'Change invoices status without running callbacks'
+      consumes 'application/json'
+      produces 'application/json'
+      security [Bearer: []]
+      parameter name: :invoice, in: :body,
+                schema: { '$ref': '#/components/schemas/invoice_mark_as' }
+
+      let(:invoice) { { status: 'voided' } }
+
+      response '200', 'status changed' do
+        schema('$ref' => '#/components/schemas/invoice_resource')
+        let(:Authorization) { "Bearer #{token}" }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data['invoice']['status']).to eq('voided')
+        end
+      end
+
+      it_behaves_like 'not_found endpoint'
+      it_behaves_like 'unauthorized endpoint'
+    end
+  end
 end

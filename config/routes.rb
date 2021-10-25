@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       end
       resources :meter_events, only: [:create]
       resources :invoices, only: [:index, :show]
+      patch 'invoices/:id/mark_as', to: 'invoices#mark_as'
       resources :subscriptions, only: [:create] do
         patch 'add_pricings', to: 'subscriptions#add_pricings'
         patch 'remove_pricings', to: 'subscriptions#remove_pricings'

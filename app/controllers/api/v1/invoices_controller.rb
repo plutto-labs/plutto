@@ -7,6 +7,12 @@ class Api::V1::InvoicesController < Api::V1::BaseController
     respond_with invoice
   end
 
+  def mark_as
+    authorize invoice
+    invoice.update!(status: params[:status])
+    respond_with invoice
+  end
+
   private
 
   def invoice

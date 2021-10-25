@@ -18,6 +18,7 @@ API_V1 = {
       invoice: INVOICE_SCHEMA,
       invoice_resource: INVOICE_RESOURCE_SCHEMA,
       invoices_collection: INVOICES_COLLECTION_SCHEMA,
+      invoice_mark_as: INVOICE_MARK_AS_SCHEMA,
       subscription: SUBSCRIPTION_SCHEMA,
       subscription_create: SUBSCRIPTION_CREATE_SCHEMA,
       subscription_resource: SUBSCRIPTION_RESOURCE_SCHEMA,
