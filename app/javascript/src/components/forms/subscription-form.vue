@@ -83,7 +83,7 @@
       <span class="flex-1">Select permissionGroup:<br><span class="text-xs text-gray-300">(optional)</span></span>
       <PluttoDropdown
         class="w-32 ml-4 plutto-input"
-        :options="permissionGroups"
+        :options="parsedPermissionGroups"
         value-key="id"
         :selected="subscription.permissionGroupId"
         @selected="(permissionGroupId) => subscription.permissionGroupId = permissionGroupId"
@@ -121,7 +121,7 @@
               {{ product.name }}
             </div>
             <PluttoTooltip
-              v-if="meteredPricingError(product, selectedPricings[productId])"
+              v-if="meteredPricingError(product, selectedPricings[product.id])"
               :background="'danger'"
             >
               <template #trigger>
@@ -216,7 +216,17 @@ export default {
       products: state => state.products.products,
       permissionGroups: state => state.permissionGroups.permissionGroups,
       currentCustomer: state => state.customers.currentCustomer,
+      globalError: state => state.ui.error,
     }),
+    parsedError() {
+      return this.globalError?.response?.data?.error;
+    },
+    parsedPermissionGroups() {
+      return this.permissionGroups.map(pg => ({
+        ...pg,
+        name: `${pg.name} [${pg.currency}]`,
+      }));
+    },
   },
   methods: {
     selectProduct(productId) {
@@ -238,10 +248,13 @@ export default {
         pricing => ({ value: pricing.id, name: `${pricing.name} [${pricing.currency}]` }),
       );
     },
-    createSubscription() {
+    async createSubscription() {
       this.subscription.pricingIds = Object.values(this.selectedPricings);
-      this.$store.dispatch('CREATE_SUBSCRIPTION', { ...this.subscription, customerId: this.currentCustomer.id })
-        .then(this.$emit('created-subscription'));
+      await this.$store.dispatch('CREATE_SUBSCRIPTION', { ...this.subscription, customerId: this.currentCustomer.id });
+
+      if (this.parsedError === undefined) {
+        this.$emit('created-subscription');
+      }
     },
     removeProduct(productId) {
       delete this.selectedProducts[productId];
