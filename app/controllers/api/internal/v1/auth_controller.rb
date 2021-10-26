@@ -9,6 +9,11 @@ class Api::Internal::V1::AuthController < Api::Internal::V1::BaseController
     respond_with({ errors: { 'login': ['Credenciales incorrectas'] } }, status: :unauthorized)
   end
 
+  def destroy
+    sign_out current_user
+    respond_with({}, status: :ok)
+  end
+
   private
 
   def auth_params
