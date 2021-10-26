@@ -44,6 +44,21 @@ export const actions = {
       });
   },
 
+  END_SUBSCRIPTION({ commit }, payload) {
+    commit('setSubscriptionsLoading', true);
+
+    return subscriptionsApi.endSubscription(payload.id)
+      .then((data) => {
+        if (data.subscription) commit('setCurrentCustomerSubscription', null);
+      })
+      .catch((err) => {
+        commit('setError', err);
+      })
+      .finally(() => {
+        commit('setSubscriptionsLoading', false);
+      });
+  },
+
   reset({ commit }) {
     commit('resetState');
   },

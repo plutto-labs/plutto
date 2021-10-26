@@ -165,4 +165,35 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
 
     it_behaves_like 'unauthorized internal POST endpoint'
   end
+
+  describe 'PATCH #end_subscription' do
+    let(:organization) { create(:organization) }
+    let!(:subscription) { create(:subscription, customer: customer, active: true) }
+    let!(:billing_period) { create(:billing_period, subscription: subscription) }
+    let!(:customer) { create(:customer, organization: organization) }
+
+    context 'when signed in' do
+      before do
+        sign_in(create(:user, organization: organization))
+        allow(EndBillingPeriod).to receive(:for).with(
+          billing_period: billing_period,
+          start_next_period: false
+        )
+      end
+
+      it 'returns http success' do
+        patch :end_subscription, format: :json,
+          params: { subscription_id: subscription.id }
+
+        expect(response).to have_http_status(:success)
+        expect(EndBillingPeriod).to have_received(:for).with(
+          billing_period: billing_period,
+          start_next_period: false
+        )
+        expect(subscription.reload.active).to eq(false)
+      end
+    end
+
+    it_behaves_like 'unauthorized internal POST endpoint'
+  end
 end
