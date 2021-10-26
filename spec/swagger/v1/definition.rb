@@ -6,10 +6,10 @@ API_V1 = {
   },
   servers: [
     {
-      url: 'https://sandbox.getplutto.com',
+      url: 'https://sandbox.getplutto.com/api/v1',
       description: 'Sandbox server (uses test data)'
     }, {
-      url: 'https://app.getplutto.com',
+      url: 'https://app.getplutto.com/api/v1',
       description: 'Production server (uses live data)'
     }
   ],

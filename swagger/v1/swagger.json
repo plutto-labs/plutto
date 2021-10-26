@@ -6,11 +6,11 @@
   },
   "servers": [
     {
-      "url": "https://sandbox.getplutto.com",
+      "url": "https://sandbox.getplutto.com/api/v1",
       "description": "Sandbox server (uses test data)"
     },
     {
-      "url": "https://app.getplutto.com",
+      "url": "https://app.getplutto.com/api/v1",
       "description": "Production server (uses live data)"
     }
   ],
@@ -1177,7 +1177,7 @@
     }
   },
   "paths": {
-    "/api/v1/customers": {
+    "/customers": {
       "get": {
         "summary": "Retrieves Customers",
         "tags": [
@@ -1273,7 +1273,7 @@
         }
       }
     },
-    "/api/v1/customers/{id}": {
+    "/customers/{id}": {
       "parameters": [
         {
           "name": "id",
@@ -1417,7 +1417,7 @@
         }
       }
     },
-    "/api/v1/customers/{id}/has_permission/{permission_name}": {
+    "/customers/{id}/has_permission/{permission_name}": {
       "parameters": [
         {
           "name": "id",
@@ -1482,7 +1482,7 @@
         }
       }
     },
-    "/api/v1/invoices": {
+    "/invoices": {
       "get": {
         "summary": "Retrieves Invoices",
         "tags": [
@@ -1540,7 +1540,7 @@
         }
       }
     },
-    "/api/v1/invoices/{id}": {
+    "/invoices/{id}": {
       "parameters": [
         {
           "name": "id",
@@ -1597,7 +1597,7 @@
         }
       }
     },
-    "/api/v1/invoices/{id}/mark_as": {
+    "/invoices/{id}/mark_as": {
       "parameters": [
         {
           "name": "id",
@@ -1667,7 +1667,7 @@
         }
       }
     },
-    "/api/v1/meter_events": {
+    "/meter_events": {
       "post": {
         "summary": "Creates Meter Event",
         "tags": [
@@ -1717,7 +1717,7 @@
         }
       }
     },
-    "/api/v1/permission_groups": {
+    "/permission_groups": {
       "get": {
         "summary": "Retrieves Permission Groups",
         "tags": [
@@ -1755,7 +1755,7 @@
         }
       }
     },
-    "/api/v1/products": {
+    "/products": {
       "get": {
         "summary": "Retrieves Products",
         "tags": [
@@ -1793,7 +1793,7 @@
         }
       }
     },
-    "/api/v1/subscriptions": {
+    "/subscriptions": {
       "post": {
         "summary": "Creates Subscription",
         "tags": [
@@ -1853,7 +1853,7 @@
         }
       }
     },
-    "/api/v1/subscriptions/{id}/end_subscription": {
+    "/subscriptions/{id}/end_subscription": {
       "parameters": [
         {
           "name": "id",
@@ -1914,7 +1914,7 @@
         }
       }
     },
-    "/api/v1/subscriptions/{id}/add_pricings": {
+    "/subscriptions/{id}/add_pricings": {
       "parameters": [
         {
           "name": "id",
@@ -1994,7 +1994,7 @@
         }
       }
     },
-    "/api/v1/subscriptions/{id}/remove_pricings": {
+    "/subscriptions/{id}/remove_pricings": {
       "parameters": [
         {
           "name": "id",
