@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         patch 'edit_trial', to: 'subscriptions#edit_trial'
         patch 'add_pricings', to: 'subscriptions#add_pricings'
         patch 'remove_pricings', to: 'subscriptions#remove_pricings'
+        patch 'end_subscription', to: 'subscriptions#end_subscription'
       end
       resources :users, only: [:show]
     end

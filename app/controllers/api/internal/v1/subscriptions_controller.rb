@@ -44,6 +44,18 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
     respond_with(subscription)
   end
 
+  def end_subscription
+    ActiveRecord::Base.transaction do
+      EndBillingPeriod.for(
+        billing_period: subscription.current_billing_period,
+        start_next_period: false
+      )
+      subscription.end_subscription!
+    end
+
+    respond_with(subscription)
+  end
+
   private
 
   def pricings(includes = [])
