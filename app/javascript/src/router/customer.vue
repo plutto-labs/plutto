@@ -13,7 +13,7 @@
           class="w-48 mr-6 btn btn--filled"
           @click="showSubscriptionForm = true"
         >
-          {{ currentCustomer.activeSubscription ? 'Edit subscription' : 'Add subscription' }}
+          {{ currentCustomer.activeSubscription ? 'Current subscription' : 'Add subscription' }}
         </button>
       </div>
       <div class="px-6 mt-6 customer-grid">
@@ -229,7 +229,7 @@
     >
       <SubscriptionForm
         class="relative"
-        :subscription="currentCustomer.activeSubscription"
+        :current-subscription="currentCustomer.activeSubscription"
         @created-subscription="showSubscriptionForm = false;"
       />
     </PluttoModal>

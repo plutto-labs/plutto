@@ -6,10 +6,11 @@
     <div class="h-full rounded-md shadow-sm">
       <Field
         as="div"
-        @click="isMenuOpen = !isMenuOpen"
+        @click="openDropdown"
         v-model="selectedOptionValue"
         :name="dropdownId"
         class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm cursor-pointer focus:outline-none text-gray-50 hover:bg-gray-500"
+        :class="{'cursor-not-allowed': disabled}"
         id="options-menu"
         aria-haspopup="true"
         aria-expanded="true"
@@ -94,6 +95,10 @@ export default {
       type: String,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   directives: {
     clickOutside: vClickOutside.directive,
@@ -117,6 +122,9 @@ export default {
     },
     closeMenu() {
       this.isMenuOpen = false;
+    },
+    openDropdown() {
+      if (!this.disabled) this.isMenuOpen = !this.isMenuOpen;
     },
   },
   computed: {

@@ -4,9 +4,10 @@
     @submit="createSubscription"
     v-slot="{ errors }"
     :validation-schema="schema"
+    :disabled="true"
   >
     <h1 class="text-xl">
-      New Subscription
+      {{ `${this.presentSubscription ? 'Current' : 'New'} Subscription` }}
     </h1>
     <div class="flex mt-4">
       <div class="mr-8 w-50">
@@ -20,6 +21,7 @@
           input-id="billsAt"
           :options="['start', 'end']"
           v-model="subscription.billsAt"
+          :disabled="this.presentSubscription"
         />
         <div
           class="absolute text-sm text-danger-light"
@@ -43,6 +45,7 @@
           @selected="(bpd) => subscription.billingPeriodDuration = bpd"
           label-key="label"
           value-key="value"
+          :disabled="this.presentSubscription"
         />
         <div
           class="absolute text-sm text-danger-light"
@@ -66,6 +69,7 @@
           :popover="{ visibility: 'focus' }"
           :transition="'none'"
           class="my-4"
+          :disabled-dates="this.presentSubscription ? { weekdays: [1, 2, 3, 4, 5, 6, 7] } : { weekdays: [] }"
         >
           <template #default="{ inputValue, inputEvents }">
             <div class="plutto-input">
@@ -87,6 +91,7 @@
         value-key="id"
         :selected="subscription.permissionGroupId"
         @selected="(permissionGroupId) => subscription.permissionGroupId = permissionGroupId"
+        :disabled="this.presentSubscription"
       />
     </div>
     <div class="flex items-center justify-between my-8">
@@ -98,6 +103,7 @@
         value-key="id"
         label-key="name"
         @selected="(productId) => selectProduct(productId)"
+        :disabled="this.presentSubscription"
       />
     </div>
     <div class="grid grid-cols-3 gap-4 mt-4">
@@ -108,6 +114,7 @@
       >
         <div
           class="absolute top-0 right-0 -mt-3 -mr-2 text-xl opacity-0 cursor-pointer plutto-icon group-hover:opacity-100"
+          v-if="!this.presentSubscription"
           @click="removeProduct(product.id)"
         >
           cancel
@@ -143,13 +150,22 @@
             selected="Pricing..."
             :options="pricingOptions(product)"
             @selected="(pricingId) => selectedPricings[product.id] = pricingId"
+            :disabled="this.presentSubscription"
           />
         </div>
       </div>
     </div>
     <div class="flex justify-around w-full h-full my-8">
       <button
+        class="mt-auto btn btn--cancel"
+        v-if="this.presentSubscription"
+        @click.prevent="endSubscription"
+      >
+        Cancel subscription
+      </button>
+      <button
         class="mt-auto btn"
+        v-else
       >
         Create subscription
       </button>
@@ -167,6 +183,12 @@ import { Form } from 'vee-validate';
 
 export default {
   components: { PluttoDropdown, PluttoRadioInput, DatePicker, PluttoTooltip, Form },
+  props: {
+    currentSubscription: {
+      type: Object,
+      default: null,
+    },
+  },
   data() {
     return {
       selectedProducts: {},
@@ -207,8 +229,21 @@ export default {
       },
     };
   },
-  async mounted() {
-    await this.$store.dispatch('GET_PRODUCTS');
+  async beforeCreate() {
+    await Promise.all([
+      this.$store.dispatch('GET_PRODUCTS'),
+      this.$store.dispatch('GET_PERMISSION_GROUPS'),
+    ]);
+    if (this.presentSubscription) {
+      this.subscription.billsAt = this.currentSubscription.billsAt;
+      this.subscription.billingPeriodDuration = this.currentSubscription.billingPeriodDuration;
+      this.subscription.trialFinishesAt = this.currentSubscription.trialFinishesAt;
+      this.subscription.permissionGroupId = this.currentSubscription.permissionGroup.id;
+      this.currentSubscription.pricings.forEach((pricing) => {
+        this.selectedProducts[pricing.productId] = this.findProduct(pricing.productId);
+        this.selectedPricings[pricing.productId] = pricing.id;
+      });
+    }
   },
   computed: {
     ...mapState({
@@ -226,6 +261,11 @@ export default {
         ...pg,
         name: `${pg.name} [${pg.currency}]`,
       }));
+    },
+    presentSubscription() {
+      if (this.currentSubscription) return true;
+
+      return false;
     },
   },
   methods: {
@@ -251,6 +291,13 @@ export default {
     async createSubscription() {
       this.subscription.pricingIds = Object.values(this.selectedPricings);
       await this.$store.dispatch('CREATE_SUBSCRIPTION', { ...this.subscription, customerId: this.currentCustomer.id });
+
+      if (this.parsedError === undefined) {
+        this.$emit('created-subscription');
+      }
+    },
+    async endSubscription() {
+      await this.$store.dispatch('END_SUBSCRIPTION', { id: this.currentSubscription.id });
 
       if (this.parsedError === undefined) {
         this.$emit('created-subscription');

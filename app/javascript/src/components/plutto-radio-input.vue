@@ -17,9 +17,11 @@
       <input
         :value="option"
         class="plutto-checkbox plutto-checkbox--radio"
+        :class="{'cursor-not-allowed': disabled}"
         type="radio"
         v-model="selectedOption"
         :id="`${inputId}_${option}`"
+        :disabled="disabled"
       >
     </div>
   </Field>
@@ -40,6 +42,10 @@ export default {
     modelValue: {
       type: String,
       default: '',
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   components: { Field },
