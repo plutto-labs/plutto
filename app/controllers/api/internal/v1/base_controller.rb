@@ -6,7 +6,7 @@ class Api::Internal::V1::BaseController < Api::BaseController
   after_action do
     if current_user
       Analytics.track(
-        user_id: current_user.id,
+        user_id: current_user.organization.id,
         event: "internal #{action_name} #{controller_name}"
       )
     end
