@@ -35,12 +35,12 @@ export default {
       viewOptions: [
         { label: 'Invoices', value: 'invoices' },
         { label: 'Transactions', value: 'transactions' },
-        { label: 'Settings', value: 'payment-settings' },
+        // { label: 'Settings', value: 'payment-settings' },
       ],
       components: {
         'invoices': 'Invoices',
         'transactions': 'Transactions',
-        'payment-settings': 'PaymentSettings',
+        // 'payment-settings': 'PaymentSettings',
       },
     };
   },

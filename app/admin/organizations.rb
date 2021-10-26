@@ -1,5 +1,5 @@
 ActiveAdmin.register Organization do
-  permit_params :name
+  permit_params :name, :settings
 
   action_item :create_product, only: :show do
     link_to(I18n.t('active_admin.resources.organization.new_product'),
@@ -29,6 +29,7 @@ ActiveAdmin.register Organization do
   form do |f|
     f.inputs do
       f.input :name
+      f.input :settings
     end
     f.actions
   end
@@ -37,6 +38,9 @@ ActiveAdmin.register Organization do
     attributes_table do
       row :id
       row :name
+      row :settings do |model|
+        tag.pre JSON.pretty_generate(model.settings)
+      end
       row :created_at
       row :updated_at
     end
