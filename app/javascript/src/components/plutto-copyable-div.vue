@@ -9,7 +9,7 @@
       </p>
       <span
         v-if="value && showIcon"
-        class="ml-1 cursor-pointer fill-current plutto-icon"
+        class="ml-1 cursor-pointer fill-current plutto-icon whitespace-nowrap"
         :class="iconClass"
         @click.prevent
       >
