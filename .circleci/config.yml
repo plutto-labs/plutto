@@ -85,7 +85,7 @@ jobs:
           name: Run rspec
           command: |
             RSPEC_JUNIT_ARGS="-r rspec_junit_formatter -f RspecJunitFormatter -o test_results/rspec.xml"
-            RSPEC_FORMAT_ARGS="-f progress --no-color -p 10"
+            RSPEC_FORMAT_ARGS="-f progress --no-color -p 10 --order random"
             bundle exec rspec spec $RSPEC_FORMAT_ARGS $RSPEC_JUNIT_ARGS
 
       - run:

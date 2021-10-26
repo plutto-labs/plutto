@@ -2,6 +2,7 @@ class Invoice < ApplicationRecord
   include PowerTypes::Observable
 
   default_scope { order(issue_date: :desc) }
+  scope :unordered, -> { unscope(:order) }
 
   VALID_ACTIONS = {
     created: ['post', 'charge', 'void'],
