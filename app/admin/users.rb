@@ -5,6 +5,9 @@ ActiveAdmin.register User do
   index do
     id_column
     column :email
+    column :login do |user|
+      link_to("login as #{user.email}", admin_login_as_path(user.id))
+    end
     column :created_at
     actions
   end
