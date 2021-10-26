@@ -35,3 +35,16 @@ restore-from-%:
 	@heroku pg:backups:download --remote $(ROLE) --output $(TEMP_FILE)
 	@pg_restore --verbose --clean --no-acl --no-owner -h localhost \
 		-U postgres -p $(shell make services-port SERVICE=postgresql PORT=5432) -d $(PROJECT)_development $(TEMP_FILE)
+
+swaggerize:
+	@echo "Generating swagger.json...."
+	@bundle exec rails rswag:specs:swaggerize RAILS_ENV=test DB_ADAPTER=nulldb
+	@make replace-swagger-prefixes
+
+replace-swagger-prefixes:
+	@echo "Replacing /api/v1/ to / from paths"
+	@sed -i "" "s/\/api\/v1\//\//g" ./swagger/v1/swagger.json
+
+deploy-docs:
+	@echo "Deploying swagger.json to Readme..."
+	@npx rdme openapi ./swagger/v1/swagger.json --key=dL7kzpgmGrcao0dw0ebG0o3sWdjk7DO4 --id=614a1de1fe237c001ef19c49
