@@ -11,3 +11,8 @@ export function getUser(id) {
   return authedAxios.get(`/api/internal/v1/users/${id}`)
     .then((res) => camelizeKeys(res.data));
 }
+
+export function logout() {
+  return authedAxios.delete('/api/internal/v1/auth')
+    .then((res) => camelizeKeys(res.data));
+}

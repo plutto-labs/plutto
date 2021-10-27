@@ -5,19 +5,23 @@ describe Api::Internal::V1::BaseController, type: :controller do
 
   describe '#callbacks' do
     context 'with user logged in' do
-      let(:user) { create(:user) }
+      let(:organization) { create(:organization) }
+      let(:user) { create(:user, organization: organization) }
 
       before do
         sign_in(user)
         allow(Analytics).to receive(:track).with(
-          user_id: user.id,
+          user_id: user.organization.id,
           event: 'internal index base'
         )
       end
 
       it 'track request using analytics variable' do
         get :index, format: :json
-        expect(Analytics).to have_received(:track)
+        expect(Analytics).to have_received(:track).with(
+          user_id: user.organization.id,
+          event: 'internal index base'
+        ).once
       end
     end
   end

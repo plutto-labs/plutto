@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'analytics/mrr_and_arr/:currency', to: 'analytics#mrr_and_arr'
       resources :api_keys, only: [:create, :index, :destroy]
       resources :auth, only: [:create]
+      delete 'auth', to: 'auth#destroy'
       resources :checkouts, param: :token, only: [:show, :update]
       resources :customers, only: [:index, :show, :create, :update, :destroy] do
         resources :payment_methods, only: [:create]
@@ -57,4 +58,6 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/queue'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#index'
+  get 'home/admin', to: 'home#admin', as: 'admin_app'
+  get 'admin/login_as/:id', to: 'admin#login_as', as: 'admin_login_as'
 end

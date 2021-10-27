@@ -15,6 +15,23 @@ import PluttoError from '@/components/plutto-error.vue';
 
 export default {
   components: { NavBar, PluttoError },
+  props: {
+    loggedUser: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  async beforeCreate() {
+    if (this.loggedUser.id !== null) {
+      this.$store.dispatch('UPDATE_USER_DATA', this.loggedUser.id)
+        .catch((err) => {
+          if (err.response && err.response.status === 401) {
+            this.$store.dispatch('LOGOUT_USER');
+            this.$router.replace('/login');
+          }
+        });
+    }
+  },
   beforeMount() {
     if (this.loggedIn) {
       this.$store.dispatch('UPDATE_USER_DATA', this.currentUser.id)

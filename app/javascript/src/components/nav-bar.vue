@@ -105,9 +105,9 @@ export default {
     });
   },
   methods: {
-    logout() {
+    async logout() {
+      await this.$store.dispatch('LOGOUT_USER');
       this.$router.replace('/login');
-      this.$store.dispatch('LOGOUT_USER');
     },
     changeEnvironment() {
       if (!['production', 'sandox'].includes(this.environment)) return;

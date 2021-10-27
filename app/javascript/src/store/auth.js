@@ -39,7 +39,8 @@ export const actions = {
       });
   },
   LOGOUT_USER({ commit }) {
-    commit('resetState');
+    authApi.logout()
+      .then(() => commit('resetState'));
   },
 };
 
