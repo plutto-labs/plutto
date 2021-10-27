@@ -43,7 +43,7 @@ export default {
   props: {
     selectedTab: {
       type: String,
-      default: 'all',
+      default: 'active',
     },
   },
   data() {
@@ -51,8 +51,8 @@ export default {
       showNewCustomerForm: false,
       editingCustomer: null,
       tabs: [
-        { label: 'All', value: 'all' },
         { label: 'Active', value: 'active' },
+        { label: 'All', value: 'all' },
         { label: 'Trial', value: 'trial' },
       ],
       components: {
