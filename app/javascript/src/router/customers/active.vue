@@ -66,7 +66,7 @@ export default {
       ));
     },
   },
-  async mounted() {
+  async beforeCreate() {
     await this.$store.dispatch('GET_CUSTOMERS', 'active');
   },
 };

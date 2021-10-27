@@ -1,7 +1,7 @@
 import * as customersApi from '../api/customers';
 
 const initialState = {
-  customers: null,
+  customers: {},
   currentCustomer: false,
   loading: null,
 };

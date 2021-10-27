@@ -41,8 +41,8 @@ export default {
       customers: state => state.customers.customers,
     }),
   },
-  async mounted() {
-    this.$store.dispatch('GET_CUSTOMERS');
+  async beforeCreate() {
+    await this.$store.dispatch('GET_CUSTOMERS', 'inactive');
   },
 };
 </script>

@@ -31,14 +31,15 @@
 import PluttoHeader from '@/components/plutto-header';
 import PluttoModal from '@/components/plutto-modal';
 import NewCustomerForm from '@/components/forms/new-customer-form';
-import All from '@/router/customers/all';
+import Inactive from '@/router/customers/inactive';
 import Active from '@/router/customers/active';
+import Canceled from '@/router/customers/canceled';
 import Trial from '@/router/customers/trial';
 import PluttoTabs from '@/components/plutto-tabs';
 
 export default {
   components: {
-    PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, All, Active, Trial,
+    PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, Inactive, Active, Trial, Canceled,
   },
   props: {
     selectedTab: {
@@ -52,12 +53,14 @@ export default {
       editingCustomer: null,
       tabs: [
         { label: 'Active', value: 'active' },
-        { label: 'All', value: 'all' },
+        { label: 'Inactive', value: 'inactive' },
+        { label: 'Canceled', value: 'canceled' },
         { label: 'Trial', value: 'trial' },
       ],
       components: {
-        all: 'All',
+        inactive: 'Inactive',
         active: 'Active',
+        canceled: 'Canceled',
         trial: 'Trial',
       },
     };
