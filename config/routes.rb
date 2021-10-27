@@ -14,8 +14,6 @@ Rails.application.routes.draw do
       resources :customers, only: [:index, :show, :create, :update, :destroy] do
         resources :payment_methods, only: [:create]
       end
-      get 'active_customers', to: 'customers#active'
-      get 'trial_customers', to: 'customers#trial'
       patch 'invoices/:id/change_status', to: 'invoices#change_status'
       resources :invoices, only: [:index, :show]
       resources :meters, only: [:index, :show, :update, :create, :destroy]

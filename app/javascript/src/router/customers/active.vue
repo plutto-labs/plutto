@@ -67,7 +67,7 @@ export default {
     },
   },
   async mounted() {
-    await this.$store.dispatch('GET_ACTIVE_CUSTOMERS');
+    await this.$store.dispatch('GET_CUSTOMERS', 'active');
   },
 };
 </script>
