@@ -24,10 +24,20 @@ class Customer < ApplicationRecord
     ).where(active_subscription: { trial_finishes_at: nil })
   end
 
+  scope :inactive, -> do
+    includes(:subscriptions).where(subscriptions: { customer_id: nil })
+  end
+
   scope :trial, -> do
     includes(:active_subscription).where.not(
       active_subscription: { trial_finishes_at: nil }
     )
+  end
+
+  scope :canceled, -> do
+    includes(:active_subscription, :subscriptions).where(
+      active_subscription: { id: nil }
+    ).where.not(subscriptions: { customer_id: nil })
   end
 
   def add_subscription(pricings)

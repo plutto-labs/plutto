@@ -20,6 +20,30 @@ RSpec.describe Customer, type: :model do
     end
   end
 
+  describe 'Scopes' do
+    let(:organization) { create(:organization) }
+    let!(:active) { create(:customer, :active) }
+    let!(:inactive) { create(:customer) }
+    let!(:trial) { create(:customer, :trial) }
+    let!(:canceled) { create(:customer, :canceled) }
+
+    it 'active' do
+      expect(described_class.active.to_a).to match_array [active]
+    end
+
+    it 'inactive' do
+      expect(described_class.inactive.to_a).to match_array [inactive]
+    end
+
+    it 'trial' do
+      expect(described_class.trial.to_a).to match_array [trial]
+    end
+
+    it 'canceled' do
+      expect(described_class.canceled.to_a).to match_array [canceled]
+    end
+  end
+
   describe 'Callbacks' do
     context 'when identifier is not given' do
       let(:customer) { build(:customer, identifier: nil) }
