@@ -33,7 +33,7 @@ const router = createRouter({
       path: '/business-model',
       name: 'business-model',
       redirect: {
-        name: 'permission-groups',
+        name: 'products',
       },
     }, {
       path: '/business-model/meters',
