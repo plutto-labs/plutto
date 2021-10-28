@@ -42,6 +42,7 @@
                 @selected="(meterId) => newProduct.meterId = meterId"
                 add-element-text="Add Meter"
                 @addElementClicked="showNewMeterModal = true"
+                float="right"
               />
             </div>
           </div>
