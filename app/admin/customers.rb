@@ -24,7 +24,7 @@ ActiveAdmin.register Customer do
   show do
     attributes_table do
       row :id
-      row :subscription
+      row :subscriptions
       row :name
       row :email
       row :created_at

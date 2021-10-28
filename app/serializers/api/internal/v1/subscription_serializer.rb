@@ -8,4 +8,8 @@ class Api::Internal::V1::SubscriptionSerializer < ActiveModel::Serializer
   def billing_period_duration
     object.billing_period_duration.iso8601
   end
+
+  def pricings
+    object.pricings.includes([:product, :price_logics])
+  end
 end

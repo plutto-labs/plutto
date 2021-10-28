@@ -14,6 +14,7 @@ export default function chartApi() {
       data,
       options: {
         responsive: true,
+        spanGaps: true,
         plugins: {
           legend: {
             display: false,

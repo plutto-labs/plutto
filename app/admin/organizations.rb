@@ -59,8 +59,8 @@ ActiveAdmin.register Organization do
       table_for resource.products do
         column(:id) do |product|
           link_to(product.id,
-                  admin_organization_products_path(organization_id: resource.id,
-                                                   product_id: product.id))
+                  admin_organization_product_path(organization_id: resource.id,
+                                                  id: product.id))
         end
         column :name
         column :created_at
@@ -71,7 +71,7 @@ ActiveAdmin.register Organization do
       table_for resource.meters do
         column(:id) do |meter|
           link_to(meter.id,
-                  admin_organization_meters_path(organization_id: resource.id, meter_id: meter.id))
+                  admin_organization_meter_path(organization_id: resource.id, id: meter.id))
         end
         column :name
         column :created_at

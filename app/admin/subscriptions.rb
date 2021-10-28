@@ -1,6 +1,5 @@
 ActiveAdmin.register Subscription do
-  permit_params :name
-  belongs_to :pricing
+  permit_params :name, :customer_id, pricing_ids: []
 
   index do
     selectable_column
@@ -14,6 +13,9 @@ ActiveAdmin.register Subscription do
   form do |f|
     f.inputs do
       f.input :customer
+      f.input :pricings, collection: Pricing.where(
+        product_id: resource.customer.organization.products
+      ).map { |p| [p.name, p.id] }
     end
 
     f.actions
@@ -23,8 +25,23 @@ ActiveAdmin.register Subscription do
     attributes_table do
       row :id
       row :name
+      row :pricings
       row :created_at
       row :updated_at
+    end
+
+    panel 'Billing Periods' do
+      table_for resource.billing_periods do
+        column(:id) do |billing_period|
+          link_to(billing_period.id,
+                  admin_subscription_billing_period_path(subscription_id: resource.id,
+                                                         id: billing_period.id))
+        end
+        column :from
+        column :to
+        column :billing_date
+        column :created_at
+      end
     end
   end
 end

@@ -1,11 +1,6 @@
 ActiveAdmin.register Pricing do
   permit_params :name
-  belongs_to :organization
-
-  action_item :new_pricing, only: :show do
-    link_to I18n.t('active_admin.resources.pricing.new_pricing'),
-            new_admin_pricing_path(resource)
-  end
+  belongs_to :product
 
   index do
     selectable_column
