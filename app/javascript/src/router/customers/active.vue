@@ -1,12 +1,33 @@
 <template>
   <div>
-    <PluttoTable
-      class="mt-6 rounded-lg"
-      :headers="headers"
-      :rows="customersRows"
-      :loading="loading"
-      @show-clicked="(customer) => $router.push({ name: 'customer', params: { id: customer.id } })"
-    />
+    <template v-if="customersRows && customersRows.length > 0">
+      <PluttoTable
+        class="mt-6 rounded-lg"
+        :headers="headers"
+        :rows="customersRows"
+        :loading="loading"
+        @show-clicked="(customer) => $router.push({ name: 'customer', params: { id: customer.id } })"
+      />
+    </template>
+    <div
+      class="absolute flex items-center justify-center w-full text-center h-1/2"
+      v-else
+    >
+      <div>
+        <p>
+          Ups! Seems like there's no <b>active</b> customers.
+        </p>
+        <p>
+          Try looking for
+          <router-link
+            class="underline text-primary"
+            to="/customers/inactive"
+          >
+            inactive customers.
+          </router-link>
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
