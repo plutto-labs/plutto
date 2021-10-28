@@ -8,7 +8,8 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
   attribute :trial_finishes_at, if: :trial?
   attribute :meter_events_data, if: :show?
 
-  has_one :active_subscription, serializer: Api::Internal::V1::SubscriptionSerializer, if: :show?
+  has_one :active_subscription,
+          serializer: Api::Internal::V1::SubscriptionSerializer, if: :show_or_active?
   has_one :billing_information, if: :show?
   has_many :payment_methods, if: :show?
   has_many :invoices, if: :show?
@@ -47,6 +48,10 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
 
   def show?
     instance_options.present? && instance_options[:show]
+  end
+
+  def show_or_active?
+    show? || active?
   end
 
   private
