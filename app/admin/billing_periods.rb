@@ -23,13 +23,20 @@ ActiveAdmin.register BillingPeriod do
       row :updated_at
     end
 
+    meter_events = resource.meter_events.includes(meter: :organization)
+
     panel 'Meter Events' do
-      table_for resource.meter_events.includes(meter: :organization) do
-        column :id
-        column :meter
-        column :amount
-        column :current_meter_count
-        column :created_at
+      paginated_collection(
+        meter_events.page(params[:meter_events_page]).per(15),
+        param_name: 'meter_events_page'
+      ) do
+        table_for(collection) do
+          column :id
+          column :meter
+          column :amount
+          column :current_meter_count
+          column :created_at
+        end
       end
     end
   end
