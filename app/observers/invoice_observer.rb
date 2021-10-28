@@ -6,9 +6,9 @@ class InvoiceObserver < PowerTypes::Observer
     return unless settings
 
     if settings['charge_invoices_automatically']
-      object.change_status!('charge')
+      ChangeInvoiceStatusJob.perform_later(object, 'charge')
     elsif settings['send_invoices_automatically']
-      object.change_status!('post')
+      ChangeInvoiceStatusJob.perform_later(object, 'post')
     end
   end
 end
