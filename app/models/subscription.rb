@@ -40,7 +40,7 @@ class Subscription < ApplicationRecord
   end
 
   def tax_rate
-    Countries.find_by(country_iso_code, 'tax_rate')
+    Countries.find_by('iso2', country_iso_code)['tax_rate']
   end
 
   def has_pricing?(pricings)

@@ -82,9 +82,10 @@ RSpec.describe Subscription, type: :model do
     let(:billing_information) { create(:billing_information, country_iso_code: 'US') }
     let(:customer) { create(:customer, billing_information: billing_information) }
     let(:subscription) { create(:subscription, customer: customer) }
-    let(:tax_rate) { 0.0 }
+    let(:tax_rate) { 0.1 }
+    let(:country) { { 'tax_rate' => tax_rate } }
 
-    before { allow(Countries).to receive(:find_by).with('US', 'tax_rate').and_return(tax_rate) }
+    before { allow(Countries).to receive(:find_by).with('iso2', 'US').and_return(country) }
 
     it 'returns the tax rate' do
       expect(subscription.tax_rate).to eq(tax_rate)
