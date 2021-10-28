@@ -54,6 +54,10 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
     show? || active?
   end
 
+  def active_subscription
+    object.active_subscription
+  end
+
   private
 
   def previous_invoice
