@@ -9,7 +9,7 @@
           v-if="product.meter"
           class="text-sm"
         >
-          Meter: <u> {{ product.meter.name }} </u>
+          Meter: {{ product.meter.name }}
         </span>
       </div>
       <PluttoCopyableDiv

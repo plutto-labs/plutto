@@ -3,15 +3,11 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   include Pundit
 
   def index
-    respond_with(authorize(customers))
-  end
-
-  def active
-    respond_with(authorize(customers.active), active: true)
-  end
-
-  def trial
-    respond_with(authorize(customers.trial), trial: true)
+    if params[:filter].blank?
+      respond_with(authorize(customers))
+    else
+      respond_with(authorize(customers.send(params[:filter])), params[:filter].to_sym => true)
+    end
   end
 
   def show

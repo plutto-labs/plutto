@@ -33,8 +33,8 @@ export default {
   data() {
     return {
       options: [
-        { label: 'Permission Groups', value: 'permission-groups' },
         { label: 'Products', value: 'products' },
+        { label: 'Permission Groups', value: 'permission-groups' },
         { label: 'Meters', value: 'meters' },
       ],
       components: {

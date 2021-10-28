@@ -1,7 +1,7 @@
 import * as customersApi from '../api/customers';
 
 const initialState = {
-  customers: null,
+  customers: {},
   currentCustomer: false,
   loading: null,
 };
@@ -48,38 +48,10 @@ export const mutations = {
 };
 
 export const actions = {
-  GET_CUSTOMERS({ commit }) {
+  GET_CUSTOMERS({ commit }, payload) {
     commit('setCustomersLoading', true);
 
-    return customersApi.getCustomers()
-      .then((data) => {
-        if (data.customers) commit('setCustomers', data.customers);
-      })
-      .catch((err) => {
-        commit('setError', err);
-      })
-      .finally(() => {
-        commit('setCustomersLoading', false);
-      });
-  },
-  GET_ACTIVE_CUSTOMERS({ commit }) {
-    commit('setCustomersLoading', true);
-
-    return customersApi.getActiveCustomers()
-      .then((data) => {
-        if (data.customers) commit('setCustomers', data.customers);
-      })
-      .catch((err) => {
-        commit('setError', err);
-      })
-      .finally(() => {
-        commit('setCustomersLoading', false);
-      });
-  },
-  GET_TRIAL_CUSTOMERS({ commit }) {
-    commit('setCustomersLoading', true);
-
-    return customersApi.getTrialCustomers()
+    return customersApi.getCustomers(payload)
       .then((data) => {
         if (data.customers) commit('setCustomers', data.customers);
       })

@@ -67,8 +67,8 @@ export default {
       );
     },
   },
-  async mounted() {
-    await this.$store.dispatch('GET_TRIAL_CUSTOMERS');
+  async beforeCreate() {
+    await this.$store.dispatch('GET_CUSTOMERS', 'trial');
   },
 };
 </script>

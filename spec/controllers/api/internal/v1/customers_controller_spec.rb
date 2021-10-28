@@ -3,75 +3,63 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
 
   describe 'GET #index' do
     let(:organization) { create(:organization) }
-    let!(:customers) { create_list(:customer, 5, organization: organization) }
-
-    context 'when signed in' do
-      before { sign_in create(:user, organization: organization) }
-
-      it 'returns a success response' do
-        get :index, format: :json
-        expect(response).to be_successful
-      end
-
-      it 'returns all customers' do
-        get :index, format: :json
-        expect(JSON.parse(response.body)['customers'].count).to eq(5)
-      end
-    end
-
-    it_behaves_like 'unauthorized internal INDEX endpoint'
-  end
-
-  describe 'GET #active' do
-    let(:organization) { create(:organization) }
 
     before do
-      customer1 = create(:customer, organization: organization)
-      customer2 = create(:customer, organization: organization)
+      create(:customer, :active, organization: organization)
       create(:customer, organization: organization)
-      create(:subscription, customer: customer1, active: true)
-      create(:subscription, customer: customer2, active: true)
+      create(:customer, :trial, organization: organization)
+      create(:customer, :canceled, organization: organization)
     end
 
     context 'when signed in' do
       before { sign_in create(:user, organization: organization) }
 
-      it 'returns a success response' do
-        get :active, format: :json
-        expect(response).to be_successful
+      context 'without filters' do
+        it 'returns a success response' do
+          get :index, format: :json
+          expect(response).to be_successful
+        end
+
+        it 'returns all customers' do
+          get :index, format: :json
+          expect(JSON.parse(response.body)['customers'].count).to eq(4)
+        end
       end
 
-      it 'returns only active customers' do
-        get :active, format: :json
-        expect(JSON.parse(response.body)['customers'].count).to eq(2)
-      end
-    end
+      context 'with active filter' do
+        let(:filter) { 'active' }
 
-    it_behaves_like 'unauthorized internal INDEX endpoint'
-  end
-
-  describe 'GET #trial' do
-    let(:organization) { create(:organization) }
-
-    before do
-      customer1 = create(:customer, organization: organization)
-      customer2 = create(:customer, organization: organization)
-      create(:customer, organization: organization)
-      create(:subscription, customer: customer1, active: true, trial_finishes_at: Date.current)
-      create(:subscription, customer: customer2, active: true, trial_finishes_at: Date.current)
-    end
-
-    context 'when signed in' do
-      before { sign_in create(:user, organization: organization) }
-
-      it 'returns a success response' do
-        get :trial, format: :json
-        expect(response).to be_successful
+        it 'returns active customers' do
+          get :index, format: :json, params: { filter: filter }
+          expect(JSON.parse(response.body)['customers'].count).to eq(1)
+        end
       end
 
-      it 'returns only customers with active trial' do
-        get :trial, format: :json
-        expect(JSON.parse(response.body)['customers'].count).to eq(2)
+      context 'with inactive filter' do
+        let(:filter) { 'inactive' }
+
+        it 'returns active customers' do
+          get :index, format: :json, params: { filter: filter }
+          expect(JSON.parse(response.body)['customers'].count).to eq(1)
+        end
+      end
+
+      context 'with trial filter' do
+        let(:filter) { 'trial' }
+
+        it 'returns active customers' do
+          get :index, format: :json, params: { filter: filter }
+          expect(JSON.parse(response.body)['customers'].count).to eq(1)
+        end
+      end
+
+      context 'with canceled filter' do
+        let(:filter) { 'canceled' }
+
+        it 'returns active customers' do
+          get :index, format: :json, params: { filter: filter }
+          expect(JSON.parse(response.body)['customers'].count).to eq(1)
+        end
       end
     end
 

@@ -33,7 +33,7 @@ const router = createRouter({
       path: '/business-model',
       name: 'business-model',
       redirect: {
-        name: 'permission-groups',
+        name: 'products',
       },
     }, {
       path: '/business-model/meters',
@@ -78,19 +78,28 @@ const router = createRouter({
         authRequired: true,
       },
     }, {
-      path: '/customers/all',
-      name: 'all',
+      path: '/customers/active',
+      name: 'active',
       component: Customers,
-      props: { selectedTab: 'all' },
+      props: { selectedTab: 'active' },
       meta: {
         title: 'Customers | Plutto',
         authRequired: true,
       },
     }, {
-      path: '/customers/active',
-      name: 'active',
+      path: '/customers/inactive',
+      name: 'inactive',
       component: Customers,
-      props: { selectedTab: 'active' },
+      props: { selectedTab: 'inactive' },
+      meta: {
+        title: 'Customers | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/customers/canceled',
+      name: 'canceled',
+      component: Customers,
+      props: { selectedTab: 'canceled' },
       meta: {
         title: 'Customers | Plutto',
         authRequired: true,

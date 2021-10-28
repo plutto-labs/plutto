@@ -22,7 +22,7 @@ export default {
     },
   },
   async beforeCreate() {
-    if (this.loggedUser.id !== null) {
+    if (this.loggedUser?.id !== undefined) {
       this.$store.dispatch('UPDATE_USER_DATA', this.loggedUser.id)
         .catch((err) => {
           if (err.response && err.response.status === 401) {
