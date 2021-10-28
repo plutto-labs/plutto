@@ -29,10 +29,11 @@
     >
       <div
         v-if="isMenuOpen"
-        class="absolute left-0 z-50 w-56 mt-2 bg-gray-700 rounded-md shadow-lg outline-none ring-1 ring-black ring-opacity-5"
+        class="absolute z-50 mt-2 overflow-y-auto bg-gray-700 rounded-md shadow-lg outline-none max-h-48 ring-1 ring-black ring-opacity-5"
+        :class="{'left-0': float === 'left', 'right-0': float === 'right'}"
       >
         <div
-          class="flex flex-col text-sm"
+          class="flex flex-col flex-wrap text-sm"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="options-menu"
@@ -44,7 +45,7 @@
             @click="selectOption(option)"
           >
             <a
-              class="rounded-md"
+              class="truncate rounded-md"
             > {{ option && option[labelKey] || option }} </a>
           </div>
           <div
@@ -98,6 +99,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    float: {
+      type: String,
+      default: 'left',
     },
   },
   directives: {
