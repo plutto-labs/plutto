@@ -12,7 +12,7 @@ class KushkiService
     res = client.post('/subscriptions/v1/card', body)
     if res.code == 201
       create_payment_method(params[:token], res['subscriptionId'], customer, invoice.currency)
-      ChargeInvoiceJob.perform_later(invoice)
+      ChangeInvoiceStatusJob.perform_later(invoice, 'charge')
     end
     res
   end
