@@ -4,7 +4,7 @@ module Countries
   end
 
   def self.find_by_currency(currency)
-    all.find { |country| country[:currency].include?(currency) }
+    all.find { |country| country[:currencies].include?(currency) }
   end
 
   def self.names
