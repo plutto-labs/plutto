@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+    <div
+      v-if="loggedUser"
+      class="flex items-center justify-center w-full h-8 bg-danger-light text-danger text-bold"
+    >
+      Logged As: {{ loggedUser.email }}, remember to logout!
+    </div>
     <NavBar v-if="loggedIn">
       <router-view />
     </NavBar>

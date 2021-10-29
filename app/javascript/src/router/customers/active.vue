@@ -73,7 +73,7 @@ export default {
       customers: state => state.customers.customers,
     }),
     customersRows() {
-      return this.customers.map((customer) => (
+      return this.customers && this.customers.map((customer) => (
         {
           email: customer.email,
           name: customer.name,

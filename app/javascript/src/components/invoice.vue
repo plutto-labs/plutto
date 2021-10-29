@@ -5,19 +5,6 @@
     />
     <template v-else-if="invoice">
       <div class="mt-4">
-        <div
-          v-if="!initialInvoice"
-          class="grid grid-cols-6 gap-4 my-6 lg:mt-0 md:gap-x-84lg:col-span-12"
-        >
-          <button
-            class="btn"
-            v-for="event in invoice.permittedEvents"
-            :key="event"
-            @click="changeInvoiceStatus(event)"
-          >
-            {{ $t(`message.invoices.events.${event}`) }}
-          </button>
-        </div>
         <div class="px-6 py-6 mt-3 bg-gray-600 rounded-lg">
           <dl class="grid grid-cols-1 gap-6 md:grid-cols-2 my-7 lg:mt-0 md:gap-x-8 lg:px-8 lg:col-span-12">
             <div>
@@ -113,17 +100,82 @@
             </div>
           </dl>
         </div>
+        <div
+          class="grid grid-cols-2 gap-4"
+          v-if="!initialInvoice"
+        >
+          <div class="p-4 mt-4 bg-gray-600 rounded-lg hover:border hover:border-gray-300">
+            <span class="text-lg">Change status</span>
+            <p class="mt-2 mb-4 text-xs text-gray-200">
+              This action changes invoice status triggering all asociated actions.
+              For example, if posted, an email will be sent to the customer.
+            </p>
+            <PluttoRadioInput
+              input-id="change-status"
+              :options="invoice.permittedEvents"
+              v-model="selectedEvent"
+            />
+            <div
+              class="flex justify-between my-4"
+              v-if="selectedEvent"
+            >
+              <button
+                class="btn btn--dismiss"
+                @click="selectedEvent = null"
+              >
+                cancel
+              </button>
+              <button
+                class="btn btn--filled"
+                @click="changeInvoiceStatus(selectedEvent)"
+              >
+                Change status
+              </button>
+            </div>
+          </div>
+          <div class="p-4 mt-4 bg-gray-600 rounded-lg">
+            <span class="text-lg">Mark as</span>
+            <p class="mt-2 mb-4 text-xs text-gray-200">
+              This action changes invoice status without triggering actions.
+              Only for annotation purposes. No emails are sent or other actions performed.
+            </p>
+            <PluttoRadioInput
+              input-id="mark-as"
+              :options="Object.keys(tags)"
+              v-model="selectedMarkAs"
+            />
+            <div
+              class="flex justify-between my-4"
+              v-if="selectedMarkAs"
+            >
+              <button
+                class="btn btn--dismiss"
+                @click="selectedMarkAs = null"
+              >
+                cancel
+              </button>
+              <button
+                class="btn btn--filled"
+                @click="markInvoiceAs(selectedMarkAs)"
+              >
+                Mark as
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </template>
   </div>
 </template>
 
 <script>
+import { decamelize } from 'humps';
 import { mapState } from 'vuex';
 import PluttoLoader from '@/components/plutto-loader';
+import PluttoRadioInput from '@/components/plutto-radio-input.vue';
 
 export default {
-  components: { PluttoLoader },
+  components: { PluttoLoader, PluttoRadioInput },
   props: {
     invoiceId: {
       type: String,
@@ -136,7 +188,6 @@ export default {
   },
   data() {
     return {
-      dropdownOptions: ['new', 'posted', 'paid', 'not_paid', 'voided'],
       invoice: {},
       tags: {
         created: 'purple',
@@ -145,6 +196,8 @@ export default {
         notPaid: 'red',
         voided: 'yellow',
       },
+      selectedEvent: null,
+      selectedMarkAs: null,
     };
   },
   async beforeMount() {
@@ -171,6 +224,12 @@ export default {
       await this.$store.dispatch('CHANGE_INVOICE_STATUS', {
         id: this.currentInvoice.id,
         event,
+      });
+    },
+    async markInvoiceAs(event) {
+      await this.$store.dispatch('MARK_INVOICE_AS', {
+        id: this.currentInvoice.id,
+        event: decamelize(event),
       });
     },
     totalAmount() {

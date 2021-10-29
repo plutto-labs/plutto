@@ -72,4 +72,39 @@ RSpec.describe Api::Internal::V1::InvoicesController, type: :controller do
       let(:resource_id) { invoice.id }
     end
   end
+
+  describe 'PATCH #mark_as' do
+    let!(:invoice) { create(:invoice, customer: customer) }
+    let(:event_params) { { event: 'posted' } }
+
+    context 'when signed in' do
+      before { sign_in create(:user, organization: organization) }
+
+      context 'with valid params' do
+        it 'returns http success' do
+          patch :mark_as, format: :json,  params: event_params.merge(id: invoice.id)
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'marks invoice as' do
+          patch :mark_as, format: :json,  params: event_params.merge(id: invoice.id)
+          expect(invoice.reload.status).to eq('posted')
+        end
+      end
+
+      context 'with invalid params' do
+        let(:event_params) { { event: 'cualkier_status' } }
+
+        before { patch :change_status, format: :json,  params: event_params.merge(id: invoice.id) }
+
+        it 'returns http bad_request' do
+          expect(response).to have_http_status(:bad_request)
+        end
+      end
+    end
+
+    it_behaves_like 'unauthorized internal PATCH endpoint', :change_status do
+      let(:resource_id) { invoice.id }
+    end
+  end
 end

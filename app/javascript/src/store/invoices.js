@@ -74,6 +74,23 @@ export const actions = {
         commit('setInvoicesLoading', false);
       });
   },
+  MARK_INVOICE_AS({ commit }, payload) {
+    commit('setInvoicesLoading', true);
+
+    return invoicesApi.markInvoiceAs(payload.id, payload.event)
+      .then((data) => {
+        if (data.invoice) {
+          commit('setCurrentInvoice', data.invoice);
+          commit('updateInvoice', data.invoice);
+        }
+      })
+      .catch((err) => {
+        commit('setError', err);
+      })
+      .finally(() => {
+        commit('setInvoicesLoading', false);
+      });
+  },
 
   reset({ commit }) {
     commit('resetState');

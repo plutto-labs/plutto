@@ -15,3 +15,8 @@ export function changeInvoiceStatus(id, event) {
   return authedAxios.patch(`/api/internal/v1/invoices/${id}/change_status`, decamelizeKeys({ event }))
     .then((res) => camelizeKeys(res.data));
 }
+
+export function markInvoiceAs(id, event) {
+  return authedAxios.patch(`/api/internal/v1/invoices/${id}/mark_as`, decamelizeKeys({ event }))
+    .then((res) => camelizeKeys(res.data));
+}

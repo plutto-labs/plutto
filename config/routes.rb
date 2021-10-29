@@ -15,6 +15,7 @@ Rails.application.routes.draw do
         resources :payment_methods, only: [:create]
       end
       patch 'invoices/:id/change_status', to: 'invoices#change_status'
+      patch 'invoices/:id/mark_as', to: 'invoices#mark_as'
       resources :invoices, only: [:index, :show]
       resources :meters, only: [:index, :show, :update, :create, :destroy]
       resources :organizations, only: [:update]
