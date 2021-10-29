@@ -16,6 +16,12 @@ class Api::Internal::V1::InvoicesController < Api::Internal::V1::BaseController
     respond_with(invoice, show: true)
   end
 
+  def mark_as
+    authorize(invoice)
+    invoice.update!(status: event_param)
+    respond_with(invoice, show: true)
+  end
+
   private
 
   def invoice

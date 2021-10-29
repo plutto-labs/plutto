@@ -22,6 +22,7 @@ class Invoice < ApplicationRecord
 
   enum currency: Currencies.keys
   enum status: { created: 0, posted: 1, paid: 2, not_paid: 3, voided: 4 }
+  validates :status, presence: true
 
   before_validation :set_invoice_data
 

@@ -3,6 +3,10 @@ class InvoicePolicy < OrganizationRelatedPolicy
     from_company?
   end
 
+  def mark_as?
+    change_status?
+  end
+
   class Scope < Scope
     def resolve
       scope.joins(:customer).where(customers: { organization_id: organization_id })
