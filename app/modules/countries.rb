@@ -3,6 +3,10 @@ module Countries
     all.find { |country| country[attribute] == value }
   end
 
+  def self.find_by_currency(currency)
+    all.find { |country| country[:currency].include?(currency) }
+  end
+
   def self.names
     @names ||= all.map { |c| c['nombre'] }.freeze
   end

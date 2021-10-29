@@ -7,7 +7,8 @@
     "phone_code": 56,
     "flag": "🇨🇱",
     "tax_rate": 0.19,
-    "enum_key": 0
+    "enum_key": 0,
+    "currencies": ["CLP", "CLF"]
   },
   "MX": {
     "nombre": "México",
@@ -17,7 +18,8 @@
     "phone_code": 52,
     "flag": "🇲🇽",
     "tax_rate": 0.16,
-    "enum_key": 1
+    "enum_key": 1,
+    "currencies": ["MXN"]
   },
   "US": {
     "nombre": "Estados Unidos",
@@ -27,7 +29,8 @@
     "phone_code": 1,
     "flag": "🇺🇸",
     "tax_rate": 0,
-    "enum_key": 2
+    "enum_key": 2,
+    "currencies": ["USD"]
   },
   "CO": {
     "nombre": "Colombia",
@@ -37,6 +40,7 @@
     "phone_code": 57,
     "flag": "🇨🇴",
     "tax_rate": 0.0,
-    "enum_key": 3
+    "enum_key": 3,
+    "currencies": ["COP"]
   }
 }
