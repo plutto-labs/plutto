@@ -40,7 +40,8 @@ class Subscription < ApplicationRecord
   end
 
   def tax_rate
-    country = Countries.find_by('iso2', country_iso_code)
+    country = Countries.find_by('iso2', country_iso_code) ||
+      Countries.find_by_currency(currency) # rubocop:disable Rails/DynamicFindBy
     country&.fetch('tax_rate', 0) || 0
   end
 

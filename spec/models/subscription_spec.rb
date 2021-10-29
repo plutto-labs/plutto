@@ -79,16 +79,34 @@ RSpec.describe Subscription, type: :model do
   end
 
   describe '#tax_rate' do
-    let(:billing_information) { create(:billing_information, country_iso_code: 'US') }
+    let(:country_iso_code) { nil }
+    let(:billing_information) { create(:billing_information, country_iso_code: country_iso_code) }
     let(:customer) { create(:customer, billing_information: billing_information) }
-    let(:subscription) { create(:subscription, customer: customer) }
+    let(:subscription) { create(:subscription, customer: customer, currency: 'USD') }
     let(:tax_rate) { 0.1 }
-    let(:country) { { 'tax_rate' => tax_rate } }
 
-    before { allow(Countries).to receive(:find_by).with('iso2', 'US').and_return(country) }
+    context 'when country_iso_code is present' do
+      let(:country_iso_code) { 'US' }
 
-    it 'returns the tax rate' do
-      expect(subscription.tax_rate).to eq(tax_rate)
+      before do
+        allow(Countries).to receive(:find_by).with('iso2', country_iso_code)
+                                             .and_return({ 'tax_rate' => tax_rate })
+      end
+
+      it { expect(subscription.tax_rate).to eq(tax_rate) }
+    end
+
+    context 'when country_iso_code is not present' do
+      before do
+        allow(Countries).to receive(:find_by)
+          .with('iso2', country_iso_code).and_return(nil)
+        allow(Countries).to receive(:find_by_currency)
+          .with('USD').and_return({ 'tax_rate' => tax_rate })
+      end
+
+      it 'find country tax_rate using the country base_currency' do
+        expect(subscription.tax_rate).to eq(tax_rate)
+      end
     end
   end
 end
