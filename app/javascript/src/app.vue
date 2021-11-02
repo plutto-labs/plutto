@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    class="h-screen bg-gray-900"
+  >
     <div
       v-if="loggedUser"
       class="flex items-center justify-center w-full h-8 bg-danger-light text-danger text-bold"
@@ -7,9 +10,12 @@
       Logged As: {{ loggedUser.email }}, remember to logout!
     </div>
     <NavBar v-if="loggedIn">
-      <router-view />
+      <router-view class="h-full" />
     </NavBar>
-    <router-view v-else />
+    <router-view
+      v-else
+      class="h-full"
+    />
     <PluttoError />
   </div>
 </template>
@@ -62,7 +68,7 @@ export default {
 
 <style lang="scss">
 main {
-  @apply text-white py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none bg-gray-900 h-screen;
+  @apply text-white py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none;
 }
 
 .btn {
