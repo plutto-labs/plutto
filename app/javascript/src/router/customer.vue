@@ -166,7 +166,7 @@
         </div>
         <div
           class="p-2 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg customer-grid__usage md:p-4"
-          v-if="currentCustomer.currentPeriodDetails"
+          v-if="currentCustomer.currentPeriodDetails && currentCustomer.activeSubscription"
         >
           <div class="mb-2 text-lg text-gray-50">
             Current Usage
@@ -192,7 +192,7 @@
           v-else
         >
           <div class="mb-2 text-lg text-gray-50">
-            N/A
+            No subscription usage
           </div>
         </div>
         <div class="p-2 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg customer-grid__meters md:p-4">
