@@ -33,7 +33,9 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
   def invoice_properties(include_payment_link)
     {
       invoice_date: @invoice.issue_date,
-      invoice_total: { amount: @invoice.subtotal.amount, currency: @invoice.currency },
+      invoice_total: { amount: @invoice.total.amount, currency: @invoice.currency },
+      invoice_subtotal: { amount: @invoice.subtotal.amount, currency: @invoice.currency },
+      invoice_tax: { amount: @invoice.tax.amount, currency: @invoice.currency },
       details: @invoice.details,
       customer_email: @invoice.customer.email,
       customer_name: @invoice.customer.name,
