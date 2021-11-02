@@ -45,8 +45,8 @@ export default {
         {
           title: 'customer',
           type: 'twoLinesText',
-          bigText: 'customerEmail',
-          smallText: 'customerName',
+          bigText: 'customerName',
+          smallText: 'customerEmail',
         },
         {
           title: 'status',
