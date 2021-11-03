@@ -929,7 +929,7 @@
               "history_sum"
             ],
             "x-nullable": true,
-            "description": "choose if meters are from historic count or just this billing period count"
+            "description": "If metered counts are from historic usage or just the current period usage"
           },
           "price_logics": {
             "type": "array",

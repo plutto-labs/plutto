@@ -132,8 +132,8 @@ export default {
         'PriceLogic::Volume': { tierable: true, metered: true },
       },
       meterCountMethods: [
-        { value: 'period_sum', label: 'the last period information' },
-        { value: 'history_sum', label: 'the historic information' },
+        { value: 'period_sum', label: 'the current period usage' },
+        { value: 'history_sum', label: 'the historic usage' },
       ],
       selectedMeterCountMethod: null,
     };
