@@ -39,7 +39,7 @@ class Api::V1::ApiPolicy
 
     def initialize(bearer, scope)
       @bearer = bearer
-      @scope = scope
+      @scope = scope.ordered
     end
 
     def resolve

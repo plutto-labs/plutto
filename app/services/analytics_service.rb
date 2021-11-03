@@ -22,7 +22,7 @@ class AnalyticsService < PowerTypes::Service.new(:organization)
   private
 
   def group_by_date(records, column = :created_at, format = '%b')
-    records.group_by_month(column, last: 12, format: format)
+    records.unscope(:order).group_by_month(column, last: 12, format: format)
   end
 
   def organization_subscriptions_count_by_month(currency)
@@ -67,7 +67,7 @@ class AnalyticsService < PowerTypes::Service.new(:organization)
   end
 
   def invoices(currency)
-    @invoices ||= @organization.invoices.unordered.where(currency: currency)
+    @invoices ||= @organization.invoices.where(currency: currency)
   end
 
   def subscriptions(currency = nil)

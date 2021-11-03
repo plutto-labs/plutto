@@ -43,7 +43,7 @@ class ApplicationPolicy
       raise Pundit::NotAuthorizedError, 'must be logged in' unless user
 
       @user = user
-      @scope = scope
+      @scope = scope.ordered
     end
 
     def resolve
