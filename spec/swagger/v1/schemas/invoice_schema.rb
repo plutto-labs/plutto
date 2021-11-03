@@ -26,7 +26,7 @@ INVOICE_SCHEMA = {
     customer_id: { type: :string, example: 'customer_d43280e9377673a0b4b07f31',
                    'x-nullable': false },
     status: { type: :string, example: 'paid', 'x-nullable': false,
-              enum: ['created', 'posted', 'paid', 'not_paid', 'voided'] },
+              enum: ['created', 'sent', 'paid', 'not_paid', 'canceled'] },
     payed_at: { type: :string, example: '2020-01-01T00:00:00.000Z', 'x-nullable': true },
     payment_method: { type: :string, example: 'bank_transfer', 'x-nullable': true },
     tax_type: { type: :string, example: 'VAT', 'x-nullable': true },
@@ -86,6 +86,6 @@ INVOICE_MARK_AS_SCHEMA = {
   type: "object",
   properties: {
     status: { type: :string, example: 'paid', 'x-nullable': true,
-              enum: ['new', 'posted', 'paid', 'not_paid', 'voided'] }
+              enum: ['new', 'sent', 'paid', 'not_paid', 'canceled'] }
   }
 }

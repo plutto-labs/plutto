@@ -41,7 +41,7 @@ RSpec.describe Api::Internal::V1::InvoicesController, type: :controller do
 
   describe 'PATCH #change_status' do
     let!(:invoice) { create(:invoice, customer: customer) }
-    let(:event_params) { { event: 'post' } }
+    let(:event_params) { { event: 'send' } }
 
     context 'when signed in' do
       before { sign_in create(:user, organization: organization) }
@@ -75,7 +75,7 @@ RSpec.describe Api::Internal::V1::InvoicesController, type: :controller do
 
   describe 'PATCH #mark_as' do
     let!(:invoice) { create(:invoice, customer: customer) }
-    let(:event_params) { { event: 'posted' } }
+    let(:event_params) { { event: 'sent' } }
 
     context 'when signed in' do
       before { sign_in create(:user, organization: organization) }
@@ -88,7 +88,7 @@ RSpec.describe Api::Internal::V1::InvoicesController, type: :controller do
 
         it 'marks invoice as' do
           patch :mark_as, format: :json,  params: event_params.merge(id: invoice.id)
-          expect(invoice.reload.status).to eq('posted')
+          expect(invoice.reload.status).to eq('sent')
         end
       end
 

@@ -39,13 +39,13 @@ RSpec.describe Invoice, type: :model do
 
     before do
       allow(InvoiceService).to receive(:new).with(invoice: invoice).and_return(invoice_service)
-      allow(invoice_service).to receive(:post!)
+      allow(invoice_service).to receive(:send!)
       allow(invoice_service).to receive(:charge!)
     end
 
-    it 'calls invoice_service.post' do
-      invoice.change_status!('post')
-      expect(invoice_service).to have_received(:post!)
+    it 'calls invoice_service.send' do
+      invoice.change_status!('send')
+      expect(invoice_service).to have_received(:send!)
     end
 
     it 'calls invoice_service.charge' do

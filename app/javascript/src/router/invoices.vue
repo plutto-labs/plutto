@@ -53,10 +53,10 @@ export default {
           type: 'tag',
           tags: {
             created: 'purple',
-            posted: 'blue',
+            sent: 'blue',
             paid: 'green',
             notPaid: 'red',
-            voided: 'yellow',
+            canceled: 'yellow',
           },
         },
         {
