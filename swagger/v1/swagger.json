@@ -95,10 +95,10 @@
             "x-nullable": false,
             "enum": [
               "created",
-              "posted",
+              "sent",
               "paid",
               "not_paid",
-              "voided"
+              "canceled"
             ]
           },
           "payed_at": {
@@ -177,10 +177,10 @@
             "x-nullable": true,
             "enum": [
               "new",
-              "posted",
+              "sent",
               "paid",
               "not_paid",
-              "voided"
+              "canceled"
             ]
           }
         }
