@@ -29,10 +29,10 @@ export default {
       },
       tags: {
         created: 'Created',
-        posted: 'Posted',
+        sent: 'Sent',
         paid: 'Paid',
         notPaid: 'Not Paid',
-        voided: 'Voided',
+        canceled: 'Canceled',
       },
     },
     priceLogics: {
@@ -61,13 +61,13 @@ export default {
     invoices: {
       status: {
         created: 'Created',
-        posted: 'Posted',
+        sent: 'Sent',
         paid: 'Paid',
         notPaid: 'Not Paid',
-        voided: 'Voided',
+        canceled: 'Canceled',
       },
       events: {
-        post: 'Post',
+        send: 'Send',
         charge: 'Charge',
         fail: 'Fail',
         void: 'Void',

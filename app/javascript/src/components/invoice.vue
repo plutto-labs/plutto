@@ -108,7 +108,7 @@
             <span class="text-lg">Change status</span>
             <p class="mt-2 mb-4 text-xs text-gray-200">
               This action changes invoice status triggering all asociated actions.
-              For example, if posted, an email will be sent to the customer.
+              For example, with the action send, an email will be sent to the customer.
             </p>
             <PluttoRadioInput
               input-id="change-status"
@@ -191,10 +191,10 @@ export default {
       invoice: {},
       tags: {
         created: 'purple',
-        posted: 'blue',
+        sent: 'blue',
         paid: 'green',
         notPaid: 'red',
-        voided: 'yellow',
+        canceled: 'yellow',
       },
       selectedEvent: null,
       selectedMarkAs: null,

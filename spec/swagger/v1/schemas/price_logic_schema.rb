@@ -9,7 +9,7 @@ PRICE_LOGIC_SCHEMA = {
     meter_count_method: {
       type: :string, example: 'period_sum', enum: ['period_sum', 'history_sum'],
       'x-nullable': true,
-      description: 'choose if meters are from historic count or just this billing period count'
+      description: 'If metered counts are from historic usage or just the current period usage'
     },
     price_logics: {
       type: :array, items: { "$ref" => "#/components/schemas/price_logic" }

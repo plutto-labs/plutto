@@ -91,7 +91,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
 
   path '/api/v1/invoices/{id}/mark_as' do
     parameter name: :id, in: :path, type: :string
-    let(:existent_invoice) { create(:invoice, customer: customer, status: 'posted') }
+    let(:existent_invoice) { create(:invoice, customer: customer, status: 'sent') }
     let(:id) { existent_invoice.id }
 
     patch 'mark as' do
@@ -103,7 +103,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
       parameter name: :invoice, in: :body,
                 schema: { '$ref': '#/components/schemas/invoice_mark_as' }
 
-      let(:invoice) { { status: 'voided' } }
+      let(:invoice) { { status: 'canceled' } }
 
       response '200', 'status changed' do
         schema('$ref' => '#/components/schemas/invoice_resource')
@@ -111,7 +111,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data['invoice']['status']).to eq('voided')
+          expect(data['invoice']['status']).to eq('canceled')
         end
       end
 

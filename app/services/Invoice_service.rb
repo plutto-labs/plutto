@@ -1,11 +1,11 @@
 class InvoiceService < PowerTypes::Service.new(:invoice)
-  def post!(include_payment_link = false)
+  def send!(include_payment_link = false)
     Analytics.track(
       user_id: @invoice.customer.organization_id,
       event: 'send invoice',
       properties: invoice_properties(include_payment_link)
     )
-    @invoice.update!(status: 'posted')
+    @invoice.update!(status: 'sent')
   end
 
   def charge!
@@ -20,12 +20,12 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
         @invoice.update!(status: 'paid')
       end
     else
-      post!(true)
+      send!(true)
     end
   end
 
-  def void!
-    @invoice.update!(status: 'voided')
+  def cancel!
+    @invoice.update!(status: 'canceled')
   end
 
   private

@@ -45,18 +45,18 @@ export default {
         {
           title: 'customer',
           type: 'twoLinesText',
-          bigText: 'customerEmail',
-          smallText: 'customerName',
+          bigText: 'customerName',
+          smallText: 'customerEmail',
         },
         {
           title: 'status',
           type: 'tag',
           tags: {
             created: 'purple',
-            posted: 'blue',
+            sent: 'blue',
             paid: 'green',
             notPaid: 'red',
-            voided: 'yellow',
+            canceled: 'yellow',
           },
         },
         {

@@ -52,6 +52,6 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   end
 
   def customers
-    @customers ||= policy_scope(Customer).reverse_order
+    @customers ||= policy_scope(Customer)
   end
 end

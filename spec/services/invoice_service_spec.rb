@@ -28,14 +28,14 @@ describe InvoiceService do
 
   before { allow(KushkiService).to receive(:new).and_return(kushki_service) }
 
-  describe '#post' do
+  describe '#send' do
     before do
       allow(Analytics).to receive(:track).with(segment_info)
       allow(kushki_service).to receive(:enroll_link_for).with(invoice).and_return('https://link.com')
     end
 
     it 'send Segment event with correct data' do
-      invoice.change_status!('post')
+      invoice.change_status!('send')
       expect(Analytics).to have_received(:track).with(segment_info)
     end
   end
@@ -70,9 +70,9 @@ describe InvoiceService do
           allow(kushki_service).to receive(:enroll_link_for).with(invoice).and_return('https://link.com')
         end
 
-        it 'keeps status as posted' do
+        it 'keeps status as sent' do
           invoice.change_status!('charge')
-          expect(invoice.status).to eq('posted')
+          expect(invoice.status).to eq('sent')
         end
 
         it 'send invoice email with payment_link' do
@@ -111,9 +111,9 @@ describe InvoiceService do
         allow(kushki_service).to receive(:enroll_link_for).with(invoice).and_return('https://link.com')
       end
 
-      it 'keeps status as posted' do
+      it 'keeps status as sent' do
         invoice.change_status!('charge')
-        expect(invoice.status).to eq('posted')
+        expect(invoice.status).to eq('sent')
       end
 
       it 'send invoice email with payment_link' do
@@ -131,10 +131,10 @@ describe InvoiceService do
     end
   end
 
-  describe '#void' do
-    it 'changes status to voided' do
-      invoice.change_status!('void')
-      expect(invoice.status).to eq('voided')
+  describe '#cancel' do
+    it 'changes status to canceled' do
+      invoice.change_status!('cancel')
+      expect(invoice.status).to eq('canceled')
     end
   end
 end

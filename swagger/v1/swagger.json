@@ -95,10 +95,10 @@
             "x-nullable": false,
             "enum": [
               "created",
-              "posted",
+              "sent",
               "paid",
               "not_paid",
-              "voided"
+              "canceled"
             ]
           },
           "payed_at": {
@@ -177,10 +177,10 @@
             "x-nullable": true,
             "enum": [
               "new",
-              "posted",
+              "sent",
               "paid",
               "not_paid",
-              "voided"
+              "canceled"
             ]
           }
         }
@@ -929,7 +929,7 @@
               "history_sum"
             ],
             "x-nullable": true,
-            "description": "choose if meters are from historic count or just this billing period count"
+            "description": "If metered counts are from historic usage or just the current period usage"
           },
           "price_logics": {
             "type": "array",

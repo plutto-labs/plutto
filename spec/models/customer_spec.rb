@@ -89,6 +89,8 @@ RSpec.describe Customer, type: :model do
   end
 
   describe 'previous_billing_period' do
+    before { Timecop.freeze(Time.zone.local(2021, 12, 1)) }
+
     let(:customer) { create(:customer) }
 
     context 'when previous billing period is from the active subscription' do

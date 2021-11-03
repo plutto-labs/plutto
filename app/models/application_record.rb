@@ -7,6 +7,8 @@ class ApplicationRecord < ActiveRecord::Base
   before_create :generate_id
   validates :id, uniqueness: true
 
+  scope :ordered, -> { order(created_at: :desc) }
+
   private
 
   def generate_id

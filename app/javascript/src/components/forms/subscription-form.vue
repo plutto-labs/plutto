@@ -238,7 +238,7 @@ export default {
       this.subscription.billsAt = this.currentSubscription.billsAt;
       this.subscription.billingPeriodDuration = this.currentSubscription.billingPeriodDuration;
       this.subscription.trialFinishesAt = this.currentSubscription.trialFinishesAt;
-      this.subscription.permissionGroupId = this.currentSubscription.permissionGroup.id;
+      this.subscription.permissionGroupId = this.currentSubscription.permissionGroup?.id;
       this.currentSubscription.pricings.forEach((pricing) => {
         this.selectedProducts[pricing.productId] = this.findProduct(pricing.productId);
         this.selectedPricings[pricing.productId] = pricing.id;

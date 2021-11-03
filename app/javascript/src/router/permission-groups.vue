@@ -46,7 +46,7 @@
                   <p>Limit: {{ permission.limit }} </p>
                   <p>
                     Count: {{
-                      permission.meterCountMethod === 'period_sum' ? 'Period information' : 'Historic information'
+                      permission.meterCountMethod === 'period_sum' ? 'Current period usage' : 'Historic usage'
                     }}
                   </p>
                 </template>

@@ -2,14 +2,13 @@ class Invoice < ApplicationRecord
   include PowerTypes::Observable
 
   default_scope { order(issue_date: :desc) }
-  scope :unordered, -> { unscope(:order) }
 
   VALID_ACTIONS = {
-    created: ['post', 'charge', 'void'],
-    posted: ['post', 'charge', 'void'],
-    paid: ['void'],
-    not_paid: ['charge', 'void'],
-    voided: []
+    created: ['send', 'charge', 'cancel'],
+    sent: ['send', 'charge', 'cancel'],
+    paid: ['cancel'],
+    not_paid: ['charge', 'cancel'],
+    canceled: []
   }
 
   belongs_to :billing_period
@@ -21,7 +20,7 @@ class Invoice < ApplicationRecord
     with_model_currency: :currency
 
   enum currency: Currencies.keys
-  enum status: { created: 0, posted: 1, paid: 2, not_paid: 3, voided: 4 }
+  enum status: { created: 0, sent: 1, paid: 2, not_paid: 3, canceled: 4 }
   validates :status, presence: true
 
   before_validation :set_invoice_data
@@ -48,16 +47,16 @@ class Invoice < ApplicationRecord
 
   private
 
-  def post!
-    invoice_service.post!
+  def send!
+    invoice_service.send!
   end
 
   def charge!
     invoice_service.charge!
   end
 
-  def void!
-    invoice_service.void!
+  def cancel!
+    invoice_service.cancel!
   end
 
   def set_invoice_data
