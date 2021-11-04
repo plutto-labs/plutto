@@ -183,6 +183,10 @@ main {
   &--yellow {
     @apply text-yellow-800 bg-yellow-200;
   }
+
+  &--gray {
+    @apply text-gray-800 bg-gray-200;
+  }
 }
 
 .fade-enter-active,

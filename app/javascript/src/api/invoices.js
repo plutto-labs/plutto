@@ -1,8 +1,8 @@
 import { camelizeKeys, decamelizeKeys } from 'humps';
 import authedAxios from '../helpers/authed-http';
 
-export function getInvoices() {
-  return authedAxios.get('/api/internal/v1/invoices/')
+export function getInvoices(filters = null) {
+  return authedAxios.get(`/api/internal/v1/invoices/?${filters}`)
     .then((res) => camelizeKeys(res.data));
 }
 
