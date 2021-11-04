@@ -109,4 +109,50 @@ RSpec.describe Subscription, type: :model do
       end
     end
   end
+
+  describe '#end_billing_period!' do
+    let(:subscription) { create(:subscription, active: true) }
+    let!(:billing_period) { create(:billing_period, subscription: subscription) }
+    let(:end_subscription) { true }
+
+    before do
+      allow(EndBillingPeriod).to receive(:for).with(
+        billing_period: billing_period,
+        start_next_period: !end_subscription
+      )
+      allow(subscription).to receive(:end_subscription!)
+    end
+
+    context 'when subscription is active' do
+      it 'calls EndBillingPeriod with start_next_period = true' do
+        subscription.end_billing_period!(end_subscription: end_subscription)
+        expect(EndBillingPeriod).to have_received(:for).with(
+          billing_period: billing_period,
+          start_next_period: false
+        )
+      end
+
+      it 'calls subscription.end_subscription!' do
+        subscription.end_billing_period!(end_subscription: end_subscription)
+        expect(subscription).to have_received(:end_subscription!)
+      end
+
+      context 'when end_subscription is false' do
+        let(:end_subscription) { false }
+
+        it 'calls EndBillingPeriod with start_next_period = false' do
+          subscription.end_billing_period!(end_subscription: end_subscription)
+          expect(EndBillingPeriod).to have_received(:for).with(
+            billing_period: billing_period,
+            start_next_period: true
+          )
+        end
+
+        it 'does not call subscription.end_subscription!' do
+          subscription.end_billing_period!(end_subscription: end_subscription)
+          expect(subscription).not_to have_received(:end_subscription!)
+        end
+      end
+    end
+  end
 end
