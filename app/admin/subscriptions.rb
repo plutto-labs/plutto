@@ -1,6 +1,26 @@
 ActiveAdmin.register Subscription do
   permit_params :name, :customer_id, pricing_ids: []
 
+  member_action :end_subscription, method: :patch do
+    resource.end_billing_period!(end_subscription: true)
+    redirect_to resource_path, notice: "Suscripción terminada"
+  end
+
+  action_item :end_subscription, only: :show do
+    link_to 'Terminar suscripción',
+            end_subscription_admin_subscription_path(id: subscription), method: :patch
+  end
+
+  member_action :end_billing_period, method: :patch do
+    resource.end_billing_period!(end_subscription: false)
+    redirect_to resource_path, notice: "Periodo terminado e Invoice creado"
+  end
+
+  action_item :end_billing_period, only: :show do
+    link_to 'Empezar un nuevo periodo',
+            end_billing_period_admin_subscription_path(id: subscription), method: :patch
+  end
+
   index do
     selectable_column
     id_column
