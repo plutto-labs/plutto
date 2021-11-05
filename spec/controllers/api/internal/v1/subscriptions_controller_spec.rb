@@ -1,7 +1,8 @@
 RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
   include Devise::Test::ControllerHelpers
+  before { Timecop.freeze(Time.zone.local(2021, 12, 1, 15, 30, 12)) }
 
-  describe 'PUT #create' do
+  describe 'POST #create' do
     let(:organization) { create(:organization) }
     let!(:customer) { create(:customer, organization: organization) }
 
@@ -123,7 +124,6 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
       it 'returns http success' do
         patch :add_pricings, format: :json,
           params: { subscription_id: subscription.id, pricing_ids: pricings.map(&:id) }
-
         expect(response).to have_http_status(:success)
         expect(EditSubscriptionPricings::AddPricings).to have_received(:for).with(
           subscription: subscription,
@@ -191,6 +191,37 @@ RSpec.describe Api::Internal::V1::SubscriptionsController, type: :controller do
           start_next_period: false
         )
         expect(subscription.reload.active).to eq(false)
+      end
+    end
+
+    it_behaves_like 'unauthorized internal POST endpoint'
+  end
+
+  describe 'PATCH #end_billing_period' do
+    let(:organization) { create(:organization) }
+    let!(:subscription) { create(:subscription, customer: customer, active: true) }
+    let!(:billing_period) { create(:billing_period, subscription: subscription) }
+    let!(:customer) { create(:customer, organization: organization) }
+
+    context 'when signed in' do
+      before do
+        sign_in(create(:user, organization: organization))
+        allow(EndBillingPeriod).to receive(:for).with(
+          billing_period: billing_period,
+          start_next_period: true
+        )
+      end
+
+      it 'returns http success' do
+        patch :end_billing_period, format: :json,
+          params: { subscription_id: subscription.id }
+
+        expect(response).to have_http_status(:success)
+        expect(EndBillingPeriod).to have_received(:for).with(
+          billing_period: billing_period,
+          start_next_period: true
+        )
+        expect(subscription.reload.active).to eq(true)
       end
     end
 

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         patch 'add_pricings', to: 'subscriptions#add_pricings'
         patch 'remove_pricings', to: 'subscriptions#remove_pricings'
         patch 'end_subscription', to: 'subscriptions#end_subscription'
+        patch 'end_billing_period', to: 'subscriptions#end_billing_period'
       end
       resources :users, only: [:show]
     end

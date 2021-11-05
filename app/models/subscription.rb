@@ -33,6 +33,18 @@ class Subscription < ApplicationRecord
     update!(active: false)
   end
 
+  def end_billing_period!(end_subscription: false)
+    return unless active
+
+    ActiveRecord::Base.transaction do
+      EndBillingPeriod.for(
+        billing_period: current_billing_period,
+        start_next_period: !end_subscription
+      )
+      end_subscription! if end_subscription
+    end
+  end
+
   def in_trial?
     return false if trial_finishes_at.nil?
 

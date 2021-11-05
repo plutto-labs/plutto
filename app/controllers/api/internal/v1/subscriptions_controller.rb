@@ -45,15 +45,13 @@ class Api::Internal::V1::SubscriptionsController < Api::Internal::V1::BaseContro
   end
 
   def end_subscription
-    ActiveRecord::Base.transaction do
-      EndBillingPeriod.for(
-        billing_period: subscription.current_billing_period,
-        start_next_period: false
-      )
-      subscription.end_subscription!
-    end
+    subscription.end_billing_period!(end_subscription: true)
+    respond_with(subscription.reload)
+  end
 
-    respond_with(subscription)
+  def end_billing_period
+    subscription.end_billing_period!(end_subscription: false)
+    respond_with(subscription.reload)
   end
 
   private
