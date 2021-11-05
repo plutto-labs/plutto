@@ -63,7 +63,8 @@ export default {
     }),
   },
   async beforeCreate() {
-    await this.$store.dispatch('GET_CUSTOMERS', 'inactive');
+    await this.$store.dispatch('SET_FILTER', { key: 'scope', value: 'inactive' });
+    await this.$store.dispatch('GET_CUSTOMERS');
   },
 };
 </script>

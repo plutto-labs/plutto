@@ -3,10 +3,10 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   include Pundit
 
   def index
-    if params[:filter].blank?
+    if params[:scope].blank?
       respond_with(authorize(customers))
     else
-      respond_with(authorize(customers.send(params[:filter])), params[:filter].to_sym => true)
+      respond_with(authorize(customers.send(params[:scope])), params[:scope].to_sym => true)
     end
   end
 
@@ -52,6 +52,13 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
   end
 
   def customers
-    @customers ||= policy_scope(Customer)
+    @customers ||= FilterCustomers.for(
+      customers: policy_scope(Customer),
+      options: filtering_params
+    )
+  end
+
+  def filtering_params
+    params.permit(:search)
   end
 end

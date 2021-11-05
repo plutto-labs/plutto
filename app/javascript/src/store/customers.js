@@ -4,6 +4,8 @@ const initialState = {
   customers: {},
   currentCustomer: false,
   loading: null,
+  scopeFilter: '',
+  searchFilter: '',
 };
 
 export const mutations = {
@@ -45,13 +47,16 @@ export const mutations = {
   setCustomersLoading(state, payload) {
     state.loading = payload;
   },
+  setFilter(state, payload) {
+    state[`${payload.key}Filter`] = payload.value;
+  },
 };
 
 export const actions = {
-  GET_CUSTOMERS({ commit }, payload) {
+  GET_CUSTOMERS({ commit, getters }) {
     commit('setCustomersLoading', true);
 
-    return customersApi.getCustomers(payload)
+    return customersApi.getCustomers(getters.currentFilters)
       .then((data) => {
         if (data.customers) commit('setCustomers', data.customers);
       })
@@ -126,10 +131,25 @@ export const actions = {
   reset({ commit }) {
     commit('resetState');
   },
+  SET_FILTER({ commit }, payload) {
+    commit('setFilter', payload);
+  },
+};
+
+export const getters = {
+  currentFilters(state) {
+    const params = {
+      scope: state.scopeFilter,
+      search: state.searchFilter,
+    };
+
+    return params;
+  },
 };
 
 export default {
   state: { ...initialState },
   mutations,
   actions,
+  getters,
 };

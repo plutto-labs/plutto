@@ -1,11 +1,16 @@
 <template>
   <main>
     <div class="flex">
-      <PluttoTabs
-        :tabs="tabs"
-        :selected-tab="selectedTab"
-        @tab-clicked="(tab) => $route.name === tab ? null : $router.push({ name: tab })"
-      />
+      <div class="flex items-center gap-4">
+        <PluttoSearch
+          @search="searchString => searchCustomers(searchString)"
+        />
+        <PluttoTabs
+          :tabs="tabs"
+          :selected-tab="selectedTab"
+          @tab-clicked="(tab) => $route.name === tab ? null : $router.push({ name: tab })"
+        />
+      </div>
       <PluttoHeader
         class="w-full"
         button-text="Add Customer"
@@ -36,10 +41,11 @@ import Active from '@/router/customers/active';
 import Canceled from '@/router/customers/canceled';
 import Trial from '@/router/customers/trial';
 import PluttoTabs from '@/components/plutto-tabs';
+import PluttoSearch from '@/components/plutto-search';
 
 export default {
   components: {
-    PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, Inactive, Active, Trial, Canceled,
+    PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, Inactive, Active, Trial, Canceled, PluttoSearch,
   },
   props: {
     selectedTab: {
@@ -69,6 +75,10 @@ export default {
     editCustomer(customer) {
       this.editingCustomer = customer;
       this.showNewCustomerForm = true;
+    },
+    async searchCustomers(searchString) {
+      await this.$store.dispatch('SET_FILTER', { key: 'search', value: searchString });
+      await this.$store.dispatch('GET_CUSTOMERS');
     },
   },
 };

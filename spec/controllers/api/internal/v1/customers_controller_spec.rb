@@ -14,7 +14,7 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
     context 'when signed in' do
       before { sign_in create(:user, organization: organization) }
 
-      context 'without filters' do
+      context 'without scopes' do
         it 'returns a success response' do
           get :index, format: :json
           expect(response).to be_successful
@@ -26,38 +26,38 @@ RSpec.describe Api::Internal::V1::CustomersController, type: :controller do
         end
       end
 
-      context 'with active filter' do
-        let(:filter) { 'active' }
+      context 'with active scope' do
+        let(:scope) { 'active' }
 
         it 'returns active customers' do
-          get :index, format: :json, params: { filter: filter }
+          get :index, format: :json, params: { scope: scope }
           expect(JSON.parse(response.body)['customers'].count).to eq(1)
         end
       end
 
-      context 'with inactive filter' do
-        let(:filter) { 'inactive' }
+      context 'with inactive scope' do
+        let(:scope) { 'inactive' }
 
         it 'returns active customers' do
-          get :index, format: :json, params: { filter: filter }
+          get :index, format: :json, params: { scope: scope }
           expect(JSON.parse(response.body)['customers'].count).to eq(1)
         end
       end
 
-      context 'with trial filter' do
-        let(:filter) { 'trial' }
+      context 'with trial scope' do
+        let(:scope) { 'trial' }
 
         it 'returns active customers' do
-          get :index, format: :json, params: { filter: filter }
+          get :index, format: :json, params: { scope: scope }
           expect(JSON.parse(response.body)['customers'].count).to eq(1)
         end
       end
 
-      context 'with canceled filter' do
-        let(:filter) { 'canceled' }
+      context 'with canceled scope' do
+        let(:scope) { 'canceled' }
 
         it 'returns active customers' do
-          get :index, format: :json, params: { filter: filter }
+          get :index, format: :json, params: { scope: scope }
           expect(JSON.parse(response.body)['customers'].count).to eq(1)
         end
       end
