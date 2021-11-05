@@ -42,7 +42,8 @@ export default {
     }),
   },
   async beforeCreate() {
-    await this.$store.dispatch('GET_CUSTOMERS', 'canceled');
+    await this.$store.dispatch('SET_FILTER', { key: 'scope', value: 'canceled' });
+    await this.$store.dispatch('GET_CUSTOMERS');
   },
 };
 </script>

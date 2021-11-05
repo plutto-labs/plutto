@@ -68,7 +68,8 @@ export default {
     },
   },
   async beforeCreate() {
-    await this.$store.dispatch('GET_CUSTOMERS', 'trial');
+    await this.$store.dispatch('SET_FILTER', { key: 'scope', value: 'trial' });
+    await this.$store.dispatch('GET_CUSTOMERS');
   },
 };
 </script>
