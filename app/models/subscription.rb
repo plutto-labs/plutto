@@ -49,6 +49,10 @@ class Subscription < ApplicationRecord
     pricings.any? { |pricing| self.pricings.include?(pricing) }
   end
 
+  def display_name
+    "#{id} - #{billing_period_duration.inspect} - #{currency} - #{price_type} - #{country_iso_code}"
+  end
+
   private
 
   def generate_id

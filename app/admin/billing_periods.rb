@@ -5,9 +5,9 @@ ActiveAdmin.register BillingPeriod do
 
   form do |f|
     f.inputs do
-      f.input :from
-      f.input :to
-      f.input :billing_date
+      f.input :from, as: :datepicker
+      f.input :to, as: :datepicker
+      f.input :billing_date, as: :datepicker
 
       f.actions
     end

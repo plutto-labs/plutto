@@ -4,12 +4,10 @@
       button-text="Add Product"
       @button-clicked="showPricingForm = true"
     />
-    <div class="px-6 mx-auto mt-6 max-w-7xl">
-      <div
-        v-if="!loading"
-        class="grid grid-rows-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-      >
+    <div class="max-w-5xl px-6 mx-auto mt-6">
+      <div v-if="!loading">
         <ProductCard
+          class="my-4"
           v-for="product in products"
           :key="product.id"
           :product="product"

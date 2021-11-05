@@ -28,10 +28,10 @@ export const mutations = {
 };
 
 export const actions = {
-  GET_INVOICES({ commit }) {
+  GET_INVOICES({ commit }, payload) {
     commit('setInvoicesLoading', true);
 
-    return invoicesApi.getInvoices()
+    return invoicesApi.getInvoices(payload)
       .then((data) => {
         if (data.invoices) commit('setInvoices', data.invoices);
       })
