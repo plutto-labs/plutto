@@ -116,14 +116,28 @@
           </div>
           <div class="justify-between md:flex">
             <div>
-              <div>
+              <div class="text-gray-100">
                 Products:
                 <div class="text-xs">
-                  {{ productsString(currentCustomer.activeSubscription.pricings) }}
+                  <div
+                    v-for="(pricing, index) in currentCustomer.activeSubscription.pricings"
+                    :key="pricing.id"
+                  >
+                    <div class="text-green-200">
+                      {{ index + 1 }}. {{ pricing.productName }}
+                    </div>
+                    <span class="ml-3 text-purple-200">{{ pricing.name }} [{{ pricing.currency }}]</span>
+                  </div>
                 </div>
               </div>
-              <div v-if="currentCustomer.activeSubscription.permissionGroup">
-                Permission group: <span>{{ currentCustomer.activeSubscription.permissionGroup.name }}</span>
+              <div
+                class="mt-2 text-gray-100"
+                v-if="currentCustomer.activeSubscription.permissionGroup"
+              >
+                Permission group:
+                <div class="ml-3 text-xs text-blue-200">
+                  {{ currentCustomer.activeSubscription.permissionGroup.name }}
+                </div>
               </div>
               <div v-if="currentCustomer.activeSubscription.trialFinishesAt !== null">
                 <div>
@@ -131,7 +145,7 @@
                 </div>
               </div>
               <div v-else>
-                <div>
+                <div class="mt-2">
                   Subscribed since: <span>{{ formatDateTime(currentCustomer.activeSubscription.createdAt) }}</span>
                 </div>
                 <div v-if="currentCustomer.currentBillingPeriodEndDate">
@@ -285,8 +299,7 @@ export default {
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-areas:
-    'info info billing billing usage usage'
+  grid-template-areas: 'info info billing billing usage usage'
     'subscription subscription meters meters meters meters'
     'payments payments meters meters meters meters';
   grid-gap: 24px;
