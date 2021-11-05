@@ -40,6 +40,8 @@ class Customer < ApplicationRecord
     ).where.not(subscriptions: { customer_id: nil })
   end
 
+  scope :search_like, ->(column, string) { where("#{column} LIKE ?", "%#{string}%") }
+
   def add_subscription(pricings)
     CreateSubscription.for(pricings: pricings, customer: self)
   end
