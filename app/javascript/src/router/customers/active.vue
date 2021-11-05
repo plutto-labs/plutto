@@ -10,7 +10,7 @@
       />
     </template>
     <div
-      class="absolute flex items-center justify-center w-full text-center h-1/2"
+      class="flex items-center justify-center w-full text-center h-80"
       v-else
     >
       <div>
