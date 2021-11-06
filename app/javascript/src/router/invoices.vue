@@ -24,6 +24,12 @@
             :loading="loading"
             @show-clicked="(invoice) => openInvoiceSlideover(invoice.id)"
           />
+          <PluttoPagination
+            class="mt-6"
+            v-if="totalPages > 1"
+            :total-pages="totalPages"
+            @change-page="(page) => changePage(page)"
+          />
         </div>
       </div>
     </template>
@@ -47,6 +53,7 @@ import { decamelize } from 'humps';
 import PluttoTable from '@/components/plutto-table';
 import PluttoSlideover from '@/components/plutto-slideover';
 import Invoice from '@/components/invoice';
+import PluttoPagination from '@/components/plutto-pagination';
 
 const STATUS_TO_COLORS = {
   created: 'purple',
@@ -57,7 +64,7 @@ const STATUS_TO_COLORS = {
 };
 
 export default {
-  components: { PluttoTable, PluttoSlideover, Invoice },
+  components: { PluttoTable, PluttoSlideover, Invoice, PluttoPagination },
   data() {
     return {
       showInvoice: false,
@@ -100,6 +107,8 @@ export default {
     ...mapState({
       loading: state => state.invoices.loading,
       invoices: state => state.invoices.invoices,
+      totalPages: state => state.invoices.totalPages,
+      page: state => state.invoices.page,
     }),
   },
   async beforeMount() {
@@ -110,12 +119,18 @@ export default {
       this.showInvoice = true;
       this.invoiceId = invoiceId;
     },
-    async getInvoices(status) {
-      this.selectedStatus = this.selectedStatus === status ? null : status;
-      let query = '';
-      if (this.selectedStatus) query = `q[status_eq]=${decamelize(status)}`;
+    async getInvoices() {
+      let query = `page=${this.page}&`;
+      if (this.selectedStatus) query += `q[status_eq]=${decamelize(this.selectedStatus)}`;
       await this.$store.dispatch('GET_INVOICES', query);
-      this.$router.push({ name: 'invoices', query: { status } });
+      this.$router.push({ name: 'invoices', query: { query } });
+    },
+    changeStatus(status) {
+      this.selectedStatus = this.selectedStatus === status ? null : status;
+    },
+    async changePage(page) {
+      await this.$store.dispatch('SET_PAGE', page);
+      this.getInvoices();
     },
   },
 };
