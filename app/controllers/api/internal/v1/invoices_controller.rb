@@ -3,7 +3,7 @@ class Api::Internal::V1::InvoicesController < Api::Internal::V1::BaseController
   include Pundit
 
   def index
-    respond_with(filtered_collection(authorize(invoices)))
+    respond_with(paginate(filtered_collection(authorize(invoices))))
   end
 
   def show

@@ -4,9 +4,11 @@ class Api::Internal::V1::CustomersController < Api::Internal::V1::BaseController
 
   def index
     if params[:scope].blank?
-      respond_with(authorize(customers))
+      respond_with(paginate(authorize(customers)))
     else
-      respond_with(authorize(customers.send(params[:scope])), params[:scope].to_sym => true)
+      respond_with(
+        paginate(authorize(customers.send(params[:scope]))), params[:scope].to_sym => true
+      )
     end
   end
 

@@ -6,6 +6,7 @@ const initialState = {
   loading: null,
   scopeFilter: '',
   searchFilter: '',
+  totalPages: 1,
 };
 
 export const mutations = {
@@ -50,15 +51,22 @@ export const mutations = {
   setFilter(state, payload) {
     state[`${payload.key}Filter`] = payload.value;
   },
+  setPage(state, payload) {
+    state.page = payload;
+  },
+  setTotalPages(state, payload) {
+    state.totalPages = payload;
+  },
 };
 
 export const actions = {
   GET_CUSTOMERS({ commit, getters }) {
     commit('setCustomersLoading', true);
 
-    return customersApi.getCustomers(getters.currentFilters)
+    return customersApi.getCustomers(getters.queryParams)
       .then((data) => {
-        if (data.customers) commit('setCustomers', data.customers);
+        if (data.data.customers) commit('setCustomers', data.data.customers);
+        if (data.headers.xPage) commit('setTotalPages', Math.ceil(data.headers.xTotal / data.headers.xPerPage));
       })
       .catch((err) => {
         commit('setError', err);
@@ -134,13 +142,17 @@ export const actions = {
   SET_FILTER({ commit }, payload) {
     commit('setFilter', payload);
   },
+  SET_PAGE({ commit }, payload) {
+    commit('setPage', payload);
+  },
 };
 
 export const getters = {
-  currentFilters(state) {
+  queryParams(state) {
     const params = {
       scope: state.scopeFilter,
       search: state.searchFilter,
+      page: state.page,
     };
 
     return params;

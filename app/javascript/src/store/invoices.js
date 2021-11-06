@@ -4,6 +4,7 @@ const initialState = {
   invoices: [],
   currentInvoice: null,
   loading: null,
+  totalPages: 1,
 };
 
 export const mutations = {
@@ -25,6 +26,12 @@ export const mutations = {
       state.invoices.splice(index, 1, payload);
     }
   },
+  setTotalPages(state, payload) {
+    state.totalPages = payload;
+  },
+  setPage(state, payload) {
+    state.page = payload;
+  },
 };
 
 export const actions = {
@@ -33,7 +40,8 @@ export const actions = {
 
     return invoicesApi.getInvoices(payload)
       .then((data) => {
-        if (data.invoices) commit('setInvoices', data.invoices);
+        if (data.data.invoices) commit('setInvoices', data.data.invoices);
+        if (data.headers.xPage) commit('setTotalPages', Math.ceil(data.headers.xTotal / data.headers.xPerPage));
       })
       .catch((err) => {
         commit('setError', err);
