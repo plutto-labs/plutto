@@ -34,6 +34,10 @@ export default {
         notPaid: 'Not Paid',
         canceled: 'Canceled',
       },
+      pagination: {
+        previous: 'Previous',
+        next: 'Next',
+      },
     },
     priceLogics: {
       types: {
