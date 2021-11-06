@@ -18,7 +18,7 @@
       id="next-button"
       class="btn"
       @click="nextPage"
-      v-if="currentPage === 0 || currentPage < totalPages"
+      v-if="currentPage < totalPages"
     >
       {{ $t('message.table.pagination.next') }}
     </button>
@@ -41,17 +41,14 @@ export default {
   methods: {
     previousPage() {
       this.currentPage -= 1;
-      this.changePage();
+      this.$emit('change-page', this.currentPage);
     },
     nextPage() {
       this.currentPage += 1;
-      this.changePage();
+      this.$emit('change-page', this.currentPage);
     },
     goToPage(page) {
       this.currentPage = page;
-      this.changePage();
-    },
-    changePage() {
       this.$emit('change-page', this.currentPage);
     },
   },
