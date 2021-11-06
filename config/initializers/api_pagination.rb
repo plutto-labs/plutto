@@ -13,17 +13,17 @@ ApiPagination.configure do |config|
 
   # Optional: set this to add other response format. Useful with tools that define :jsonapi format
   # config.response_formats = [:json, :xml, :jsonapi]
-  config.response_formats = [:jsonapi]
+  config.response_formats = [:json]
 
   # Optional: what parameter should be used to set the page option
   config.page_param do |params|
-    params[:page][:number] if params[:page].is_a?(ActionController::Parameters)
+    params[:page]
   end
 
   # Optional: what parameter should be used to set the per page option
-  config.per_page_param do |params|
-    params[:page][:size] if params[:page].is_a?(ActionController::Parameters)
-  end
+  # config.per_page_param do |params|
+  #   params[:page][:size] if params[:page].is_a?(ActionController::Parameters)
+  # end
 
   # Optional: Include the total and last_page link header
   # By default, this is set to true
