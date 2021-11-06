@@ -1,9 +1,9 @@
 import { camelizeKeys, decamelizeKeys } from 'humps';
 import authedAxios from '../helpers/authed-http';
 
-export function getCustomers(filters) {
-  return authedAxios.get('/api/internal/v1/customers', { params: filters })
-    .then((res) => camelizeKeys(res.data));
+export function getCustomers(params) {
+  return authedAxios.get('/api/internal/v1/customers', { params })
+    .then((res) => camelizeKeys(res));
 }
 
 export function getCustomer(id) {

@@ -28,10 +28,6 @@
 <script>
 export default {
   props: {
-    showing: {
-      required: true,
-      type: Boolean,
-    },
     totalPages: {
       required: true,
       type: Number,
