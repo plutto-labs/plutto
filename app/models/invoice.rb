@@ -23,7 +23,7 @@ class Invoice < ApplicationRecord
   enum status: { created: 0, sent: 1, paid: 2, not_paid: 3, canceled: 4 }
   validates :status, presence: true
 
-  before_validation :set_invoice_data
+  before_create :set_invoice_data
 
   enum tax_type: { IVA: 0, VAT: 1 }, _suffix: true
   enum payment_method: { bank_transfer: 0, credit: 1 }, _suffix: true
