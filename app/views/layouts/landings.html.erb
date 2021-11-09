@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Plutto</title>
+    <link rel="icon" type="image/png" href="<%= asset_path('favicon.png') %>"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <script type="text/javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&libraries=places"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= stylesheet_pack_tag 'application' %>
+
+    <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons" %>
+
+    <%= render 'common/segment' %>
+    <%= render 'common/hotjar' %>
+    <%= render 'common/analytics' %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
