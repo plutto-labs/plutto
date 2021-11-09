@@ -12,7 +12,7 @@
 export default {
   methods: {
     addPlan() {
-      this.$emit('addPlan');
+      this.$emit('add-plan');
     },
   },
 };
