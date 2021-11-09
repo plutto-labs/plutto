@@ -60,4 +60,6 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'home/admin', to: 'home#admin', as: 'admin_app'
   get 'admin/login_as/:id', to: 'admin#login_as', as: 'admin_login_as'
+
+  get 'widget', to: 'widget#index'
 end
