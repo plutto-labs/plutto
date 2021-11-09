@@ -3,16 +3,10 @@
     id="app"
     class="h-screen"
   >
-    <NavBar
-      v-if="loggedIn"
-      class="h-full"
-    >
-      <router-view class="h-full" />
+    <NavBar v-if="loggedIn">
+      <router-view />
     </NavBar>
-    <router-view
-      v-else
-      class="h-full"
-    />
+    <router-view v-else />
     <PluttoError />
   </div>
 </template>
