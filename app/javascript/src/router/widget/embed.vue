@@ -16,6 +16,9 @@
         />
       </div>
     </div>
+    <div class="flex justify-around">
+      <AddPlan />
+    </div>
     <h2 class="text-2xl">
       Code
     </h2>
@@ -49,11 +52,13 @@
 <script>
 import PluttoColorInput from '@/components/widget/plutto-color-input';
 import PluttoCopyableCode from '@/components/widget/plutto-copyable-code';
+import AddPlan from '@/components/widget/add-plan';
 
 export default {
   components: {
     PluttoColorInput,
     PluttoCopyableCode,
+    AddPlan,
   },
   data() {
     return {
