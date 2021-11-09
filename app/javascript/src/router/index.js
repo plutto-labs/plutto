@@ -11,6 +11,7 @@ import Product from '@/router/product';
 import Analytics from '@/router/analytics';
 import Settings from '@/router/settings';
 import store from '@/store';
+import Embed from '@/router/widget/embed';
 
 const router = createRouter({
   history: createWebHashHistory('/'),
@@ -184,6 +185,30 @@ const router = createRouter({
       name: 'settings',
       redirect: {
         name: 'api-keys',
+      },
+    }, {
+      path: '/embed',
+      name: 'embed',
+      component: Embed,
+      meta: {
+        title: 'Embed | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Embed,
+      meta: {
+        title: 'Dashboard | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/widget-settings',
+      name: 'widget-settings',
+      component: Embed,
+      meta: {
+        title: 'Settings | Plutto',
+        authRequired: true,
       },
     },
   ],
