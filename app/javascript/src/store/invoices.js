@@ -40,7 +40,8 @@ export const actions = {
 
     return invoicesApi.getInvoices(payload)
       .then((data) => {
-        if (data.data.invoices) commit('setInvoices', data.data.invoices);
+        console.log(data);
+        if (data.invoices) commit('setInvoices', data.invoices);
         if (data.headers.xPage) commit('setTotalPages', Math.ceil(data.headers.xTotal / data.headers.xPerPage));
       })
       .catch((err) => {

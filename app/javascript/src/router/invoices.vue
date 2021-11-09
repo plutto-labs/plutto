@@ -10,7 +10,7 @@
           <span
             v-for="status in Object.keys(statusToColors)"
             :key="status"
-            @click="getInvoices(status)"
+            @click="changeStatus(status)"
             class="px-2 py-1 mx-2 text-xs font-semibold leading-5 rounded cursor-pointer whitespace-nowrap"
             :class="[`tag-color--${statusToColors[status]}`, {
               'tag-color--gray': status !== selectedStatus
@@ -127,6 +127,7 @@ export default {
     },
     changeStatus(status) {
       this.selectedStatus = this.selectedStatus === status ? null : status;
+      this.getInvoices();
     },
     async changePage(page) {
       await this.$store.dispatch('SET_PAGE', page);
