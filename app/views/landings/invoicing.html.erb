@@ -1,0 +1,48 @@
+<% if flash.any? %>
+  <% flash.each do |type, msg| %>
+    <div class="absolute w-full h-8 text-lg text-center text-white align-middle bg-success">
+      <%= msg %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="h-screen max-h-screen px-6 overflow-hidden md:px-20 bg-temporary-white">
+  <div class="my-6 md:my-8 md:absolute">
+    <div class="flex items-center flex-1 h-10 ">
+      <a href="#">
+        <span class="sr-only">Plutto</span>
+         <%= image_tag('logo.png', class: 'h-8') %>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col items-center justify-center h-full mt-32 md:mt-6">
+    <div class="grid content-center h-full grid-cols-1 gap-1 align-middle md:grid-cols-5 md:gap-12">
+      <div class="grid content-center grid-cols-1 md:col-span-3">
+        <h1 class="text-4xl font-semibold mb-9 text-temporary-primary md:text-7xl">
+          Create and send subscription invoices on the go.
+        </h1>
+        <h2 class="text-2xl font-light mb-9 text-temporary-secondary">
+          Create profesional invoices for your subscription plans, get paid and track payments with plutto.
+        </h2>
+        <div class="mb-3">
+          <%= form_with url: send_invoice_email_path, local: true, method: :post do %>
+            <div class="flex">
+              <div class="flex-1 min-w-0">
+                <%= email_field_tag("email", nil, placeholder: "Enter your email", class: 'block w-full px-4 py-3 text-base text-gray-900 placeholder-gray-300 border-0 rounded-md outline-none bg-temporary-gray-100') %>
+              </div>
+              <div class="mx-2">
+                <%= submit_tag "Send Invoice", class: 'block w-full px-4 py-3 font-medium text-white rounded-md shadow bg-melon bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-300 hover:to-cyan-900 hover:bg-melon-600' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <p class="mb-8 text-base leading-6 text-gray-500 md:mb-0">
+          See how it works. Send a Plutto invoice to your email.
+        </p>
+      </div>
+      <div class="pb-10 md:pb-0 md:col-span-2">
+        <%= image_tag('invoice.png') %>
+      </div>
+    </div>
+  </div>
+</div>

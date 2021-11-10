@@ -42,7 +42,7 @@ export default {
 
 <style lang="scss" scoped>
 main {
-  @apply py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none text-temporary h-full;
+  @apply py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none text-temporary-primary h-full;
 }
 
 .btn {
@@ -106,11 +106,11 @@ main {
     }
 
     &:focus {
-      @apply border-temporary outline-none;
+      @apply border-temporary-primary outline-none;
       box-shadow: 0 0 4px 0 rgba(165, 206, 204, .72), inset -2px -2px 2px 0 rgba(233, 214, 215, .18);
 
       &::placeholder {
-        @apply border-temporary;
+        @apply border-temporary-primary;
       }
     }
 

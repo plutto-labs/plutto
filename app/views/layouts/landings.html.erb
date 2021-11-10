@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Plutto</title>
+    <link rel="icon" type="image/png" href="<%= asset_path('favicon.png') %>"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <%= csp_meta_tag %>
+
+    <%= javascript_pack_tag 'landings', 'data-turbolinks-track': 'reload' %>
+
+    <%= render 'common/hotjar' %>
+    <%= render 'common/analytics' %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

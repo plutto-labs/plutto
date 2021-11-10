@@ -53,8 +53,20 @@ module.exports = {
         'secondary-200': '#99a2ff',
         'secondary-100': '#ccd0ff',
 
+        'melon-900': '#d12c34',
+        'melon-800': '#d63a42',
+        'melon-700': '#d94b52',
+        'melon-600': '#dd5b61',
         'melon': '#e06b71',
-        'temporary': '#304378',
+        'melon-400': '#e37b81',
+        'melon-300': '#e78b90',
+        'melon-200': '#ea9ca0',
+        'melon-100': '#eeacaf',
+
+        'temporary-primary': '#304378',
+        'temporary-primary-100': '#2c417d',
+
+        'temporary-secondary': '#677d96',
 
         'temporary-gray-900': '#121314',
         'temporary-gray-800': '#0f1323',
@@ -64,7 +76,9 @@ module.exports = {
         'temporary-gray-400': '#777986',
         'temporary-gray-300': '#9496a1',
         'temporary-gray-200': '#b3b5bd',
-        'temporary-gray-100': '#d2d4da',
+        'temporary-gray-100': '#f3f3f3',
+
+        'temporary-white': '#ffffff',
       },
       fontSize: {
         '2xs': '.625rem',

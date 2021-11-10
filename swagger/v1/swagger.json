@@ -379,7 +379,7 @@
                 "example": "Metropolitana",
                 "x-nullable": true
               },
-              "billing_address": {
+              "address": {
                 "type": "string",
                 "example": "Av. Las Condes",
                 "x-nullable": true
@@ -531,7 +531,7 @@
                 "example": "Metropolitana",
                 "x-nullable": true
               },
-              "billing_address": {
+              "address": {
                 "type": "string",
                 "example": "Av. Las Condes",
                 "x-nullable": true
@@ -609,7 +609,7 @@
                 "example": "Metropolitana",
                 "x-nullable": true
               },
-              "billing_address": {
+              "address": {
                 "type": "string",
                 "example": "Av. Las Condes",
                 "x-nullable": true
