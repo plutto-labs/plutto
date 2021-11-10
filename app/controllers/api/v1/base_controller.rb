@@ -26,7 +26,7 @@ class Api::V1::BaseController < Api::BaseController
   end
 
   def pundit_user
-    organization
+    @current_api_key
   end
 
   def policy_scope(scope)

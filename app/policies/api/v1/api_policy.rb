@@ -1,8 +1,8 @@
 class Api::V1::ApiPolicy
-  attr_reader :bearer, :record
+  attr_reader :api_key, :record
 
-  def initialize(bearer, record)
-    @bearer = bearer
+  def initialize(api_key, record)
+    @api_key = api_key
     @record = record
   end
 
@@ -34,11 +34,16 @@ class Api::V1::ApiPolicy
     false
   end
 
-  class Scope
-    attr_reader :bearer, :scope
+  def secret_key?
+    @api_key.sk?
+  end
 
-    def initialize(bearer, scope)
-      @bearer = bearer
+  class Scope
+    attr_reader :api_key, :scope
+
+    def initialize(api_key, scope)
+      @bearer = api_key.bearer
+      @api_key = api_key
       @scope = scope.ordered
     end
 
@@ -47,7 +52,7 @@ class Api::V1::ApiPolicy
     end
 
     def organization
-      @organization ||= bearer if bearer.is_a?(Organization)
+      @organization ||= api_key.bearer if api_key.bearer.is_a?(Organization)
     end
   end
 end
