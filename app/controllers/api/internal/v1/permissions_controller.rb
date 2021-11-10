@@ -13,6 +13,11 @@ class Api::Internal::V1::PermissionsController < Api::Internal::V1::BaseControll
     respond_with(permission)
   end
 
+  def destroy
+    authorize permission
+    respond_with(permission.destroy!)
+  end
+
   private
 
   def permission_params
@@ -23,5 +28,9 @@ class Api::Internal::V1::PermissionsController < Api::Internal::V1::BaseControll
 
   def permissions
     @permissions ||= policy_scope(Permission)
+  end
+
+  def permission
+    @permission ||= Permission.find(params[:id])
   end
 end
