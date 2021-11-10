@@ -54,7 +54,16 @@
             <input
               placeholder="Name your API key"
               class="bg-gray-900 plutto-input__input"
-              v-model="name"
+              v-model="newApiKey.name"
+            >
+          </div>
+          <div class="flex items-center">
+            <label for="api-key-public">Public?</label>
+            <input
+              type="checkbox"
+              class="ml-2 plutto-checkbox"
+              id="api-key-public"
+              v-model="newApiKey.public"
             >
           </div>
           <button
@@ -79,6 +88,7 @@ export default {
   data() {
     return {
       name: '',
+      newApiKey: {},
       createEnabled: false,
     };
   },
@@ -99,11 +109,12 @@ export default {
       navigator.clipboard.writeText(this.apiKey);
     },
     createApiKey() {
-      this.$store.dispatch('CREATE_API_KEY', { ...this.bearer, name: this.name })
-        .then(() => {
-          this.name = '';
-          this.createEnabled = false;
-        });
+      this.$store.dispatch('CREATE_API_KEY',
+        { ...this.bearer, ...this.newApiKey, category: this.newApiKey.public ? 'pk' : 'sk' },
+      ).then(() => {
+        this.newApiKey = {};
+        this.createEnabled = false;
+      });
     },
     deleteApiKey(apiKey) {
       this.$store.dispatch('DESTROY_API_KEY', apiKey);

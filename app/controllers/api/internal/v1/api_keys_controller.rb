@@ -23,7 +23,7 @@ class Api::Internal::V1::ApiKeysController < Api::Internal::V1::BaseController
   end
 
   def create_params
-    params.require(:api_key).permit(:bearer_type, :bearer_id, :name)
+    params.require(:api_key).permit(:bearer_type, :bearer_id, :name, :category)
   end
 
   def api_key

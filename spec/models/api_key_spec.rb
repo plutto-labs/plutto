@@ -12,6 +12,8 @@ RSpec.describe ApiKey, type: :model do
 
   describe 'Validations' do
     it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:category) }
+    it { is_expected.to define_enum_for(:category).with_values({ sk: 0, pk: 1 }) }
   end
 
   describe 'token' do
@@ -25,6 +27,26 @@ RSpec.describe ApiKey, type: :model do
       let!(:api_key) { create(:api_key) }
 
       it { expect(described_class.find(api_key.id).token).to eq(nil) }
+    end
+  end
+
+  describe 'category' do
+    context 'with private category' do
+      let(:category) { 'sk' }
+
+      it 'creates token starting with sk' do
+        api_key = create(:api_key, category: category)
+        expect(api_key.token).to start_with('sk')
+      end
+    end
+
+    context 'with public category' do
+      let(:category) { 'pk' }
+
+      it 'creates token starting with pk' do
+        api_key = create(:api_key, category: category)
+        expect(api_key.token).to start_with('pk')
+      end
     end
   end
 
