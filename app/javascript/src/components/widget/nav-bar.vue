@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="flex justify-between px-4 py-4 bg-temporary-gray-100 md:px-8">
-      <h1 class="flex items-center text-2xl font-semibold text-temporary">
+      <h1 class="flex items-center text-2xl font-semibold text-temporary-primary">
         <span class="mr-2 text-melon md:mr-8 material-icons">nightlight</span>
         <div class="flex">
           <p>
@@ -12,11 +12,11 @@
       <div class="flex">
         <div class="flex items-center">
           <div class="mr-2 md:mr-6 w-28 md:w-auto">
-            <p class="text-sm font-medium truncate text-temporary">
+            <p class="text-sm font-medium truncate text-temporary-primary">
               {{ currentUser.email }}
             </p>
             <p
-              class="text-xs font-medium text-right cursor-pointer text-temporary"
+              class="text-xs font-medium text-right cursor-pointer text-temporary-primary"
               @click="logout()"
             >
               Logout

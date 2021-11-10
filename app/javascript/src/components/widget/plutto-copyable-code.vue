@@ -24,7 +24,7 @@
     <div
       v-show="copied"
       ref="copyNotification"
-      class="absolute top-0 flex items-center justify-center w-full h-full text-2xl bg-white rounded-md opacity-70 text-temporary"
+      class="absolute top-0 flex items-center justify-center w-full h-full text-2xl bg-white rounded-md opacity-70 text-temporary-primary"
     >
       Copied!
     </div>
