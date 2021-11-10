@@ -5,10 +5,12 @@ PERMISSION_GROUP_SCHEMA = {
       type: :string, example: 'permission_group_d4328039347671a0b4b07f3f', 'x-nullable': false
     },
     name: { type: :string, example: 'Pro', 'x-nullable': false },
+    price: { type: :string, example: '29990.0', 'x-nullable': false },
     permissions: {
       type: :array,
       items: { "$ref" => "#/components/schemas/permission_group_permission" }
-    }
+    },
+    currency: { type: :string, example: 'USD', 'x-nullable': false }
   },
   required: [
     :id,
