@@ -14,7 +14,7 @@
         <div class="h-8 col-span-2 plutto-input">
           <input
             type="text"
-            class="pl-4 plutto-input__input focus:border-temporary"
+            class="pl-4 plutto-input__input focus:border-temporary-primary"
             v-model="formData.name"
           >
         </div>
@@ -24,7 +24,7 @@
         <div class="h-8 col-span-2 plutto-input">
           <input
             type="number"
-            class="pl-4 plutto-input__input focus:border-temporary"
+            class="pl-4 plutto-input__input focus:border-temporary-primary"
             v-model="formData.price"
           >
         </div>
@@ -58,7 +58,7 @@
             >
               <label class="mr-4 text-sm">limit:</label>
               <input
-                class="w-20 h-8 px-1 text-center plutto-input__input plutto-input__input--no-icon focus:border-temporary"
+                class="w-20 h-8 px-1 text-center plutto-input__input plutto-input__input--no-icon focus:border-temporary-primary"
                 v-model="selectedPermissions[permission.id].limit"
                 type="text"
               >
@@ -81,7 +81,7 @@
               @keyup.enter="addPermission"
             >
             <span
-              class="cursor-pointer plutto-icon text-temporary"
+              class="cursor-pointer plutto-icon text-temporary-primary"
               @click="addPermission"
             >add</span>
           </div>

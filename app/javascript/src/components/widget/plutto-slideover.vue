@@ -11,7 +11,7 @@
           class="absolute top-0 right-0 m-6 text-xl"
           @click.prevent="close"
         >
-          <span class="w-6 h-6 fill-current text-temporary material-icons hover:opacity-60">close</span>
+          <span class="w-6 h-6 fill-current text-temporary-primary material-icons hover:opacity-60">close</span>
         </button>
         <div class="w-full max-h-screen overflow-x-hidden overflow-y-auto">
           <slot name="content" />
