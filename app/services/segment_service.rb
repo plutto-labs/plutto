@@ -29,6 +29,12 @@ class SegmentService < PowerTypes::Service.new(:segment)
     @segment.alias(**params)
   end
 
+  def flush
+    return unless report_analytics_active?
+
+    @segment.flush
+  end
+
   private
 
   def report_analytics_active?

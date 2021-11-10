@@ -12,6 +12,7 @@ class LandingsController < ApplicationController
       event: 'send invoicing demo',
       properties: { email: email_param }
     )
+    Analytics.flush
 
     redirect_to invoicing_path, notice: 'Email Sent   📪'
   end
