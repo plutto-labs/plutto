@@ -35,6 +35,7 @@ describe 'API V1 Meter Events', swagger_doc: 'v1/swagger.json' do
       end
 
       it_behaves_like 'unauthorized endpoint'
+      it_behaves_like 'only secret api key endpoint'
     end
   end
 end

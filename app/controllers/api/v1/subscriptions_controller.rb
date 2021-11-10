@@ -20,6 +20,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   end
 
   def add_pricings
+    authorize(subscription)
     EditSubscriptionPricings::AddPricings.for(
       subscription: subscription,
       pricings: pricings(pricings_params[:pricing_ids], [:product, :price_logics])
@@ -28,6 +29,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   end
 
   def remove_pricings
+    authorize(subscription)
     EditSubscriptionPricings::RemovePricings.for(
       subscription: subscription,
       pricings: pricings(pricings_params[:pricing_ids])
