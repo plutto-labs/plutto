@@ -52,6 +52,19 @@ module.exports = {
         'secondary-300': '#6673ff',
         'secondary-200': '#99a2ff',
         'secondary-100': '#ccd0ff',
+
+        'melon': '#e06b71',
+        'temporary': '#304378',
+
+        'temporary-gray-900': '#121314',
+        'temporary-gray-800': '#0f1323',
+        'temporary-gray-700': '#282a3a',
+        'temporary-gray-600': '#404252',
+        'temporary-gray-500': '#5b5d6b',
+        'temporary-gray-400': '#777986',
+        'temporary-gray-300': '#9496a1',
+        'temporary-gray-200': '#b3b5bd',
+        'temporary-gray-100': '#d2d4da',
       },
       fontSize: {
         '2xs': '.625rem',
