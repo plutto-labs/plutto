@@ -1,8 +1,16 @@
 <template>
   <main class="flex flex-col gap-8">
-    <h2 class="text-2xl">
-      Design
-    </h2>
+    <div class="flex items-center justify-between">
+      <h2 class="text-2xl">
+        Design
+      </h2>
+      <div
+        class="text-white btn btn--filled bg-temporary-primary hover:bg-temporary-primary hover:opacity-80 focus:bg-temporary-primary"
+        @click="showSlideOver"
+      >
+        Add Plan
+      </div>
+    </div>
     <div class="relative flex flex-wrap gap-8 z-1">
       <div
         v-for="(color, index) in colorInputs"
@@ -15,14 +23,20 @@
           v-model="color.value"
         />
       </div>
+      <div class="relative w-40 h-8">
+        <p class="text-sm text-temporary-gray-500">
+          Button text
+        </p>
+        <input
+          class="pl-4 plutto-input__input text-temporary-gray-500 focus:border-temporary-primary"
+          v-model="buttonText"
+        >
+      </div>
     </div>
-    <div class="flex">
-      <div
-        id="plutto-subs-widget"
-        class="flex-1 send-to-background"
-      />
-      <AddPlan @add-plan="showSlideOver" />
-    </div>
+    <div
+      id="plutto-subs-widget"
+      class="send-to-background"
+    />
     <h2 class="text-2xl">
       Code
     </h2>
@@ -36,7 +50,7 @@
     >
       <template #preview>
         <div
-          id="plutto-subs-widget"
+          id="plutto-card-widget"
           class="mx-auto"
         />
       </template>
@@ -53,7 +67,6 @@
 import { mapState } from 'vuex';
 import PluttoColorInput from '@/components/widget/plutto-color-input';
 import PluttoCopyableCode from '@/components/widget/plutto-copyable-code';
-import AddPlan from '@/components/widget/add-plan';
 import PluttoSlideover from '@/components/widget/plutto-slideover';
 import PlanForm from '@/components/widget/plan-form';
 import codeString from '@/utils/widget/code';
@@ -62,19 +75,19 @@ export default {
   components: {
     PluttoColorInput,
     PluttoCopyableCode,
-    AddPlan,
     PluttoSlideover,
     PlanForm,
   },
   data() {
     return {
       colorInputs: [
-        { key: 'background', label: 'Background', value: '#FFFFFF' },
-        { key: 'text', label: 'Text', value: '#304378' },
-        { key: 'titleText', label: 'Title text', value: '#FFFFFF' },
-        { key: 'primary', label: 'Primary gradient', value: '#304378' },
-        { key: 'secondary', label: 'Secondary gradient', value: '#E06B71' },
+        { key: 'backgroundColor', label: 'Background', value: '#FFFFFF' },
+        { key: 'textColor', label: 'Text', value: '#304378' },
+        { key: 'titleTextColor', label: 'Title', value: '#FFFFFF' },
+        { key: 'primaryColor', label: 'Primary gradient', value: '#304378' },
+        { key: 'secondaryColor', label: 'Secondary gradient', value: '#E06B71' },
       ],
+      buttonText: 'Subscribe',
       showAddPlanSlideOver: false,
       formData: {
         name: '',
@@ -98,14 +111,18 @@ export default {
         'widget-event',
         {
           name: 'update-theme',
-          data: this.colorInputs.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), {}),
+          data: {
+            ...this.colorInputs.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), {}),
+            buttonText: this.buttonText,
+          },
         },
       );
     },
-    updateData(permissionGroups) {
+    updateData(widgetId, permissionGroups) {
       window.plutto(
         'widget-event',
         {
+          widgetId,
           name: 'update-permission-groups',
           data: permissionGroups,
         },
@@ -119,7 +136,7 @@ export default {
     },
     async reloadGroups() {
       await this.$store.dispatch('GET_PERMISSION_GROUPS');
-      this.updateData(this.permissionGroups);
+      this.updateData('plutto-subs-widget', this.permissionGroups);
       this.showAddPlanSlideOver = false;
     },
   },
@@ -130,9 +147,14 @@ export default {
       },
       deep: true,
     },
+    buttonText: {
+      handler() {
+        this.updateTheme();
+      },
+    },
     formData: {
       handler() {
-        this.updateData([this.formData]);
+        this.updateData('plutto-card-widget', [this.formData]);
       },
       deep: true,
     },

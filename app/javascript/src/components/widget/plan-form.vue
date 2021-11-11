@@ -27,16 +27,6 @@
           v-model="formData.price"
         >
       </div>
-      <h3 class="my-auto">
-        Button
-      </h3>
-      <div class="h-8 col-span-2 plutto-input">
-        <input
-          type="number"
-          class="pl-4 plutto-input__input focus:border-temporary-primary"
-          v-model="formData.button"
-        >
-      </div>
       <h3 class="mt-2">
         Features
       </h3>
@@ -96,11 +86,13 @@
         </div>
       </div>
     </div>
-    <button
-      class="text-white btn btn--filled bg-temporary-primary hover:bg-temporary-primary hover:opacity-80 focus:bg-temporary-primary"
-    >
-      Save
-    </button>
+    <div class="flex justify-end">
+      <button
+        class="mt-10 text-white btn btn--filled bg-temporary-primary hover:bg-temporary-primary hover:opacity-80 focus:bg-temporary-primary"
+      >
+        Save
+      </button>
+    </div>
   </form>
 </template>
 <script>
@@ -179,6 +171,9 @@ export default {
       },
       deep: true,
     },
+  },
+  mounted() {
+    window.plutto('init', { widgetId: 'plutto-card-widget', permissionGroups: [this.formData] });
   },
 };
 </script>
