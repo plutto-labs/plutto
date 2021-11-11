@@ -38,9 +38,10 @@ end
 #
 # Table name: organizations
 #
-#  id         :string           not null, primary key
-#  name       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  settings   :jsonb
+#  id              :string           not null, primary key
+#  name            :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  settings        :jsonb
+#  widget_settings :jsonb
 #
