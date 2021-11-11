@@ -14,6 +14,10 @@ describe Api::Internal::V1::BaseController, type: :controller do
           user_id: user.organization.id,
           event: 'internal index base'
         )
+        allow(Analytics).to receive(:track).with(
+          user_id: user.organization.id,
+          event: 'internal request'
+        )
       end
 
       it 'track request using analytics variable' do
@@ -21,6 +25,10 @@ describe Api::Internal::V1::BaseController, type: :controller do
         expect(Analytics).to have_received(:track).with(
           user_id: user.organization.id,
           event: 'internal index base'
+        ).once
+        expect(Analytics).to have_received(:track).with(
+          user_id: user.organization.id,
+          event: 'internal request'
         ).once
       end
     end
