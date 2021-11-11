@@ -1,5 +1,8 @@
 <template>
-  <div class="relative">
+  <div
+    class="relative"
+    v-click-outside="closeColorPicker"
+  >
     <div class="relative w-40 h-8 shadow-md">
       <div
         class="absolute top-0 bottom-0 left-0 w-8 h-full leading-none border rounded-l cursor-pointer border-temporary-gray-200"
@@ -27,6 +30,7 @@
 <script>
 import { ColorPicker } from 'vue-color-kit';
 import 'vue-color-kit/dist/vue-color-kit.css';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   components: {
@@ -47,6 +51,9 @@ export default {
     showColorPicker() {
       this.showPicker = !this.showPicker;
     },
+    closeColorPicker() {
+      this.showPicker = false;
+    },
     changeColor(color) {
       this.color = color.hex;
     },
@@ -60,6 +67,9 @@ export default {
         if (val) this.$emit('update:modelValue', val);
       },
     },
+  },
+  directives: {
+    clickOutside: vClickOutside.directive,
   },
 };
 </script>
