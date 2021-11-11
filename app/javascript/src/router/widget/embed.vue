@@ -16,15 +16,18 @@
         />
       </div>
     </div>
-    <div class="flex justify-center">
-      <!-- <div id="plutto-subs-widget" /> -->
+    <div class="flex">
+      <div
+        id="plutto-subs-widget"
+        class="flex-1 send-to-background"
+      />
       <AddPlan @add-plan="showSlideOver" />
     </div>
     <h2 class="text-2xl">
       Code
     </h2>
     <PluttoCopyableCode
-      class="code"
+      class="send-to-background"
       :code-string="formatCodeString()"
     />
     <PluttoSlideover
@@ -38,12 +41,16 @@
         />
       </template>
       <template #content>
-        <PlanForm v-model="formData" />
+        <PlanForm
+          v-model="formData"
+          @created-permission-group="reloadGroups"
+        />
       </template>
     </PluttoSlideover>
   </main>
 </template>
 <script>
+import { mapState } from 'vuex';
 import PluttoColorInput from '@/components/widget/plutto-color-input';
 import PluttoCopyableCode from '@/components/widget/plutto-copyable-code';
 import AddPlan from '@/components/widget/add-plan';
@@ -68,7 +75,7 @@ export default {
         { key: 'primary', label: 'Primary gradient', value: '#304378' },
         { key: 'secondary', label: 'Secondary gradient', value: '#E06B71' },
       ],
-      showAddPlanSlideOver: true,
+      showAddPlanSlideOver: false,
       formData: {
         name: '',
         price: '',
@@ -76,8 +83,14 @@ export default {
       },
     };
   },
-  beforeMount() {
-    window.plutto('init', { permissionGroups: [this.formData] });
+  async beforeMount() {
+    await this.$store.dispatch('GET_PERMISSION_GROUPS');
+    window.plutto('init', { permissionGroups: this.permissionGroups });
+  },
+  computed: {
+    ...mapState({
+      permissionGroups: state => state.permissionGroups.permissionGroups,
+    }),
   },
   methods: {
     updateTheme() {
@@ -89,20 +102,25 @@ export default {
         },
       );
     },
-    updateData() {
+    updateData(permissionGroups) {
       window.plutto(
         'widget-event',
         {
           name: 'update-permission-groups',
-          data: [this.formData],
+          data: permissionGroups,
         },
       );
     },
     formatCodeString() {
-      return codeString('APIIIIIIII');
+      return codeString();
     },
     showSlideOver() {
       this.showAddPlanSlideOver = true;
+    },
+    async reloadGroups() {
+      await this.$store.dispatch('GET_PERMISSION_GROUPS');
+      this.updateData(this.permissionGroups);
+      this.showAddPlanSlideOver = false;
     },
   },
   watch: {
@@ -114,7 +132,7 @@ export default {
     },
     formData: {
       handler() {
-        this.updateData();
+        this.updateData([this.formData]);
       },
       deep: true,
     },
@@ -122,7 +140,7 @@ export default {
 };
 </script>
 <style scoped>
-.code {
+.send-to-background {
   position: relative;
   z-index: -1 !important;
 }
