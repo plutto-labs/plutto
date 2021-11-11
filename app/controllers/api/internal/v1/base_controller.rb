@@ -9,6 +9,7 @@ class Api::Internal::V1::BaseController < Api::BaseController
         user_id: current_user.organization.id,
         event: "internal #{action_name} #{controller_name}"
       )
+      Analytics.track(user_id: current_user.organization.id, event: 'internal request')
     end
   end
 end
