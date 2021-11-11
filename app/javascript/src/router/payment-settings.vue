@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     async updateSettings() {
-      await this.$store.dispatch('UPDATE_SETTINGS', { ...this.organization, settings: this.newSettings });
+      await this.$store.dispatch('UPDATE_ORGANIZATION', { ...this.organization, settings: this.newSettings });
       this.newSettings = { ...this.settings };
     },
   },

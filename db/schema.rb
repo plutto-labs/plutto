@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 2021_11_11_193701) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "settings"
-    t.jsonb "widget_settings"
+    t.jsonb "widget_settings", default: {}
   end
 
   create_table "payment_methods", id: :string, force: :cascade do |t|
