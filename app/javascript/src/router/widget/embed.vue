@@ -70,6 +70,7 @@ import PluttoCopyableCode from '@/components/widget/plutto-copyable-code';
 import PluttoSlideover from '@/components/widget/plutto-slideover';
 import PlanForm from '@/components/widget/plan-form';
 import codeString from '@/utils/widget/code';
+import debounce from 'lodash.debounce';
 
 export default {
   components: {
@@ -96,14 +97,27 @@ export default {
       },
     };
   },
-  async beforeMount() {
+  async mounted() {
     await this.$store.dispatch('GET_PERMISSION_GROUPS');
-    window.plutto('init', { permissionGroups: this.permissionGroups });
+    this.colorInputs.forEach((color) => {
+      if (this.widgetSettings[color.key]) color.value = this.widgetSettings[color.key];
+    });
+    if (this.widgetSettings.buttonText) this.buttonText = this.widgetSettings.buttonText;
+
+    window.plutto('init', { permissionGroups: this.permissionGroups, theme: this.theme });
   },
   computed: {
     ...mapState({
       permissionGroups: state => state.permissionGroups.permissionGroups,
+      organization: store => store.organization,
+      widgetSettings: store => store.organization.widgetSettings,
     }),
+    theme() {
+      return {
+        ...this.colorInputs.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), {}),
+        buttonText: this.buttonText,
+      };
+    },
   },
   methods: {
     updateTheme() {
@@ -111,12 +125,10 @@ export default {
         'widget-event',
         {
           name: 'update-theme',
-          data: {
-            ...this.colorInputs.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), {}),
-            buttonText: this.buttonText,
-          },
+          data: this.theme,
         },
       );
+      this.updateWidgetSettings();
     },
     updateData(widgetId, permissionGroups) {
       window.plutto(
@@ -139,6 +151,10 @@ export default {
       this.updateData('plutto-subs-widget', this.permissionGroups);
       this.showAddPlanSlideOver = false;
     },
+    updateWidgetSettings: debounce(function () {
+      this.$store.dispatch('UPDATE_ORGANIZATION', { ...this.organization, widgetSettings: this.theme });
+    // eslint-disable-next-line no-magic-numbers
+    }, 500),
   },
   watch: {
     colorInputs: {
