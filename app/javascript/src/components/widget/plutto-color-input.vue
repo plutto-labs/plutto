@@ -3,7 +3,7 @@
     class="relative"
     v-click-outside="closeColorPicker"
   >
-    <div class="relative w-40 h-8 shadow-md">
+    <div class="relative w-40 h-8">
       <div
         class="absolute top-0 bottom-0 left-0 w-8 h-full leading-none border rounded-l cursor-pointer border-temporary-gray-200"
         :style="`background-color: ${color};`"
