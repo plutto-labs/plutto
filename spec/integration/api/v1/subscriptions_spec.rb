@@ -55,6 +55,8 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
 
         it_behaves_like 'unprocessable entity endpoint'
       end
+
+      it_behaves_like 'only secret api key endpoint'
     end
   end
 
@@ -91,6 +93,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
 
       it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
+      it_behaves_like 'only secret api key endpoint'
 
       context 'when subscription is already ended' do
         let(:active) { false }
@@ -168,6 +171,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
 
       it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
+      it_behaves_like 'only secret api key endpoint'
     end
   end
 
@@ -206,6 +210,7 @@ describe 'API V1 Subscription', swagger_doc: 'v1/swagger.json' do
 
       it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
+      it_behaves_like 'only secret api key endpoint'
     end
   end
 end

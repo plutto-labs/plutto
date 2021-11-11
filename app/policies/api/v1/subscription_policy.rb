@@ -1,10 +1,18 @@
 class Api::V1::SubscriptionPolicy < Api::V1::ApiPolicy
   def create?
-    true
+    secret_key?
   end
 
   def end_subscription?
-    true
+    secret_key?
+  end
+
+  def add_pricings?
+    secret_key?
+  end
+
+  def remove_pricings?
+    secret_key?
   end
 
   class Scope < Scope

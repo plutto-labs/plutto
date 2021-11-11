@@ -1,6 +1,6 @@
 class Api::V1::InvoicePolicy < Api::V1::ApiPolicy
   def mark_as?
-    true
+    secret_key?
   end
 
   class Scope < Scope

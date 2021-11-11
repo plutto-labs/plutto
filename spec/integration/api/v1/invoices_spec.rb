@@ -117,6 +117,7 @@ describe 'API V1 Invoices', swagger_doc: 'v1/swagger.json' do
 
       it_behaves_like 'not_found endpoint'
       it_behaves_like 'unauthorized endpoint'
+      it_behaves_like 'only secret api key endpoint'
     end
   end
 end
