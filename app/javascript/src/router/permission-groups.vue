@@ -12,10 +12,10 @@
         <div
           v-for="permissionGroup in sortedPermissionGroups"
           :key="permissionGroup.id"
-          class="relative px-6 py-8 border border-gray-600 rounded-lg"
+          class="relative px-6 py-8 border border-gray-300 rounded-lg"
         >
           <div class="flex items-center gap-4">
-            <div class="text-lg underline md:text-xl text-gray-50">
+            <div class="text-lg text-gray-900 underline md:text-xl">
               {{ permissionGroup.name }}
             </div>
             <span
@@ -24,10 +24,10 @@
             >edit</span>
           </div>
           <PluttoCopyableDiv
-            class="text-xs text-gray-100"
+            class="text-xs text-gray-800"
             :value="permissionGroup.id"
           />
-          <ul class="pl-4 mt-4 mb-8 text-gray-300">
+          <ul class="pl-4 mt-4 mb-8 text-gray-600">
             <li
               class="list-disc"
               v-for="permission in permissionGroup.permissions"
@@ -36,9 +36,9 @@
               <PluttoTooltip v-if="permission.meterId">
                 <template #trigger>
                   <div class="flex items-center">
-                    <span class="text-primary">{{ permission.limit || '&infin;' }}</span>
+                    <span class="text-melon">{{ permission.limit || '&infin;' }}</span>
                     <span class="flex-1 mx-2">{{ permission.name }}</span>
-                    <span class="plutto-icon text-secondary-200">{{ permission.meterCountMethod === 'period_sum' ? 'autorenew' : 'trending_up' }}</span>
+                    <span class="plutto-icon text-aquagreen-900">{{ permission.meterCountMethod === 'period_sum' ? 'autorenew' : 'trending_up' }}</span>
                   </div>
                 </template>
                 <template #content>

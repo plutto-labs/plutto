@@ -13,7 +13,7 @@
       <div class="mr-8 w-50">
         <label
           for="bills_at"
-          class="block mb-4 text-sm font-medium text-gray-100"
+          class="block mb-4 text-sm font-medium text-gray-800"
         >
           Bill when periods:
         </label>
@@ -33,7 +33,7 @@
       <div class="mr-8 w-50">
         <label
           for="bills_at"
-          class="block text-sm font-medium text-gray-100"
+          class="block text-sm font-medium text-gray-800"
         >
           Bill every:
         </label>
@@ -57,7 +57,7 @@
       <div class="mr-8 w-50">
         <label
           for="bills_at"
-          class="block text-sm font-medium text-gray-100"
+          class="block text-sm font-medium text-gray-800"
         >
           Trial until:
         </label>
@@ -74,7 +74,7 @@
           <template #default="{ inputValue, inputEvents }">
             <div class="plutto-input">
               <input
-                class="bg-gray-700 border-gray-500 plutto-input__input"
+                class="bg-gray-200 border-gray-400 plutto-input__input"
                 :value="inputValue"
                 v-on="inputEvents"
               >
@@ -84,7 +84,7 @@
       </div>
     </div>
     <div class="flex items-center justify-between my-8">
-      <span class="flex-1">Select permissionGroup:<br><span class="text-xs text-gray-300">(optional)</span></span>
+      <span class="flex-1">Select permissionGroup:<br><span class="text-xs text-gray-600">(optional)</span></span>
       <PluttoDropdown
         class="w-32 ml-4 plutto-input"
         :options="parsedPermissionGroups"
@@ -95,7 +95,7 @@
       />
     </div>
     <div class="flex items-center justify-between my-8">
-      <span class="flex-1">Add products:<br><span class="text-xs text-gray-300">(0 or more)</span></span>
+      <span class="flex-1">Add products:<br><span class="text-xs text-gray-600">(0 or more)</span></span>
       <PluttoDropdown
         class="w-32 ml-4 plutto-input"
         force-selected-text="Choose..."
@@ -110,7 +110,7 @@
       <div
         v-for="(product) in Object.values(selectedProducts)"
         :key="product"
-        class="relative p-4 border border-gray-400 rounded group"
+        class="relative p-4 border border-gray-500 rounded group"
       >
         <div
           class="absolute top-0 right-0 -mt-3 -mr-2 text-xl opacity-0 cursor-pointer plutto-icon group-hover:opacity-100"
@@ -139,7 +139,7 @@
                 </span>
               </template>
               <template #content>
-                <p class="w-24 text-xs text-gray-800">
+                <p class="w-24 text-xs text-gray-100">
                   Metered pricing is not allowed when period bills at start
                 </p>
               </template>

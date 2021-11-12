@@ -2,12 +2,12 @@
   <div class="flex flex-col">
     <div class="inline-block min-w-full align-middle">
       <div class="shadow sm:rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-700">
+        <table class="min-w-full divide-y divide-gray-700">
+          <thead class="bg-gray-200">
             <tr>
               <th
                 scope="col"
-                class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-gray-50"
+                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-900 uppercase"
                 v-for="header in headers"
                 :key="header.title"
               >
@@ -16,11 +16,11 @@
             </tr>
           </thead>
           <tbody
-            class="bg-gray-800 rounded-b-lg"
+            class="bg-gray-50 rounded-b-lg"
             v-if="!loading"
           >
             <tr
-              class="border-t-4 border-gray-900"
+              class="border-t-4 border-gray-50"
               v-for="(row, index) in rows"
               :key="index"
             >
@@ -30,20 +30,20 @@
                 :key="header.title"
               >
                 <template v-if="header.type === 'twoLinesText'">
-                  <div class="text-sm font-medium text-gray-50">
+                  <div class="text-sm font-medium text-gray-900">
                     {{ row[header.bigText] }}
                   </div>
-                  <div class="text-sm text-gray-400">
+                  <div class="text-sm text-gray-9000">
                     {{ row[header.smallText] }}
                   </div>
                 </template>
                 <template v-else-if="header.type === 'oneLineText'">
-                  <div class="py-4 text-sm text-gray-50 whitespace-nowrap">
+                  <div class="py-4 text-sm text-gray-900 whitespace-nowrap">
                     {{ row[header.title] }}
                   </div>
                 </template>
                 <template v-else-if="header.type === 'copyableLine'">
-                  <div class="py-4 text-sm text-gray-50 whitespace-nowrap">
+                  <div class="py-4 text-sm text-gray-900 whitespace-nowrap">
                     <PluttoCopyableDiv :value="row[header.title]" />
                   </div>
                 </template>
@@ -56,12 +56,12 @@
                   </div>
                 </template>
                 <template v-else-if="header.type === 'currency'">
-                  <div class="py-4 text-sm text-gray-50 whitespace-nowrap">
+                  <div class="py-4 text-sm text-gray-900 whitespace-nowrap">
                     {{ formatCurrency(row[header.title], row.currency) }}
                   </div>
                 </template>
                 <template v-else-if="header.type === 'date'">
-                  <div class="py-4 text-sm text-gray-50 whitespace-nowrap">
+                  <div class="py-4 text-sm text-gray-900 whitespace-nowrap">
                     {{ formatDate(row[header.title]) }}
                   </div>
                 </template>
@@ -92,10 +92,10 @@
             </tr>
           </tbody>
           <tbody
-            class="bg-gray-800"
+            class="bg-gray-50"
             v-else
           >
-            <tr class="border-t-4 border-gray-900">
+            <tr class="border-t-4 border-gray-50">
               <td
                 :colspan="headers.length"
                 class="py-8"

@@ -4,13 +4,13 @@
       v-if="showing"
       class="fixed inset-0 z-10 flex items-center justify-end w-full h-screen bg-see-through"
     >
-      <div class="relative right-0 flex w-full h-full max-w-3xl bg-gray-800 shadow-lg md:w-1/2">
+      <div class="relative right-0 flex w-full h-full max-w-3xl bg-gray-50 shadow-lg md:w-1/2">
         <button
           aria-label="close"
           class="absolute top-0 right-0 m-6 text-xl"
           @click.prevent="close"
         >
-          <span class="w-6 h-6 text-gray-100 fill-current material-icons hover:text-gray-50">close</span>
+          <span class="w-6 h-6 text-gray-800 fill-current material-icons hover:text-gray-900">close</span>
         </button>
         <div class="w-full max-h-screen overflow-x-hidden overflow-y-auto">
           <slot />

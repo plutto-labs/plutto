@@ -13,7 +13,7 @@
         #delete
       >
         <span
-          class="absolute text-2xl text-gray-200 cursor-pointer top-2 right-2 plutto-icon"
+          class="absolute text-2xl text-gray-700 cursor-pointer top-2 right-2 plutto-icon"
           @click="deletePriceLogic(index)"
         >
           close
@@ -23,7 +23,7 @@
         #separator
         v-if="index < priceLogics.length"
       >
-        <div class="flex justify-center w-full h-6 my-4 text-gray-100">
+        <div class="flex justify-center w-full h-6 my-4 text-gray-800">
           <span class="material-icons">
             add
           </span>
@@ -35,7 +35,7 @@
       class="flex justify-center w-full mt-8"
     >
       <button
-        class="relative flex items-center justify-center w-full py-8 text-gray-300 border border-gray-700 border-dashed"
+        class="relative flex items-center justify-center w-full py-8 text-gray-600 border border-gray-200 border-dashed"
         @click.prevent="addPriceLogic"
       >
         <span class="mr-2 plutto-icon">add</span>

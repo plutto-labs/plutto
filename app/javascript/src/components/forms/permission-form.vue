@@ -1,22 +1,22 @@
 <template>
   <Form
     @submit="editingPermission ? updatePermission() : createPermission()"
-    class="max-w-xl p-4 mx-auto space-y-5 bg-gray-800 rounded-lg"
+    class="max-w-xl p-4 mx-auto space-y-5 bg-gray-50 rounded-lg"
     :validation-schema="schema"
     v-slot="{ errors }"
   >
     <div class="space-y-6 sm:space-y-5">
       <div class="space-y-6 sm:space-y-5">
-        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-400 sm:pt-5">
           <label
             for="first-name"
-            class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
+            class="block text-sm font-medium text-gray-900 sm:mt-px sm:pt-2 sm:ml-4"
           >
             Name
           </label>
           <div class="mt-1 sm:mt-0 sm:col-span-2 plutto-input">
             <Field
-              class="block bg-gray-700 border-gray-500 plutto-input__input text-gray-50 sm:max-w-xs sm:text-sm"
+              class="block bg-gray-200 border-gray-400 plutto-input__input text-gray-900 sm:max-w-xs sm:text-sm"
               type="text"
               name="name"
               id="name"
@@ -32,13 +32,13 @@
           </div>
         </div>
         <div class="space-y-6 sm:space-y-5">
-          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
+          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-400 sm:pt-5">
             <label
               for="meter-type"
-              class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
+              class="block text-sm font-medium text-gray-900 sm:mt-px sm:pt-2 sm:ml-4"
             >
               ¿Track usage?<br>
-              <span class="text-xs text-gray-300">Leave empty if not</span>
+              <span class="text-xs text-gray-600">Leave empty if not</span>
             </label>
             <PluttoDropdown
               class="w-full plutto-input"
@@ -54,10 +54,10 @@
           v-if="newPermission.meterId"
           class="space-y-6 sm:space-y-5"
         >
-          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-500 sm:pt-5">
+          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-gray-400 sm:pt-5">
             <label
               for="meter-type"
-              class="block text-sm font-medium text-gray-50 sm:mt-px sm:pt-2 sm:ml-4"
+              class="block text-sm font-medium text-gray-900 sm:mt-px sm:pt-2 sm:ml-4"
             >
               Using:
             </label>

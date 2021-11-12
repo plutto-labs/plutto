@@ -9,7 +9,7 @@
         @click="openDropdown"
         v-model="selectedOptionValue"
         :name="dropdownId"
-        class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md shadow-sm cursor-pointer focus:outline-none text-gray-50 hover:bg-gray-500"
+        class="inline-flex items-center justify-center w-full h-full px-4 py-2 text-sm font-medium text-gray-900 border border-gray-100 rounded-md shadow-sm cursor-pointer bg-gray-50 focus:outline-none hover:bg-gray-400"
         :class="{'cursor-not-allowed': disabled}"
         id="options-menu"
         aria-haspopup="true"
@@ -29,7 +29,7 @@
     >
       <div
         v-if="isMenuOpen"
-        class="absolute z-50 mt-2 overflow-y-auto bg-gray-700 rounded-md shadow-lg outline-none max-h-48 ring-1 ring-black ring-opacity-5"
+        class="absolute z-50 mt-2 overflow-y-auto bg-gray-100 rounded-md shadow-lg outline-none max-h-48 ring-1 ring-black ring-opacity-5"
         :class="{'left-0': float === 'left', 'right-0': float === 'right'}"
       >
         <div
@@ -39,7 +39,7 @@
           aria-labelledby="options-menu"
         >
           <div
-            class="px-4 py-2 rounded-md cursor-pointer hover:bg-gray-500"
+            class="px-4 py-2 rounded-md cursor-pointer hover:bg-gray-400"
             v-for="(option, optionIndex) in options"
             :key="optionIndex"
             @click="selectOption(option)"
@@ -50,7 +50,7 @@
           </div>
           <div
             v-if="addElementText"
-            class="border-t-2 border-gray-400 cursor-pointer rounded-b-md hover:bg-gray-500"
+            class="border-t-2 border-gray-500 cursor-pointer rounded-b-md hover:bg-gray-400"
             @click="$emit('add-element-clicked'); closeMenu()"
           >
             <a

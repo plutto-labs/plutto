@@ -10,7 +10,7 @@
           {{ currentProduct.name }}
         </div>
         <div class="flex items-center justify-between my-8">
-          <div class="text-lg text-gray-50">
+          <div class="text-lg text-gray-900">
             Pricings:
           </div>
           <button
@@ -25,7 +25,7 @@
           :key="pricing.id"
           :pricing="pricing"
           :meter="currentProduct.meter"
-          class="p-4 my-4 border border-gray-200 rounded"
+          class="p-4 my-4 border border-gray-700 rounded"
         />
       </div>
     </template>

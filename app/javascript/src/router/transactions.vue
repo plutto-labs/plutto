@@ -19,7 +19,7 @@
       :showing="showInvoice"
       @close="showInvoice = false"
     >
-      <div class="w-full pb-8 mx-auto mt-20 space-y-8 divide-y divide-gray-200 md:max-w-xl">
+      <div class="w-full pb-8 mx-auto mt-20 space-y-8 divide-y divide-gray-700 md:max-w-xl">
         <Invoice
           :invoice-id="invoiceId"
           class="pb-8 mx-auto"
