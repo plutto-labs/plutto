@@ -14,6 +14,13 @@
         :value="color"
         disabled
       >
+      <span
+        class="absolute top-0 bottom-0 right-0 w-6 h-full text-2xl cursor-pointer plutto-icon text-temporary-gray-200"
+        v-if="undo"
+        @click="$emit('undo')"
+      >
+        replay
+      </span>
     </div>
     <div
       class="absolute mt-2"
@@ -40,6 +47,10 @@ export default {
     modelValue: {
       type: String,
       default: '#000000',
+    },
+    undo: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

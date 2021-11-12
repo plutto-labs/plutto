@@ -21,6 +21,8 @@
         </p>
         <PluttoColorInput
           v-model="color.value"
+          :undo="colorChanged(color)"
+          @undo="undoColor(color)"
         />
       </div>
       <div class="relative w-40 h-8">
@@ -32,6 +34,13 @@
           v-model="buttonText"
         >
       </div>
+      <button
+        v-if="themeChanged()"
+        class="h-8 mt-5 text-white btn btn-filled bg-success hover:bg-success-light border-success focus:bg-success-light"
+        @click="updateWidgetSettings()"
+      >
+        Save
+      </button>
     </div>
     <div
       id="plutto-subs-widget"
@@ -46,7 +55,7 @@
     />
     <PluttoSlideover
       :showing="showAddPlanSlideOver"
-      @close="showAddPlanSlideOver = false"
+      @close="closeSlideOver"
     >
       <template #preview>
         <div
@@ -57,7 +66,10 @@
       <template #content>
         <PlanForm
           v-model="formData"
-          @created-permission-group="reloadGroups"
+          :editing-permission-group="editingPermissionGroup"
+          :theme="theme"
+          @created-permission-group="closeSlideOver"
+          @deleted-permission-group="closeSlideOver"
         />
       </template>
     </PluttoSlideover>
@@ -70,7 +82,6 @@ import PluttoCopyableCode from '@/components/widget/plutto-copyable-code';
 import PluttoSlideover from '@/components/widget/plutto-slideover';
 import PlanForm from '@/components/widget/plan-form';
 import codeString from '@/utils/widget/code';
-import debounce from 'lodash.debounce';
 
 export default {
   components: {
@@ -95,16 +106,28 @@ export default {
         price: '',
         permissions: [],
       },
+      editingPermissionGroup: null,
     };
   },
-  async mounted() {
+  async beforeMount() {
     await this.$store.dispatch('GET_PERMISSION_GROUPS');
+  },
+  mounted() {
+    window.plutto('init', { permissionGroups: this.permissionGroups, theme: this.theme });
+
     this.colorInputs.forEach((color) => {
       if (this.widgetSettings[color.key]) color.value = this.widgetSettings[color.key];
     });
     if (this.widgetSettings.buttonText) this.buttonText = this.widgetSettings.buttonText;
 
-    window.plutto('init', { permissionGroups: this.permissionGroups, theme: this.theme });
+    if (this.widgetsettings === undefined) this.updateWidgetSettings();
+
+    document.getElementById('plutto-subs-widget').addEventListener('edit-permission-group', (data) => {
+      this.editCard(data.detail.id);
+    });
+  },
+  beforeUnmount() {
+    document.getElementById('plutto-subs-widget').removeEventListener('edit-permission-group', this.editCard);
   },
   computed: {
     ...mapState({
@@ -128,13 +151,12 @@ export default {
           data: this.theme,
         },
       );
-      this.updateWidgetSettings();
     },
-    updateData(widgetId, permissionGroups) {
+    updateData(string, permissionGroups) {
       window.plutto(
         'widget-event',
         {
-          widgetId,
+          widgetId: string,
           name: 'update-permission-groups',
           data: permissionGroups,
         },
@@ -146,15 +168,34 @@ export default {
     showSlideOver() {
       this.showAddPlanSlideOver = true;
     },
-    async reloadGroups() {
-      await this.$store.dispatch('GET_PERMISSION_GROUPS');
-      this.updateData('plutto-subs-widget', this.permissionGroups);
+    closeSlideOver() {
       this.showAddPlanSlideOver = false;
+      this.editingPermissionGroup = {};
+      this.formData = {
+        name: '',
+        price: '',
+        permissions: [],
+      };
     },
-    updateWidgetSettings: debounce(function () {
+    updateWidgetSettings() {
       this.$store.dispatch('UPDATE_ORGANIZATION', { ...this.organization, widgetSettings: this.theme });
     // eslint-disable-next-line no-magic-numbers
-    }, 500),
+    },
+    editCard(id) {
+      this.editingPermissionGroup = this.permissionGroups.find(group => group.id === id);
+      this.showAddPlanSlideOver = true;
+    },
+    colorChanged(color) {
+      return (color.value !== this.widgetSettings[color.key]);
+    },
+    undoColor(color) {
+      color.value = this.widgetSettings[color.key];
+      this.updateTheme();
+    },
+    themeChanged() {
+      return this.colorInputs.some(color => this.colorChanged(color)) ||
+        this.buttonText !== this.widgetSettings.buttonText;
+    },
   },
   watch: {
     colorInputs: {
@@ -171,6 +212,12 @@ export default {
     formData: {
       handler() {
         this.updateData('plutto-card-widget', [this.formData]);
+      },
+      deep: true,
+    },
+    permissionGroups: {
+      handler() {
+        this.updateData('plutto-subs-widget', [...this.permissionGroups]);
       },
       deep: true,
     },
