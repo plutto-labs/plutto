@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    class="h-screen bg-gray-900"
+    class="h-screen bg-white"
   >
     <div
       v-if="loggedUser"

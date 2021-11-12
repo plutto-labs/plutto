@@ -23,7 +23,7 @@
             <template #default="{ inputValue, inputEvents }">
               <div class="plutto-input">
                 <input
-                  class="bg-gray-700 border-gray-500 plutto-input__input"
+                  class="bg-gray-200 border-gray-400 plutto-input__input"
                   :value="inputValue"
                   v-on="inputEvents"
                 >
@@ -32,7 +32,7 @@
           </DatePicker>
           <p
             v-if="newDate"
-            class="absolute text-xs text-gray-300"
+            class="absolute text-xs text-gray-600"
           >
             {{ `subscription will start charging ${daysFromDate(newDate)}` }}
           </p>

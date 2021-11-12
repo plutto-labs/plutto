@@ -119,7 +119,7 @@
       </div>
     </div>
     <slot name="actions" />
-    <div class="mt-6 text-xs text-center text-gray-200">
+    <div class="mt-6 text-xs text-center text-gray-700">
       Powered by Plutto ™
     </div>
     <img

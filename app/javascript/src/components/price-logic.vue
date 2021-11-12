@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="relative flex items-center py-8 border border-gray-700">
+    <div class="relative flex items-center py-8 border border-gray-200">
       <div class="flex-1">
         <div class="block md:mx-8">
           <div class="inline-block sm:col-span-3">
             <label
               for="meter-type"
-              class="text-sm font-medium text-gray-100"
+              class="text-sm font-medium text-gray-800"
             >
               Charge
             </label>
@@ -20,7 +20,7 @@
               @selected="(priceLogicType) => updatePriceLogic('type', priceLogicType)"
             />
             <div
-              class="inline-block w-auto px-4 py-2 mx-2 mt-2 text-sm font-medium bg-gray-700 border-gray-500 rounded-md"
+              class="inline-block w-auto px-4 py-2 mx-2 mt-2 text-sm font-medium bg-gray-200 border-gray-400 rounded-md"
               v-else
             >
               {{ $t(`message.priceLogics.types.${priceLogic.type}`) }}
@@ -30,7 +30,7 @@
             <div class="inline-block sm:col-span-3">
               <label
                 for="meter-type"
-                class="text-sm font-medium text-gray-100"
+                class="text-sm font-medium text-gray-800"
               >
                 using
               </label>
@@ -44,7 +44,7 @@
                 @selected="(method) => priceLogic.meterCountMethod = method"
               />
               <div
-                class="inline-block px-4 py-2 mx-2 mt-2 text-sm bg-gray-700 border-gray-500 rounded-md shadow-sm text-gray-50"
+                class="inline-block px-4 py-2 mx-2 mt-2 text-sm bg-gray-200 border-gray-400 rounded-md shadow-sm text-gray-900"
                 v-else
               >
                 {{ meterCountMethods.find(method => method.value == priceLogic.meterCountMethod).label }}
@@ -52,7 +52,7 @@
             </div>
           </template>
         </div>
-        <div class="mt-2 text-sm text-gray-200 sm:col-span-3 md:ml-8">
+        <div class="mt-2 text-sm text-gray-700 sm:col-span-3 md:ml-8">
           {{ $t(`message.priceLogics.descriptions.${priceLogic.type}`) }}
         </div>
         <div class="mt-4 md:mx-8">
@@ -69,7 +69,7 @@
           <template v-else>
             <label
               for="amount"
-              class="block mt-2 text-sm font-medium text-gray-100"
+              class="block mt-2 text-sm font-medium text-gray-800"
             >
               Amount
             </label>

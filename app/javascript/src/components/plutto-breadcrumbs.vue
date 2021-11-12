@@ -9,7 +9,7 @@
         :class="{
           'bg-success-light': step < currentStep,
           'bg-primary': step === currentStep,
-          'bg-gray-200': step > currentStep,
+          'bg-gray-700': step > currentStep,
           'w-6 h-6': step === 1 || step == steps,
         }"
       >

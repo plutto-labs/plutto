@@ -9,11 +9,11 @@
       v-if="show"
     >
       <span
-        class="w-2 h-2 ml-2 origin-bottom-left transform rotate-45 bg-gray-600"
+        class="w-2 h-2 ml-2 origin-bottom-left transform rotate-45 bg-gray-100"
         :class="{'bg-danger-light': background === 'danger'}"
       />
       <div
-        class="px-3 py-1 bg-gray-600 rounded"
+        class="px-3 py-1 bg-gray-100 rounded"
         :class="{'bg-danger-light': background === 'danger'}"
       >
         <slot name="content" />

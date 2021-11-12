@@ -43,7 +43,7 @@ export default {
     },
     iconClass: {
       type: String,
-      default: 'text-primary text-base',
+      default: 'text-melon text-base',
     },
   },
   data() {

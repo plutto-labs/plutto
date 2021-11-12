@@ -6,16 +6,16 @@
           Your API Keys
         </p>
         <div
-          class="p-4 mt-4 bg-gray-800 rounded-lg"
+          class="p-4 mt-4 bg-gray-50 rounded-lg"
           v-for="(apiKey, index) in apiKeys"
           :key="index"
         >
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-50">
+              <p class="text-sm font-medium text-gray-900">
                 {{ apiKey.name }}
               </p>
-              <p class="pt-2 text-sm font-medium text-gray-500">
+              <p class="pt-2 text-sm font-medium text-gray-400">
                 {{ formatDateTime(apiKey.createdAt) }}
               </p>
             </div>
@@ -50,10 +50,10 @@
           v-else
           class="flex gap-4 mt-4"
         >
-          <div class="bg-gray-800 rounded-lg plutto-input">
+          <div class="bg-gray-50 rounded-lg plutto-input">
             <input
               placeholder="Name your API key"
-              class="bg-gray-900 plutto-input__input"
+              class="bg-gray-50 plutto-input__input"
               v-model="newApiKey.name"
             >
           </div>

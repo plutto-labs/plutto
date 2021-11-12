@@ -1,9 +1,9 @@
 <template>
   <Form
     @submit="submit"
-    class="w-full space-y-8 divide-y divide-gray-200 md:max-w-xl"
+    class="w-full space-y-8 divide-y divide-gray-700 md:max-w-xl"
   >
-    <div class="m-auto divide-gray-200">
+    <div class="m-auto divide-gray-700">
       <template v-if="createProduct">
         <div class="sm:col-span-3">
           <div class="mt-8 mb-4 text-lg">
@@ -13,7 +13,7 @@
             <div class="w-full mr-8 plutto-input">
               <label
                 for="name"
-                class="block text-sm font-medium text-gray-100"
+                class="block text-sm font-medium text-gray-800"
               >
                 {{ $t('message.global.name') }}
               </label>
@@ -29,7 +29,7 @@
             <div class="w-32 mr-8">
               <label
                 for="meter-type"
-                class="text-sm font-medium text-gray-100"
+                class="text-sm font-medium text-gray-800"
               >
                 Metered with
               </label>
@@ -56,7 +56,7 @@
           <div class="w-full mr-8 plutto-input">
             <label
               for="name"
-              class="block text-sm font-medium text-gray-100"
+              class="block text-sm font-medium text-gray-800"
             >
               {{ $t('message.global.name') }}
             </label>
@@ -68,7 +68,7 @@
           <div class="w-32 mr-8">
             <label
               for="currency"
-              class="block text-sm font-medium text-gray-100"
+              class="block text-sm font-medium text-gray-800"
             >
               {{ $t('message.global.currency') }}
             </label>

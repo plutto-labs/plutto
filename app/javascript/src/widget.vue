@@ -42,7 +42,7 @@ export default {
 
 <style lang="scss" scoped>
 main {
-  @apply py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none text-temporary-primary h-full;
+  @apply py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none text-primary h-full;
 }
 
 </style>

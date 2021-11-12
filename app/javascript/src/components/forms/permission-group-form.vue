@@ -3,7 +3,7 @@
     @submit="submit"
     class="w-full px-4 space-y-8 md:max-w-xl md:px-6"
   >
-    <div class="m-auto divide-gray-200">
+    <div class="m-auto divide-gray-700">
       <div class="sm:col-span-3">
         <div class="mt-8 mb-4 text-lg">
           Permission Group
@@ -12,7 +12,7 @@
           <div class="w-full mr-8 plutto-input">
             <label
               for="name"
-              class="block text-sm font-medium text-gray-100"
+              class="block text-sm font-medium text-gray-800"
             >
               {{ $t('message.global.name') }}
             </label>
@@ -26,7 +26,7 @@
           <div class="w-32 mr-8">
             <label
               for="priceCurrency"
-              class="block text-sm font-medium text-gray-100"
+              class="block text-sm font-medium text-gray-800"
             >
               {{ $t('message.global.currency') }}
             </label>
@@ -40,7 +40,7 @@
           <div class="w-full mr-8">
             <label
               for="price"
-              class="block text-sm font-medium text-gray-100"
+              class="block text-sm font-medium text-gray-800"
             >
               Base {{ $t('message.global.price') }}
             </label>
@@ -90,11 +90,11 @@
         </div>
       </div>
       <div
-        class="flex items-center justify-between w-full border-b border-gray-800 plutto-input"
+        class="flex items-center justify-between w-full border-b border-gray-100 plutto-input"
         v-if="!showPermissionModal"
         @click="showPermissionModal = true"
       >
-        <label class="mr-4 text-gray-300">Add permission</label>
+        <label class="mr-4 text-gray-600">Add permission</label>
         <span class="plutto-icon text-primary">add</span>
       </div>
     </div>

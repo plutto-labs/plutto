@@ -7,16 +7,16 @@
             {{ pricing.name }}
           </span>
           <PluttoCopyableDiv
-            class="ml-2 text-xs text-gray-100"
+            class="ml-2 text-xs text-gray-800"
             :value="pricing.id"
           />
-          <span class="flex items-center text-gray-100">
+          <span class="flex items-center text-gray-800">
             <span class="ml-6 mr-2 plutto-icon">group</span>
             <span>{{ pricing.subscribedCustomers }}</span>
           </span>
         </div>
         <div
-          class="text-sm text-gray-300"
+          class="text-sm text-gray-600"
           v-for="priceLogic in pricing.priceLogics"
           :key="priceLogic.id"
         >
@@ -41,7 +41,7 @@
       </span>
     </div>
     <template v-if="expanded">
-      <div class="w-full m-auto space-y-8 divide-y divide-gray-200 md:max-w-xl">
+      <div class="w-full m-auto space-y-8 divide-y divide-gray-700 md:max-w-xl">
         <div class="mt-8 mb-4 text-lg">
           Price Logics
         </div>
