@@ -21,6 +21,8 @@
         </p>
         <PluttoColorInput
           v-model="color.value"
+          :undo="colorChanged(color)"
+          @undo="undoColor(color)"
         />
       </div>
       <div class="relative w-40 h-8">
@@ -32,6 +34,13 @@
           v-model="buttonText"
         >
       </div>
+      <button
+        v-if="themeChanged()"
+        class="h-8 mt-5 text-white btn btn-filled bg-success hover:bg-success-light border-success focus:bg-success-light"
+        @click="updateWidgetSettings()"
+      >
+        Save
+      </button>
     </div>
     <div
       id="plutto-subs-widget"
@@ -46,7 +55,7 @@
     />
     <PluttoSlideover
       :showing="showAddPlanSlideOver"
-      @close="showAddPlanSlideOver = false"
+      @close="closeSlideOver"
     >
       <template #preview>
         <div
@@ -73,7 +82,6 @@ import PluttoCopyableCode from '@/components/widget/plutto-copyable-code';
 import PluttoSlideover from '@/components/widget/plutto-slideover';
 import PlanForm from '@/components/widget/plan-form';
 import codeString from '@/utils/widget/code';
-import debounce from 'lodash.debounce';
 
 export default {
   components: {
@@ -112,6 +120,8 @@ export default {
     });
     if (this.widgetSettings.buttonText) this.buttonText = this.widgetSettings.buttonText;
 
+    if (this.widgetsettings === undefined) this.updateWidgetSettings();
+
     document.getElementById('plutto-subs-widget').addEventListener('edit-permission-group', (data) => {
       this.editCard(data.detail.id);
     });
@@ -141,7 +151,6 @@ export default {
           data: this.theme,
         },
       );
-      this.updateWidgetSettings();
     },
     updateData(string, permissionGroups) {
       window.plutto(
@@ -168,13 +177,24 @@ export default {
         permissions: [],
       };
     },
-    updateWidgetSettings: debounce(function () {
+    updateWidgetSettings() {
       this.$store.dispatch('UPDATE_ORGANIZATION', { ...this.organization, widgetSettings: this.theme });
     // eslint-disable-next-line no-magic-numbers
-    }, 1000),
+    },
     editCard(id) {
       this.editingPermissionGroup = this.permissionGroups.find(group => group.id === id);
       this.showAddPlanSlideOver = true;
+    },
+    colorChanged(color) {
+      return (color.value !== this.widgetSettings[color.key]);
+    },
+    undoColor(color) {
+      color.value = this.widgetSettings[color.key];
+      this.updateTheme();
+    },
+    themeChanged() {
+      return this.colorInputs.some(color => this.colorChanged(color)) ||
+        this.buttonText !== this.widgetSettings.buttonText;
     },
   },
   watch: {
