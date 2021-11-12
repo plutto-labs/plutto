@@ -57,7 +57,10 @@
       <template #content>
         <PlanForm
           v-model="formData"
-          @created-permission-group="reloadGroups"
+          :editing-permission-group="editingPermissionGroup"
+          :theme="theme"
+          @created-permission-group="closeSlideOver"
+          @deleted-permission-group="closeSlideOver"
         />
       </template>
     </PluttoSlideover>
@@ -95,16 +98,26 @@ export default {
         price: '',
         permissions: [],
       },
+      editingPermissionGroup: null,
     };
   },
-  async mounted() {
+  async beforeMount() {
     await this.$store.dispatch('GET_PERMISSION_GROUPS');
+  },
+  mounted() {
+    window.plutto('init', { permissionGroups: this.permissionGroups, theme: this.theme });
+
     this.colorInputs.forEach((color) => {
       if (this.widgetSettings[color.key]) color.value = this.widgetSettings[color.key];
     });
     if (this.widgetSettings.buttonText) this.buttonText = this.widgetSettings.buttonText;
 
-    window.plutto('init', { permissionGroups: this.permissionGroups, theme: this.theme });
+    document.getElementById('plutto-subs-widget').addEventListener('edit-permission-group', (data) => {
+      this.editCard(data.detail.id);
+    });
+  },
+  beforeUnmount() {
+    document.getElementById('plutto-subs-widget').removeEventListener('edit-permission-group', this.editCard);
   },
   computed: {
     ...mapState({
@@ -130,11 +143,11 @@ export default {
       );
       this.updateWidgetSettings();
     },
-    updateData(widgetId, permissionGroups) {
+    updateData(string, permissionGroups) {
       window.plutto(
         'widget-event',
         {
-          widgetId,
+          widgetId: string,
           name: 'update-permission-groups',
           data: permissionGroups,
         },
@@ -146,15 +159,23 @@ export default {
     showSlideOver() {
       this.showAddPlanSlideOver = true;
     },
-    async reloadGroups() {
-      await this.$store.dispatch('GET_PERMISSION_GROUPS');
-      this.updateData('plutto-subs-widget', this.permissionGroups);
+    closeSlideOver() {
       this.showAddPlanSlideOver = false;
+      this.editingPermissionGroup = {};
+      this.formData = {
+        name: '',
+        price: '',
+        permissions: [],
+      };
     },
     updateWidgetSettings: debounce(function () {
       this.$store.dispatch('UPDATE_ORGANIZATION', { ...this.organization, widgetSettings: this.theme });
     // eslint-disable-next-line no-magic-numbers
-    }, 500),
+    }, 1000),
+    editCard(id) {
+      this.editingPermissionGroup = this.permissionGroups.find(group => group.id === id);
+      this.showAddPlanSlideOver = true;
+    },
   },
   watch: {
     colorInputs: {
@@ -171,6 +192,12 @@ export default {
     formData: {
       handler() {
         this.updateData('plutto-card-widget', [this.formData]);
+      },
+      deep: true,
+    },
+    permissionGroups: {
+      handler() {
+        this.updateData('plutto-subs-widget', [...this.permissionGroups]);
       },
       deep: true,
     },

@@ -1,6 +1,5 @@
 <template>
-  <form
-    @submit="submit"
+  <div
     class="w-full px-4 pb-8 mx-auto mt-20 md:max-w-xl"
   >
     <h2 class="text-2xl">
@@ -86,14 +85,22 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-end">
+    <div class="flex justify-end gap-8">
+      <button
+        class="mt-10 text-white btn btn--filled bg-melon hover:bg-melon hover:opacity-80 focus:bg-melon"
+        v-if="editingPermissionGroup"
+        @click="deletePermissionGroup"
+      >
+        Delete
+      </button>
       <button
         class="mt-10 text-white btn btn--filled bg-temporary-primary hover:bg-temporary-primary hover:opacity-80 focus:bg-temporary-primary"
+        @click="submit"
       >
         Save
       </button>
     </div>
-  </form>
+  </div>
 </template>
 <script>
 import { mapState } from 'vuex';
@@ -101,6 +108,14 @@ import { mapState } from 'vuex';
 export default {
   props: {
     modelValue: {
+      type: Object,
+      default: () => ({}),
+    },
+    editingPermissionGroup: {
+      type: Object,
+      default: () => ({}),
+    },
+    theme: {
       type: Object,
       default: () => ({}),
     },
@@ -113,6 +128,20 @@ export default {
   },
   async beforeMount() {
     await this.$store.dispatch('GET_PERMISSIONS');
+
+    if (this.editingPermissionGroup) {
+      this.formData.name = this.editingPermissionGroup.name;
+      this.formData.price = this.editingPermissionGroup.price;
+      this.formData.currency = this.editingPermissionGroup.currency;
+
+      this.editingPermissionGroup.permissions.forEach(permission => {
+        this.selectedPermissions[permission.id] = {
+          limit: permission.limit,
+          permissionId: permission.id,
+          name: permission.name,
+        };
+      });
+    }
   },
   computed: {
     ...mapState({
@@ -158,10 +187,17 @@ export default {
         permissionGroupPermissionsAttributes: Object.values(this.selectedPermissions),
       };
 
+      if (this.editingPermissionGroup) permissionGroup.id = this.editingPermissionGroup.id;
+
       this.$store.dispatch(
-        'CREATE_PERMISSION_GROUP',
+        `${this.editingPermissionGroup ? 'UPDATE' : 'CREATE'}_PERMISSION_GROUP`,
         { permissionGroup },
       ).then(() => this.$emit('created-permission-group'));
+    },
+    deletePermissionGroup() {
+      this.$store.dispatch(
+        'DESTROY_PERMISSION_GROUP', this.editingPermissionGroup,
+      ).then(this.$emit('deleted-permission-group'));
     },
   },
   watch: {
@@ -173,7 +209,7 @@ export default {
     },
   },
   mounted() {
-    window.plutto('init', { widgetId: 'plutto-card-widget', permissionGroups: [this.formData] });
+    window.plutto('init', { widgetId: 'plutto-card-widget', permissionGroups: [this.formData], theme: this.theme });
   },
 };
 </script>
