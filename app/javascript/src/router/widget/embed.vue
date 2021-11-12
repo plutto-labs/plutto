@@ -5,7 +5,7 @@
         Design
       </h2>
       <div
-        class="text-white btn btn--filled bg-temporary-primary hover:bg-temporary-primary hover:opacity-80 focus:bg-temporary-primary"
+        class="btn btn--filled"
         @click="showSlideOver"
       >
         Add Plan
@@ -16,7 +16,7 @@
         v-for="(color, index) in colorInputs"
         :key="index"
       >
-        <p class="text-sm text-temporary-gray-500">
+        <p class="text-sm text-gray-400">
           {{ color.label }}
         </p>
         <PluttoColorInput
@@ -26,11 +26,11 @@
         />
       </div>
       <div class="relative w-40 h-8">
-        <p class="text-sm text-temporary-gray-500">
+        <p class="text-sm text-gray-400">
           Button text
         </p>
         <input
-          class="pl-4 plutto-input__input text-temporary-gray-500 focus:border-temporary-primary"
+          class="pl-4 text-gray-400 plutto-input__input focus:border-primary"
           v-model="buttonText"
         >
       </div>
