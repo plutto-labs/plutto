@@ -1,9 +1,8 @@
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 
-import App from '@/app.vue';
 import Widget from '@/widget.vue';
-import router from '@/router';
+import router from '@/router/widget.js';
 import store from '@/store';
 
 import Locales from '@/locales/locales.js';
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const app = createApp({
     el: '#vue-app',
     components: {
-      App, Widget,
+      Widget,
     },
   });
   app.config.globalProperties.environment = window.location.host.split('.')[0];
