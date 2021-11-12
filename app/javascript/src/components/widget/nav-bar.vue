@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <nav class="flex justify-between px-4 py-4 bg-temporary-gray-100 md:px-8">
-      <h1 class="flex items-center text-2xl font-semibold text-temporary-primary">
+  <div class="bg-white">
+    <nav class="flex justify-between px-4 py-4 bg-gray-50 md:px-8">
+      <h1 class="flex items-center text-2xl font-semibold text-primary">
         <span class="mr-2 text-melon md:mr-8 material-icons">nightlight</span>
         <div class="flex">
           <p>
@@ -12,11 +12,11 @@
       <div class="flex">
         <div class="flex items-center">
           <div class="mr-2 md:mr-6 w-28 md:w-auto">
-            <p class="text-sm font-medium truncate text-temporary-primary">
+            <p class="text-sm font-medium truncate text-primary">
               {{ currentUser.email }}
             </p>
             <p
-              class="text-xs font-medium text-right cursor-pointer text-temporary-primary"
+              class="text-xs font-medium text-right text-gray-600 cursor-pointer group-hover:text-gray-700"
               @click="logout()"
             >
               Logout
@@ -36,15 +36,13 @@
           :to="item.path"
           :class="[
             item.matchingRoutes.includes($route.name) ?
-              'text-melon border-b-2 border-melon' :
-              'text-temporary-gray-300 hover:text-melon border-b border-temporary-gray-100',
-            'px-3 py-4 text-xs md:text-sm font-medium'
+              'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-black',
+            'px-3 mx-1 py-4 text-xs md:text-sm font-medium'
           ]"
         >
           {{ item.label }}
         </router-link>
       </div>
-      <div class="w-full border-b border-temporary-gray-100" />
     </nav>
     <div class="h-full px-4 md:px-16">
       <slot />

@@ -12,7 +12,7 @@
       <div class="h-8 col-span-2 plutto-input">
         <input
           type="text"
-          class="pl-4 plutto-input__input focus:border-temporary-primary"
+          class="pl-4 plutto-input__input focus:border-primary"
           v-model="formData.name"
         >
       </div>
@@ -22,7 +22,7 @@
       <div class="h-8 col-span-2 plutto-input">
         <input
           type="number"
-          class="pl-4 plutto-input__input focus:border-temporary-primary"
+          class="pl-4 plutto-input__input focus:border-primary"
           v-model="formData.price"
         >
       </div>
@@ -44,7 +44,7 @@
             </label>
             <input
               type="checkbox"
-              class="plutto-temporary-checkbox"
+              class="plutto-checkbox"
               :id="`${permission.id}`"
               :checked="selectedPermissions[permission.id]"
               @change="toggleChecked(permission)"
@@ -56,7 +56,7 @@
           >
             <label class="mr-4 text-sm">limit:</label>
             <input
-              class="w-20 h-8 px-1 text-center plutto-input__input plutto-input__input--no-icon focus:border-temporary-primary"
+              class="w-20 h-8 px-1 text-center plutto-input__input plutto-input__input--no-icon focus:border-primary"
               v-model="selectedPermissions[permission.id].limit"
               type="text"
             >
@@ -70,7 +70,7 @@
           </div>
         </div>
         <div
-          class="flex items-center justify-between w-full h-8 border-b border-temporary-gray-300 plutto-input"
+          class="flex items-center justify-between w-full h-8 border-b border-gray-600 plutto-input"
         >
           <input
             class="w-full h-full pl-4 bg-transparent border-0 focus:outline-none"
@@ -79,7 +79,7 @@
             @keyup.enter="addPermission"
           >
           <span
-            class="cursor-pointer plutto-icon text-temporary-primary"
+            class="cursor-pointer plutto-icon text-primary"
             @click="addPermission"
           >add</span>
         </div>
@@ -94,7 +94,7 @@
         Delete
       </button>
       <button
-        class="mt-10 text-white btn btn--filled bg-temporary-primary hover:bg-temporary-primary hover:opacity-80 focus:bg-temporary-primary"
+        class="mt-10 btn btn--filled"
         @click="submit"
       >
         Save
@@ -213,20 +213,3 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-  .plutto-temporary-checkbox {
-  @apply appearance-none m-0 text-sm w-4 h-4 outline-none text-center border border-temporary-gray-300 cursor-pointer;
-  border-radius: .15em;
-
-  &:checked {
-    @apply bg-melon border-0;
-  }
-
-  &:checked::after {
-    content: '\2713';
-    line-height: 14px;
-    vertical-align: top;
-    @apply text-gray-800;
-  }
-}
-</style>
