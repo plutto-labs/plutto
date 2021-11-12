@@ -14,7 +14,7 @@ class Api::Internal::V1::OrganizationsController < Api::Internal::V1::BaseContro
 
   def organization_params
     params.require(:organization).permit(
-      settings: {}
+      settings: {}, widget_settings: {}
     )
   end
 end

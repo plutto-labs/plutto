@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_10_191415) do
+ActiveRecord::Schema.define(version: 2021_11_11_193701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(version: 2021_11_10_191415) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "settings"
+    t.jsonb "widget_settings", default: {}
   end
 
   create_table "payment_methods", id: :string, force: :cascade do |t|
@@ -300,8 +301,8 @@ ActiveRecord::Schema.define(version: 2021_11_10_191415) do
     t.datetime "trial_finishes_at"
     t.integer "bills_at", default: 0, null: false
     t.string "billing_period_duration", null: false
+    t.integer "currency", default: 0, null: false
     t.integer "country_iso_code", default: 0, null: false
-    t.integer "currency"
     t.string "permission_group_id"
     t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
     t.index ["permission_group_id"], name: "index_subscriptions_on_permission_group_id"

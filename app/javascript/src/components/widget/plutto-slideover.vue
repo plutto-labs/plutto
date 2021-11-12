@@ -2,7 +2,7 @@
   <Transition name="slide-fade">
     <div
       v-if="showing"
-      class="fixed inset-0 z-10 flex items-center justify-end w-full h-screen bg-see-through"
+      class="fixed inset-0 z-10 items-center justify-end w-full h-screen md:flex bg-see-through"
     >
       <slot name="preview" />
       <div class="relative right-0 flex w-full h-full max-w-3xl bg-white shadow-lg md:w-1/2">
