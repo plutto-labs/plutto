@@ -16,7 +16,7 @@
         z_index="0"
       />
       <span
-        class="absolute top-0 right-0 m-1 text-black plutto-icon"
+        class="absolute top-0 right-0 m-1 text-white plutto-icon"
         @click.prevent
       >
         content_copy
