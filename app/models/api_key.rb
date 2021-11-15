@@ -11,7 +11,23 @@ class ApiKey < ApplicationRecord
 
   # Virtual attribute for raw token value, allowing us to respond with the
   # API key's non-hashed token value. but only directly after creation.
-  attr_accessor :token
+  def token
+    case category
+    when 'sk'
+      @token
+    when 'pk'
+      public_token
+    end
+  end
+
+  def token=(str)
+    case category
+    when 'sk'
+      @token = str
+    when 'pk'
+      self.public_token = str
+    end
+  end
 
   def self.authenticate_by_token!(token)
     digest = OpenSSL::HMAC.hexdigest 'SHA256', HMAC_SECRET_KEY, token
@@ -54,6 +70,7 @@ end
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  category     :integer          default("sk"), not null
+#  public_token :string
 #
 # Indexes
 #
