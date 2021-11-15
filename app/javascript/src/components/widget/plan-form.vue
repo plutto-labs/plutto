@@ -58,7 +58,7 @@
             <input
               class="w-20 h-8 px-1 text-center plutto-input__input plutto-input__input--no-icon focus:border-primary"
               v-model="selectedPermissions[permission.id].limit"
-              type="text"
+              type="number"
             >
           </div>
           <div

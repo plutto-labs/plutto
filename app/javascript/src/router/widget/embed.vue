@@ -49,9 +49,15 @@
     <h2 class="text-2xl">
       Code
     </h2>
+    <p>Copy this script to your page</p>
     <PluttoCopyableCode
       class="send-to-background"
       :code-string="formatCodeString()"
+    />
+    <p>Put the <code>#plutto-subs-widget</code> div wherever you want your pricings to appear</p>
+    <PluttoCopyableCode
+      class="send-to-background"
+      code-string="<div id='plutto-subs-widget' />"
     />
     <PluttoSlideover
       :showing="showAddPlanSlideOver"
@@ -107,13 +113,14 @@ export default {
         permissions: [],
       },
       editingPermissionGroup: null,
+      apiKey: 'YOUR-API-KEY',
     };
   },
   async beforeMount() {
     await this.$store.dispatch('GET_PERMISSION_GROUPS');
   },
   mounted() {
-    window.plutto('init', { permissionGroups: this.permissionGroups, theme: this.theme });
+    window.plutto('init', { permissionGroups: this.permissionGroups, theme: this.theme, allowEdit: true });
 
     this.colorInputs.forEach((color) => {
       if (this.widgetSettings[color.key]) color.value = this.widgetSettings[color.key];
@@ -163,7 +170,7 @@ export default {
       );
     },
     formatCodeString() {
-      return codeString();
+      return codeString(this.apiKey);
     },
     showSlideOver() {
       this.showAddPlanSlideOver = true;
