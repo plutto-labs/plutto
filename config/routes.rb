@@ -48,6 +48,7 @@ Rails.application.routes.draw do
         patch 'remove_pricings', to: 'subscriptions#remove_pricings'
         patch 'end_subscription', to: 'subscriptions#end_subscription'
       end
+      get 'widget_settings', to: 'organizations#widget_settings'
       resources :permission_groups, only: [:index]
       resources :products, only: [:index]
     end
