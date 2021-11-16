@@ -5,6 +5,7 @@ const initialState = {
   name: null,
   settings: {},
   widgetSettings: {},
+  publicApiKey: null,
 };
 
 export const mutations = {
@@ -13,6 +14,7 @@ export const mutations = {
     state.name = payload.name;
     state.settings = payload.settings;
     state.widgetSettings = payload.widgetSettings;
+    state.publicApiKey = payload.publicApiKey;
   },
   resetState(state) {
     Object.assign(state, initialState);

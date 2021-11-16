@@ -113,7 +113,6 @@ export default {
         permissions: [],
       },
       editingPermissionGroup: null,
-      apiKey: 'YOUR-API-KEY',
     };
   },
   async beforeMount() {
@@ -141,6 +140,7 @@ export default {
       permissionGroups: state => state.permissionGroups.permissionGroups,
       organization: store => store.organization,
       widgetSettings: store => store.organization.widgetSettings,
+      publicApiKey: store => store.organization.publicApiKey,
     }),
     theme() {
       return {
@@ -170,7 +170,7 @@ export default {
       );
     },
     formatCodeString() {
-      return codeString(this.apiKey);
+      return codeString(this.publicApiKey);
     },
     showSlideOver() {
       this.showAddPlanSlideOver = true;
