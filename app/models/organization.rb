@@ -13,6 +13,7 @@ class Organization < ApplicationRecord
   resourcify
 
   after_save :identify_organization
+  after_create :create_default_permission_group
 
   def enroll_user(user, role = :admin)
     user.organization = self
@@ -22,6 +23,10 @@ class Organization < ApplicationRecord
 
   def email
     users.first.email
+  end
+
+  def public_api_key
+    api_keys.find_or_create_by(name: 'public-api-key', category: 'pk')
   end
 
   private
@@ -35,6 +40,18 @@ class Organization < ApplicationRecord
 
   def generate_id
     init_id('organization')
+  end
+
+  def create_default_permission_group
+    permission = Permission.create!(name: 'users', organization: self)
+    permission_groups.create!(
+      name: 'Free',
+      price: 0,
+      price_currency: 'USD',
+      permission_group_permissions_attributes: [
+        { permission_id: permission.id, limit: 10 }
+      ]
+    )
   end
 end
 
