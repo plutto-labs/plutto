@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :api_keys, only: [:create, :index, :destroy]
       resources :auth, only: [:create]
       delete 'auth', to: 'auth#destroy'
+      post 'sign_up', to: 'auth#sign_up'
       resources :checkouts, param: :token, only: [:show, :update]
       resources :customers, only: [:index, :show, :create, :update, :destroy] do
         resources :payment_methods, only: [:create]

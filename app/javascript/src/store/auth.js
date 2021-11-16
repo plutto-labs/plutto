@@ -28,6 +28,16 @@ export const actions = {
         }
       });
   },
+  SIGN_UP_USER({ commit }, payload) {
+    return authApi.signUp(payload)
+      .then((res) => {
+        const { user } = res;
+        if (user.authenticationToken) {
+          commit('setUserData', user);
+          commit('setOrganizationData', user.organization);
+        }
+      });
+  },
   UPDATE_USER_DATA({ commit }, payload) {
     return authApi.getUser(payload)
       .then((data) => {

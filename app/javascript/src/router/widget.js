@@ -1,6 +1,7 @@
 
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Auth from '@/router/auth';
+import SignUp from '@/router/sign-up';
 import store from '@/store';
 import Embed from '@/router/widget/embed';
 
@@ -14,8 +15,14 @@ const router = createRouter({
       meta: {
         title: 'Login | Plutto',
       },
-    },
-    {
+    }, {
+      path: '/sign-up',
+      name: 'sign-up',
+      component: SignUp,
+      meta: {
+        title: 'Sign Up | Plutto',
+      },
+    }, {
       path: '/',
       name: 'home',
       redirect: {
