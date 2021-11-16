@@ -4,6 +4,8 @@ class User < ApplicationRecord
 
   belongs_to :organization, optional: true
 
+  validates :email, uniqueness: { case_sensitive: false }
+
   rolify strict: true
 
   after_save :identify_user
