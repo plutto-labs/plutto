@@ -1,13 +1,13 @@
 <template>
   <main>
     <form
-      class="py-16 md:px-8 px-4 mx-4 md:m-auto top-20 rounded-2xl text-center bg-transparent relative md:w-96"
+      class="relative px-4 py-16 mx-4 text-center bg-transparent md:px-8 md:m-auto top-20 rounded-2xl md:w-96"
       @submit.prevent="submitForm"
     >
       <div class="text-3xl">
         Plutto
       </div>
-      <div class="plutto-input mt-8">
+      <div class="mt-8 plutto-input">
         <span class="plutto-input__icon text-primary">mail_outline</span>
         <input
           required
@@ -17,7 +17,10 @@
           v-model="login.email"
         >
       </div>
-      <div class="plutto-input mt-4 mb-8">
+      <div class="mt-4 text-sm text-right text-blue-800 underline cursor-pointer">
+        Forgot password?
+      </div>
+      <div class="mb-8 plutto-input">
         <span class="plutto-input__icon text-primary">password</span>
         <input
           required
@@ -31,11 +34,17 @@
         v-if="sending"
       />
       <button
-        class="btn btn--filled w-full h-10"
+        class="w-full h-10 btn btn--filled"
         v-else
       >
         Login
       </button>
+      <a
+        class="text-sm text-left text-blue-800 underline cursor-pointer"
+        href="/widget#/sign-up"
+      >
+        Don't have an account?
+      </a>
     </form>
   </main>
 </template>
