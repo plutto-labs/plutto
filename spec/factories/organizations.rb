@@ -1,4 +1,8 @@
+require_relative '../support/organizations_factory_helper'
+
 FactoryBot.define do
+  extend OrganizationsFactoryHelper
+
   factory :organization do
     name { 'Plutto' }
     settings do
