@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import Auth from '@/router/auth';
 import SignUp from '@/router/sign-up';
 import store from '@/store';
+import Settings from '@/router/widget/settings';
 import Embed from '@/router/widget/embed';
 
 const router = createRouter({
@@ -47,7 +48,7 @@ const router = createRouter({
     }, {
       path: '/widget-settings',
       name: 'widget-settings',
-      component: Embed,
+      component: Settings,
       meta: {
         title: 'Settings | Plutto',
         authRequired: true,
