@@ -14,10 +14,27 @@ class Api::Internal::V1::AuthController < Api::Internal::V1::BaseController
     respond_with({}, status: :ok)
   end
 
+  def sign_up
+    ActiveRecord::Base.transaction do
+      organization = Organization.create!(name: params[:auth][:organization_name])
+      user = User.new(user_params)
+      user.organization = organization
+
+      if user.save!
+        user.identify_user
+        return respond_with(user, token: true)
+      end
+    end
+  end
+
   private
 
   def auth_params
     params.require(:auth).permit(:email, :password)
+  end
+
+  def user_params
+    params.require(:auth).permit(:email, :password, :password_confirmation)
   end
 
   def identify_user(user)
