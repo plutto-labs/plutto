@@ -19,4 +19,14 @@ RSpec.describe Organization, type: :model do
       expect(user.is_admin_of?(organization)).to be_truthy # rubocop:disable RSpec/PredicateMatcher
     end
   end
+
+  describe '#email' do
+    let(:organization) { create(:organization) }
+    let!(:user) { create(:user, email: 'felipe@getplutto.com', organization: organization) }
+
+    it 'returns the first user email' do
+      create(:user, email: 'ignacio@getplutto.com', organization: organization)
+      expect(organization.email).to eq(user.email)
+    end
+  end
 end
