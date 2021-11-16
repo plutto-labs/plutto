@@ -20,6 +20,10 @@ class Organization < ApplicationRecord
     user.add_role(role, self)
   end
 
+  def email
+    users.first.email
+  end
+
   private
 
   def identify_organization
