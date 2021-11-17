@@ -1,7 +1,7 @@
 require 'swagger_helper'
 
 describe 'API V1 Permission Groups', swagger_doc: 'v1/swagger.json' do
-  let(:organization) { create(:organization) }
+  let(:organization) { create(:organization, :without_default_permission_group) }
   let(:api_key) { create(:api_key, bearer: organization) }
   let!(:token) { api_key.token }
 
