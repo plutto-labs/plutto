@@ -7,7 +7,7 @@ class Customer < ApplicationRecord
   has_many :payment_methods, dependent: :destroy
   has_one :active_subscription, -> { where(active: true) },
           class_name: 'Subscription', inverse_of: :customer
-  has_one :billing_information, dependent: :destroy, required: true
+  has_one :billing_information, dependent: :destroy
   belongs_to :organization
 
   accepts_nested_attributes_for :billing_information, allow_destroy: true
