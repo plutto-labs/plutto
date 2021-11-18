@@ -13,6 +13,7 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Auth,
+      props: { app: 'widget' },
       meta: {
         title: 'Login | Plutto',
       },

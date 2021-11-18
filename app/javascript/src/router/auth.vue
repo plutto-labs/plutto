@@ -17,8 +17,15 @@
           v-model="login.email"
         >
       </div>
-      <div class="mt-4 text-sm text-right text-blue-800 underline cursor-pointer">
-        Forgot password?
+      <div
+        class="mt-4 text-sm text-right text-blue-800 underline cursor-pointer"
+      >
+        <a
+          v-if="app === 'widget'"
+          href="/users/password/new"
+        >
+          Forgot password?
+        </a>
       </div>
       <div class="mb-8 plutto-input">
         <span class="plutto-input__icon text-primary">password</span>
@@ -40,6 +47,7 @@
         Login
       </button>
       <a
+        v-if="app === 'widget'"
         class="text-sm text-left text-blue-800 underline cursor-pointer"
         href="/widget#/sign-up"
       >
@@ -55,6 +63,12 @@ import PluttoLoader from '../components/plutto-loader';
 
 export default {
   components: { PluttoLoader },
+  props: {
+    app: {
+      type: String,
+      default: null,
+    },
+  },
   data() {
     return {
       login: {

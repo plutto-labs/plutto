@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  default_url_options host: ENV.fetch("APPLICATION_HOST")
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   scope path: '/api/internal' do
@@ -56,7 +58,9 @@ Rails.application.routes.draw do
   end
   mount Rswag::Api::Engine => '/api-docs'
   mount Rswag::Ui::Engine => '/api-docs'
-  devise_for :users
+  devise_for :users, controllers: {
+    passwords: 'passwords'
+  }
   mount Sidekiq::Web => '/queue'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#index'
