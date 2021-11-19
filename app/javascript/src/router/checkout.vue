@@ -48,7 +48,7 @@
           <template #actions>
             <button
               v-if="!loading"
-              @click.prevent="registerCard"
+              @click.prevent="registerKushkiCard"
               class="h-12 mt-12 btn btn--full btn--big btn--filled bg-primary"
             >
               Add credit card
@@ -110,6 +110,7 @@ export default {
       customer: null,
       invoice: null,
       token: null,
+      gateway: 'kushki',
     };
   },
   async beforeMount() {
@@ -123,17 +124,8 @@ export default {
     }
   },
   mounted() {
-    const kushkiScript = document.createElement('script');
-    kushkiScript.setAttribute('src', 'https://cdn.kushkipagos.com/kushki.min.js');
-    document.body.appendChild(kushkiScript);
-    const listener = kushkiScript.addEventListener('load', () => {
-      this.kushki = new Kushki({
-        merchantId: process.env.KUSHKI_PUBLIC_MERCHANT_ID,
-        inTestEnvironment: true,
-        regional: false,
-      });
-      kushkiScript.removeEventListener('load', listener);
-    });
+    if (this.gateway === 'kushki') this.mountKushki();
+    else if (this.gateway === 'mercadopago') this.mountMP();
   },
   computed: {
     ...mapState({
@@ -150,7 +142,7 @@ export default {
     },
   },
   methods: {
-    registerCard() {
+    registerKushkiCard() {
       this.error = null;
       this.loading = true;
       this.kushki.requestSubscriptionToken({
@@ -163,8 +155,27 @@ export default {
         } else this.submitToken(response.token);
       });
     },
+    async registerMPCard() {
+      this.error = null;
+      this.loading = true;
+      try {
+        const mp = new MercadoPago(process.env.MERCADOPAGO_PUBLIC_KEY);
+        const res = await mp.createCardToken({
+          cardNumber: this.card.number,
+          cardholderName: this.card.name,
+          cardExpirationMonth: this.card.expiryMonth,
+          cardExpirationYear: this.card.expiryYear,
+          securityCode: this.card.cvc,
+        });
+        this.res = res;
+      } catch (error) {
+        this.error = error.message;
+      } finally {
+        this.loading = false;
+      }
+    },
     submitToken(token) {
-      paymentMethodsApi.create(this.customer.id, { gateway: 'kushki', token, invoiceId: this.invoice.id })
+      paymentMethodsApi.create(this.customer.id, { gateway: this.gateway, token, invoiceId: this.invoice.id })
         .then(() => (this.cardCreated = true))
         .catch(err => (this.error = err.response))
         .finally(() => (this.loading = false));
@@ -188,6 +199,26 @@ export default {
         this.token, 'customer', { id: this.customer.id, billingInformationAttributes: this.billingInformation },
       ).then(() => (this.updatedBillingInfo = true))
         .finally(() => (this.loading = false));
+    },
+    mountKushki() {
+      const kushkiScript = document.createElement('script');
+      kushkiScript.setAttribute('src', 'https://cdn.kushkipagos.com/kushki.min.js');
+      document.body.appendChild(kushkiScript);
+      const listener = kushkiScript.addEventListener('load', () => {
+        this.kushki = new Kushki({
+          merchantId: process.env.KUSHKI_PUBLIC_MERCHANT_ID,
+          inTestEnvironment: true,
+          regional: false,
+        });
+        kushkiScript.removeEventListener('load', listener);
+      });
+    },
+    mountMP() {
+      this.customerId = this.$route.query.customerId;
+      this.permissionGroupId = this.$route.query.permissionGroupId;
+      const mpScript = document.createElement('script');
+      mpScript.setAttribute('src', 'https://sdk.mercadopago.com/js/v2');
+      document.body.appendChild(mpScript);
     },
   },
 };

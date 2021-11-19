@@ -123,8 +123,14 @@
       Powered by Plutto ™
     </div>
     <img
+      v-if="providerLogo === 'kushki'"
       class="object-cover h-12 m-auto"
       src="../../../img/kushki.svg"
+    >
+    <img
+      v-if="providerLogo === 'mercadopago'"
+      class="object-cover h-8 m-auto mt-4"
+      src="../../../img/mercadopago.svg"
     >
   </Form>
 </template>
@@ -140,6 +146,10 @@ export default {
     modelValue: {
       type: Object,
       default: () => {},
+    },
+    providerLogo: {
+      type: String,
+      default: 'kushki',
     },
   },
   data() {
