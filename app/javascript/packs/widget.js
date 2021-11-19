@@ -3,6 +3,7 @@ import { createI18n } from 'vue-i18n';
 
 import Widget from '@/widget.vue';
 import LandingWidget from '@/components/widget/landing-widget.vue';
+import LandingCarousel from '@/components/widget/landing-carousel.vue';
 import router from '@/router/widget.js';
 import store from '@/store';
 
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     components: {
       Widget,
       LandingWidget,
+      LandingCarousel,
     },
   });
   app.config.globalProperties.environment = window.location.host.split('.')[0];
