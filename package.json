@@ -36,6 +36,7 @@
     "vue-imask": "^6.2.2",
     "vue-loader": "^16.4.1",
     "vue-router": "^4.0.11",
+    "vue3-carousel": "^0.1.30",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.0.0"
   },
