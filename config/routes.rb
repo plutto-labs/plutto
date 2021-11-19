@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   get 'admin/login_as/:id', to: 'admin#login_as', as: 'admin_login_as'
 
   get 'widget', to: 'widget#index'
+  get 'widget/landing', to: 'widget#landing'
   get 'invoicing', to: 'landings#invoicing', as: 'invoicing'
   post 'send_invoice_email', to: 'landings#send_invoice_email', as: 'send_invoice_email'
 end

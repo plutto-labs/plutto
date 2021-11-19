@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <div class="relative flex flex-wrap gap-8 z-1">
+    <div class="relative flex flex-wrap gap-8 mb-10 z-1">
       <div
         v-for="(color, index) in colorInputs"
         :key="index"
