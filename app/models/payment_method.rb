@@ -2,7 +2,7 @@ class PaymentMethod < ApplicationRecord
   belongs_to :customer
 
   enum currency: Currencies.keys
-  enum gateway: { kushki: 0 }
+  enum gateway: { kushki: 0, mercadopago: 1 }
   enum category: { credit_card: 0 }
   enum card_brand: { mastercard: 0, visa: 1 }
 
