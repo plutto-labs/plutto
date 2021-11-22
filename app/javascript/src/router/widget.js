@@ -6,7 +6,7 @@ import store from '@/store';
 import Settings from '@/router/widget/settings';
 import Embed from '@/router/widget/embed';
 import Dashboard from '@/router/widget/dashboard';
-import Customer from '@/router/customer';
+import Customer from '@/router/widget/customer';
 
 const router = createRouter({
   history: createWebHashHistory('/'),
