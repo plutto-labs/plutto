@@ -38,6 +38,7 @@ class MercadopagoService
 
   def create_subscription(customer, permission_group)
     CreateSubscription.for(
+      pricings: [],
       customer: customer,
       permission_group_id: permission_group.id,
       billing_period_duration: 'P1M',
