@@ -206,7 +206,7 @@
 import { mapState } from 'vuex';
 import PluttoHeader from '@/components/plutto-header';
 import NewCustomerForm from '@/components/forms/new-customer-form';
-import SubscriptionForm from '@/components/forms/subscription-form';
+import SubscriptionForm from '@/components/widget/subscription-form';
 import PluttoModal from '@/components/plutto-modal';
 import PluttoCopyableDiv from '@/components/plutto-copyable-div';
 
