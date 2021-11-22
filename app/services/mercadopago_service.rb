@@ -8,7 +8,9 @@ class MercadopagoService
     preapproval = client.post(
       '/preapproval', preapproval_body(customer, permission_group, token_info[:id])
     )
-    raise 'Mercadopago error' unless preapproval.code == 201
+    unless preapproval.code == 201
+      raise PluttoErrors::PaymentError, "Mercadopago Error: #{preapproval['message']}"
+    end
 
     create_payment_method(token_info, preapproval, customer, permission_group.price_currency)
     create_subscription(customer, permission_group) if create_subscription
