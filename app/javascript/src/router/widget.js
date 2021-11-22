@@ -5,6 +5,8 @@ import SignUp from '@/router/sign-up';
 import store from '@/store';
 import Settings from '@/router/widget/settings';
 import Embed from '@/router/widget/embed';
+import Dashboard from '@/router/widget/dashboard';
+import Customer from '@/router/widget/customer';
 
 const router = createRouter({
   history: createWebHashHistory('/'),
@@ -41,9 +43,35 @@ const router = createRouter({
     }, {
       path: '/dashboard',
       name: 'dashboard',
-      component: Embed,
+      component: Dashboard,
       meta: {
         title: 'Dashboard | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/dashboard/active',
+      name: 'active',
+      component: Dashboard,
+      props: { selectedTab: 'active' },
+      meta: {
+        title: 'Customers | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/dashboard/canceled',
+      name: 'canceled',
+      component: Dashboard,
+      props: { selectedTab: 'canceled' },
+      meta: {
+        title: 'Customers | Plutto',
+        authRequired: true,
+      },
+    }, {
+      path: '/customer/:id',
+      name: 'customer',
+      component: Customer,
+      meta: {
+        title: 'Customer | Plutto',
         authRequired: true,
       },
     }, {

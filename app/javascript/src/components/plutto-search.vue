@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center h-8 p-2 space-x-2 bg-gray-50 border border-gray-500 rounded shadow">
+  <div class="flex items-center h-8 p-2 space-x-2 border border-gray-500 rounded bg-gray-50">
     <span
       class="w-6 text-2xl text-gray-9000 plutto-icon"
       :class="{ 'text-primary': newValuePresent }"

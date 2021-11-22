@@ -2,12 +2,10 @@
   <div class="bg-white">
     <nav class="flex justify-between px-4 py-4 bg-gray-50 md:px-8">
       <h1 class="flex items-center text-2xl font-semibold text-primary">
-        <span class="mr-2 text-melon md:mr-8 material-icons">nightlight</span>
-        <div class="flex">
-          <p>
-            Plutto
-          </p>
-        </div>
+        <img
+          :src="require('../../../../assets/images/logo.svg')"
+          class="h-8"
+        >
       </h1>
       <div class="flex">
         <div class="flex items-center">
@@ -55,7 +53,7 @@ import { mapState } from 'vuex';
 
 const navigation = [
   { label: 'Embed', path: '/embed', matchingRoutes: ['embed'] },
-  { label: 'Dashboard', path: '/dashboard', matchingRoutes: ['dashboard'] },
+  { label: 'Dashboard', path: '/dashboard', matchingRoutes: ['dashboard', 'active', 'canceled', 'customer'] },
   { label: 'Settings', path: '/widget-settings', matchingRoutes: ['widget-settings'] },
 ];
 
