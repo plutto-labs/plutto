@@ -4,6 +4,7 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
   attribute :current_billing_period_end_date, if: :active?
   attribute :previous_invoice_amount, if: :active?
   attribute :previous_invoice_currency, if: :active?
+  attribute :mercadopago_subscription_id, if: :active?
   attribute :current_period_details, if: :current_period_details?
   attribute :trial_finishes_at, if: :trial?
   attribute :meter_events_data, if: :show?
@@ -32,6 +33,10 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
 
   def meter_events_data
     customer_analytics_service.meter_events_data
+  end
+
+  def mercadopago_subscription_id
+    object.payment_methods.find_by(gateway: 'mercadopago')&.gateway_info&.dig('subscription_id')
   end
 
   def active?
