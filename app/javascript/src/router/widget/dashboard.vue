@@ -30,7 +30,7 @@ import { mapState } from 'vuex';
 import PluttoHeader from '@/components/plutto-header';
 import PluttoModal from '@/components/plutto-modal';
 import Inactive from '@/router/customers/inactive';
-import Active from '@/router/customers/active';
+import Active from '@/router/widget/customers/active';
 import Canceled from '@/router/customers/canceled';
 import PluttoTabs from '@/components/plutto-tabs';
 import PluttoSearch from '@/components/plutto-search';

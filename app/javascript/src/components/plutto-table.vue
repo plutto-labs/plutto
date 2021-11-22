@@ -59,6 +59,16 @@
                     {{ formatCurrency(row[header.title], row.currency) }}
                   </div>
                 </template>
+                <template v-else-if="header.type === 'link'">
+                  <a
+                    v-if="row[header.title] !== ''"
+                    class="py-4 text-sm text-blue-700 underline whitespace-nowrap"
+                    :href="row[header.title]"
+                    target="_blank"
+                  >
+                    {{ header.text }}
+                  </a>
+                </template>
                 <template v-else-if="header.type === 'date'">
                   <div class="py-4 text-sm text-primary whitespace-nowrap">
                     {{ formatDate(row[header.title]) }}
