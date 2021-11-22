@@ -27,20 +27,18 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-
 import PluttoHeader from '@/components/plutto-header';
 import PluttoModal from '@/components/plutto-modal';
 import Inactive from '@/router/customers/inactive';
 import Active from '@/router/customers/active';
 import Canceled from '@/router/customers/canceled';
-import Trial from '@/router/customers/trial';
 import PluttoTabs from '@/components/plutto-tabs';
 import PluttoSearch from '@/components/plutto-search';
 import PluttoPagination from '@/components/plutto-pagination';
 
 export default {
   components: {
-    PluttoHeader, PluttoModal, PluttoTabs, Inactive, Active, Trial, Canceled, PluttoSearch,
+    PluttoHeader, PluttoModal, PluttoTabs, Inactive, Active, Canceled, PluttoSearch,
     PluttoPagination,
   },
   props: {
@@ -56,10 +54,12 @@ export default {
       tabs: [
         { label: 'Active', value: 'active' },
         { label: 'Canceled', value: 'canceled' },
+        { label: 'Inactive', value: 'inactive' },
       ],
       components: {
         active: 'Active',
         canceled: 'Canceled',
+        inactive: 'Inactive',
       },
     };
   },
