@@ -79,7 +79,7 @@ export default {
             'No extra code required',
             'Centralized management',
           ],
-          image: 'landing-code.png',
+          image: 'landing-dashboard.png',
         },
       ],
     };
