@@ -54,7 +54,7 @@
       class="send-to-background"
       :code-string="formatCodeString()"
     />
-    <p>Put the <code>#plutto-subs-widget</code> div wherever you want your pricings to appear</p>
+    <p>Put the <code class="px-1 border border-gray-100 rounded bg-gray-50">#plutto-subs-widget</code> div wherever you want your pricings to appear</p>
     <PluttoCopyableCode
       class="send-to-background"
       code-string="<div id='plutto-subs-widget' />"
