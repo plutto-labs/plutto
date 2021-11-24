@@ -1,7 +1,12 @@
 class MercadopagoClient
   include HTTParty
-  MERCADOPAGO_PRIVATE_KEY = ENV.fetch('MERCADOPAGO_PRIVATE_KEY')
   base_uri 'https://api.mercadopago.com'
+
+  def initialize(access_token)
+    raise PluttoErrors::PaymentError, 'Mercadopago key is required' if access_token.nil?
+
+    @access_token = access_token
+  end
 
   def get(path)
     self.class.get(path, headers: headers)
@@ -15,7 +20,7 @@ class MercadopagoClient
 
   def headers
     {
-      'Authorization': "Bearer #{MERCADOPAGO_PRIVATE_KEY}",
+      'Authorization': "Bearer #{@access_token}",
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }
