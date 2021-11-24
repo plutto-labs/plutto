@@ -58,7 +58,7 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
   end
 
   def kushki
-    @kushki ||= KushkiService.new
+    @kushki ||= KushkiService.new(customer: @invoice.customer)
   end
 
   VALID_CURRENCIES = ['CLP', 'CLF']
