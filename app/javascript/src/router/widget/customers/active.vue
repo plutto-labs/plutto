@@ -63,7 +63,7 @@ export default {
       }, {
         title: 'subscriptionLink',
         type: 'link',
-        text: 'MercadoPago',
+        text: 'Ver en Mercado Pago',
       }, {
         title: 'none',
         type: 'action',
@@ -87,7 +87,7 @@ export default {
           currentBillingPeriodEndDate: this.formatDate(customer.currentBillingPeriodEndDate),
           numberOfDays: this.daysFromDate(customer.currentBillingPeriodEndDate),
           plan: customer.activeSubscription.permissionGroup?.name,
-          subscriptionLink: this.mercadoPagoLink(customer.mercadoSubscriptionPagoId),
+          subscriptionLink: this.mercadoPagoLink(customer.mercadopagoSubscriptionId),
         }
       ));
     },
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     mercadoPagoLink(id) {
-      return id === undefined ? '' : `https://www.mercadopago.cl/subscription-plans/subscriptor-details?id=${id}`;
+      return id ? `https://www.mercadopago.cl/subscription-plans/subscriptor-details?id=${id}` : '';
     },
   },
 };
