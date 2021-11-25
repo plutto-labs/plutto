@@ -61,7 +61,7 @@ export default {
         {
           name: 'Free',
           price: '0',
-          currency: 'USD',
+          currency: 'CLP',
           permissions: [
             { limit: 100, name: 'subscriptions' },
             { limit: null, name: 'Charge your customers' },
@@ -70,7 +70,7 @@ export default {
         {
           name: 'Startup',
           price: '29',
-          currency: 'USD',
+          currency: 'CLP',
           permissions: [
             { limit: 1000, name: 'subscriptions' },
             { limit: null, name: 'Charge your customers' },
@@ -79,7 +79,7 @@ export default {
         {
           name: 'Pro',
           price: '99',
-          currency: 'USD',
+          currency: 'CLP',
           permissions: [
             { limit: null, name: 'All your subscriptions' },
             { limit: null, name: 'Charge your customers' },

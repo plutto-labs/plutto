@@ -182,7 +182,7 @@ export default {
     submit() {
       const permissionGroup = {
         name: this.formData.name,
-        priceCurrency: 'USD',
+        priceCurrency: 'CLP',
         price: this.formData.price,
         permissionGroupPermissionsAttributes: Object.values(this.selectedPermissions),
       };

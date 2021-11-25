@@ -47,7 +47,7 @@ class Organization < ApplicationRecord
     permission_groups.create!(
       name: 'Free',
       price: 0,
-      price_currency: 'USD',
+      price_currency: 'CLP',
       permission_group_permissions_attributes: [
         { permission_id: permission.id, limit: 10 }
       ]
