@@ -5,7 +5,7 @@
       class="fixed inset-0 z-10 flex items-center justify-center w-full h-screen bg-see-through"
       @click.self="close"
     >
-      <div class="relative flex w-full max-w-2xl max-h-screen pt-12 rounded-lg shadow-lg bg-gray-50">
+      <div class="relative flex w-full max-w-2xl max-h-screen pt-12 mx-4 rounded-lg shadow-lg bg-gray-50">
         <button
           aria-label="close"
           class="absolute top-0 right-0 m-3 text-xl text-gray-500"
