@@ -187,10 +187,10 @@ export default {
         permissionGroupPermissionsAttributes: Object.values(this.selectedPermissions),
       };
 
-      if (this.editingPermissionGroup) permissionGroup.id = this.editingPermissionGroup.id;
+      if (this.editingPermissionGroup.id) permissionGroup.id = this.editingPermissionGroup.id;
 
       this.$store.dispatch(
-        `${this.editingPermissionGroup ? 'UPDATE' : 'CREATE'}_PERMISSION_GROUP`,
+        `${this.editingPermissionGroup.id ? 'UPDATE' : 'CREATE'}_PERMISSION_GROUP`,
         { permissionGroup },
       ).then(() => this.$emit('created-permission-group'));
     },
