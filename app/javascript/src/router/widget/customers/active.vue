@@ -21,7 +21,7 @@
           Try looking for
           <router-link
             class="underline text-primary"
-            to="/customers/inactive"
+            to="/dashboard/inactive"
           >
             inactive customers.
           </router-link>
@@ -86,7 +86,7 @@ export default {
           previousInvoiceAmount: this.formatCurrency(customer.previousInvoiceAmount, customer.previousInvoiceCurrency),
           currentBillingPeriodEndDate: this.formatDate(customer.currentBillingPeriodEndDate),
           numberOfDays: this.daysFromDate(customer.currentBillingPeriodEndDate),
-          plan: customer.activeSubscription.permissionGroup?.name,
+          plan: customer.activeSubscription?.permissionGroup?.name,
           subscriptionLink: this.mercadoPagoLink(customer.mercadopagoSubscriptionId),
         }
       ));
