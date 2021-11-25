@@ -107,7 +107,11 @@ export default {
     },
   },
   mounted() {
-    window.plutto('init', { permissionGroups: this.permissionGroups, theme: this.theme });
+    window.plutto('init', {
+      permissionGroups: this.permissionGroups,
+      theme: this.theme,
+      apiKey: process.env.PLUTTO_WIDGET_API_KEY,
+    });
   },
   computed: {
     theme() {

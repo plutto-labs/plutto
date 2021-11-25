@@ -18,6 +18,8 @@ class Customer < ApplicationRecord
 
   before_save :validate_uniqueness_of_identifier_within_organization
 
+  after_create :send_to_slack
+
   scope :active, -> do
     includes(:active_subscription).where.not(
       active_subscription: { id: nil }
@@ -73,6 +75,18 @@ class Customer < ApplicationRecord
     if customer && customer != self
       errors.add(:identifier, :taken)
       raise ActiveRecord::RecordInvalid, self
+    end
+  end
+
+  def send_to_slack
+    if organization.name == "Plutto-Widget"
+      Analytics.track(
+        user_id: organization_id,
+        event: 'new widget customer',
+        properties: {
+          email: email
+        }
+      )
     end
   end
 end
