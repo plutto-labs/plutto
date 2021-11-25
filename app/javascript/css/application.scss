@@ -1,0 +1,185 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+main {
+  @apply text-gray-800 py-6 relative z-0 flex-1 overflow-y-auto focus:outline-none;
+}
+
+.btn {
+  @apply inline-flex text-sm px-6 py-0 font-medium bg-transparent border border-primary text-primary
+    tracking-wide no-underline justify-center items-center cursor-pointer rounded-md hover:opacity-75
+    focus:opacity-75;
+  min-height: 32px;
+
+  &--big {
+    @apply h-6 text-base;
+    min-width: 148px;
+  }
+
+  &--filled {
+    @apply border-0 bg-primary text-gray-50;
+  }
+
+  &--cancel {
+    @apply border-melon-black text-melon-black hover:bg-melon-50 focus:bg-melon-50;
+  }
+
+  &--dismiss {
+    @apply border-gray-400 text-gray-400;
+  }
+
+  &--skyblue {
+    @apply border-skyblue text-skyblue;
+  }
+
+  &--aquagreen {
+    @apply border-aquagreen-black bg-aquagreen-black text-white hover:bg-aquagreen focus:bg-aquagreen;
+  }
+
+  &--full {
+    @apply w-full;
+  }
+
+  &[disabled] {
+    @apply border-0 text-gray-900 bg-gray-600 cursor-not-allowed;
+  }
+}
+
+.plutto-spacer {
+  @apply border-b-4 border-gray-500;
+}
+
+.plutto-input {
+  @apply h-12 relative w-full;
+
+  &__icon {
+    @apply left-0 h-5 absolute m-auto top-0 bottom-0 mx-3 text-xl leading-none;
+    font-family: 'Material Icons';
+  }
+
+  &__icon-right {
+    @apply right-0 h-5 absolute m-auto top-0 bottom-0 mx-3 text-xl leading-none;
+    font-family: 'Material Icons';
+  }
+
+  &__label {
+    @apply absolute text-gray-600 md:-mt-6 -mt-4 text-xs md:text-base;
+  }
+
+  &__input {
+    @apply h-full w-full pl-10 rounded border border-gray-700 bg-gray-50;
+
+    &::placeholder {
+      @apply text-gray-800 text-opacity-50;
+    }
+
+    &:focus {
+      @apply border-primary outline-none;
+      box-shadow: 0 0 4px 0 rgba(165, 206, 204, .72), inset -2px -2px 2px 0 rgba(233, 214, 215, .18);
+
+      &::placeholder {
+        @apply border-primary;
+      }
+    }
+
+    &--no-icon {
+      @apply pl-4;
+    }
+  }
+}
+
+.plutto-tag {
+  @apply px-4 py-1 text-xs text-gray-100 rounded-lg bg-melon-200;
+
+  &--green {
+    @apply bg-transparent text-success border border-success;
+  }
+}
+
+.plutto-icon {
+  @apply block leading-none;
+  font-family: 'Material Icons';
+}
+
+.tag-color {
+  &--purple {
+    @apply text-purple-800 bg-purple-200;
+  }
+
+  &--blue {
+    @apply text-blue-800 bg-blue-200;
+  }
+
+  &--green {
+    @apply text-green-800 bg-green-200;
+  }
+
+  &--red {
+    @apply text-red-800 bg-red-200;
+  }
+
+  &--yellow {
+    @apply text-yellow-800 bg-yellow-200;
+  }
+
+  &--gray {
+    @apply text-gray-700 bg-gray-100;
+  }
+}
+
+.plutto-checkbox {
+  @apply appearance-none m-0 text-sm w-4 h-4 outline-none text-center border border-melon-900 cursor-pointer;
+  border-radius: .15em;
+
+  &:checked {
+    @apply bg-melon border-0;
+  }
+
+  &:checked::after {
+    content: '\2713';
+    line-height: 14px;
+    vertical-align: top;
+    @apply text-white;
+  }
+
+  &--radio {
+    @apply rounded-full;
+
+    &:checked::after {
+      content: '\2022';
+      @apply text-white mb-1;
+      font-size: 32px;
+      line-height: 10px;
+      margin-left: 1.5px;
+    }
+  }
+
+  &:disabled {
+    @apply opacity-50 bg-gray-300 cursor-not-allowed;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* stylelint-disable selector-no-qualifying-type, rule-empty-line-before, property-no-vendor-prefix*/
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+@import 'tailwindcss/utilities';

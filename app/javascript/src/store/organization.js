@@ -4,6 +4,8 @@ const initialState = {
   id: null,
   name: null,
   settings: {},
+  widgetSettings: {},
+  publicApiKey: null,
 };
 
 export const mutations = {
@@ -11,6 +13,8 @@ export const mutations = {
     state.id = payload.id;
     state.name = payload.name;
     state.settings = payload.settings;
+    state.widgetSettings = payload.widgetSettings;
+    state.publicApiKey = payload.publicApiKey;
   },
   resetState(state) {
     Object.assign(state, initialState);
@@ -18,7 +22,7 @@ export const mutations = {
 };
 
 export const actions = {
-  UPDATE_SETTINGS({ commit }, payload) {
+  UPDATE_ORGANIZATION({ commit }, payload) {
     return organizationApi.update(payload)
       .then((res) => {
         if (res.organization) {

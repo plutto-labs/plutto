@@ -5,13 +5,13 @@
     />
     <template v-else-if="invoice">
       <div class="mt-4">
-        <div class="px-6 py-6 mt-3 bg-gray-600 rounded-lg">
+        <div class="px-6 py-6 mt-3 bg-gray-100 rounded-lg">
           <dl class="grid grid-cols-1 gap-6 md:grid-cols-2 my-7 lg:mt-0 md:gap-x-8 lg:px-8 lg:col-span-12">
             <div>
               <dt class="text-xs md:text-base">
                 {{ invoice.id }}
               </dt>
-              <dt class="text-sm text-gray-300">
+              <dt class="text-sm text-gray-600">
                 {{ formatDateTime(invoice.issueDate) }}
               </dt>
             </div>
@@ -31,7 +31,7 @@
               <dt class="font-medium">
                 Billing Information
               </dt>
-              <dd class="mt-3 text-gray-300">
+              <dd class="mt-3 text-gray-600">
                 <span class="block">{{ invoice.customerName }}</span>
                 <span class="block">{{ invoice.customerEmail }}</span>
                 <span class="block">{{ invoice.billingInformation && invoice.billingInformation.taxId }}</span>
@@ -45,13 +45,13 @@
                 class="flex mt-3"
                 v-if="invoice.status === 'paid'"
               >
-                <p class="text-sm text-gray-300">
+                <p class="text-sm text-gray-600">
                   Bank Transfer
                 </p>
               </dd>
               <dd
                 v-else
-                class="mt-3 text-gray-300"
+                class="mt-3 text-gray-600"
               >
                 <span class="block">Invoice not paid yet</span>
               </dd>
@@ -60,20 +60,20 @@
           <dl class="grid grid-cols-1 gap-6 my-7 lg:mt-0 lg:px-8 lg:col-span-12">
             <div class="text-sm">
               <div
-                class="flex items-center justify-between py-3 divide-gray-500"
+                class="flex items-center justify-between py-3 divide-gray-400"
                 :key="detail.id"
                 v-for="detail in invoice.details"
               >
-                <dt class="text-gray-300">
+                <dt class="text-gray-600">
                   {{ detail.description }}
                 </dt>
                 <dd class="font-medium">
                   {{ formatCurrency(detail.totalPrice, invoice.currency) }}
                 </dd>
               </div>
-              <hr class="border-gray-300">
+              <hr class="border-gray-600">
               <div class="flex items-center justify-between py-3">
-                <dt class="text-gray-300">
+                <dt class="text-gray-600">
                   Subtotal
                 </dt>
                 <dd class="font-medium">
@@ -81,19 +81,19 @@
                 </dd>
               </div>
               <div class="flex items-center justify-between py-3">
-                <dt class="text-gray-300">
+                <dt class="text-gray-600">
                   Tax
                 </dt>
                 <dd class="font-medium">
                   {{ formatCurrency(invoice.tax, invoice.currency) }}
                 </dd>
               </div>
-              <hr class="border-gray-300">
+              <hr class="border-gray-600">
               <div class="flex items-center justify-between pt-3">
                 <dt class="font-medium">
                   Total
                 </dt>
-                <dd class="font-medium text-indigo-300">
+                <dd class="font-medium text-skyblue-800">
                   {{ formatCurrency(invoice.total, invoice.currency) }}
                 </dd>
               </div>
@@ -104,9 +104,9 @@
           class="grid grid-cols-2 gap-4"
           v-if="!initialInvoice"
         >
-          <div class="p-4 mt-4 bg-gray-600 rounded-lg hover:border hover:border-gray-300">
+          <div class="p-4 mt-4 bg-gray-100 rounded-lg hover:border hover:border-gray-600">
             <span class="text-lg">Change status</span>
-            <p class="mt-2 mb-4 text-xs text-gray-200">
+            <p class="mt-2 mb-4 text-xs text-gray-700">
               This action changes invoice status triggering all asociated actions.
               For example, with the action send, an email will be sent to the customer.
             </p>
@@ -133,9 +133,9 @@
               </button>
             </div>
           </div>
-          <div class="p-4 mt-4 bg-gray-600 rounded-lg">
+          <div class="p-4 mt-4 bg-gray-100 rounded-lg">
             <span class="text-lg">Mark as</span>
-            <p class="mt-2 mb-4 text-xs text-gray-200">
+            <p class="mt-2 mb-4 text-xs text-gray-700">
               This action changes invoice status without triggering actions.
               Only for annotation purposes. No emails are sent or other actions performed.
             </p>

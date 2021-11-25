@@ -119,12 +119,18 @@
       </div>
     </div>
     <slot name="actions" />
-    <div class="mt-6 text-xs text-center text-gray-200">
+    <div class="mt-6 text-xs text-center text-gray-700">
       Powered by Plutto ™
     </div>
     <img
+      v-if="providerLogo === 'kushki'"
       class="object-cover h-12 m-auto"
       src="../../../img/kushki.svg"
+    >
+    <img
+      v-if="providerLogo === 'mercadopago'"
+      class="object-cover h-8 m-auto mt-4"
+      src="../../../img/mercadopago.svg"
     >
   </Form>
 </template>
@@ -140,6 +146,10 @@ export default {
     modelValue: {
       type: Object,
       default: () => {},
+    },
+    providerLogo: {
+      type: String,
+      default: 'kushki',
     },
   },
   data() {

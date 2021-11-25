@@ -30,9 +30,10 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
 
   private
 
-  def invoice_properties(include_payment_link)
+  def invoice_properties(include_payment_link) # rubocop:disable Metrics/AbcSize
     {
       invoice_date: @invoice.issue_date,
+      invoice_due_date: @invoice.issue_date + 30.days,
       invoice_total: { amount: @invoice.total.amount, currency: @invoice.currency },
       invoice_subtotal: { amount: @invoice.subtotal.amount, currency: @invoice.currency },
       invoice_tax: { amount: @invoice.tax.amount, currency: @invoice.currency },
@@ -40,6 +41,7 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
       customer_email: @invoice.customer.email,
       customer_name: @invoice.customer.name,
       customer_organization: @invoice.customer.organization.name,
+      organization_email: @invoice.customer.organization.email,
       billing_information: @invoice.customer.billing_information&.serializable_hash,
       payment_link: include_payment_link ? kushki.enroll_link_for(@invoice) : nil
     }
@@ -56,7 +58,7 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
   end
 
   def kushki
-    @kushki ||= KushkiService.new
+    @kushki ||= KushkiService.new(customer: @invoice.customer)
   end
 
   VALID_CURRENCIES = ['CLP', 'CLF']

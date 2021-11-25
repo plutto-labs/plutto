@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col border border-gray-300 rounded">
+  <div class="relative flex flex-col border border-gray-600 rounded">
     <div class="flex-1 px-4 pt-6">
       <div class="items-center justify-between md:flex">
         <div class="md:text-lg">
@@ -7,18 +7,18 @@
         </div>
         <span
           v-if="product.meter"
-          class="text-sm text-green-300"
+          class="text-sm text-skyblue-700"
         >
           Meter: {{ product.meter.name }}
         </span>
       </div>
       <PluttoCopyableDiv
-        class="mb-4 text-gray-100 text-2xs"
+        class="mb-4 text-gray-800 text-2xs"
         :value="product.id"
       />
       <div class="overflow-y-scroll max-h-40">
         <div
-          class="relative justify-between p-2 border-t border-gray-300 md:flex text-2xs"
+          class="relative justify-between p-2 border-t border-gray-600 md:flex text-2xs"
           v-for="pricing in product.pricings"
           :key="pricing.id"
         >
@@ -26,7 +26,7 @@
             <div class="mr-4 text-xs md:text-sm">
               {{ pricing.name }} [{{ pricing.currency }}]
             </div>
-            <div class="text-gray-300 md:text-sm text-2xs">
+            <div class="text-gray-600 md:text-sm text-2xs">
               {{ pricingSummary(pricing) }}
             </div>
           </div>
@@ -39,7 +39,7 @@
     </div>
     <div
       @click="$router.push({ name: 'product', params: { id: product.id } })"
-      class="px-4 py-2 text-xs text-right text-gray-200 cursor-pointer"
+      class="px-4 py-2 text-xs text-right text-gray-700 cursor-pointer"
     >
       Details
     </div>

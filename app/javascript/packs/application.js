@@ -11,7 +11,7 @@ import FormatterMixin from '@/mixins/formatter-mixin';
 import Segment from '@/mixins/segment';
 
 import '@/helpers/validation-rules.js';
-import '../css/application.css';
+import '../css/application.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   const i18n = createI18n({

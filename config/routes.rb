@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  default_url_options host: ENV.fetch("APPLICATION_HOST")
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   scope path: '/api/internal' do
@@ -10,6 +12,7 @@ Rails.application.routes.draw do
       resources :api_keys, only: [:create, :index, :destroy]
       resources :auth, only: [:create]
       delete 'auth', to: 'auth#destroy'
+      post 'sign_up', to: 'auth#sign_up'
       resources :checkouts, param: :token, only: [:show, :update]
       resources :customers, only: [:index, :show, :create, :update, :destroy] do
         resources :payment_methods, only: [:create]
@@ -48,13 +51,16 @@ Rails.application.routes.draw do
         patch 'remove_pricings', to: 'subscriptions#remove_pricings'
         patch 'end_subscription', to: 'subscriptions#end_subscription'
       end
+      get 'widget_settings', to: 'organizations#widget_settings'
       resources :permission_groups, only: [:index]
       resources :products, only: [:index]
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
   mount Rswag::Ui::Engine => '/api-docs'
-  devise_for :users
+  devise_for :users, controllers: {
+    passwords: 'passwords'
+  }
   mount Sidekiq::Web => '/queue'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#index'
@@ -62,6 +68,7 @@ Rails.application.routes.draw do
   get 'admin/login_as/:id', to: 'admin#login_as', as: 'admin_login_as'
 
   get 'widget', to: 'widget#index'
+  get 'widget/landing', to: 'widget#landing'
   get 'invoicing', to: 'landings#invoicing', as: 'invoicing'
   post 'send_invoice_email', to: 'landings#send_invoice_email', as: 'send_invoice_email'
 end

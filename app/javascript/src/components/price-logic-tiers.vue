@@ -11,49 +11,49 @@
       </div>
     </div>
     <table
-      class="w-full divide-y divide-gray-200"
+      class="w-full divide-y divide-gray-700"
       v-if="tiers"
     >
-      <thead class="bg-gray-700">
+      <thead class="bg-gray-200">
         <tr>
           <th
             scope="col"
-            class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase rounded-tl-lg text-gray-50"
+            class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase rounded-tl-lg text-gray-900"
           />
           <th
             scope="col"
-            class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-gray-50"
+            class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-gray-900"
           >
             First unit
           </th>
           <th
             scope="col"
-            class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-gray-50"
+            class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-gray-900"
           >
             Last unit
           </th>
           <th
             scope="col"
-            class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase rounded-tr-lg text-gray-50"
+            class="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase rounded-tr-lg text-gray-900"
           >
             {{ measurementText }}
           </th>
-          <th class="bg-gray-700" />
+          <th class="bg-gray-200" />
         </tr>
       </thead>
-      <tbody class="bg-gray-800">
+      <tbody class="bg-gray-50">
         <tr
-          class="border-t-4 border-gray-900"
+          class="border-t-4 border-gray-50"
           v-for="(tier, index) in tiers"
           :key="index"
         >
-          <td class="px-6 py-4 bg-gray-700 whitespace-nowrap">
-            <div class="text-sm font-medium text-gray-50">
+          <td class="px-6 py-4 bg-gray-200 whitespace-nowrap">
+            <div class="text-sm font-medium text-gray-900">
               {{ index === 0 ? firstRowText : otherRowsText }}
             </div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm font-medium text-gray-400">
+            <div class="text-sm font-medium text-gray-9000">
               {{ tierLowerLimit(index) }}
             </div>
           </td>
@@ -67,7 +67,7 @@
                 :name="`${priceLogicIndex}-tier-${index}`"
                 :rules="`required|minValue:${tierLowerLimit(index)}`"
                 type="number"
-                class="flex items-center px-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
+                class="flex items-center px-6 bg-gray-50 border border-gray-100 rounded-lg plutto-input"
                 @input="changeTierUpperLimit($event.target.value, index)"
                 :value="tier.upperLimit"
               >
@@ -89,7 +89,7 @@
             class="px-6 py-4 whitespace-nowrap"
             v-else
           >
-            <span class="text-gray-300 plutto-icon">
+            <span class="text-gray-600 plutto-icon">
               all_inclusive
             </span>
           </td>
@@ -104,7 +104,7 @@
                   :name="`${priceLogicIndex}-price-${index}`"
                   rules="required"
                   type="number"
-                  class="flex items-center pl-2 pr-6 bg-gray-800 border border-gray-800 rounded-lg plutto-input"
+                  class="flex items-center pl-2 pr-6 bg-gray-50 border border-gray-100 rounded-lg plutto-input"
                   :value="tier.price"
                   @input="e => tier.price = e.target.value"
                   step="0.01"
@@ -125,9 +125,9 @@
               </div>
             </div>
           </td>
-          <td class="bg-gray-800">
+          <td class="bg-gray-50">
             <span
-              class="bg-gray-800 cursor-pointer plutto-icon text-primary"
+              class="bg-gray-50 cursor-pointer plutto-icon text-primary"
               @click="deleteTier(index)"
               v-if="edit && index !== tiers.length - 1 && index !== 0"
             >

@@ -9,9 +9,10 @@
         :value="codeString"
         font_size="12px"
         border_radius="6px"
-        :width="boxWidth"
+        width="full"
         :hide_header="true"
         :read_only="true"
+        :languages="[['html', 'HTML']]"
         z_index="0"
       />
       <span
@@ -24,7 +25,7 @@
     <div
       v-show="copied"
       ref="copyNotification"
-      class="absolute top-0 flex items-center justify-center w-full h-full text-2xl bg-white rounded-md opacity-70 text-temporary-primary"
+      class="absolute top-0 flex items-center justify-center w-full h-full text-2xl bg-white rounded-md opacity-70 text-primary"
     >
       Copied!
     </div>
@@ -62,9 +63,6 @@ export default {
       window.setTimeout(() => {
         this.copied = false;
       }, SHOW_TIME);
-    },
-    boxWidth() {
-      return document.getElementById('code-box').parentElement.clientWidth;
     },
   },
 };

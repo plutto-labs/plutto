@@ -14,7 +14,7 @@
       :value="modelValue"
     >
     <ul
-      class="px-2 bg-gray-800 rounded"
+      class="px-2 bg-gray-50 rounded"
       v-if="results && results.length > 0"
     >
       <li
@@ -23,7 +23,7 @@
         @click.prevent="setPlaceAndClose(result)"
       >
         <div
-          class="py-3 text-gray-200 truncate hover:text-gray-50"
+          class="py-3 text-gray-700 truncate hover:text-gray-900"
         >
           {{ result.description }}
         </div>

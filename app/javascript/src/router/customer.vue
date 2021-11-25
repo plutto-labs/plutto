@@ -10,68 +10,68 @@
           @button-clicked="showNewCustomerForm = true"
         />
         <button
-          class="w-48 mr-6 btn btn--filled"
+          class="mx-6 btn btn--filled"
           @click="showSubscriptionForm = true"
         >
           {{ currentCustomer.activeSubscription ? 'Current subscription' : 'Add subscription' }}
         </button>
       </div>
       <div class="px-6 mt-6 customer-grid">
-        <div class="p-2 text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__info md:p-4">
-          <div class="mb-2 text-lg text-gray-50">
+        <div class="p-2 text-sm text-gray-800 border border-gray-500 rounded-lg bg-gray-50 customer-grid__info md:p-4">
+          <div class="mb-2 text-lg text-gray-900">
             Information
-            <div class="text-xs text-gray-300">
+            <div class="text-xs text-gray-600">
               <PluttoCopyableDiv :value="currentCustomer.identifier" />
             </div>
           </div>
           <div>
-            Name: <span class="text-gray-300">{{ currentCustomer.name }}</span>
+            Name: <span class="text-gray-600">{{ currentCustomer.name }}</span>
           </div>
           <div>
-            Email: <span class="text-gray-300">{{ currentCustomer.email }}</span>
+            Email: <span class="text-gray-600">{{ currentCustomer.email }}</span>
           </div>
           <div>
-            Created: <span class="text-gray-300">{{ formatDate(currentCustomer.createdAt) }}</span>
+            Created: <span class="text-gray-600">{{ formatDate(currentCustomer.createdAt) }}</span>
           </div>
         </div>
         <div
-          class="p-2 text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__billing md:p-4"
+          class="p-2 text-sm text-gray-800 border border-gray-500 rounded-lg bg-gray-50 customer-grid__billing md:p-4"
           v-if="currentCustomer.billingInformation"
         >
-          <div class="mb-2 text-lg text-gray-50">
+          <div class="mb-2 text-lg text-gray-900">
             Billing Information
           </div>
           <div>
-            Name: <span class="text-gray-300">{{ currentCustomer.billingInformation.legalName }}</span>
+            Name: <span class="text-gray-600">{{ currentCustomer.billingInformation.legalName }}</span>
           </div>
           <div>
-            Country: <span class="text-gray-300">{{ currentCustomer.billingInformation.countryIsoCode }}</span>
+            Country: <span class="text-gray-600">{{ currentCustomer.billingInformation.countryIsoCode }}</span>
           </div>
           <div>
-            Activity: <span class="text-gray-300">{{ currentCustomer.billingInformation.activity }}</span>
+            Activity: <span class="text-gray-600">{{ currentCustomer.billingInformation.activity }}</span>
           </div>
           <div>
-            Tax ID: <span class="text-gray-300">{{ currentCustomer.billingInformation.taxId }}</span>
+            Tax ID: <span class="text-gray-600">{{ currentCustomer.billingInformation.taxId }}</span>
           </div>
           <div>
-            Address: <span class="text-gray-300">{{ fullAddress(currentCustomer.billingInformation) }}</span>
+            Address: <span class="text-gray-600">{{ fullAddress(currentCustomer.billingInformation) }}</span>
           </div>
           <div>
-            Phone: <span class="text-gray-300">{{ currentCustomer.billingInformation.phone }}</span>
+            Phone: <span class="text-gray-600">{{ currentCustomer.billingInformation.phone }}</span>
           </div>
         </div>
         <div
-          class="relative p-2 overflow-y-hidden text-sm text-gray-100 bg-gray-800 border border-gray-400 rounded-lg customer-grid__payments md:p-4 max-h-52"
+          class="relative p-2 overflow-y-hidden text-sm text-gray-800 border border-gray-500 rounded-lg bg-gray-50 customer-grid__payments md:p-4 max-h-52"
           v-if="currentCustomer.paymentMethods"
         >
-          <div class="mb-2 text-lg text-gray-50">
+          <div class="mb-2 text-lg text-gray-900">
             Payment Methods
           </div>
           <div class="h-full overflow-y-scroll">
             <div
               v-for="(method, index) in currentCustomer.paymentMethods"
               :key="index"
-              class="flex items-center justify-between px-3 py-2 my-2 text-xs bg-gray-900 border border-gray-600 rounded-lg"
+              class="flex items-center justify-between px-3 py-2 my-2 text-xs border border-gray-300 rounded-lg bg-gray-50"
             >
               <div class="flex">
                 <div class="relative w-6 h-4">
@@ -104,34 +104,34 @@
           </div>
         </div>
         <div
-          class="p-2 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg customer-grid__subscription md:p-4"
+          class="p-2 text-sm text-gray-600 border border-gray-500 rounded-lg bg-gray-50 customer-grid__subscription md:p-4"
           v-if="currentCustomer.activeSubscription"
         >
-          <div class="mb-2 text-lg text-gray-50">
+          <div class="mb-2 text-lg text-gray-900">
             {{ currentCustomer.activeSubscription.trialFinishesAt === null ?
               'Current Subscription' : 'Trial information' }}
-            <div class="text-xs text-gray-300">
+            <div class="text-xs text-gray-600">
               <PluttoCopyableDiv :value="currentCustomer.activeSubscription.id" />
             </div>
           </div>
           <div class="justify-between md:flex">
             <div>
-              <div class="text-gray-100">
+              <div class="text-gray-800">
                 Products:
                 <div class="text-xs">
                   <div
                     v-for="(pricing, index) in currentCustomer.activeSubscription.pricings"
                     :key="pricing.id"
                   >
-                    <div class="text-green-200">
+                    <div class="text-skyblue-800">
                       {{ index + 1 }}. {{ pricing.productName }}
                     </div>
-                    <span class="ml-3 text-purple-200">{{ pricing.name }} [{{ pricing.currency }}]</span>
+                    <span class="ml-3 text-skyblue">{{ pricing.name }} [{{ pricing.currency }}]</span>
                   </div>
                 </div>
               </div>
               <div
-                class="mt-2 text-gray-100"
+                class="mt-2 text-gray-800"
                 v-if="currentCustomer.activeSubscription.permissionGroup"
               >
                 Permission group:
@@ -141,7 +141,7 @@
               </div>
               <div v-if="currentCustomer.activeSubscription.trialFinishesAt !== null">
                 <div>
-                  End trial date: <span class="text-gray-300">{{ `${formatDate(currentCustomer.activeSubscription.trialFinishesAt)} (${daysFromDate(currentCustomer.activeSubscription.trialFinishesAt)})` }}</span>
+                  End trial date: <span class="text-gray-600">{{ `${formatDate(currentCustomer.activeSubscription.trialFinishesAt)} (${daysFromDate(currentCustomer.activeSubscription.trialFinishesAt)})` }}</span>
                 </div>
               </div>
               <div v-else>
@@ -171,18 +171,18 @@
           </div>
         </div>
         <div
-          class="flex items-center justify-center h-32 p-1 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg opacity-50 cursor-not-allowed customer-grid__subscription md:p-4"
+          class="flex items-center justify-center h-32 p-1 text-sm text-gray-600 border border-gray-500 rounded-lg opacity-50 cursor-not-allowed bg-gray-50 customer-grid__subscription md:p-4"
           v-else
         >
-          <div class="mb-2 text-lg text-gray-50">
+          <div class="mb-2 text-lg text-gray-900">
             No active subscription
           </div>
         </div>
         <div
-          class="p-2 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg customer-grid__usage md:p-4"
+          class="p-2 text-sm text-gray-600 border border-gray-500 rounded-lg bg-gray-50 customer-grid__usage md:p-4"
           v-if="currentCustomer.currentPeriodDetails && currentCustomer.activeSubscription"
         >
-          <div class="mb-2 text-lg text-gray-50">
+          <div class="mb-2 text-lg text-gray-900">
             Current Usage
           </div>
           <div
@@ -202,19 +202,19 @@
           </div>
         </div>
         <div
-          class="flex items-center justify-center h-32 p-1 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg opacity-50 cursor-not-allowed customer-grid__usage md:p-4"
+          class="flex items-center justify-center h-32 p-1 text-sm text-gray-600 border border-gray-500 rounded-lg opacity-50 cursor-not-allowed bg-gray-50 customer-grid__usage md:p-4"
           v-else
         >
-          <div class="mb-2 text-lg text-gray-50">
+          <div class="mb-2 text-lg text-gray-900">
             No subscription usage
           </div>
         </div>
-        <div class="p-2 text-sm text-gray-300 bg-gray-800 border border-gray-400 rounded-lg customer-grid__meters md:p-4">
+        <div class="p-2 text-sm text-gray-600 border border-gray-500 rounded-lg bg-gray-50 customer-grid__meters md:p-4">
           <line-chart
             :datasets="currentCustomer.meterEventsData"
             title="Counts for each meter"
             label="Meter Count"
-            class="p-3 bg-gray-800 rounded-md"
+            class="p-3 rounded-md bg-gray-50"
           />
         </div>
       </div>

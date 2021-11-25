@@ -17,12 +17,12 @@
         <template v-else>
           <div class="flex items-center px-4 py-6 my-6 border-2 rounded-lg border-warning">
             <span class="mr-4 text-2xl md:mr-6 md:text-5xl plutto-icon text-warning">warning</span>
-            <div class="text-xs text-gray-300 md:text-base">
+            <div class="text-xs text-gray-600 md:text-base">
               {{ customer.name }} is already subscribed to plan "{{ customer.activePlanSubscription.planName }}"!
               <div v-if="subscribedToSamePlan">
                 However there's <b>another version</b> available for the plan.<br><br>
               </div>
-              <div class="text-base font-bold md:text-lg text-gray-50">
+              <div class="text-base font-bold md:text-lg text-gray-900">
                 Do you want to switch to {{ subscribedToSamePlan ? 'the newer version' : 'this Plan' }}?
               </div>
             </div>
@@ -31,12 +31,12 @@
             <div class="my-2">
               When you switch plan for a customer:
             </div>
-            <span class="ml-4 text-xs text-gray-300 md:text-sm list-item">The current subscription is terminated</span>
-            <span class="ml-8 text-xs text-gray-300 list-item">An invoice will be generated with current usage</span>
-            <span class="mt-2 ml-4 text-xs text-gray-300 md:text-sm list-item">A new subscription will be created to the "{{ plan.name }}" plan</span>
-            <span class="ml-8 text-xs text-gray-300 list-item">
+            <span class="ml-4 text-xs text-gray-600 md:text-sm list-item">The current subscription is terminated</span>
+            <span class="ml-8 text-xs text-gray-600 list-item">An invoice will be generated with current usage</span>
+            <span class="mt-2 ml-4 text-xs text-gray-600 md:text-sm list-item">A new subscription will be created to the "{{ plan.name }}" plan</span>
+            <span class="ml-8 text-xs text-gray-600 list-item">
               Next invoice will be
-              <b class="text-primary-300"><span v-if="plan.billsAt === 'end'"> in {{ humanizedDuration(plan.billingPeriodDuration) }}</span>
+              <b class="text-melon-300"><span v-if="plan.billsAt === 'end'"> in {{ humanizedDuration(plan.billingPeriodDuration) }}</span>
                 <span v-else>now!</span></b>
             </span>
           </ul>
@@ -47,10 +47,10 @@
           <div class="my-2">
             When you subscribe a customer to a plan:
           </div>
-          <span class="mt-2 ml-4 text-sm text-gray-300 list-item">A new subscription will be created to the "{{ plan.name }}" plan</span>
-          <span class="ml-8 text-xs text-gray-300 list-item">
+          <span class="mt-2 ml-4 text-sm text-gray-600 list-item">A new subscription will be created to the "{{ plan.name }}" plan</span>
+          <span class="ml-8 text-xs text-gray-600 list-item">
             Next invoice will be
-            <b class="text-primary-300"><span v-if="plan.billsAt === 'end'"> in {{ humanizedDuration(plan.billingPeriodDuration) }}</span>
+            <b class="text-melon-300"><span v-if="plan.billsAt === 'end'"> in {{ humanizedDuration(plan.billingPeriodDuration) }}</span>
               <span v-else>now!</span></b>
           </span>
         </ul>
@@ -63,7 +63,7 @@
           <p class="mr-4">
             Trial until:
           </p>
-          <p class="text-xs text-gray-300">
+          <p class="text-xs text-gray-600">
             (optional)
           </p>
         </div>
@@ -80,7 +80,7 @@
             <template #default="{ inputValue, inputEvents }">
               <div class="plutto-input">
                 <input
-                  class="bg-gray-700 border-gray-500 plutto-input__input"
+                  class="bg-gray-200 border-gray-400 plutto-input__input"
                   :value="inputValue"
                   v-on="inputEvents"
                 >
@@ -89,7 +89,7 @@
           </DatePicker>
           <p
             v-if="trialDate"
-            class="absolute text-xs text-gray-300"
+            class="absolute text-xs text-gray-600"
           >
             {{ `subscription will start charging ${daysFromDate(trialDate)}` }}
           </p>

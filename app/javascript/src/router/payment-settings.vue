@@ -15,7 +15,7 @@
           class="ml-4"
         >
           Post invoices automatically
-          <div class="text-xs text-gray-200">
+          <div class="text-xs text-gray-700">
             An email with invoice details will be sent to customers every billing period
           </div>
         </label>
@@ -33,7 +33,7 @@
           class="ml-4"
         >
           Charge invoices automatically
-          <div class="text-xs text-gray-200">
+          <div class="text-xs text-gray-700">
             Your customers will be charged automatically if payment methods are available
           </div>
         </label>
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     async updateSettings() {
-      await this.$store.dispatch('UPDATE_SETTINGS', { ...this.organization, settings: this.newSettings });
+      await this.$store.dispatch('UPDATE_ORGANIZATION', { ...this.organization, settings: this.newSettings });
       this.newSettings = { ...this.settings };
     },
   },

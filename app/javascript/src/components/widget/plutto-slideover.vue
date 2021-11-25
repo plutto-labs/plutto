@@ -2,7 +2,7 @@
   <Transition name="slide-fade">
     <div
       v-if="showing"
-      class="fixed inset-0 z-10 flex items-center justify-end w-full h-screen bg-see-through"
+      class="fixed inset-0 z-10 items-center justify-end w-full h-screen md:flex bg-see-through"
     >
       <slot name="preview" />
       <div class="relative right-0 flex w-full h-full max-w-3xl bg-white shadow-lg md:w-1/2">
@@ -11,7 +11,7 @@
           class="absolute top-0 right-0 m-6 text-xl"
           @click.prevent="close"
         >
-          <span class="w-6 h-6 fill-current text-temporary-primary material-icons hover:opacity-60">close</span>
+          <span class="w-6 h-6 fill-current text-primary material-icons hover:opacity-60">close</span>
         </button>
         <div class="w-full max-h-screen overflow-x-hidden overflow-y-auto">
           <slot name="content" />

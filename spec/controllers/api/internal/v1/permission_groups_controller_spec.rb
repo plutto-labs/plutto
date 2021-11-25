@@ -2,7 +2,7 @@ RSpec.describe Api::Internal::V1::PermissionGroupsController, type: :controller 
   include Devise::Test::ControllerHelpers
 
   describe 'GET #index' do
-    let(:organization) { create(:organization) }
+    let(:organization) { create(:organization, :without_default_permission_group) }
     let!(:permission_group) { create(:permission_group, organization: organization) }
     let!(:permission_group2) { create(:permission_group, organization: organization) }
 

@@ -9,11 +9,13 @@ describe InvoiceService do
       :invoice, billing_period: billing_period, customer: subscription.customer, currency: 'CLP'
     )
   end
+  let!(:organization_user) { create(:user) }
   let(:segment_info) do
     { user_id: invoice.customer.organization_id,
       event: 'send invoice',
       properties: {
         invoice_date: invoice.issue_date,
+        invoice_due_date: invoice.issue_date + 30.days,
         invoice_total: { amount: invoice.total.amount, currency: invoice.currency },
         invoice_subtotal: { amount: invoice.subtotal.amount, currency: invoice.currency },
         invoice_tax: { amount: invoice.tax.amount, currency: invoice.currency },
@@ -21,12 +23,16 @@ describe InvoiceService do
         customer_email: invoice.customer.email,
         customer_name: invoice.customer.name,
         customer_organization: invoice.customer.organization.name,
+        organization_email: invoice.customer.organization.email,
         billing_information: invoice.customer.billing_information.serializable_hash,
         payment_link: payment_link
       } }
   end
 
-  before { allow(KushkiService).to receive(:new).and_return(kushki_service) }
+  before do
+    allow(invoice.customer.organization).to receive(:email).and_return('felipe@getplutto.com')
+    allow(KushkiService).to receive(:new).and_return(kushki_service)
+  end
 
   describe '#send' do
     before do
@@ -46,7 +52,10 @@ describe InvoiceService do
       create(:payment_method, customer: customer, currency: 'CLP')
     end
 
-    before { allow(kushki_service).to receive(:charge).with(payment_method, invoice) }
+    before do
+      allow(customer.organization).to receive(:email).and_return('felipe@getplutto.com')
+      allow(kushki_service).to receive(:charge).with(payment_method, invoice)
+    end
 
     context 'when user have payment_methods' do
       it 'calls charge on kushki_client' do

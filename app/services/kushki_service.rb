@@ -1,17 +1,17 @@
-class KushkiService
-  def enroll(customer, params)
+class KushkiService < PowerTypes::Service.new(:customer)
+  def enroll(params)
     invoice = Invoice.find(params[:invoice_id])
     body = {
       token: params[:token],
       planName: 'Plutto',
       periodicity: 'custom',
-      contactDetails: contact_details(customer),
+      contactDetails: contact_details,
       amount: { subtotalIva: 0, subtotalIva0: 0, ice: 0, iva: 0, currency: invoice.currency },
       startDate: (Date.current + 1.day).to_s
     }
     res = client.post('/subscriptions/v1/card', body)
     if res.code == 201
-      create_payment_method(params[:token], res['subscriptionId'], customer, invoice.currency)
+      create_payment_method(params[:token], res['subscriptionId'], invoice.currency)
       ChangeInvoiceStatusJob.perform_later(invoice, 'charge')
     end
     res
@@ -20,7 +20,7 @@ class KushkiService
   def charge(payment_method, invoice)
     subscription_id = payment_method.gateway_info['subscription_id']
     body = { amount: charge_amount(invoice),
-             contactDetails: contact_details(payment_method.customer),
+             contactDetails: contact_details,
              orderDetails: order_details(invoice),
              productDetails: product_details(invoice),
              fullResponse: true }
@@ -58,8 +58,8 @@ class KushkiService
 
   private
 
-  def create_payment_method(token, subscription_id, customer, currency)
-    payment_method = customer.payment_methods.create!(
+  def create_payment_method(token, subscription_id, currency)
+    payment_method = @customer.payment_methods.create!(
       gateway: 'kushki', category: 'credit_card', currency: currency,
       gateway_info: { token: token, subscription_id: subscription_id }
     )
@@ -70,14 +70,14 @@ class KushkiService
     @client ||= KushkiClient.new
   end
 
-  def contact_details(customer)
+  def contact_details
     {
       # documentType: 'CC',
       # documentNumber: customer.billing_information&.tax_id,
-      email: customer.email,
-      firstName: customer.name || customer.billing_information&.legal_name,
+      email: @customer.email,
+      firstName: @customer.name || @customer.billing_information&.legal_name,
       lastName: 'DeLonghi',
-      phoneNumber: customer.billing_information&.phone
+      phoneNumber: @customer.billing_information&.phone
     }
   end
 

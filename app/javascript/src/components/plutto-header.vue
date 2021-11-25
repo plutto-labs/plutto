@@ -39,7 +39,7 @@ export default {
 
 <style scoped lang="scss">
 header {
-  @apply grid gap-3 text-xl text-white;
+  @apply grid gap-3 text-xl text-black;
 
   grid-template-columns: 3rem 1fr minmax(auto, 15rem);
   grid-template-areas: 'back title action';

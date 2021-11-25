@@ -22,7 +22,7 @@ export default function chartApi() {
           title: {
             display: true,
             text: title,
-            color: '#a89a00',
+            color: '#5691f0',
             padding: {
               top: 10,
               bottom: 15,
@@ -53,11 +53,11 @@ export default function chartApi() {
         label: key,
         data: Object.values(props.datasets[key]),
         backgroundColor:
-        ['#ffea00', '#dbc900', '#a89a00', '#756c00', '#423d00'][Object.keys(props.datasets).indexOf(key)],
+        ['#0f1323', '#282a3a', '#5b5d6b', '#777986', '#b3b5bd'][Object.keys(props.datasets).indexOf(key)],
         borderColor:
-          ['#ffea00', '#dbc900', '#a89a00', '#756c00', '#423d00'][Object.keys(props.datasets).indexOf(key)],
+          ['#0f1323', '#282a3a', '#5b5d6b', '#777986', '#b3b5bd'][Object.keys(props.datasets).indexOf(key)],
         pointBackgroundColor:
-          ['#ffea00', '#dbc900', '#a89a00', '#756c00', '#423d00'][Object.keys(props.datasets).indexOf(key)],
+          ['#0f1323', '#282a3a', '#5b5d6b', '#777986', '#b3b5bd'][Object.keys(props.datasets).indexOf(key)],
       };
       data.datasets.push(dataset);
     });

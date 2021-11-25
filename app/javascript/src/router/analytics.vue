@@ -8,21 +8,20 @@
         :datasets="{ subscriptions }"
         title="Active subscriptions per month"
         label="Subscriptions"
-        class="p-3 bg-gray-800 rounded-md"
+        class="p-3 rounded-md bg-gray-50"
       />
       <div class="grid grid-cols-2 gap-4">
-        <div class="flex flex-col h-full p-5 bg-gray-800 rounded-md">
+        <div class="flex flex-col h-full p-5 rounded-md bg-gray-50">
           <div class="relative flex items-center justify-center">
             <div
-              class="text-lg font-medium text-primary-700"
-              :class="churnRate >= 0 ? 'text-green-400' : 'text-red-500'"
+              class="text-lg font-medium text-skyblue"
             >
               Customer Churn Rate
             </div>
             <PluttoTooltip>
               <template #trigger>
                 <span
-                  class="absolute top-0 ml-2 text-sm text-gray-500 cursor-pointer plutto-icon"
+                  class="absolute top-0 ml-2 text-sm text-gray-400 cursor-pointer plutto-icon"
                 >
                   info
                 </span>
@@ -37,15 +36,18 @@
             </PluttoTooltip>
           </div>
           <div class="flex items-center justify-around ">
-            <p class="text-xs text-gray-400">
+            <p class="text-xs text-gray-9000">
               for {{ numbersMonth }}
             </p>
           </div>
-          <div class="flex items-center justify-around h-full text-3xl">
+          <div
+            class="flex items-center justify-around h-full text-3xl"
+            :class="churnRate >= 0 ? 'text-aquagreen-800' : 'text-melon-800'"
+          >
             {{ churnRate }}%
           </div>
         </div>
-        <div class="flex flex-col h-full p-5">
+        <div class="flex flex-col h-full p-5 rounded bg-gray-50">
           <div class="flex items-center justify-around">
             <div>
               Currency
@@ -61,18 +63,18 @@
             />
           </div>
         </div>
-        <div class="flex flex-col h-full p-5 text-center bg-gray-800 rounded-md">
-          <div class="flex items-center justify-around text-lg font-medium text-primary-700">
+        <div class="flex flex-col h-full p-5 text-center rounded-md bg-gray-50">
+          <div class="flex items-center justify-around text-lg font-medium text-skyblue">
             MRR
           </div>
           <div class="flex items-center justify-around ">
-            <p class="text-xs text-gray-400">
+            <p class="text-xs text-gray-9000">
               for {{ numbersMonth }}
             </p>
           </div>
           <div
             class="flex items-center justify-around h-full text-3xl align-middle"
-            :class="mrrRate >= 0 ? 'text-green-400' : 'text-red-500'"
+            :class="mrrRate >= 0 ? 'text-aquagreen-800' : 'text-melon-800'"
           >
             <div>
               <span
@@ -89,18 +91,18 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col h-full p-5 text-center bg-gray-800 rounded-md">
-          <div class="flex items-center justify-around text-lg font-medium text-primary-700">
+        <div class="flex flex-col h-full p-5 text-center rounded-md bg-gray-50">
+          <div class="flex items-center justify-around text-lg font-medium text-skyblue">
             ARR
           </div>
           <div class="flex items-center justify-around ">
-            <p class="text-xs text-gray-400">
+            <p class="text-xs text-gray-9000">
               for {{ numbersMonth }}
             </p>
           </div>
           <div
             class="flex items-center justify-around h-full text-3xl align-middle"
-            :class="arrRate >= 0 ? 'text-green-400' : 'text-red-500'"
+            :class="arrRate >= 0 ? 'text-aquagreen-800' : 'text-melon-800'"
           >
             <div>
               <span
@@ -122,19 +124,19 @@
         :datasets="mrr"
         title="Monthly Recurring Revenue"
         label="MRR"
-        class="p-3 bg-gray-800 rounded-md"
+        class="p-3 rounded-md bg-gray-50"
       />
       <line-chart
         :datasets="{ arr }"
         title="Annualized Run Rate"
         label="ARR"
-        class="p-3 bg-gray-800 rounded-md"
+        class="p-3 rounded-md bg-gray-50"
       />
       <line-chart
         :datasets="{ customers }"
         title="Customers created per month"
         label="Customers"
-        class="p-3 bg-gray-800 rounded-md"
+        class="p-3 rounded-md bg-gray-50"
       />
     </div>
     <PluttoLoader

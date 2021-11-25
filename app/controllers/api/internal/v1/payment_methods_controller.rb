@@ -1,19 +1,25 @@
 class Api::Internal::V1::PaymentMethodsController < Api::Internal::V1::BaseController
+  ALLOWED_GATEWAYS = %w(kushki mercadopago).freeze
+
   def create
-    res = service.enroll(customer, payment_method_params)
+    res = service.enroll(payment_method_params)
     render json: res, status: res.code
   end
 
   private
 
   def payment_method_params
-    params.require(:payment_method).permit(:gateway, :token, :invoice_id)
+    params.require(:payment_method).permit(
+      :gateway, :token, :invoice_id, :permission_group_id, token_info: {}
+    )
   end
 
   def service
-    raise 'wrong gateway' unless payment_method_params[:gateway] == 'kushki'
+    raise 'wrong gateway' unless ALLOWED_GATEWAYS.include?(payment_method_params[:gateway])
 
-    @service ||= "#{payment_method_params[:gateway].capitalize}Service".constantize.new
+    @service ||= "#{payment_method_params[:gateway].capitalize}Service".constantize.new(
+      customer: customer
+    )
   end
 
   def customer

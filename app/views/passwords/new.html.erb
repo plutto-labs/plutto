@@ -1,0 +1,29 @@
+<div class='flex justify-center my-8'>
+  <div class='w-full max-w-lg px-16 pt-4 pb-8 mb-4 bg-white border-t-8 shadow-md border-primary'>
+    <div class="flex justify-center h-12 mt-4 mb-8">
+      <%= image_tag('logo.png') %>
+    </div>
+    <h1 class='mb-4 text-xl text-primary'>Password recovery</h1>
+    <p class='mb-4 text-sm text-gray-600'>Please give us your email. You'll receive an email with the instructions to create a new password.</p>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4') do |f| %>
+      <div class='mb-4'>
+        <%= f.text_field :email, autocomplete: 'email', placeholder: 'Email', class: 'appearance-none rounded-lg w-full py-2 px-3 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline border hover:border-primary'%>
+      </div>
+      <% if flash.alert %>
+      <div
+        class='relative my-3 text-sm text-red-700'
+        role="alert"
+      >
+        <ul>
+        <li><%= flash.alert %></li>
+        </ul>
+      </div>
+      <% end %>
+      <div>
+        <div class='flex justify-around mb-4'>
+          <%= f.submit 'Recover', class: 'bg-primary mx-2 rounded-lg hover:bg-gray-600 tracking-widest text-white py-1 px-8 mt-5 rounded focus:outline-none focus:shadow-outline' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
