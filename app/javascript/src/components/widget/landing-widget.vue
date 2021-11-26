@@ -111,6 +111,7 @@ export default {
       permissionGroups: this.permissionGroups,
       theme: this.theme,
       apiKey: process.env.PLUTTO_WIDGET_API_KEY,
+      buttonUrl: 'https://app.getplutto.com/widget#/sign-up',
     });
   },
   computed: {
