@@ -29,6 +29,19 @@ ActiveAdmin.register Customer do
       row :email
       row :created_at
       row :updated_at
+      row :organization
+
+      panel I18n.t('activerecord.models.invoice', count: 2) do
+        table_for resource.invoices do
+          column :id do |invoice|
+            link_to invoice.id, admin_invoice_path(invoice)
+          end
+          column :subtotal
+          column :currency
+          column :status
+          column :created_at
+        end
+      end
     end
   end
 end
