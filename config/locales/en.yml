@@ -25,6 +25,9 @@ en:
       meter_event:
         one: Meter Event
         other: Meter Events
+      invoice:
+        one: Invoice
+        other: Invoices
     attributes:
       meter:
         period_sum: Periodic sum

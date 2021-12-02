@@ -1,6 +1,8 @@
 ActiveAdmin.register Organization do
   permit_params :name, :settings
 
+  json_editor
+
   action_item :create_product, only: :show do
     link_to(I18n.t('active_admin.resources.organization.new_product'),
             new_admin_organization_product_path(resource))
@@ -29,7 +31,7 @@ ActiveAdmin.register Organization do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :settings
+      f.input :settings, as: :jsonb
     end
     f.actions
   end
@@ -47,7 +49,8 @@ ActiveAdmin.register Organization do
 
     panel I18n.t('activerecord.models.user', count: 2) do
       table_for resource.users do
-        column :user
+        column :email
+        column :id
         column :created_at
         column(:admin) do |user|
           user.is_admin_of?(resource) ? status_tag('yes') : status_tag('no')

@@ -19,6 +19,9 @@ ActiveAdmin.register Invoice do
   show do
     attributes_table do
       row :id
+      row :customer
+      row :billing_period
+      row :status
       row :details do |model|
         tag.pre JSON.pretty_generate(model.details)
       end
@@ -28,6 +31,7 @@ ActiveAdmin.register Invoice do
       row :subtotal
       row :tax
       row :discount
+      row :total
     end
   end
 end
