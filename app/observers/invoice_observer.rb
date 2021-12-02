@@ -1,13 +1,13 @@
 class InvoiceObserver < PowerTypes::Observer
-  # after_create :send_if_configured
+  after_create :send_if_configured
 
   def send_if_configured
     settings = object.customer.organization.settings
     return unless settings
 
-    if settings['charge_invoices_automatically']
+    if settings.dig('charge_invoices_automatically')
       ChangeInvoiceStatusJob.set(wait: 1.minute).perform_later(object, 'charge')
-    elsif settings['send_invoices_automatically']
+    elsif settings.dig('send_invoices_automatically')
       ChangeInvoiceStatusJob.set(wait: 1.minute).perform_later(object, 'send')
     end
   end
