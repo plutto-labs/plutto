@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ace-rails-ap (4.4)
     actioncable (6.1.4)
       actionpack (= 6.1.4)
       activesupport (= 6.1.4)
@@ -61,6 +62,9 @@ GEM
       sassc
       sassc-rails
       xdan-datetimepicker-rails (~> 2.5.1)
+    activeadmin_json_editor (0.0.10)
+      ace-rails-ap
+      railties (>= 3.0)
     activejob (6.1.4)
       activesupport (= 6.1.4)
       globalid (>= 0.3.6)
@@ -571,6 +575,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin (~> 2.6)
   activeadmin_addons (~> 1.8.3)
+  activeadmin_json_editor (~> 0.0.10)
   analytics-ruby (~> 2.4.0)
   annotate (~> 3.0)
   aws-sdk-s3 (~> 1.0)
