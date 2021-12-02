@@ -8,43 +8,45 @@ describe InvoiceObserver do
     described_class.trigger(type, event, invoice)
   end
 
-  describe '#after_create' do
-    before { allow(ChangeInvoiceStatusJob).to receive(:set).with(wait: 1.minute).and_return(job) }
+  pending 'Off because of contingency'
 
-    context 'when charge_invoices_automatically is true' do
-      before do
-        allow(job).to receive(:perform_later).with(invoice, 'charge')
-        organization.settings['charge_invoices_automatically'] = true
-        organization.save!
-      end
+  # describe '#after_create' do
+  #   before { allow(ChangeInvoiceStatusJob).to receive(:set).with(wait: 1.minute).and_return(job) }
 
-      it 'attemps to charge invoice' do
-        invoice.reload
-        trigger :after, :create
-        expect(job).to have_received(:perform_later).with(invoice, 'charge')
-      end
-    end
+  #   context 'when charge_invoices_automatically is true' do
+  #     before do
+  #       allow(job).to receive(:perform_later).with(invoice, 'charge')
+  #       organization.settings['charge_invoices_automatically'] = true
+  #       organization.save!
+  #     end
 
-    context 'when charge_invoices_automatically is false' do
-      before do
-        allow(job).to receive(:perform_later).with(invoice, 'send')
-        organization.settings['charge_invoices_automatically'] = false
-        organization.save!
-      end
+  #     it 'attemps to charge invoice' do
+  #       invoice.reload
+  #       trigger :after, :create
+  #       expect(job).to have_received(:perform_later).with(invoice, 'charge')
+  #     end
+  #   end
 
-      it 'attemps to send invoice if send_invoices_automatically is true' do
-        organization.settings['send_invoices_automatically'] = true
-        organization.save!
-        trigger :after, :create
-        expect(job).to have_received(:perform_later).with(invoice, 'send')
-      end
+  #   context 'when charge_invoices_automatically is false' do
+  #     before do
+  #       allow(job).to receive(:perform_later).with(invoice, 'send')
+  #       organization.settings['charge_invoices_automatically'] = false
+  #       organization.save!
+  #     end
 
-      it 'does not attemp to send invoice if send_invoices_automatically is false' do
-        organization.settings['send_invoices_automatically'] = false
-        organization.save!
-        trigger :after, :create
-        expect(job).not_to have_received(:perform_later).with(invoice, 'send')
-      end
-    end
-  end
+  #     it 'attemps to send invoice if send_invoices_automatically is true' do
+  #       organization.settings['send_invoices_automatically'] = true
+  #       organization.save!
+  #       trigger :after, :create
+  #       expect(job).to have_received(:perform_later).with(invoice, 'send')
+  #     end
+
+  #     it 'does not attemp to send invoice if send_invoices_automatically is false' do
+  #       organization.settings['send_invoices_automatically'] = false
+  #       organization.save!
+  #       trigger :after, :create
+  #       expect(job).not_to have_received(:perform_later).with(invoice, 'send')
+  #     end
+  #   end
+  # end
 end

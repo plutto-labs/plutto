@@ -1,5 +1,5 @@
 class InvoiceObserver < PowerTypes::Observer
-  after_create :send_if_configured
+  # after_create :send_if_configured
 
   def send_if_configured
     settings = object.customer.organization.settings

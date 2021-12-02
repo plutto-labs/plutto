@@ -26,7 +26,7 @@
             :initial-invoice="invoice"
           />
           <button
-            v-if="this.invoice.status !== 'paid'"
+            v-if="false && this.invoice.status !== 'paid'"
             class="h-12 mt-8 btn btn--full btn--big btn--filled bg-primary"
             @click="reviewedInvoice = true"
           >
