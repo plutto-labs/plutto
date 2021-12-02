@@ -33,7 +33,7 @@ class InvoiceService < PowerTypes::Service.new(:invoice)
   def invoice_properties(include_payment_link) # rubocop:disable Metrics/AbcSize
     {
       invoice_date: @invoice.issue_date,
-      invoice_due_date: @invoice.issue_date + 30.days,
+      invoice_due_date: (@invoice.issue_date + 30.days).strftime('%F'),
       invoice_total: { amount: @invoice.total.amount, currency: @invoice.currency },
       invoice_subtotal: { amount: @invoice.subtotal.amount, currency: @invoice.currency },
       invoice_tax: { amount: @invoice.tax.amount, currency: @invoice.currency },
