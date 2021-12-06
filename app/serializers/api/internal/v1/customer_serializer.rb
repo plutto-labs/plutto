@@ -66,7 +66,7 @@ class Api::Internal::V1::CustomerSerializer < ActiveModel::Serializer
   private
 
   def previous_invoice
-    @previous_invoice ||= invoices.last
+    @previous_invoice ||= object.invoices.where.not(status: 'canceled').last
   end
 
   def invoices
