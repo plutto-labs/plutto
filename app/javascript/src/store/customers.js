@@ -51,6 +51,10 @@ export const mutations = {
   setFilter(state, payload) {
     state[`${payload.key}Filter`] = payload.value;
   },
+  resetFilter(state) {
+    state.scopeFilter = '';
+    state.searchFilter = '';
+  },
   setPage(state, payload) {
     state.page = payload;
   },
@@ -141,6 +145,9 @@ export const actions = {
   },
   SET_FILTER({ commit }, payload) {
     commit('setFilter', payload);
+  },
+  RESET_FILTERS({ commit }) {
+    commit('resetFilter');
   },
   SET_PAGE({ commit }, payload) {
     commit('setPage', payload);

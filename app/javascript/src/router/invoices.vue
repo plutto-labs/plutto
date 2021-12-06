@@ -112,6 +112,7 @@ export default {
     }),
   },
   async beforeMount() {
+    await this.$store.dispatch('RESET_FILTERS');
     await this.getInvoices(this.selectedStatus);
   },
   methods: {

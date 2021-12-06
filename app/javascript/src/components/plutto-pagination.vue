@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-end space-x-4">
+  <div class="flex items-center justify-center space-x-4">
     <button
       id="previous-button"
       class="btn"

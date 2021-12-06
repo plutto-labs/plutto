@@ -32,5 +32,8 @@ export default {
       return this.searchString !== this.lastSearchedString;
     },
   },
+  async beforeUnmount() {
+    await this.$store.dispatch('RESET_FILTERS');
+  },
 };
 </script>
