@@ -37,8 +37,8 @@ export default {
         canceled: 'Canceled',
       },
       pagination: {
-        previous: 'Previous',
-        next: 'Next',
+        previous: '←',
+        next: '→',
       },
     },
     priceLogics: {
