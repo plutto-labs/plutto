@@ -27,6 +27,7 @@ API_V1 = {
       customer_index: CUSTOMER_INDEX_SCHEMA,
       customer_resource: CUSTOMER_RESOURCE_SCHEMA,
       customer_permission_resource: CUSTOMER_PERMISSION_RESOURCE_SCHEMA,
+      customer_permissions_collection: CUSTOMER_PERMISSIONS_COLLECTION_SCHEMA,
       customer_create: CUSTOMER_CREATE_SCHEMA,
       customer_update: CUSTOMER_UPDATE_SCHEMA,
       customers_collection: CUSTOMERS_COLLECTION_SCHEMA,

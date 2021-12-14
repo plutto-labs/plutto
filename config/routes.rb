@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     api_version(module: 'Api::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
       resources :customers do
         get 'has_permission/:permission_name', to: 'customers#permission'
+        get 'permissions', to: 'customers#permissions'
       end
       resources :meter_events, only: [:create]
       resources :invoices, only: [:index, :show]

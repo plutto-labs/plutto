@@ -7,3 +7,16 @@ CUSTOMER_PERMISSION_RESOURCE_SCHEMA = {
     name: { type: :string, example: 'downloads', 'x-nullable': true }
   }
 }
+
+CUSTOMER_PERMISSIONS_COLLECTION_SCHEMA = {
+  type: "object",
+  properties: {
+    customer_permissions: {
+      type: "array",
+      items: { "$ref" => "#/components/schemas/customer_permission_resource" }
+    }
+  },
+  required: [
+    :customer_permissions
+  ]
+}

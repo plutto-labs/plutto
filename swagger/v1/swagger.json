@@ -494,6 +494,20 @@
           }
         }
       },
+      "customer_permissions_collection": {
+        "type": "object",
+        "properties": {
+          "customer_permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/customer_permission_resource"
+            }
+          }
+        },
+        "required": [
+          "customer_permissions"
+        ]
+      },
       "customer_create": {
         "type": "object",
         "properties": {
@@ -1465,6 +1479,63 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/customer_permission_resource"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/not_found_error_resource"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized_error_resource"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customers/{id}/permissions": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Retrieves Customer permissions",
+        "tags": [
+          "Customers"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "customer retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/customer_permissions_collection"
                 }
               }
             }

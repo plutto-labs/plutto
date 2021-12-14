@@ -63,6 +63,24 @@ class Customer < ApplicationRecord
     end
   end
 
+  def permissions
+    customer_permissions = []
+    permissions = organization.permissions
+    permission_group_permissions = active_subscription&.permission_group
+      &.permission_group_permissions
+
+    permissions.each do |permission|
+      permission_group_permission = permission_group_permissions&.find_by(
+        permission_id: permission.id
+      )
+      customer_permissions << CustomerPermission.new(
+        permission, permission_group_permission, self
+      )
+    end
+
+    customer_permissions
+  end
+
   private
 
   def generate_id

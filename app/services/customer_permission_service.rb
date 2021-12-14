@@ -10,7 +10,7 @@ class CustomerPermissionService < PowerTypes::Service.new(
   end
 
   def usage_for_current_period
-    return nil if @permission_group_permission.nil?
+    return nil if @permission_group_permission.nil? || @permission_group_permission.limit.nil?
 
     meter_count = @customer.meter_counts.find_by(
       meter_id: @permission_group_permission.permission.meter_id
