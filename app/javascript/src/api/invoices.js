@@ -3,7 +3,7 @@ import authedAxios from '../helpers/authed-http';
 
 export function getInvoices(queryParams = null) {
   return authedAxios.get(`/api/internal/v1/invoices?${queryParams}`)
-    .then((res) => camelizeKeys(res.data));
+    .then((res) => camelizeKeys(res));
 }
 
 export function getInvoice(id) {
