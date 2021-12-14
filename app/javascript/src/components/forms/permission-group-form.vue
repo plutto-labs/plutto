@@ -157,7 +157,7 @@ export default {
     if (this.editingPermissionGroup) {
       this.permissionGroup.name = this.editingPermissionGroup.name;
       this.permissionGroup.price = this.editingPermissionGroup.price;
-      this.permissionGroup.currency = this.editingPermissionGroup.currency;
+      this.permissionGroup.priceCurrency = this.editingPermissionGroup.currency;
 
       this.editingPermissionGroup.permissions.forEach(permission => {
         this.selectedPermissions[permission.id] = {
