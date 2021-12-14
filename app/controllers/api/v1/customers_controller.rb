@@ -40,6 +40,11 @@ class Api::V1::CustomersController < Api::V1::BaseController
     ), serializer: Api::V1::CustomerPermissionSerializer
   end
 
+  def permissions
+    authorize(Customer)
+    respond_with customer.permissions
+  end
+
   private
 
   def customer
