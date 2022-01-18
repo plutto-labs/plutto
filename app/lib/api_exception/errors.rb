@@ -8,7 +8,7 @@ module ApiException::Errors
             detail: kwargs[:detail],
             param: kwargs[:param],
             request_id: kwargs[:request_id],
-            docs_url: 'https://docs.getplutto.com')
+            docs_url: 'https://plutto.readme.io')
     end
   end
 
@@ -22,7 +22,7 @@ module ApiException::Errors
             detail: kwargs[:detail],
             param: kwargs[:param],
             request_id: kwargs[:request_id],
-            docs_url: 'https://docs.getplutto.com')
+            docs_url: 'https://plutto.readme.io')
     end
   end
 
@@ -35,7 +35,7 @@ module ApiException::Errors
         detail: kwargs[:detail],
         param: kwargs[:param],
         request_id: kwargs[:request_id],
-        docs_url: 'https://docs.getplutto.com')
+        docs_url: 'https://plutto.readme.io')
     end
   end
 
@@ -49,7 +49,7 @@ module ApiException::Errors
         detail: kwargs[:detail],
         param: kwargs[:param],
         request_id: kwargs[:request_id],
-        docs_url: 'https://docs.getplutto.com')
+        docs_url: 'https://plutto.readme.io')
     end
   end
 
@@ -62,7 +62,7 @@ module ApiException::Errors
         detail: kwargs[:detail],
         param: kwargs[:param],
         request_id: kwargs[:request_id],
-        docs_url: 'https://docs.getplutto.com')
+        docs_url: 'https://plutto.readme.io')
     end
   end
 end

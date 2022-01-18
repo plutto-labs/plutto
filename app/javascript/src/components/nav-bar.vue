@@ -51,7 +51,7 @@
       </div>
       <div class="flex">
         <a
-          href="https://docs.getplutto.com/docs"
+          href="https://plutto.readme.io/docs"
           target="_blank"
           class="flex items-center mr-4 text-gray-600 hover:text-black"
         >

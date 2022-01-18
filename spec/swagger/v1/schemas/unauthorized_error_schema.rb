@@ -7,7 +7,7 @@ UNAUTHORIZED_ERROR_SCHEMA = {
     detail: { type: :string, example: '', 'x-nullable': true },
     param: { type: :string, example: '', 'x-nullable': true },
     request_id: { type: :string, example: '', 'x-nullable': true },
-    docs_url: { type: :string, example: 'docs.getplutto.com/docs/authorization',
+    docs_url: { type: :string, example: 'plutto.readme.io/docs/authorization',
                 'x-nullable': false }
   },
   required: [

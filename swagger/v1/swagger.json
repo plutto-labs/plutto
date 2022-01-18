@@ -1056,7 +1056,7 @@
           },
           "docs_url": {
             "type": "string",
-            "example": "docs.getplutto.com/docs/authorization",
+            "example": "plutto.readme.io/docs/authorization",
             "x-nullable": false
           }
         },
@@ -1113,7 +1113,7 @@
           },
           "docs_url": {
             "type": "string",
-            "example": "docs.getplutto.com",
+            "example": "plutto.readme.io",
             "x-nullable": false
           }
         },
@@ -1170,7 +1170,7 @@
           },
           "docs_url": {
             "type": "string",
-            "example": "docs.getplutto.com",
+            "example": "plutto.readme.io",
             "x-nullable": false
           }
         },
