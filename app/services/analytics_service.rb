@@ -72,9 +72,9 @@ class AnalyticsService < PowerTypes::Service.new(:organization)
 
   def subscriptions(currency = nil)
     @subscriptions ||= if currency
-                         @organization.subscriptions.where(currency: currency)
+                         @organization.subscriptions.where(currency: currency).not_zombie
                        else
-                         @organization.subscriptions
+                         @organization.subscriptions.not_zombie
                        end
   end
 

@@ -28,6 +28,7 @@ end
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  organization_id :string           not null
+#  zombie          :boolean          default(FALSE)
 #
 # Indexes
 #
