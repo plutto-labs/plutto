@@ -25,6 +25,8 @@ INVOICE_SCHEMA = {
     updated_at: { type: :string, example: '2020-01-01T00:00:00.000Z', 'x-nullable': true },
     customer_id: { type: :string, example: 'customer_d43280e9377673a0b4b07f31',
                    'x-nullable': false },
+    customer_identifier: { type: :string, example: 'customer_d43280e9377673a0b4b07f31',
+                           'x-nullable': false },
     status: { type: :string, example: 'paid', 'x-nullable': false,
               enum: ['created', 'sent', 'paid', 'not_paid', 'canceled'] },
     payed_at: { type: :string, example: '2020-01-01T00:00:00.000Z', 'x-nullable': true },
