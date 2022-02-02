@@ -89,6 +89,11 @@
             "example": "customer_d43280e9377673a0b4b07f31",
             "x-nullable": false
           },
+          "customer_identifier": {
+            "type": "string",
+            "example": "customer_d43280e9377673a0b4b07f31",
+            "x-nullable": false
+          },
           "status": {
             "type": "string",
             "example": "paid",

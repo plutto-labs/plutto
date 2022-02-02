@@ -20,6 +20,11 @@ class Subscription < ApplicationRecord
   validate :trial_finishes_at_is_valid_datetime
   validates :currency, :bills_at, :billing_period_duration, presence: true
 
+  after_create :check_if_zombie
+
+  scope :not_zombie, -> { where(zombie: false) }
+  scope :active, -> { where(active: true) }
+
   def current_billing_period
     billing_periods.order(created_at: :asc).last
   end
@@ -78,6 +83,12 @@ class Subscription < ApplicationRecord
   rescue Date::Error
     errors.add(:trial_finishes_at, 'must be a valid date')
   end
+
+  def check_if_zombie
+    if permission_group&.zombie
+      update!(zombie: true)
+    end
+  end
 end
 
 # == Schema Information
@@ -94,9 +105,10 @@ end
 #  trial_finishes_at       :datetime
 #  bills_at                :integer          default("end"), not null
 #  billing_period_duration :string           not null
+#  currency                :integer          default("USD"), not null
 #  country_iso_code        :integer          default(0), not null
-#  currency                :integer
 #  permission_group_id     :string
+#  zombie                  :boolean          default(FALSE)
 #
 # Indexes
 #

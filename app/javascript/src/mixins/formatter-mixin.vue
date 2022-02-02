@@ -56,6 +56,18 @@ export default {
 
       return pricings.map(pricing => pricing.productName).join(' - ');
     },
+
+    formatCents(cents, currency) {
+      if (currency === 'USD') {
+        // eslint-disable-next-line no-magic-numbers
+        return cents / 100;
+      } else if (currency === 'CLF') {
+        // eslint-disable-next-line no-magic-numbers
+        return (cents / 10000).toFixed(2);
+      }
+
+      return cents;
+    },
   },
 };
 </script>

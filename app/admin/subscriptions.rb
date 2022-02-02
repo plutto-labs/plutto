@@ -36,6 +36,7 @@ ActiveAdmin.register Subscription do
       f.input :pricings, collection: Pricing.where(
         product_id: resource.customer.organization.products
       ).map { |p| [p.name, p.id] }
+      f.input :zombie
     end
 
     f.actions
@@ -45,6 +46,7 @@ ActiveAdmin.register Subscription do
     attributes_table do
       row :id
       row :name
+      row :zombie
       row :pricings
       row :created_at
       row :updated_at

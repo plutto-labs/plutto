@@ -32,4 +32,8 @@ class EndBillingPeriod < PowerTypes::Command.new(:billing_period, start_next_per
       customer: subscription.customer
     )
   end
+
+  def invoicable?
+    subscription.bills_at_start? && !subscription.zombie?
+  end
 end
