@@ -44,7 +44,7 @@
             class="flex items-center justify-around h-full text-3xl"
             :class="churnRate >= 0 ? 'text-aquagreen-800' : 'text-melon-800'"
           >
-            {{ churnRate }}%
+            {{ churnRate.toFixed(3) }}%
           </div>
         </div>
         <div class="flex flex-col h-full p-5 rounded bg-gray-50">
@@ -86,7 +86,7 @@
                 class="inline mr-2 align-middle plutto-icon"
               >arrow_downward</span>
               <p class="inline align-middle">
-                {{ formatCurrency(mrrVal, selectedCurrency) }}
+                {{ formatCurrency(formatCents(mrrVal, selectedCurrency), selectedCurrency) }}
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@
                 class="inline mr-2 align-middle plutto-icon"
               >arrow_downward</span>
               <p class="inline align-middle">
-                {{ formatCurrency(arrVal, selectedCurrency) }}
+                {{ formatCurrency(formatCents(arrVal, selectedCurrency), selectedCurrency) }}
               </p>
             </div>
           </div>
