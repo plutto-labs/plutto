@@ -46,6 +46,7 @@ import PluttoModal from '@/components/plutto-modal';
 import NewCustomerForm from '@/components/forms/new-customer-form';
 import Inactive from '@/router/customers/inactive';
 import Active from '@/router/customers/active';
+import Free from '@/router/customers/free';
 import Canceled from '@/router/customers/canceled';
 import Trial from '@/router/customers/trial';
 import PluttoTabs from '@/components/plutto-tabs';
@@ -54,8 +55,8 @@ import PluttoPagination from '@/components/plutto-pagination';
 
 export default {
   components: {
-    PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, Inactive, Active, Trial, Canceled, PluttoSearch,
-    PluttoPagination,
+    PluttoHeader, PluttoModal, NewCustomerForm, PluttoTabs, Inactive, Active, Trial, Canceled, Free,
+    PluttoSearch, PluttoPagination,
   },
   props: {
     selectedTab: {
@@ -69,6 +70,7 @@ export default {
       editingCustomer: null,
       tabs: [
         { label: 'Active', value: 'active' },
+        { label: 'Free', value: 'free' },
         { label: 'Inactive', value: 'inactive' },
         { label: 'Canceled', value: 'canceled' },
         { label: 'Trial', value: 'trial' },
@@ -76,6 +78,7 @@ export default {
       components: {
         inactive: 'Inactive',
         active: 'Active',
+        free: 'Free',
         canceled: 'Canceled',
         trial: 'Trial',
       },

@@ -3,7 +3,7 @@
     <div
       v-for="(tab, index) in tabs"
       :key="index"
-      class="px-3 py-2 mr-2 text-xs font-medium cursor-pointer hover:border-melon-600"
+      class="px-3 py-2 mr-2 text-xs font-medium rounded cursor-pointer hover:border-melon-600"
       :class="tab.value === selectedTab ?
         'border-melon-600 border text-melon-600' :
         'text-gray-600 border border-gray-400'"

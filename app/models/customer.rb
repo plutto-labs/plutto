@@ -24,6 +24,10 @@ class Customer < ApplicationRecord
     includes(:subscriptions).where(subscriptions: { zombie: false })
   end
 
+  scope :zombie, -> do
+    includes(:subscriptions).where(subscriptions: { zombie: true })
+  end
+
   scope :active, -> do
     includes(:active_subscription).not_zombie.where.not(
       active_subscription: { id: nil }
