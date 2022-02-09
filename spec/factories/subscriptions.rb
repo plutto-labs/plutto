@@ -8,5 +8,6 @@ FactoryBot.define do
     billing_period_duration { 1.month }
     bills_at { 'end' }
     currency { 'USD' }
+    zombie { false }
   end
 end

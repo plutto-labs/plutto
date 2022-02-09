@@ -27,6 +27,7 @@ export default {
         currentBillingPeriodEndDate: 'Next billing date',
         trialFinishesAt: 'Trial finishes at',
         subscriptionLink: 'Subscription link',
+        permissionGroup: 'Permission Group',
         none: '',
       },
       tags: {

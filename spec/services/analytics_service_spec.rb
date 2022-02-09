@@ -13,7 +13,7 @@ describe AnalyticsService do
   end
 
   def create_subscriptions(date, with_billing_period = true)
-    subscription = create(:subscription, customer: customer, created_at: date)
+    subscription = create(:subscription, customer: customer, created_at: date, active: true)
     create_list(:billing_period, 2, subscription: subscription, from: date) if with_billing_period
   end
 
@@ -83,7 +83,7 @@ describe AnalyticsService do
       create_customers(Date.new(2021, 9, 10))
     end
 
-    it 'returns an object with active subscriptions per month' do
+    it 'returns an object with customers created per month' do
       expected_customers_result = {
         "Jan": 0, "Feb": 0, "Mar": 0, "Apr": 0, "May": 0, "Jun": 0,
         "Jul": 2, "Aug": 2, "Sep": 2, "Oct": 0, "Nov": 0, "Dec": 0
@@ -110,9 +110,9 @@ describe AnalyticsService do
     context 'when churned users is not zero' do
       before do
         customers = create_customers(Date.current - 2.months)
-        subscription = create(:subscription, customer: customer)
-        subscription1 = create(:subscription, customer: customers[0])
-        subscription2 = create(:subscription, customer: customers[1])
+        subscription = create(:subscription, customer: customer, active: true)
+        subscription1 = create(:subscription, customer: customers[0], active: true)
+        subscription2 = create(:subscription, customer: customers[1], active: true)
         create_billing_period(subscription, Date.current - 2.months, Date.current - 1.month)
         create_billing_period(subscription, Date.current - 1.month, Date.current)
         create_billing_period(subscription1, Date.current - 2.months, Date.current - 1.month)

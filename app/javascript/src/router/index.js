@@ -88,6 +88,15 @@ const router = createRouter({
         authRequired: true,
       },
     }, {
+      path: '/customers/free',
+      name: 'free',
+      component: Customers,
+      props: { selectedTab: 'free' },
+      meta: {
+        title: 'Customers | Plutto',
+        authRequired: true,
+      },
+    }, {
       path: '/customers/inactive',
       name: 'inactive',
       component: Customers,
