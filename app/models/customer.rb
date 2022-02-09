@@ -21,11 +21,11 @@ class Customer < ApplicationRecord
   after_create :send_to_slack
 
   scope :not_zombie, -> do
-    includes(:subscriptions).where(subscriptions: { zombie: false })
+    includes(:active_subscription).where(active_subscription: { zombie: false })
   end
 
   scope :zombie, -> do
-    includes(:subscriptions).where(subscriptions: { zombie: true })
+    includes(:active_subscription).where(active_subscription: { zombie: true })
   end
 
   scope :active, -> do
@@ -45,7 +45,7 @@ class Customer < ApplicationRecord
   end
 
   scope :canceled, -> do
-    includes(:active_subscription, :subscriptions).not_zombie.where(
+    includes(:active_subscription, :subscriptions).where(
       active_subscription: { id: nil }
     ).where.not(subscriptions: { customer_id: nil })
   end
